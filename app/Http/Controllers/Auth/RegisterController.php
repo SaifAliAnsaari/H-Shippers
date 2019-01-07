@@ -80,6 +80,7 @@ class RegisterController extends Controller
         // }
     }
 
+
     /**
      * Create a new user instance after a valid registration.
      *
@@ -124,4 +125,5 @@ class RegisterController extends Controller
             die;
         }
     }
+    
 }

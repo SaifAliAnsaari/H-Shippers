@@ -115,7 +115,7 @@
                                         <div class="form-wrap p-0">
                                             <div class="row">
                                                 <div class="col-md-12">
-                                                    <label class="PT-10 font12">Hiring Date</label>
+                                                    <label class="PT-10 font12">Hiring Date*</label>
                                                     <div class="form-group" style="height: auto">
                                                         <input type="text" name="hiring" id="datepicker" class="form-control" placeholder="">
                                                     </div>
@@ -132,7 +132,7 @@
                                                     </div>
                                                     <div class="form-s2 pt-19">
                                                         <select name="reporting" class="form-control formselect" placeholder="Reporting To">
-                                                            <option value="0" selected>Reporting To</option>
+                                                            <option value="0" selected>Reporting To*</option>
                                                             <option value="1">Admin</option>
                                                             <option value="2">Manager</option>
                                                             <option value="3">Salesman</option>

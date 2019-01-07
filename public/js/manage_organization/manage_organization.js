@@ -441,8 +441,8 @@ $(document).ready(function(){
 
     $(document).on('click', '.deletebtn', function(){
         if(action == "company_profile"){
-            $('#deletebtn').text('PROCESSING....');
-            $('#deletebtn').attr("disabled", "disabled");
+            $(this).text('PROCESSING....');
+            $(this).attr("disabled", "disabled");
             var id = $(this).attr('id');
             $.ajax({
                 type: 'GET',
@@ -454,8 +454,8 @@ $(document).ready(function(){
                 success: function(response) {
                     if(JSON.parse(response) == "success"){
                         fetchCompaniesList();
-                        $('#deletebtn').removeAttr('disabled');
-                        $('#deletebtn').text('Delete');
+                        // $('#deletebtn').removeAttr('disabled');
+                        // $('#deletebtn').text('Delete');
     
                         $('#notifDiv').fadeIn();
                         $('#notifDiv').css('background', 'green');
@@ -475,8 +475,8 @@ $(document).ready(function(){
                 }
             });
         }else if(action == "pick_up_and_delivery"){
-            $('#deletebtn').text('PROCESSING....');
-            $('#deletebtn').attr("disabled", "disabled");
+            $(this).text('PROCESSING....');
+            $(this).attr("disabled", "disabled");
             var id = $(this).attr('id');
             $.ajax({
                 type: 'GET',
@@ -489,8 +489,8 @@ $(document).ready(function(){
                     console.log(response);
                     if(JSON.parse(response) == "success"){
                         fetchPickupDeliveryList();
-                        $('#deletebtn').removeAttr('disabled');
-                        $('#deletebtn').text('Delete');
+                        // $('#deletebtn').removeAttr('disabled');
+                        // $('#deletebtn').text('Delete');
     
                         $('#notifDiv').fadeIn();
                         $('#notifDiv').css('background', 'green');

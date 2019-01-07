@@ -67,4 +67,8 @@ Route::get('/DeleteCompany', 'OrganizationManagement@delete_company_entry');
 Route::get('/DeletepickUp', 'OrganizationManagement@delete_pickUp_entry');
 Route::get('/DeleteClient', 'Clients@delete_client_entry');
 
+//Deactive or Active Employee
+Route::get('/activate_employee', 'Employee@activate_employee');
+Route::get('/deactivate_employee', 'Employee@deactivate_employee');
+
 Route::get('/logout', '\App\Http\Controllers\Auth\LoginController@logout');

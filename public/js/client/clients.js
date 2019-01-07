@@ -312,8 +312,8 @@ $(document).ready(function(){
 
     //Delete
     $(document).on('click', '.deleteClient', function(){
-        $('#deleteClient').text('PROCESSING....');
-        $('#deleteClient').attr("disabled", "disabled");
+        $(this).text('PROCESSING....');
+        $(this).attr("disabled", "disabled");
         var id = $(this).attr('id');
         $.ajax({
             type: 'GET',
@@ -325,8 +325,8 @@ $(document).ready(function(){
             success: function(response) {
                 if(JSON.parse(response) == "success"){
                     fetchClientsList();
-                    $('#deleteClient').removeAttr('disabled');
-                    $('#deleteClient').text('Delete');
+                    // $('#deleteClient').removeAttr('disabled');
+                    // $('#deleteClient').text('Delete');
 
                     $('#notifDiv').fadeIn();
                     $('#notifDiv').css('background', 'green');

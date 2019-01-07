@@ -67,4 +67,24 @@ class Employee extends Controller
         //echo json_encode($employee->save());
     }
 
+    public function activate_employee(Request $request){
+        $employee = User::find($request->id);
+        $employee->is_active = 1;
+        if($employee->save()){
+            echo json_encode('success');
+        }else{
+            echo json_encode('failed');
+        }
+    }
+
+    public function deactivate_employee(Request $request){
+        $employee = User::find($request->id);
+        $employee->is_active = 0;
+        if($employee->save()){
+            echo json_encode('success');
+        }else{
+            echo json_encode('failed');
+        }
+    }
+
 }
