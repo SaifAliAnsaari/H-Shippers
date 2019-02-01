@@ -42,6 +42,7 @@ Route::get('/clients', 'Clients@clients');
 Route::get('/company_profile', 'OrganizationManagement@manage_company');
 Route::get('/pick_up_and_delivery', 'OrganizationManagement@manage_pickUp_delivery');
 Route::get('/employee_managment', 'Auth\RegisterController@manage_employee');
+Route::get('/billing', 'ManageBilling@billing');
 
 //Save
 Route::post('/Client_save', 'Clients@save_client');

@@ -76,6 +76,8 @@
         <script src="/js/client/clients.js?v=1.0" ></script>
     @elseif($controller == "OrganizationManagement")
         <script src="/js/manage_organization/manage_organization.js?v={{ time() }}" ></script>
+    @elseif($controller == "ManageBilling")
+        <script src="/js/manage_billing/manage_billing.js?v={{ time() }}" ></script>
     @endif
 
 </body>
