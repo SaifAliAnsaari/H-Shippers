@@ -48,6 +48,7 @@ Route::get('/billing', 'ManageBilling@billing');
 Route::post('/Client_save', 'Clients@save_client');
 Route::post('/Company_save', 'OrganizationManagement@add_company');
 Route::post('/PickUp_save', 'OrganizationManagement@add_pickUp');
+Route::post('/SaveBilling', 'ManageBilling@save_billing');
 
 //Get Data to display on page
 Route::get('/GetCompaniesList', 'OrganizationManagement@companies_list');
@@ -73,3 +74,8 @@ Route::get('/activate_employee', 'Employee@activate_employee');
 Route::get('/deactivate_employee', 'Employee@deactivate_employee');
 
 Route::get('/logout', '\App\Http\Controllers\Auth\LoginController@logout');
+
+
+
+Route::post('/test-upload', 'ManageBilling@test');
+Route::get('/testingRoute/{test}', 'ManageBilling@testUnlink');

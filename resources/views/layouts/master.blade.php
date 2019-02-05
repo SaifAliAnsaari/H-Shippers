@@ -16,8 +16,9 @@
     <link rel="stylesheet" type="text/css" href="/css/datatables.min.css"/>
     <link rel="stylesheet" type="text/css" href="/css/select2.min.css">
     <link rel="stylesheet" type="text/css" href="/css/select2-bootstrap4.css">
-    <link rel="stylesheet" type="text/css" href="/css/style.min.css?v=1.2">
+    <link rel="stylesheet" type="text/css" href="/css/style.css?v=1.2">
     <link rel="stylesheet" type="text/css" href="/css/dropify.min.css" />
+    <link rel="stylesheet" type="text/css" href="/css/dropzone.css" />
     <style>
         #notifDiv{
             display: none;
@@ -66,6 +67,14 @@
     <script src="/js/master.js?v=1.0" ></script>
     <script src="/js/jquery.form.min.js" ></script>
     <script src="/js/bootstrap-datepicker.js"></script>
+    {{-- <script src="/js/dropzone-amd-module.js"></script>
+    <script src="/js/dropzone-data.js"></script> --}}
+    <script src="/js/dropzone.js"></script>
+
+    {{-- <form action="/test-upload" class="dropzone" id="dropzonewidget" method="POST" enctype="multipart/form-data">
+        @csrf
+        </form>  --}}
+
     @if($controller == "Customer")
         <script src="/js/custom/customer.js?v=1.0" ></script>
     @elseif($controller == "CustomerTypes")
