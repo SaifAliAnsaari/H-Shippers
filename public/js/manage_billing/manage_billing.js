@@ -15,10 +15,17 @@ var myDropzone = new Dropzone("#dropzonewidget", {
         });
     },
     removedfile: function(file) {
+        var segments = location.href.split('/');
         var name = file.serverFn; 
+        var cust_id = segments[4];
+        //console.log(cust_id);
         $.ajax({
           type: 'GET',
           url: '/testingRoute/'+name,
+          data: {
+            _token: '{!! csrf_token() !!}',
+           cust_id: cust_id
+            },
           sucess: function(data){
              console.log('success: ' + data);
           }
@@ -29,13 +36,18 @@ var myDropzone = new Dropzone("#dropzonewidget", {
 });
 
 
+
 $(document).ready(function () {
+    // var segments = location.href.split('/');
+    // var action = segments[3];
+    // if(action == "select_customer"){
+    //     fetchCustomersList();
+    // }
+
     //debugger;
     $('#datepicker').datepicker({
         format: 'yyyy-mm-dd'
     });
-
-
 
     var ancCounter = 0;
     var currentLayout = 'start_date';
@@ -371,10 +383,10 @@ $(document).ready(function () {
     });
 
     $(document).on('click', '.saveWholeForm', function () {
-        console.log($('.documents').files[0].name);
-        // $('.saveWholeForm').attr('disabled', 'disabled');
-        // $('.cancel_btn').attr('disabled', 'disabled');
-        // $(this).text('Processing..');
+        //console.log($('.documents').files[0].name);
+        $('.saveWholeForm').attr('disabled', 'disabled');
+        $('.cancel_btn').attr('disabled', 'disabled');
+        $(this).text('Processing..');
 
         // var start_date = $('#datepicker').val();
         // var with_in_city_twentyfive = $('#with_in_city_twentyfive').val();
@@ -421,96 +433,194 @@ $(document).ready(function () {
         // var supplementary_services_passport = $('#supplementary_services_passport').val();
         // var fuel_charges = $('#fuel_charges').val();
         // var gst_tax = $('#gst_tax').val();
-        // //var documents = $('#documents').val();
-        // $('#my-awesome-dropzone').append('<input hidden name="datepicker" value="'+$('#datepicker').val()+'" />');
-        // $('#my-awesome-dropzone').append('<input hidden name="with_in_city_twentyfive" value="'+$('#with_in_city_twentyfive').val()+'" />');
-        // $('#my-awesome-dropzone').append('<input hidden name="with_in_city_fifty" value="'+$('#with_in_city_fifty').val()+'" />');
-        // $('#my-awesome-dropzone').append('<input hidden name="with_in_city_six" value="'+$('#with_in_city_six').val()+'" />');
-        // $('#my-awesome-dropzone').append('<input hidden name="with_in_city_additional" value="'+$('#with_in_city_additional').val()+'" />');
-        // $('#my-awesome-dropzone').append('<input hidden name="with_in_province_twentyfive" value="'+$('#with_in_province_twentyfive').val()+'" />');
-        // $('#my-awesome-dropzone').append('<input hidden name="with_in_province_fifty" value="'+$('#with_in_province_fifty').val()+'" />');
-        // $('#my-awesome-dropzone').append('<input hidden name="with_in_province_six" value="'+$('#with_in_province_six').val()+'" />');
-        // $('#my-awesome-dropzone').append('<input hidden name="with_in_province_additional" value="'+$('#with_in_province_additional').val()+'" />');
-        // $('#my-awesome-dropzone').append('<input hidden name="prov_to_prov_twentyfive" value="'+$('#prov_to_prov_twentyfive').val()+'" />');
-        // $('#my-awesome-dropzone').append('<input hidden name="prov_to_prov_fifty" value="'+$('#prov_to_prov_fifty').val()+'" />');
-        // $('#my-awesome-dropzone').append('<input hidden name="prov_to_prov_six" value="'+$('#prov_to_prov_six').val()+'" />');
-        // $('#my-awesome-dropzone').append('<input hidden name="prov_to_prov_additional" value="'+$('#prov_to_prov_additional').val()+'" />');
-        // $('#my-awesome-dropzone').append('<input hidden name="on_with_in_city_twentyfive" value="'+$('#on_with_in_city_twentyfive').val()+'" />');
-        // $('#my-awesome-dropzone').append('<input hidden name="on_with_in_city_fifty" value="'+$('#on_with_in_city_fifty').val()+'" />');
-        // $('#my-awesome-dropzone').append('<input hidden name="on_with_in_city_six" value="'+$('#on_with_in_city_six').val()+'" />');
-        // $('#my-awesome-dropzone').append('<input hidden name="on_with_in_city_additional" value="'+$('#on_with_in_city_additional').val()+'" />');
-        // $('#my-awesome-dropzone').append('<input hidden name="on_with_in_prov_twentyfive" value="'+$('#on_with_in_prov_twentyfive').val()+'" />');
-        // $('#my-awesome-dropzone').append('<input hidden name="on_with_in_prov_fifty" value="'+$('#on_with_in_prov_fifty').val()+'" />');
-        // $('#my-awesome-dropzone').append('<input hidden name="on_with_in_prov_six" value="'+$('#on_with_in_prov_six').val()+'" />');
-        // $('#my-awesome-dropzone').append('<input hidden name="on_with_in_prov_additional" value="'+$('#on_with_in_prov_additional').val()+'" />');
-        // $('#my-awesome-dropzone').append('<input hidden name="on_provience_to_prov_twentyfive" value="'+$('#on_provience_to_prov_twentyfive').val()+'" />');
-        // $('#my-awesome-dropzone').append('<input hidden name="on_provience_to_prov_fifty" value="'+$('#on_provience_to_prov_fifty').val()+'" />');
-        // $('#my-awesome-dropzone').append('<input hidden name="on_provience_to_prov_six" value="'+$('#on_provience_to_prov_six').val()+'" />');
-        // $('#my-awesome-dropzone').append('<input hidden name="on_provience_to_prov_additional" value="'+$('#on_provience_to_prov_additional').val()+'" />');
-        // $('#my-awesome-dropzone').append('<input hidden name="second_day_delivery_upto_3kg" value="'+$('#second_day_delivery_upto_3kg').val()+'" />');
-        // $('#my-awesome-dropzone').append('<input hidden name="second_day_delivery_additional_1KG" value="'+$('#second_day_delivery_additional_1KG').val()+'" />');
-        // $('#my-awesome-dropzone').append('<input hidden name="second_day_delivery_prov_to_prov_upto3KG" value="'+$('#second_day_delivery_prov_to_prov_upto3KG').val()+'" />');
-        // $('#my-awesome-dropzone').append('<input hidden name="second_day_delivery_prov_to_prov_additional1KG" value="'+$('#second_day_delivery_prov_to_prov_additional1KG').val()+'" />');
-        // $('#my-awesome-dropzone').append('<input hidden name="second_day_delivery_prov_to_prov_6to1KG" value="'+$('#second_day_delivery_prov_to_prov_6to1KG').val()+'" />');
-        // $('#my-awesome-dropzone').append('<input hidden name="second_day_delivery_prov_to_prov_additionalpointFiveKg" value="'+$('#second_day_delivery_prov_to_prov_additionalpointFiveKg').val()+'" />');
-        // $('#my-awesome-dropzone').append('<input hidden name="over_land_upto10KG" value="'+$('#over_land_upto10KG').val()+'" />');
-        // $('#my-awesome-dropzone').append('<input hidden name="over_land_additional1KG" value="'+$('#over_land_additional1KG').val()+'" />');
-        // $('#my-awesome-dropzone').append('<input hidden name="over_land_prov_to_prov_upto10KG" value="'+$('#over_land_prov_to_prov_upto10KG').val()+'" />');
-        // $('#my-awesome-dropzone').append('<input hidden name="over_land_prov_to_prov_additionalpoint5KG" value="'+$('#over_land_prov_to_prov_additionalpoint5KG').val()+'" />');
-        // $('#my-awesome-dropzone').append('<input hidden name="fragile_cost_price" value="'+$('#fragile_cost_price').val()+'" />');
-        // $('#my-awesome-dropzone').append('<input hidden name="insurance_for_fragile" value="'+$('#insurance_for_fragile').val()+'" />');
-        // $('#my-awesome-dropzone').append('<input hidden name="insurance_for_non_fragile" value="'+$('#insurance_for_non_fragile').val()+'" />');
-        // $('#my-awesome-dropzone').append('<input hidden name="insurance_for_electronics" value="'+$('#insurance_for_electronics').val()+'" />');
-        // $('#my-awesome-dropzone').append('<input hidden name="supplementary_services_holiday" value="'+$('#supplementary_services_holiday').val()+'" />');
-        // $('#my-awesome-dropzone').append('<input hidden name="supplementary_services_special_holiday" value="'+$('#supplementary_services_special_holiday').val()+'" />');
-        // $('#my-awesome-dropzone').append('<input hidden name="supplementary_services_time_specified" value="'+$('#supplementary_services_time_specified').val()+'" />');
-        // $('#my-awesome-dropzone').append('<input hidden name="supplementary_services_passport" value="'+$('#supplementary_services_passport').val()+'" />');
-        // $('#my-awesome-dropzone').append('<input hidden name="fuel_charges" value="'+$('#fuel_charges').val()+'" />');
-        // $('#my-awesome-dropzone').append('<input hidden name="gst_tax" value="'+$('#gst_tax').val()+'" />');
+        //var documents = $('#documents').val();
+        $('#billing_form').append('<input hidden name="datepicker" value="'+$('#datepicker').val()+'" />');
+        $('#billing_form').append('<input hidden name="with_in_city_twentyfive" value="'+$('#with_in_city_twentyfive').val()+'" />');
+        $('#billing_form').append('<input hidden name="with_in_city_fifty" value="'+$('#with_in_city_fifty').val()+'" />');
+        $('#billing_form').append('<input hidden name="with_in_city_six" value="'+$('#with_in_city_six').val()+'" />');
+        $('#billing_form').append('<input hidden name="with_in_city_additional" value="'+$('#with_in_city_additional').val()+'" />');
+        $('#billing_form').append('<input hidden name="with_in_province_twentyfive" value="'+$('#with_in_province_twentyfive').val()+'" />');
+        $('#billing_form').append('<input hidden name="with_in_province_fifty" value="'+$('#with_in_province_fifty').val()+'" />');
+        $('#billing_form').append('<input hidden name="with_in_province_six" value="'+$('#with_in_province_six').val()+'" />');
+        $('#billing_form').append('<input hidden name="with_in_province_additional" value="'+$('#with_in_province_additional').val()+'" />');
+        $('#billing_form').append('<input hidden name="prov_to_prov_twentyfive" value="'+$('#prov_to_prov_twentyfive').val()+'" />');
+        $('#billing_form').append('<input hidden name="prov_to_prov_fifty" value="'+$('#prov_to_prov_fifty').val()+'" />');
+        $('#billing_form').append('<input hidden name="prov_to_prov_six" value="'+$('#prov_to_prov_six').val()+'" />');
+        $('#billing_form').append('<input hidden name="prov_to_prov_additional" value="'+$('#prov_to_prov_additional').val()+'" />');
+        $('#billing_form').append('<input hidden name="on_with_in_city_twentyfive" value="'+$('#on_with_in_city_twentyfive').val()+'" />');
+        $('#billing_form').append('<input hidden name="on_with_in_city_fifty" value="'+$('#on_with_in_city_fifty').val()+'" />');
+        $('#billing_form').append('<input hidden name="on_with_in_city_six" value="'+$('#on_with_in_city_six').val()+'" />');
+        $('#billing_form').append('<input hidden name="on_with_in_city_additional" value="'+$('#on_with_in_city_additional').val()+'" />');
+        $('#billing_form').append('<input hidden name="on_with_in_prov_twentyfive" value="'+$('#on_with_in_prov_twentyfive').val()+'" />');
+        $('#billing_form').append('<input hidden name="on_with_in_prov_fifty" value="'+$('#on_with_in_prov_fifty').val()+'" />');
+        $('#billing_form').append('<input hidden name="on_with_in_prov_six" value="'+$('#on_with_in_prov_six').val()+'" />');
+        $('#billing_form').append('<input hidden name="on_with_in_prov_additional" value="'+$('#on_with_in_prov_additional').val()+'" />');
+        $('#billing_form').append('<input hidden name="on_provience_to_prov_twentyfive" value="'+$('#on_provience_to_prov_twentyfive').val()+'" />');
+        $('#billing_form').append('<input hidden name="on_provience_to_prov_fifty" value="'+$('#on_provience_to_prov_fifty').val()+'" />');
+        $('#billing_form').append('<input hidden name="on_provience_to_prov_six" value="'+$('#on_provience_to_prov_six').val()+'" />');
+        $('#billing_form').append('<input hidden name="on_provience_to_prov_additional" value="'+$('#on_provience_to_prov_additional').val()+'" />');
+        $('#billing_form').append('<input hidden name="second_day_delivery_upto_3kg" value="'+$('#second_day_delivery_upto_3kg').val()+'" />');
+        $('#billing_form').append('<input hidden name="second_day_delivery_additional_1KG" value="'+$('#second_day_delivery_additional_1KG').val()+'" />');
+        $('#billing_form').append('<input hidden name="second_day_delivery_prov_to_prov_upto3KG" value="'+$('#second_day_delivery_prov_to_prov_upto3KG').val()+'" />');
+        $('#billing_form').append('<input hidden name="second_day_delivery_prov_to_prov_additional1KG" value="'+$('#second_day_delivery_prov_to_prov_additional1KG').val()+'" />');
+        $('#billing_form').append('<input hidden name="second_day_delivery_prov_to_prov_6to1KG" value="'+$('#second_day_delivery_prov_to_prov_6to1KG').val()+'" />');
+        $('#billing_form').append('<input hidden name="second_day_delivery_prov_to_prov_additionalpointFiveKg" value="'+$('#second_day_delivery_prov_to_prov_additionalpointFiveKg').val()+'" />');
+        $('#billing_form').append('<input hidden name="over_land_upto10KG" value="'+$('#over_land_upto10KG').val()+'" />');
+        $('#billing_form').append('<input hidden name="over_land_additional1KG" value="'+$('#over_land_additional1KG').val()+'" />');
+        $('#billing_form').append('<input hidden name="over_land_prov_to_prov_upto10KG" value="'+$('#over_land_prov_to_prov_upto10KG').val()+'" />');
+        $('#billing_form').append('<input hidden name="over_land_prov_to_prov_additionalpoint5KG" value="'+$('#over_land_prov_to_prov_additionalpoint5KG').val()+'" />');
+        $('#billing_form').append('<input hidden name="fragile_cost_price" value="'+$('#fragile_cost_price').val()+'" />');
+        $('#billing_form').append('<input hidden name="insurance_for_fragile" value="'+$('#insurance_for_fragile').val()+'" />');
+        $('#billing_form').append('<input hidden name="insurance_for_non_fragile" value="'+$('#insurance_for_non_fragile').val()+'" />');
+        $('#billing_form').append('<input hidden name="insurance_for_electronics" value="'+$('#insurance_for_electronics').val()+'" />');
+        $('#billing_form').append('<input hidden name="supplementary_services_holiday" value="'+$('#supplementary_services_holiday').val()+'" />');
+        $('#billing_form').append('<input hidden name="supplementary_services_special_holiday" value="'+$('#supplementary_services_special_holiday').val()+'" />');
+        $('#billing_form').append('<input hidden name="supplementary_services_time_specified" value="'+$('#supplementary_services_time_specified').val()+'" />');
+        $('#billing_form').append('<input hidden name="supplementary_services_passport" value="'+$('#supplementary_services_passport').val()+'" />');
+        $('#billing_form').append('<input hidden name="fuel_charges" value="'+$('#fuel_charges').val()+'" />');
+        $('#billing_form').append('<input hidden name="gst_tax" value="'+$('#gst_tax').val()+'" />');
 
 
-        // $('#my-awesome-dropzone').ajaxSubmit({
-        //     type: "POST",
-        //     url: '/SaveBilling',
-        //     data: $('#my-awesome-dropzone').serialize(),
-        //     cache: false,
-        //     success: function(response) {
-        //         //console.log(response);
-        //         //return;
-        //         if (JSON.parse(response) == "success") {
-        //            // fetchClientsList();
-        //             $('.saveWholeForm').removeAttr('disabled');
-        //             $('.cancel_btn').removeAttr('disabled');
-        //             $('.saveWholeForm').text('Save');
-        //             $('#notifDiv').fadeIn();
-        //             $('#notifDiv').css('background', 'green');
-        //             $('#notifDiv').text('Billing have been added successfully');
-        //             setTimeout(() => {
-        //                 $('#notifDiv').fadeOut();
-        //             }, 3000);
-        //         } else if(JSON.parse(response) == "failed"){
-        //             $('.saveWholeForm').removeAttr('disabled');
-        //             $('.cancel_btn').removeAttr('disabled');
-        //             $('.saveWholeForm').text('Save');
-        //             $('#notifDiv').fadeIn();
-        //             $('#notifDiv').css('background', 'red');
-        //             $('#notifDiv').text('Failed to add billing at the moment');
-        //             setTimeout(() => {
-        //                 $('#notifDiv').fadeOut();
-        //             }, 3000);
-        //         }
-        //     },
-        //     error: function(err) {
-        //         if (err.status == 422) {
-        //             $.each(err.responseJSON.errors, function(i, error) {
-        //                 var el = $(document).find('[name="' + i + '"]');
-        //                 el.after($('<small style="color: red; position: absolute; width:100%; text-align: right; margin-left: -30px">' + error[0] + '</small>'));
-        //             });
-        //         }
-        //     }
-        // });
+        $('#billing_form').ajaxSubmit({
+            type: "POST",
+            url: '/SaveBilling',
+            data: $('#billing_form').serialize(),
+            // data: {
+            //     _token: '{!! csrf_token() !!}',
+            //     start_date 
+            // with_in_city_twentyfive 
+            // with_in_city_fifty 
+            // with_in_city_six 
+            // with_in_city_additional 
+            // with_in_province_twentyfive 
+            // with_in_province_fifty 
+            // with_in_province_six 
+            // with_in_province_additional 
+            // prov_to_prov_twentyfive 
+            // prov_to_prov_fifty 
+            // prov_to_prov_six 
+            // prov_to_prov_additional 
+            // on_with_in_city_twentyfive 
+            // on_with_in_city_fifty 
+            // on_with_in_city_six 
+            // on_with_in_city_additional 
+            // on_with_in_prov_twentyfive 
+            // on_with_in_prov_fifty 
+            // on_with_in_prov_six 
+            // on_with_in_prov_additional 
+            // on_provience_to_prov_twentyfive 
+            // on_provience_to_prov_fifty 
+            // on_provience_to_prov_six 
+            // on_provience_to_prov_additional 
+            // second_day_delivery_upto_3kg 
+            // second_day_delivery_additional_1KG 
+            // second_day_delivery_prov_to_prov_upto3KG 
+            // second_day_delivery_prov_to_prov_additional1KG 
+            // second_day_delivery_prov_to_prov_6to1KG 
+            // second_day_delivery_prov_to_prov_additionalpointFiveKg 
+            // over_land_upto10KG 
+            // over_land_additional1KG 
+            // over_land_prov_to_prov_upto10KG = $('#over_land_prov_to_prov_upto10KG').val();
+            // over_land_prov_to_prov_additionalpoint5KG = $('#over_land_prov_to_prov_additionalpoint5KG').val();
+            // fragile_cost_price = $('#fragile_cost_price').val();
+            // insurance_for_fragile = $('#insurance_for_fragile').val();
+            // insurance_for_non_fragile = $('#insurance_for_non_fragile').val();
+            // insurance_for_electronics = $('#insurance_for_electronics').val();
+            // supplementary_services_holiday = $('#supplementary_services_holiday').val();
+            // supplementary_services_special_holiday = $('#supplementary_services_special_holiday').val();
+            // supplementary_services_time_specified = $('#supplementary_services_time_specified').val();
+            // supplementary_services_passport = $('#supplementary_services_passport').val();
+            // fuel_charges = $('#fuel_charges').val();
+            // gst_tax = $('#gst_tax').val();
+
+            // },
+            cache: false,
+            success: function(response) {
+                //console.log(response);
+                //return;
+                if (JSON.parse(response) == "success") {
+                   // fetchClientsList();
+                    $('.saveWholeForm').removeAttr('disabled');
+                    $('.cancel_btn').removeAttr('disabled');
+                    $('.saveWholeForm').text('Save');
+                    $('#notifDiv').fadeIn();
+                    $('#notifDiv').css('background', 'green');
+                    $('#notifDiv').text('Billing have been added successfully');
+                    setTimeout(() => {
+                        $('#notifDiv').fadeOut();
+                    }, 3000);
+                } else if(JSON.parse(response) == "failed"){
+                    $('.saveWholeForm').removeAttr('disabled');
+                    $('.cancel_btn').removeAttr('disabled');
+                    $('.saveWholeForm').text('Save');
+                    $('#notifDiv').fadeIn();
+                    $('#notifDiv').css('background', 'red');
+                    $('#notifDiv').text('Failed to add billing at the moment');
+                    setTimeout(() => {
+                        $('#notifDiv').fadeOut();
+                    }, 3000);
+                }
+            },
+            error: function(err) {
+                if (err.status == 422) {
+                    $.each(err.responseJSON.errors, function(i, error) {
+                        var el = $(document).find('[name="' + i + '"]');
+                        el.after($('<small style="color: red; position: absolute; width:100%; text-align: right; margin-left: -30px">' + error[0] + '</small>'));
+                    });
+                }
+            }
+        });
 
 
     });
 
+    // var acceptedFileTypes = "image/*"; //dropzone requires this param be a comma separated list
+    // var fileList = new Array;
+    // var i = 0;
+    // var myDropzone = new Dropzone("#dropzonewidget", {
+    //     url: "/test-upload",
+    //     addRemoveLinks: true,
+    //     maxFiles: 4,
+    //     acceptedFiles: 'image/*',
+    //     maxFilesize: 5,
+    //     init: function() {
+    //         this.on("success", function(file, serverFileName) {
+    //             file.serverFn = serverFileName;
+    //             fileList[i] = {"serverFileName" : serverFileName, "fileName" : file.name,"fileId" : i };
+    //             i++;
+    //         });
+    //     },
+    //     removedfile: function(file) {
+    //         var name = file.serverFn;
+    //         $.ajax({
+    //         type: 'GET',
+    //         url: '/testingRoute/'+name,
+    //         sucess: function(data){
+    //             console.log('success: ' + data);
+    //         }
+    //         });
+    //         var _ref;
+    //         return (_ref = file.previewElement) != null ? _ref.parentNode.removeChild(file.previewElement) : void 0;
+    //     }
+    // });
+
 });
+
+// function fetchCustomersList() {
+//     $.ajax({
+//         type: 'GET',
+//         url: '/GetCustomersListForBilling',
+//         success: function(response) {
+//             $('.body').empty();
+//             $('.body').append('<table class="table table-hover dt-responsive nowrap" id="companiesListTable" style="width:100%;"><thead><tr><th>ID</th><th>Customer Name</th><th>POC</th><th>Country</th><th>City</th><th>Action</th></tr></thead><tbody></tbody></table>');
+//             $('#companiesListTable tbody').empty();
+//             var response = JSON.parse(response);
+//             response.forEach(element => {
+//                 $('#companiesListTable tbody').append('<tr><td>' + element['id'] + '</td><td>' + element['company_name'] + '</td><td>' + element['company_poc'] + '</td><td>' + element['country'] + '</td><td>' + element['city'] + '</td><td><a href="/billing/' + element['id'] +'"><button id="' + element['id'] + '" class="btn btn-default btn-line">Create Billing</button></a></td></tr>');
+//             });
+//             $('#tblLoader').hide();
+//             $('.body').fadeIn();
+//             $('#companiesListTable').DataTable();
+//         }
+//     });
+// }

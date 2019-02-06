@@ -100,7 +100,7 @@ class Customer extends Controller
             foreach($docTypes as $type){
                 DB::table('customer_documents')->insert(array('customer_id' => $customer->id, 'document_id' => $type));
             }
-            echo json_encode('success');
+            echo json_encode($customer->id);
             
         }
 

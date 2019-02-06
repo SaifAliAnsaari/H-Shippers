@@ -11,9 +11,9 @@
                 <span>Organization Management</span>
             </a>
             <div class="dropdown-menu" aria-labelledby="navi-l1">
-                <a class="dropdown-item" href="/company_profile">Company Profile</a>
+                {{-- <a class="dropdown-item" href="/company_profile">Company Profile</a> --}}
                 <a class="dropdown-item" href="/pick_up_and_delivery">Pick Up & Delivery Locations</a>
-                <a class="dropdown-item" href="/employee_managment">Employee Management</a>
+                {{-- <a class="dropdown-item" href="/employee_managment">Employee Management</a> --}}
             </div>
         </li>
         
@@ -97,7 +97,7 @@
                 <span>Billing</span>
             </a>
             <div class="dropdown-menu" aria-labelledby="navi-l7">
-                <a class="dropdown-item" href="/billing">Create Billing</a>
+                <a class="dropdown-item" href="/select_customer">Create Billing</a>
             </div>
         </li>
     </ul>

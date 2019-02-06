@@ -658,6 +658,11 @@
               <button type="submit" class="btn btn-primary mr-2 saveCurrentData">Save</button>
               <button type="submit" class="btn btn-cancel mr-2 cancel_btn">Cancel</button>
               </div>
+
+              <form action="/test-upload" hidden class="dropzone" id="billing_form" method="POST" >
+                @csrf
+                <input name="customer_id" value="<?= $cust_id ?>" type="text" hidden/>
+              </form>
               
                        
                         </div>
@@ -684,6 +689,7 @@
                                     <div class="">
                                       <form action="/test-upload" class="dropzone" id="dropzonewidget" method="POST" enctype="multipart/form-data">
                                         @csrf
+                                        <input hidden value="<?= $cust_id ?>" type="text" name="cust_id"/>
                                       </form>
                                     </div>
 

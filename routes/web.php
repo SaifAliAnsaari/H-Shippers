@@ -42,7 +42,8 @@ Route::get('/clients', 'Clients@clients');
 Route::get('/company_profile', 'OrganizationManagement@manage_company');
 Route::get('/pick_up_and_delivery', 'OrganizationManagement@manage_pickUp_delivery');
 Route::get('/employee_managment', 'Auth\RegisterController@manage_employee');
-Route::get('/billing', 'ManageBilling@billing');
+Route::get('/billing/{id}', 'ManageBilling@billing');
+Route::get('/select_customer', 'CustomersForBilling@select_customer');
 
 //Save
 Route::post('/Client_save', 'Clients@save_client');
@@ -53,6 +54,7 @@ Route::post('/SaveBilling', 'ManageBilling@save_billing');
 //Get Data to display on page
 Route::get('/GetCompaniesList', 'OrganizationManagement@companies_list');
 Route::get('/GetPickUpList', 'OrganizationManagement@pickUp_list');
+Route::get('/GetCustomersListForBilling', 'CustomersForBilling@GetCustomersListForBilling');
 
 //Get data to show on update page
 Route::get('/company_data/{id}', 'OrganizationManagement@get_company_data');

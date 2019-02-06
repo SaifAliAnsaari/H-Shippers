@@ -8,7 +8,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>E-bob</title>
+    <title>Hashmi Shippers</title>
 
     <link href="https://fonts.googleapis.com/css?family=Poppins:300,300i,400,400i,500,600,700,800" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
@@ -87,6 +87,8 @@
         <script src="/js/manage_organization/manage_organization.js?v={{ time() }}" ></script>
     @elseif($controller == "ManageBilling")
         <script src="/js/manage_billing/manage_billing.js?v={{ time() }}" ></script>
+    @elseif($controller == "CustomersForBilling")
+    <script src="/js/manage_billing/customers_for_biling.js?v={{ time() }}" ></script>
     @endif
 
 </body>

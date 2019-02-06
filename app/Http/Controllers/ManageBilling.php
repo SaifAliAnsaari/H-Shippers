@@ -11,6 +11,9 @@ use File;
 
 class ManageBilling extends Controller
 {
+    private $splitName;
+    //private $cust = $splitName[4];
+
     public function __construct()
     {
         $this->middleware('auth');
@@ -22,11 +25,26 @@ class ManageBilling extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function billing(){
-        return view("manage_billing.billing");
+    public function billing($id){
+        $splitName = explode('/', url()->current());
+        $cust_id = $splitName[4];
+        if(DB::table('customers')->whereRaw('id = "'.$id.'" AND billing_added = 1')->first()){
+            return redirect('/select_customer');
+        }else{
+            if(DB::table('customers')->where('id', $id)->first()){
+                return view('manage_billing.billing', ['cust_id' => $cust_id]);
+            }else{
+                return redirect('/select_customer');
+            }
+            
+        }
+        //return view("manage_billing.billing", ['cust_id' => $cust_id]);
     }
 
     public function save_billing(Request $request){
+
+        // $splitName = explode('/', url()->current());
+        // $customer_id = $splitName[4];
 
         $insert_billing = DB::table('billing')->insertGetId(
             ['start_date' => $request->datepicker,
@@ -39,7 +57,8 @@ class ManageBilling extends Controller
             'time_specified' => $request->supplementary_services_time_specified,
             'passport' => $request->supplementary_services_passport,
             'fuel_charges' => $request->fuel_charges,
-            'tax' => $request->gst_tax
+            'tax' => $request->gst_tax,
+            'customer_id' => $request->customer_id
             ]);
 
         if($insert_billing){
@@ -139,31 +158,15 @@ class ManageBilling extends Controller
         }else{
             echo json_encode('failed');
         }
-
-
-        if($request->hasFile('documents') ){
-            foreach($request->file('documents') as $file) :
-                $completeFileName = $file->getClientOriginalName();
-                $fileNameOnly = pathinfo($completeFileName, PATHINFO_FILENAME);
-                $extension = $file->getClientOriginalExtension();
-                $randomized = rand();
-                $documents = str_replace(' ', '', $fileNameOnly).'-'.$randomized.''.time().'.'.$extension;
-                $path = $file->storeAs('public/assest_documents', $documents);
-                // $insert_doc = DB::table('assests_documents')->insert([
-                //     'document' => $documents,
-                //     'assest_id' => $insert_assest_data
-                // ]);
-                
-            endforeach;
-            
-        }
         
     }
 
-    public function testUnlink($unlinkFile){
+    public function testUnlink($unlinkFile, Request $request){
         if(Storage::exists('public/uploads/'.$unlinkFile)){
             Storage::delete('public/uploads/'.$unlinkFile);
+            DB::table('billing_documents')->where('customer_id', $request->cust_id)->delete();
         }
+       
     }
 
     public function test(Request $request){
@@ -175,6 +178,11 @@ class ManageBilling extends Controller
         // $imageUpload->filename = $imageName;
         // $imageUpload->save();
         // return response()->json(['success'=>$imageName]);
+
+        //$this->splitName;
+        // $url = explode('/', $this->splitName);
+        // $cust = $url[4];
+
         $input = Input::all();
 		$rules = array(
 		    'file' => 'image|max:3000',
@@ -196,28 +204,14 @@ class ManageBilling extends Controller
             $documents = str_replace(' ', '', $fileNameOnly).'-'.$randomized.''.time().'.'.$extension;
             $path = $file->storeAs('public/uploads', $documents);
             $test2 = $request->hasFile('file');
-            // foreach($request->file('file') as $file) :
-            //     $completeFileName = $file->getClientOriginalName();
-            //     $fileNameOnly = pathinfo($completeFileName, PATHINFO_FILENAME);
-            //     $extension = $file->getClientOriginalExtension();
-            //     $randomized = rand();
-            //     $documents = str_replace(' ', '', $fileNameOnly).'-'.$randomized.''.time().'.'.$extension;
-            //     $path = $file->storeAs('public/uploads', $documents);
-            // endforeach;
+            $insert_doc = DB::table('billing_documents')->insert([
+                    'billing_docs' => $documents,
+                    'customer_id' => $request->cust_id
+                ]);
         }
         
         echo $documents;
         die;
-
-        $upload_success = Input::upload('file[]', $directory, $filename);
-
-        if( $upload_success ) {
-            //return Response::json('success', 200);
-            echo "Success";
-        } else {
-            //return Response::json('error', 400);
-            echo "Failed";
-        }
 	
     }
 }

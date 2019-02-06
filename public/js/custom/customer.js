@@ -196,7 +196,7 @@ $(document).ready(function() {
             return;
         }
 
-        debugger;
+        //debugger;
 
         // $('#saveAddAnotherCustomer').attr('disabled', 'disabled');
         $('#saveCustomer').attr('disabled', 'disabled');
@@ -218,7 +218,17 @@ $(document).ready(function() {
             data: $('#saveCustomerForm').serialize(),
             cache: false,
             success: function(response) {
-                if (JSON.parse(response) == "success") {
+                if (JSON.parse(response) == "failed") {
+                    $('#saveCustomer').removeAttr('disabled');
+                    $('#cancelCustomer').removeAttr('disabled');
+                    $('#saveCustomer').text('Save');
+                    $('#notifDiv').fadeIn();
+                    $('#notifDiv').css('background', 'red');
+                    $('#notifDiv').text('Failed to add customer at the moment');
+                    setTimeout(() => {
+                        $('#notifDiv').fadeOut();
+                    }, 3000);
+                } else {
                     if (action == 'CustomerProfile') {
                         fetchCompanyInfoForUpdate($('input[name="product_updating_id"]').val());
                     } else {
@@ -233,21 +243,14 @@ $(document).ready(function() {
                         $('#saveCustomerForm').find("select").val("0").trigger('change');
                         $('select[name="deliveryPorts"], select[name="documentTypes"]').val("").trigger('change');
                         $('.dropify-clear').click();
+                        //open modal for billing
+                        $('#open_modal_billing').click();
+                        $("#add_billing_to_customer").attr("href", "/billing/"+JSON.parse(response));
                     }
 
                     $('#notifDiv').fadeIn();
                     $('#notifDiv').css('background', 'green');
                     $('#notifDiv').text('Customer have been added successfully');
-                    setTimeout(() => {
-                        $('#notifDiv').fadeOut();
-                    }, 3000);
-                } else {
-                    $('#saveCustomer').removeAttr('disabled');
-                    $('#cancelCustomer').removeAttr('disabled');
-                    $('#saveCustomer').text('Save');
-                    $('#notifDiv').fadeIn();
-                    $('#notifDiv').css('background', 'red');
-                    $('#notifDiv').text('Failed to add customer at the moment');
                     setTimeout(() => {
                         $('#notifDiv').fadeOut();
                     }, 3000);

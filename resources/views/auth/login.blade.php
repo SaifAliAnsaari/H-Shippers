@@ -6,14 +6,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>E-bob</title>
+    <title>Hashmi Shippers</title>
     <link href="https://fonts.googleapis.com/css?family=Poppins:300,300i,400,400i,500,600,700,800" rel="stylesheet">
     <link rel="stylesheet" href="css/bootstrap.min.css">
+  
     <!-- Custom fonts for this template-->
-    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <link href="css/style.css" rel="stylesheet">
+    <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="/css/style.css" rel="stylesheet">
 </head>
-<body style="background-color: #001e35">
+<body class="bg_main login-BG">
     <div id="wrapper">
         <div class="log_con">
             <div class="container-fluid">
@@ -22,15 +23,16 @@
                     <div class="table-cell vertical-align-middle auth-form-wrap">
                         <div class="auth-form">
                             <div class="row m-0">
-                                <div class="col-md-6" style="background-color: #efefef">
+                                <div class="col-md-6">
                                     <div class="login-left">
-                                        <div class="logo-company"> <img src="images/allomate-logo.svg" alt="" /> </div>
-                                        <h4>Customer Experience Solution</h4>
+                                            <div class="logo-company"> <img src="/images/h-shippers.svg" alt="" /> </div>
+                                            <h4>We Are A One-Stop Cost-Effective Delivery Solution. Agile Couriers And Logistic Service Is
+                                              Tailor-Made For E-Commerce Businesses</h4>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-6" style="background-color: #f5f5f5">
                                     <div class="login-right">
-                                        <h3>Login</h3>
+                                            <h3>LOG <span>IN</span></h3>
                                         <form method="POST" action="{{ route('login') }}">
                                             @csrf
                                             <div class="form-group">
@@ -80,7 +82,8 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="Log_footer"> Copyright © 2018 Ebob All Rights Reserved.<br> Design &amp; Developed by <a href="https://allomate.com" target="_blank">Allomate Solutions</a> </div>
+                        <div class="Log_footer">2019 HShipper.com All rights reserved.<br>
+                          Design &amp; Developed by <a href="https://allomate.com" target="_blank">Allomate Solutions</a> </div>
                     </div>
                 </div>
             </div>

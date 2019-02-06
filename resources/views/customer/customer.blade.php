@@ -1,6 +1,38 @@
 @extends('layouts.master')
 
 @section('data-sidebar')
+
+<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content top_border">
+            <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLongTitle">Customer <span>has been successfully added</span></h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+            <div class="modal-body p-30">
+            <div class="form-wrap p-0">	
+    
+            <h1 class="_head05">Add <span>Billing Account?</span></h1>		 
+    
+            <a id="add_billing_to_customer" href=""><button type="submit" class="btn btn-primary mr-2 mb-2">Yes</button></a>
+            <button type="submit" class="btn btn-primary mr-2 mb-2" data-dismiss="modal">No</button>
+    
+                                
+    
+        <div class="modal-footer p-0 border-0">
+        <button type="submit" class="btn btn-cancel" data-dismiss="modal" aria-label="Close">Close</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Add Another</button>
+        </div>
+    
+    
+            </div>
+            </div>
+        </div>
+        </div>
+    </div> 
+
 <div id="product-cl-sec">
     <a href="#" id="pl-close" class="close-btn-pl"></a>
     <div class="pro-header-text">New <span>Customer</span></div>
@@ -217,6 +249,7 @@
     <div class="_cl-bottom">
         <button type="submit" class="btn btn-primary mr-2" id="saveCustomer">Save</button>
         <button id="pl-close" type="submit" class="btn btn-cancel mr-2" id="cancelCustomer">Cancel</button>
+        <button type="button" class="btn btn-primary mr-2" id="open_modal_billing" data-toggle="modal" data-target=".bd-example-modal-lg" style="display:none">Save</button>
     </div>
 </div>
 @endsection
