@@ -313,7 +313,7 @@ $(document).ready(function(){
 
                     $('#notifDiv').fadeIn();
                     $('#notifDiv').css('background', 'green');
-                    $('#notifDiv').text('Location Service have been added successfully');
+                    $('#notifDiv').text('Pick up & Delivery Location have been added successfully');
                     setTimeout(() => {
                         $('#notifDiv').fadeOut();
                     }, 3000);
@@ -323,7 +323,7 @@ $(document).ready(function(){
                     $('#savePickUp').text('Save');
                     $('#notifDiv').fadeIn();
                     $('#notifDiv').css('background', 'red');
-                    $('#notifDiv').text('Failed to add location service at the moment');
+                    $('#notifDiv').text('Failed to add Pick up & Delivery Location at the moment');
                     setTimeout(() => {
                         $('#notifDiv').fadeOut();
                     }, 3000);
@@ -411,7 +411,7 @@ $(document).ready(function(){
 
                     $('#notifDiv').fadeIn();
                     $('#notifDiv').css('background', 'green');
-                    $('#notifDiv').text('Company have been updated successfully');
+                    $('#notifDiv').text('Pick up & Delivery Location have been updated successfully');
                     setTimeout(() => {
                         $('#notifDiv').fadeOut();
                     }, 3000);
@@ -421,7 +421,7 @@ $(document).ready(function(){
                     $('#saveDeliveryTeam').text('Update');
                     $('#notifDiv').fadeIn();
                     $('#notifDiv').css('background', 'red');
-                    $('#notifDiv').text('Failed to update company at the moment');
+                    $('#notifDiv').text('Failed to update Pick up & Delivery Location at the moment');
                     setTimeout(() => {
                         $('#notifDiv').fadeOut();
                     }, 3000);
@@ -494,14 +494,14 @@ $(document).ready(function(){
     
                         $('#notifDiv').fadeIn();
                         $('#notifDiv').css('background', 'green');
-                        $('#notifDiv').text('Area deleted successfully');
+                        $('#notifDiv').text('Pick up & Delivery Location deleted successfully');
                         setTimeout(() => {
                             $('#notifDiv').fadeOut();
                         }, 3000);
                     }else if(JSON.parse(response) == "failed"){
                         $('#notifDiv').fadeIn();
                         $('#notifDiv').css('background', 'red');
-                        $('#notifDiv').text('Unable to delete area');
+                        $('#notifDiv').text('Unable to delete Pick up & Delivery Location');
                         setTimeout(() => {
                             $('#notifDiv').fadeOut();
                         }, 3000);
