@@ -113,7 +113,7 @@ class OrganizationManagement extends Controller
             $services =  explode(',', $request->location_service);
 
             foreach ($services as $service) {
-                $insert_location_service = DB::table('LocationService_pickUpDelivery')->insert([
+                $insert_location_service = DB::table('locationService_pickUpDelivery')->insert([
                     'location_service' => $service,
                     'pick_up_table_id' => $insert_pickup_delivery
                     ]);
