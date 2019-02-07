@@ -62,7 +62,8 @@ $(document).ready(function() {
 
 
     $(document).on('click', '.openDataSidebarForUpdateEmployee', function() {
-        $('#operation').val('update');
+        //$('#operation').val('update');
+        $('input[name="operation"]').val('update');
         lastOp = 'update';
         $('#dataSidebarLoader').show();
         $('._cl-bottom').hide();

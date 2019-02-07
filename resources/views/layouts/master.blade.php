@@ -88,7 +88,11 @@
     @elseif($controller == "ManageBilling")
         <script src="/js/manage_billing/manage_billing.js?v={{ time() }}" ></script>
     @elseif($controller == "CustomersForBilling")
-    <script src="/js/manage_billing/customers_for_biling.js?v={{ time() }}" ></script>
+        <script src="/js/manage_billing/customers_for_biling.js?v={{ time() }}" ></script>
+    @elseif($controller == "ComplaintsAndSuggestions")
+        <script src="/js/manage_complaints_suggestions/complaints_suggestions.js?v={{ time() }}" ></script>
+    @elseif($controller == "ConsignmentManagement")
+        <script src="/js/manage_consignment/consignment.js?v={{ time() }}" ></script>
     @endif
 
 </body>

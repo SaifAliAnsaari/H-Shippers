@@ -44,6 +44,11 @@ Route::get('/pick_up_and_delivery', 'OrganizationManagement@manage_pickUp_delive
 Route::get('/employee_managment', 'Auth\RegisterController@manage_employee');
 Route::get('/billing/{id}', 'ManageBilling@billing');
 Route::get('/select_customer', 'CustomersForBilling@select_customer');
+Route::get('/consignment_booking', 'ConsignmentManagement@consignment_booking');
+Route::get('/consignment_booking_client', 'ConsignmentManagement@consignment_booking_client');
+Route::get('/consignment_booked', 'ConsignmentManagement@consignment_booked');
+Route::get('/complaints_suggestions', 'ComplaintsAndSuggestions@complaints_suggestions');
+Route::get('/complaints_suggestions_client', 'ComplaintsAndSuggestions@complaints_suggestions_client');
 
 //Save
 Route::post('/Client_save', 'Clients@save_client');

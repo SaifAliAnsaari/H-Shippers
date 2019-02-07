@@ -161,12 +161,19 @@ class ManageBilling extends Controller
         
     }
 
+    // public function testUnlink($unlinkFile, Request $request){
+    //     if(Storage::exists('public/uploads/'.$unlinkFile)){
+    //         Storage::delete('public/uploads/'.$unlinkFile);
+    //         DB::table('billing_documents')->where('customer_id', $request->cust_id)->delete();
+    //     }
+       
+    // }
+
     public function testUnlink($unlinkFile, Request $request){
         if(Storage::exists('public/uploads/'.$unlinkFile)){
             Storage::delete('public/uploads/'.$unlinkFile);
-            DB::table('billing_documents')->where('customer_id', $request->cust_id)->delete();
+            DB::table('billing_documents')->where('billing_docs', $unlinkFile)->delete();
         }
-       
     }
 
     public function test(Request $request){

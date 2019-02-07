@@ -19,19 +19,49 @@
         
         <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navi-l1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <img src="/images/icon-organization.svg" alt="" />
+                <img src="/images/users-group.svg" alt="" />
                 <span>Client Management</span>
             </a>
             <div class="dropdown-menu" aria-labelledby="navi-l1">
                 <a class="dropdown-item" href="/clients">Clients List</a>
                 <a class="dropdown-item" href="/Customer">Customer List</a>
-                <a class="dropdown-item" href="/register">Employees List</a>
                 <a class="dropdown-item" href="/CustomerTypes">Customer Types</a>
                 {{-- <a class="dropdown-item" href="customer-documents.html">Document List</a>
                 <a class="dropdown-item" href="customer-types-management.html">Document Types</a>
                 <a class="dropdown-item" href="/ProspectCustomers">Prospects List</a>
                 <a class="dropdown-item" href="customer-movement.html">Movement List</a>
                 <a class="dropdown-item" href="churned-list.html">Churned List</a> --}}
+            </div>
+        </li>
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navi-l1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <img src="/images/icon-organization.svg" alt="" />
+                <span>Employees Management</span>
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navi-l1">
+                <a class="dropdown-item" href="/register">Employees List</a>
+            </div>
+        </li>
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navi-l1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <img src="/images/package-delivery.svg" alt="" />
+                <span>Consignment $ Booking</span>
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navi-l1">
+                <a class="dropdown-item" href="/consignment_booking">Consignment $ Booking</a>
+                <a class="dropdown-item" href="/consignment_booking_client">Consignment $ Booking client</a>
+                <a class="dropdown-item" href="/consignment_booked">Booked List</a>
+            </div>
+        </li>
+
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navi-l1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <img src="/images/comment.svg" alt="" />
+                <span>Complaints $ Suggestions</span>
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navi-l1">
+                <a class="dropdown-item" href="/complaints_suggestions">Complaints List</a>
+                <a class="dropdown-item" href="/complaints_suggestions_client">Client Complaints List</a>
             </div>
         </li>
         {{-- <li class="nav-item dropdown">

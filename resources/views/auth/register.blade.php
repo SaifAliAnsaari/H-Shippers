@@ -10,7 +10,7 @@
         <form style="display: flex; width: 100%" id="saveEmployeeForm" enctype="multipart/form-data">
             {!! Form::hidden('employee_updating_id', '') !!}
             @csrf
-            <input type="text" id="operation" hidden>
+            <input type="text" name="operation" id="operation" hidden>
             <div class="overflow-plist">
                 <div class="plist-content">
                     <div class="_left-filter" style="padding-top:30px">
