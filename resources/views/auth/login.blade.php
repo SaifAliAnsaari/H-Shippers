@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -9,11 +10,12 @@
     <title>Hashmi Shippers</title>
     <link href="https://fonts.googleapis.com/css?family=Poppins:300,300i,400,400i,500,600,700,800" rel="stylesheet">
     <link rel="stylesheet" href="css/bootstrap.min.css">
-  
+
     <!-- Custom fonts for this template-->
     <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link href="/css/style.css" rel="stylesheet">
 </head>
+
 <body class="bg_main login-BG">
     <div id="wrapper">
         <div class="log_con">
@@ -25,35 +27,39 @@
                             <div class="row m-0">
                                 <div class="col-md-6">
                                     <div class="login-left">
-                                            <div class="logo-company"> <img src="/images/h-shippers.svg" alt="" /> </div>
-                                            <h4>We Are A One-Stop Cost-Effective Delivery Solution. Agile Couriers And Logistic Service Is
-                                              Tailor-Made For E-Commerce Businesses</h4>
+                                        <div class="logo-company"> <img src="/images/h-shippers.svg" alt="" /> </div>
+                                        <h4>We Are A One-Stop Cost-Effective Delivery Solution. Agile Couriers And
+                                            Logistic Service Is
+                                            Tailor-Made For E-Commerce Businesses</h4>
                                     </div>
                                 </div>
                                 <div class="col-md-6" style="background-color: #f5f5f5">
                                     <div class="login-right">
-                                            <h3>LOG <span>IN</span></h3>
+                                        <h3>LOG <span>IN</span></h3>
                                         <form method="POST" action="{{ route('login') }}">
                                             @csrf
                                             <div class="form-group">
                                                 <div class="user"> <span class="fa fa-user-alt"></span>
-                                                    <input id="username" type="username" class="form-control{{ $errors->has('username') ? ' is-invalid' : '' }}" name="username" value="{{ old('username') }}" placeholder="Username" required autofocus>
+                                                    <input id="username" type="username" class="form-control{{ $errors->has('username') ? ' is-invalid' : '' }}"
+                                                        name="username" value="{{ old('username') }}" placeholder="Username"
+                                                        required autofocus>
                                                     @if ($errors->has('username'))
-                                                        <span class="invalid-feedback" role="alert">
-                                                            <strong>{{ $errors->first('username') }}</strong>
-                                                        </span>
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong>{{ $errors->first('username') }}</strong>
+                                                    </span>
                                                     @endif
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <div class="clearfix"></div>
                                                 <div class="pass"> <span class="fa fa-unlock"></span>
-                                                    <input id="password" type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" placeholder="password" required>
+                                                    <input id="password" type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}"
+                                                        name="password" placeholder="password" required>
 
                                                     @if ($errors->has('password'))
-                                                        <span class="invalid-feedback" role="alert">
-                                                            <strong>{{ $errors->first('password') }}</strong>
-                                                        </span>
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong>{{ $errors->first('password') }}</strong>
+                                                    </span>
                                                     @endif
                                                 </div>
                                             </div>
@@ -61,8 +67,9 @@
                                             {{-- <div class="form-group">
                                                 <div class="col-md-6" style="height: auto;">
                                                     <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
-                    
+                                                        <input class="form-check-input" type="checkbox" name="remember"
+                                                            id="remember" {{ old('remember') ? 'checked' : '' }}>
+
                                                         <label class="form-check-label" for="remember">
                                                             {{ __('Remember Me') }}
                                                         </label>
@@ -70,20 +77,28 @@
                                                 </div>
                                             </div> --}}
 
-                                            @if (Route::has('password.request'))
-                                                <a class="f_pass" href="{{ route('password.request') }}">Forgot password?</a>
-                                            @endif
+                                            <div style="margin: 15px 0px 15px 0px;">
+                                                Are you a client?
+                                                <a style="font-weight: bold; display: inline" class="f_pass" href="/client_login">Login</a>
+                                            </div>
+                                            {{-- @if (Route::has('password.request'))
+                                            <a class="f_pass" href="{{ route('password.request') }}">Forgot password?</a>
+                                            @endif --}}
 
                                             <div class="form-group">
                                                 <button type="submit" class="btn btn-info btn-login">Login</button>
                                             </div>
+
+                                            {{-- <a class="f_pass" href="/client_login">Client Login</a> --}}
+
                                         </form>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="Log_footer">2019 HShipper.com All rights reserved.<br>
-                          Design &amp; Developed by <a href="https://allomate.com" target="_blank">Allomate Solutions</a> </div>
+                            Design &amp; Developed by <a href="https://allomate.com" target="_blank">Allomate Solutions</a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -93,4 +108,5 @@
     <script src="js/popper.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
 </body>
+
 </html>

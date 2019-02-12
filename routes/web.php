@@ -38,28 +38,39 @@ Route::get('/CustomerProfile/{customerId}', 'Customer@viewProfile');
 
 
 //Views
+Route::get('/client_login', 'ClientLogin@client_login');
 Route::get('/clients', 'Clients@clients');
 Route::get('/company_profile', 'OrganizationManagement@manage_company');
 Route::get('/pick_up_and_delivery', 'OrganizationManagement@manage_pickUp_delivery');
 Route::get('/employee_managment', 'Auth\RegisterController@manage_employee');
 Route::get('/billing/{id}', 'ManageBilling@billing');
-Route::get('/select_customer', 'CustomersForBilling@select_customer');
+Route::get('/select_customer', 'ClientsForBilling@select_customer');
 Route::get('/consignment_booking', 'ConsignmentManagement@consignment_booking');
 Route::get('/consignment_booking_client', 'ConsignmentManagement@consignment_booking_client');
 Route::get('/consignment_booked', 'ConsignmentManagement@consignment_booked');
 Route::get('/complaints_suggestions', 'ComplaintsAndSuggestions@complaints_suggestions');
-Route::get('/complaints_suggestions_client', 'ComplaintsAndSuggestions@complaints_suggestions_client');
+Route::get('/complaints_list', 'ComplaintsAndSuggestions@complaints_list');
+Route::get('/complaints_list_client', 'ComplaintsAndSuggestions@complaints_list_client');
+Route::get('/suggestions_list_client', 'ComplaintsAndSuggestions@suggestions_list_client');
+Route::get('/suggestions_list', 'ComplaintsAndSuggestions@suggestions_list');
 
 //Save
 Route::post('/Client_save', 'Clients@save_client');
 Route::post('/Company_save', 'OrganizationManagement@add_company');
 Route::post('/PickUp_save', 'OrganizationManagement@add_pickUp');
 Route::post('/SaveBilling', 'ManageBilling@save_billing');
+Route::post('/client_login_form', 'ClientLogin@client_login_form');
+Route::post('/SaveConsignmentClient', 'ConsignmentManagement@SaveConsignmentClient');
+Route::post('/saveComplaints', 'ComplaintsAndSuggestions@saveComplaints');
+Route::post('/saveSuggestion', 'ComplaintsAndSuggestions@saveSuggestions');
 
 //Get Data to display on page
 Route::get('/GetCompaniesList', 'OrganizationManagement@companies_list');
 Route::get('/GetPickUpList', 'OrganizationManagement@pickUp_list');
-Route::get('/GetCustomersListForBilling', 'CustomersForBilling@GetCustomersListForBilling');
+Route::get('/GetCustomersListForBilling', 'ClientsForBilling@GetCustomersListForBilling');
+Route::get('/GetCompliantsListClient', 'ComplaintsAndSuggestions@GetCompliantsListClient');
+Route::get('/GetSuggestionsListClient', 'ComplaintsAndSuggestions@GetSuggestionsListClient');
+Route::get('/GetConsignmentsList', 'ConsignmentManagement@GetConsignmentsList');
 
 //Get data to show on update page
 Route::get('/company_data/{id}', 'OrganizationManagement@get_company_data');
@@ -81,6 +92,7 @@ Route::get('/activate_employee', 'Employee@activate_employee');
 Route::get('/deactivate_employee', 'Employee@deactivate_employee');
 
 Route::get('/logout', '\App\Http\Controllers\Auth\LoginController@logout');
+Route::get('/cout', 'Clients@cout');
 
 
 

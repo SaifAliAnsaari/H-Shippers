@@ -15,7 +15,9 @@
     </div>
 </div>
 
-
+<form id="saveConsignmentForm">
+  {!! Form::hidden('tokenForAjaxReq', csrf_token()) !!}
+  @csrf
          <div class="col-md-12 sm-pb-30">
           <div class="row">					
          
@@ -32,8 +34,8 @@
                    </div>
      
                   <div class="_new-consign-top">
-                    <label class="control-label label2">CNNo:</label>
-                    <input type="text" id="cnno" class="form-control" placeholder="" style="font-size: 13px">				 
+                    <label class="control-label label2">CNNo:*</label>
+                    <input type="text" id="cnno" id="cnic" class="form-control" placeholder="" style="font-size: 13px">				 
                 </div>
         </div>
         </div>
@@ -51,15 +53,15 @@
               
               <div class="col-md-4">
                   <div class="form-group">
-                    <label class="control-label mb-10">Name</label>
-                    <input type="text" id="" class="form-control" placeholder="" style="font-size: 13px">
+                    <label class="control-label mb-10">Name*</label>
+                    <input type="text" id="shipper_name" class="form-control" placeholder="" style="font-size: 13px">
                   </div>
                 </div>
               <div class="col-md-4">
                 <div class="form-s2 pt-19">
-                          <select class="form-control formselect" placeholder="Select City">
-                            <option>Select City</option>
-                            <option>Lahore</option>
+                          <select class="form-control formselect" placeholder="Select City" id="select_city_shipper">
+                            <option value="0">Select City*</option>
+                            <option value="lahore">Lahore</option>
                           </select>
                 </div>
                 </div>
@@ -67,35 +69,35 @@
 
               <div class="col-md-4">
                   <div class="form-group">
-                    <label class="control-label mb-10">Area</label>
-                    <input type="text" id="" class="form-control" placeholder="" style="font-size: 13px">
+                    <label class="control-label mb-10">Area*</label>
+                    <input type="text" id="shipper_area" class="form-control" placeholder="" style="font-size: 13px">
                   </div>
                 </div>
                 
                 <div class="col-md-4">
                   <div class="form-group">
-                    <label class="control-label mb-10">Cell#</label>
-                    <input type="text" id="" class="form-control" placeholder="" style="font-size: 13px">
+                    <label class="control-label mb-10">Cell#*</label>
+                    <input type="number" id="shipper_cell_num" class="form-control" placeholder="" style="font-size: 13px">
                   </div>
                 </div>
 
                 <div class="col-md-4">
                   <div class="form-group">
-                    <label class="control-label mb-10">Land Line#</label>
-                    <input type="text" id="" class="form-control" placeholder="" style="font-size: 13px">
+                    <label class="control-label mb-10">Land Line#*</label>
+                    <input type="number" id="shipper_land_line" class="form-control" placeholder="" style="font-size: 13px">
                   </div>
                 </div> 
                 
                 <div class="col-md-4">
                   <div class="form-group">
-                    <label class="control-label mb-10">Email</label>
-                    <input type="text" id="" class="form-control" placeholder="" style="font-size: 13px">
+                    <label class="control-label mb-10">Email*</label>
+                    <input type="email" id="shipper_email" class="form-control" placeholder="" style="font-size: 13px">
                   </div>
                 </div>
                 <div class="col-md-8">
                   <div class="form-group">
-                    <label class="control-label mb-10">Address</label>
-                    <input type="text" id="" class="form-control" placeholder="" style="font-size: 13px">
+                    <label class="control-label mb-10">Address*</label>
+                    <input type="text" id="shipper_address" class="form-control" placeholder="" style="font-size: 13px">
                   </div>
                 </div>
 
@@ -110,35 +112,35 @@
               
               <div class="col-md-4">
                   <div class="form-group">
-                    <label class="control-label mb-10">Consignee Name</label>
-                    <input type="text" id="" class="form-control" placeholder="" style="font-size: 13px">
+                    <label class="control-label mb-10">Consignee Name*</label>
+                    <input type="text" id="consignee_name" class="form-control" placeholder="" style="font-size: 13px">
                   </div>
                 </div>
               <div class="col-md-4">
                   <div class="form-group">
-                    <label class="control-label mb-10">Consignee Ref#</label>
-                    <input type="text" id="" class="form-control" placeholder="" style="font-size: 13px">
+                    <label class="control-label mb-10">Consignee Ref#*</label>
+                    <input type="text" id="consignee_ref_num" class="form-control" placeholder="" style="font-size: 13px">
                   </div>
                 </div>
                 
                 <div class="col-md-4">
                   <div class="form-group">
-                    <label class="control-label mb-10">Consignee Cell#</label>
-                    <input type="text" id="" class="form-control" placeholder="" style="font-size: 13px">
+                    <label class="control-label mb-10">Consignee Cell#*</label>
+                    <input type="number" id="consignee_cell_num" class="form-control" placeholder="" style="font-size: 13px">
                   </div>
                 </div>
 
                 <div class="col-md-4">
                   <div class="form-group">
-                    <label class="control-label mb-10">Email</label>
-                    <input type="text" id="" class="form-control" placeholder="" style="font-size: 13px">
+                    <label class="control-label mb-10">Email*</label>
+                    <input type="email" id="consignee_email" class="form-control" placeholder="" style="font-size: 13px">
                   </div>
                 </div> 
 
                 <div class="col-md-8">
                   <div class="form-group">
-                    <label class="control-label mb-10">Address</label>
-                    <input type="text" id="" class="form-control" placeholder="" style="font-size: 13px">
+                    <label class="control-label mb-10">Address*</label>
+                    <input type="text" id="consignee_address" class="form-control" placeholder="" style="font-size: 13px">
                   </div>
                 </div>
 
@@ -153,16 +155,16 @@
               
               <div class="col-md-4">
                   <div class="form-group">
-                    <label class="control-label mb-10">Region City</label>
-                    <input type="text" id="" class="form-control" placeholder="" style="font-size: 13px">
+                    <label class="control-label mb-10">Region City*</label>
+                    <input type="text" id="consignment_regin_city" class="form-control" placeholder="" style="font-size: 13px">
                   </div>
                 </div>
 
                 <div class="col-md-4">
                 <div class="form-s2 pt-19">
-                          <select class="form-control formselect" placeholder="Services Type">
-                            <option>Services Type</option>
-                            <option>Services Type 1</option>
+                          <select class="form-control formselect" placeholder="Services Type" id="service_type">
+                            <option value="0">Select Services Type*</option>
+                            <option value="1">Services Type 1</option>
                           </select>
                 </div>
                 </div>
@@ -170,29 +172,29 @@
                 
                 <div class="col-md-4">
                   <div class="form-group">
-                    <label class="control-label mb-10">Pieces</label>
-                    <input type="text" id="" class="form-control" placeholder="" style="font-size: 13px">
+                    <label class="control-label mb-10">Pieces*</label>
+                    <input type="number" id="consignment_pieces" class="form-control" placeholder="" style="font-size: 13px">
                   </div>
                 </div>
 
                 <div class="col-md-4">
                   <div class="form-group">
-                    <label class="control-label mb-10">Weight(Kgs)</label>
-                    <input type="text" id="" class="form-control" placeholder="" style="font-size: 13px">
+                    <label class="control-label mb-10">Weight(Kgs)*</label>
+                    <input type="number" id="consignment_weight" class="form-control" placeholder="" style="font-size: 13px">
                   </div>
                 </div> 
 
                 <div class="col-md-4">
                   <div class="form-group">
-                    <label class="control-label mb-10">Description (Product/Item)</label>
-                    <input type="text" id="" class="form-control" placeholder="" style="font-size: 13px">
+                    <label class="control-label mb-10">Description (Product/Item)*</label>
+                    <input type="text" id="consignment_description" class="form-control" placeholder="" style="font-size: 13px">
                   </div>
                 </div>
                 
                 <div class="col-md-4">
                   <div class="form-group">
-                    <label class="control-label mb-10">Price</label>
-                    <input type="text" id="" class="form-control" placeholder="" style="font-size: 13px">
+                    <label class="control-label mb-10">Price*</label>
+                    <input type="number" id="consignment_price" class="form-control" placeholder="" style="font-size: 13px">
                   </div>
                 </div>
                 
@@ -200,14 +202,14 @@
                 <div class="row radio_topPD">
                  <div class="col-md-6">					   	
                      <div class="custom-control custom-radio">
-                          <input class="custom-control-input" type="radio" name="inlineRadioOptions" id="Domestic" value='valuable' data-id="Domestic">
-                          <label class="custom-control-label" for="Domestic">Domestic</label>
+                          <input class="custom-control-input consignment_destination" type="radio" name="inlineRadioOptions" id="Domestic" value='valuable' data-id="Domestic">
+                          <label class="custom-control-label" for="Domestic">Domestic*</label>
                      </div>					   	
                 </div>
                  <div class="col-md-6">					   	
                      <div class="custom-control custom-radio">
-                          <input class="custom-control-input" type="radio" name="inlineRadioOptions" id="International" value='valuable' data-id="International">
-                          <label class="custom-control-label" for="International">International</label>
+                          <input class="custom-control-input consignment_destination" type="radio" name="inlineRadioOptions" id="International" value='valuable' data-id="International">
+                          <label class="custom-control-label" for="International">International*</label>
                      </div>					   	
                  </div>
                 </div>
@@ -216,15 +218,15 @@
                      
               <div class="col-md-4">
                   <div class="form-group">
-                    <label class="control-label mb-10">Dest.City</label>
-                    <input type="text" id="" class="form-control" placeholder="" style="font-size: 13px">
+                    <label class="control-label mb-10">Dest.City*</label>
+                    <input type="text" id="consignment_dest_city" class="form-control" placeholder="" style="font-size: 13px">
                   </div>
                 </div>
                 
                 <div class="col-md-12">
-               <label class="PT-10 font12">Remarks</label>
+               <label class="PT-10 font12">Remarks*</label>
                   <div class="form-group">							 
-                    <textarea name="description" rows="8" style="font-size: 13px"></textarea>
+                    <textarea name="description" id="consignment_remarks" rows="8" style="font-size: 13px"></textarea>
                     </div>
                 </div>
 
@@ -238,49 +240,49 @@
 
         <div class="col-md-3 col-xs-3">
               <div class="custom-control custom-checkbox mr-sm-2">
-            <input type="checkbox" class="custom-control-input" id="id001">
+            <input type="checkbox" class="custom-control-input supplementary_services_admin" name="supplementary_services_admin" value="Holiday" id="id001">
             <label class="custom-control-label" for="id001">Holiday</label>
           </div>
         </div>
         
         <div class="col-md-3 col-xs-3">
               <div class="custom-control custom-checkbox mr-sm-2">
-            <input type="checkbox" class="custom-control-input" id="id002">
+            <input type="checkbox" class="custom-control-input supplementary_services_admin" name="supplementary_services_admin" value="Special Handing" id="id002">
             <label class="custom-control-label" for="id002">Special Handing</label>
           </div>
         </div>
         
         <div class="col-md-3 col-xs-3">
               <div class="custom-control custom-checkbox mr-sm-2">
-            <input type="checkbox" class="custom-control-input" id="id003">
+            <input type="checkbox" class="custom-control-input supplementary_services_admin" name="supplementary_services_admin" value="Return Services" id="id003">
             <label class="custom-control-label" for="id003">Return Services</label>
           </div>
         </div>
         
         <div class="col-md-3 col-xs-3">
               <div class="custom-control custom-checkbox mr-sm-2">
-            <input type="checkbox" class="custom-control-input" id="id004">
+            <input type="checkbox" class="custom-control-input supplementary_services_admin" name="supplementary_services_admin" value="Hand Carry" id="id004">
             <label class="custom-control-label" for="id004">Hand Carry</label>
           </div>
         </div>
         
         <div class="col-md-3 col-xs-3">
               <div class="custom-control custom-checkbox mr-sm-2">
-            <input type="checkbox" class="custom-control-input" id="id005">
+            <input type="checkbox" class="custom-control-input supplementary_services_admin" name="supplementary_services_admin" value="Time Specified" id="id005">
             <label class="custom-control-label" for="id005">Time Specified</label>
           </div>
         </div>
         
         <div class="col-md-3 col-xs-3">
               <div class="custom-control custom-checkbox mr-sm-2">
-            <input type="checkbox" class="custom-control-input" id="id006">
+            <input type="checkbox" class="custom-control-input supplementary_services_admin" name="supplementary_services_admin" value="Green Flyer" id="id006">
             <label class="custom-control-label" for="id006">Green Flyer</label>
           </div>
         </div>
         
         <div class="col-md-3 col-xs-3">
               <div class="custom-control custom-checkbox mr-sm-2">
-            <input type="checkbox" class="custom-control-input" id="id007">
+            <input type="checkbox" class="custom-control-input supplementary_services_admin" name="supplementary_services_admin" value="GreenBox" id="id007">
             <label class="custom-control-label" for="id007">GreenBox</label>
           </div>
         </div>	
@@ -291,14 +293,15 @@
         
    <div class="bottom-btns">
 
-   <button type="submit" class="btn btn-primary mr-2">Save</button>
-   <button type="submit" class="btn btn-cancel">Cancel</button>
+   <button type="button" class="btn btn-primary mr-2 save_consignment_admin">Save</button>
+   <button type="button" class="btn btn-cancel">Cancel</button>
 
     </div>
 
      
         
         </div></div>
+      </form>
 
 </div>
 

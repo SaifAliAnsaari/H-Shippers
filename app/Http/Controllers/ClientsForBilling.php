@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use DB;
 
-class CustomersForBilling extends Controller
+class ClientsForBilling extends Controller
 {
     public function __construct()
     {
@@ -23,6 +23,6 @@ class CustomersForBilling extends Controller
     }
 
     public function GetCustomersListForBilling(){
-        echo json_encode(DB::table('customers')->where('billing_added', '0')->get());
+        echo json_encode(DB::table('clients')->where('billing_added', '0')->get());
     }
 }

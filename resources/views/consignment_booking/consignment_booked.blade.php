@@ -21,8 +21,11 @@
          <div class="header">
          <h2>Booked<span> List</span></h2>
          </div>
-<div class="body">		    	 		
-<table class="table table-hover dt-responsive nowrap" id="example" style="width:100%">
+<div class="body">	
+    <div style="min-height: 400px" id="dataSidebarLoader" style="">
+        <img src="/images/loader.gif" width="30px" height="auto" style="position: absolute; left: 50%; top: 45%;">
+    </div>	    	 		
+{{-- <table class="table table-hover dt-responsive nowrap" id="example" style="width:100%">
         <thead>
             <tr>
               <th>CNNo.</th>
@@ -84,7 +87,7 @@
 
 
 </tbody>
-</table>
+</table> --}}
     
 </div>
          

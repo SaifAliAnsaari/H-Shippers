@@ -549,6 +549,7 @@ $(document).ready(function () {
                     setTimeout(() => {
                         $('#notifDiv').fadeOut();
                     }, 3000);
+                    window.location.href='/select_customer';
                 } else if(JSON.parse(response) == "failed"){
                     $('.saveWholeForm').removeAttr('disabled');
                     $('.cancel_btn').removeAttr('disabled');

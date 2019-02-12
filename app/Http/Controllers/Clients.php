@@ -6,19 +6,29 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use DB;
 use URL;
+use Cookie;
 
 class Clients extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
+        if(Cookie::get('client_session')){
+            $check_session = DB::table('clients')->select('id')->where('client_login_session', Cookie::get('client_session'))->first();
+            if(!$check_session){
+                return redirect('/client_login');
+            }
+        }else{
+            $this->middleware('auth');
+        }
     }
 
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
-     */
+    */
+
+    // Client View
     public function clients(){
         return view("clients/clients");
     }
@@ -257,5 +267,14 @@ class Clients extends Controller
         }else{
             echo json_encode('success');
         }
+    }
+
+    //Client Logout
+    public function cout(){
+       // echo "here"; die;
+        Cookie::queue(
+            Cookie::forget('client_session')
+        );
+        return redirect('/client_login');
     }
 }

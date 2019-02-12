@@ -28,10 +28,10 @@ class ManageBilling extends Controller
     public function billing($id){
         $splitName = explode('/', url()->current());
         $cust_id = $splitName[4];
-        if(DB::table('customers')->whereRaw('id = "'.$id.'" AND billing_added = 1')->first()){
+        if(DB::table('clients')->whereRaw('id = "'.$id.'" AND billing_added = 1')->first()){
             return redirect('/select_customer');
         }else{
-            if(DB::table('customers')->where('id', $id)->first()){
+            if(DB::table('clients')->where('id', $id)->first()){
                 return view('manage_billing.billing', ['cust_id' => $cust_id]);
             }else{
                 return redirect('/select_customer');
@@ -60,6 +60,7 @@ class ManageBilling extends Controller
             'tax' => $request->gst_tax,
             'customer_id' => $request->customer_id
             ]);
+            DB::table('clients')->where('id', $request->customer_id)->update(['billing_added' => 1]);
 
         if($insert_billing){
             $insert_same_day_data_within_city = DB::table('biling_criteria')->insert(
@@ -152,6 +153,7 @@ class ManageBilling extends Controller
             
             if($insert_same_day_data_within_city && $insert_same_day_data_within_prov && $insert_same_day_data_prov_to_prov && $insert_over_night_data_within_city && $insert_over_night_data_within_prov && $insert_over_night_data_prov_to_prov && $insert_seond_day_data_within_prov && $insert_seccond_dat_data_prov_to_prov && $insert_over_land_data_within_prov && $insert_over_land_data_prov_to_prov){
                 echo json_encode('success');
+
             }else{
                 echo json_encode('failed');
             }

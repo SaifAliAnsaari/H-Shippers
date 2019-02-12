@@ -23,7 +23,7 @@ body {
 .no-scroll {
 	overflow: hidden
 }
-.btn, h1, h2, h3, h4, h5, h6, .modal-order-detail .modal-title {
+.btn, h1, h2, h3, h4, h5, h6, .modal-order-detail .modal-title, .co-name {
 	font-family: 'Montserrat', sans-serif; 
 }
 .nam-title, .con_info, .text-muted, .cp-stats-value, .cp-stats, .nav-tabs .nav-link, .tab-style .tab-pane, .alert-color, .modal-title, .login-right, .login-right h3, .login-left h4, .Log_footer{
@@ -2149,8 +2149,25 @@ table.dataTable.cell-border tbody tr:first-child th, table.dataTable.cell-border
     color: #282828!important;
     margin-bottom: 0;
     line-height: 35px;
-	width: 52px
+	width: 46px
 }
+._new-consign-top .label3 {
+    color: #282828!important;
+    margin-bottom: 0;
+    line-height: 35px;
+    width: 79px
+}
+._new-consign-top .label4{ 
+    color: #282828!important;
+    margin-bottom: 0;
+    line-height: 35px;
+	width: 48px
+}
+
+._new-consign-top input {
+    width: 200px;
+}
+
 .calendar-icon{
 	position: absolute;
 	right: 0;
@@ -2208,10 +2225,37 @@ table.dataTable.cell-border tbody tr:first-child th, table.dataTable.cell-border
 	bottom: 0;
 }
  
+.invlist_logo{
+   margin-bottom: 15px
+}
+.invlist_logo img{
+	width: 200px;	
+}
+.inv-title{ text-align: left; line-height: 24px}
+.inv-title h3{font-size: 24px; font-weight:600; color: #fff; background-color: #0c397a; padding: 10px; letter-spacing: 1.5px; margin-bottom:10px}
+.inv-title span{font-size: 14px; padding-left: 10px; font-weight: bold}
+.inv-pr{width: 165px; float: left}
+.co-name{font-size: 14px; font-weight: 600; display: block; margin-bottom:10px; padding-top: 30px}
+.inv-con-list{padding-top: 30px}
 
-
-
-
+.inv-con-list .table td, .inv-con-list .table th {
+    padding:5px; font-size: 13px; border-top: 1px solid #143b79; color: #143b79
+}
+.inv-con-list .table-bordered>tbody>tr>td {
+    border: 1px solid #143b79
+}
+.inv-con-list .table th {
+    background-color: #143b79; color: #ffffff; border-bottom: 1px solid #143b79
+}
+.inv-top .table td, .inv-top .table th {
+    padding:10px; font-size: 13px
+}
+.inv-footer{
+	font-size: 13px; text-align: center; padding-top: 20px; letter-spacing: 1px; color: #717171
+}
+.inv-footer p{
+	margin-bottom: 0
+}
 
 .mb-10 {
 	margin-bottom:10px!important
@@ -2268,7 +2312,7 @@ table.dataTable.cell-border tbody tr:first-child th, table.dataTable.cell-border
 	padding-bottom: 15px!important
 }
 .PB-20{padding-bottom: 20px!important}
-
+.yellow{color: yellow}
 
 
 @media (max-width: 1440px) {
@@ -2296,6 +2340,10 @@ table.dataTable.cell-border tbody tr:first-child th, table.dataTable.cell-border
 .cell-border td, .cell-border th {
     padding: .75rem;
 }
+._new-consign-top input {
+    width: 156px;
+}
+._new-consign-top {margin-right: 8px}
 }
 
 @media (min-width: 992px) {
@@ -2304,6 +2352,11 @@ table.dataTable.cell-border tbody tr:first-child th, table.dataTable.cell-border
 }
 }
 
+@media (max-width: 992px) {
+._new-consign-top input {
+    width: 213px;
+}
+}
 @media (min-width: 768px) {
 body.fixed-nav #content-wrapper {
 	padding-left: 225px;
@@ -2315,7 +2368,7 @@ body.fixed-nav.sidebar-toggled #content-wrapper {
 	width: auto;
 }
 .sidebar {
-	width: 300px !important;
+	width: 310px !important;
 	overflow: hidden;
 	flex: none;
 }
@@ -2323,7 +2376,7 @@ body.fixed-nav.sidebar-toggled #content-wrapper {
 	display: block;
 	text-align: left;
 	padding: 12px 15px;
-	width: 300px;
+	width: 310px;
 }
 .sidebar .nav-item .nav-link span {
 	display: inline;
@@ -2461,7 +2514,7 @@ body.sidebar-toggled footer.sticky-footer {
     padding-left: 20px;
 }
 .ml-800{margin-left: -15px}
-
+.sm-pb-30{padding-bottom: 15px}
 }
 @media (max-width: 767px) {
 .radio_topPD {padding-top: 10px}
@@ -2591,6 +2644,9 @@ body.sidebar-toggled footer.sticky-footer {
 ._user-profile-info .p-col-R{
 	padding-left: 15px
 }
+._new-consign-top .label1, ._new-consign-top .label2, ._new-consign-top .label3, ._new-consign-top .label4 {
+    width: 100px}
+._new-consign-top input{width: 350px}
 }
 @media (max-width: 480px) {
 .card .header h2, .card ._head03, .modal-title {
@@ -2602,6 +2658,8 @@ body.sidebar-toggled footer.sticky-footer {
 .dash-sm-heading{
 	font-size: 16px;
 }
+._new-consign-top input{width: 274px}
+
 }
 
 
@@ -2639,10 +2697,17 @@ body.sidebar-toggled footer.sticky-footer {
     display:block
 }
 ._logo, ._logo:HOVER {padding-left: 0px}
+._new-consign-top .label1, ._new-consign-top .label2, ._new-consign-top .label3, ._new-consign-top .label4 {
+    width: 100px}
+._new-consign-top input{width: 324px}
+._new-consign-top {
+	margin:0}
 }
+
 @media (max-width: 320px) {
 .TM_icon{margin-right:10px}
 .nav-pills .nav-link.active, .nav-pills .show>.nav-link, .nav-pills .nav-link {
     padding: 5px 6px; font-size: 11px
 }
+._new-consign-top input{width: 270px}
 }
