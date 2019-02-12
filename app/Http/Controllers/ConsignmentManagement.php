@@ -84,7 +84,7 @@ class ConsignmentManagement extends Controller
         if(Cookie::get('client_session')){
             echo json_encode(DB::table('consignment_client')->selectRaw('id, booking_date, consignee_name, consignee_cell, region, (Select username from clients where client_login_session = "'.Cookie::get('client_session').'") as sender_name, (Select phone from clients where client_login_session = "'.Cookie::get('client_session').'") as sender_phone')->whereRaw('customer_id = (Select id from clients where client_login_session = "'.Cookie::get('client_session').'")')->get());
         }else{
-            echo json_encode(DB::table('consignment_client')->get());
+            echo json_encode(DB::table('consignment_client as cons')->selectRaw('id, booking_date, consignee_name, consignee_cell, region, (Select username from clients where id = cons.customer_id) as sender_name, (Select phone from clients where id = cons.customer_id) as sender_phone')->get());
         }
     }
 }
