@@ -564,28 +564,28 @@
                                <div class="col-md-6">
                                 <div  class="form-group">
                                   <label class="control-label mb-10">Holiday</label>
-                                  <input type="text" id="supplementary_services_holiday" class="form-control" style="font-size:13px">
+                                  <input type="number" id="supplementary_services_holiday" class="form-control" style="font-size:13px">
                                 </div>
                               </div>
                           
                            <div class="col-md-6">
                                 <div  class="form-group">
                                   <label class="control-label mb-10">Special Handling</label>
-                                  <input type="text" id="supplementary_services_special_holiday" class="form-control" style="font-size:13px">
+                                  <input type="number" id="supplementary_services_special_holiday" class="form-control" style="font-size:13px">
                                 </div>
                               </div>
                           
                            <div class="col-md-6">
                                 <div  class="form-group">
                                   <label class="control-label mb-10">Time Specified</label>
-                                  <input type="text" id="supplementary_services_time_specified" class="form-control" style="font-size:13px">
+                                  <input type="number" id="supplementary_services_time_specified" class="form-control" style="font-size:13px">
                                 </div>
                               </div>
                           
                            <div class="col-md-6">
                                 <div  class="form-group">
                                   <label class="control-label mb-10">Passport</label>
-                                  <input type="text" id="supplementary_services_passport" class="form-control" style="font-size:13px">
+                                  <input type="number" id="supplementary_services_passport" class="form-control" style="font-size:13px">
                                 </div>
                               </div> 
                               

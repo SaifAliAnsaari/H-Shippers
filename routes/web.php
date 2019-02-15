@@ -40,9 +40,9 @@ Route::get('/CustomerProfile/{customerId}', 'Customer@viewProfile');
 //Views
 Route::get('/client_login', 'ClientLogin@client_login');
 Route::get('/clients', 'Clients@clients');
-Route::get('/company_profile', 'OrganizationManagement@manage_company');
+//Route::get('/company_profile', 'OrganizationManagement@manage_company');
 Route::get('/pick_up_and_delivery', 'OrganizationManagement@manage_pickUp_delivery');
-Route::get('/employee_managment', 'Auth\RegisterController@manage_employee');
+//Route::get('/employee_managment', 'Auth\RegisterController@manage_employee');
 Route::get('/billing/{id}', 'ManageBilling@billing');
 Route::get('/select_customer', 'ClientsForBilling@select_customer');
 Route::get('/consignment_booking', 'ConsignmentManagement@consignment_booking');
@@ -53,6 +53,9 @@ Route::get('/complaints_list', 'ComplaintsAndSuggestions@complaints_list');
 Route::get('/complaints_list_client', 'ComplaintsAndSuggestions@complaints_list_client');
 Route::get('/suggestions_list_client', 'ComplaintsAndSuggestions@suggestions_list_client');
 Route::get('/suggestions_list', 'ComplaintsAndSuggestions@suggestions_list');
+Route::get('/access_rights/{id}', 'AccessRights@access_rights');
+Route::get('/save_controllers', 'AccessRights@save_controllers');
+Route::get('/select_employee', 'AccessRights@select_employee');
 
 //Save
 Route::post('/Client_save', 'Clients@save_client');
@@ -63,6 +66,8 @@ Route::post('/client_login_form', 'ClientLogin@client_login_form');
 Route::post('/SaveConsignmentClient', 'ConsignmentManagement@SaveConsignmentClient');
 Route::post('/saveComplaints', 'ComplaintsAndSuggestions@saveComplaints');
 Route::post('/saveSuggestion', 'ComplaintsAndSuggestions@saveSuggestions');
+Route::post('/saveRoute', 'AccessRights@saveRoute');
+Route::post('/saveAccessRights', 'AccessRights@saveAccessRights');
 
 //Get Data to display on page
 Route::get('/GetCompaniesList', 'OrganizationManagement@companies_list');
@@ -71,6 +76,8 @@ Route::get('/GetCustomersListForBilling', 'ClientsForBilling@GetCustomersListFor
 Route::get('/GetCompliantsListClient', 'ComplaintsAndSuggestions@GetCompliantsListClient');
 Route::get('/GetSuggestionsListClient', 'ComplaintsAndSuggestions@GetSuggestionsListClient');
 Route::get('/GetConsignmentsList', 'ConsignmentManagement@GetConsignmentsList');
+Route::get('/GetEmployeeListForRights', 'AccessRights@GetEmployeeListForRights');
+Route::get('/check_access_rights', 'AccessRights@check_access_rights');
 
 //Get data to show on update page
 Route::get('/company_data/{id}', 'OrganizationManagement@get_company_data');

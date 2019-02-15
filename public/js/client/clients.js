@@ -36,8 +36,8 @@ $(document).ready(function(){
             $('#saveClient').show();
             $('#updateClient').hide();
             $('select[name="customer_type"]').val("0").trigger('change');
-            $('select[name="pick_up_city"]').val("-1").trigger('change');
-            $('select[name="pick_up_province"]').val("-1").trigger('change');
+            $('select[name="pick_up_city"]').val("0").trigger('change');
+            $('select[name="pick_up_province"]').val("0").trigger('change');
         }
         lastOp = 'add';
         if ($('#saveClientForm input[name="_method"]').length) {
@@ -49,6 +49,10 @@ $(document).ready(function(){
         $('.collapse.in').toggleClass('in');
         $('a[aria-expanded=true]').attr('aria-expanded', 'false');
         $('body').toggleClass('no-scroll');
+
+        $('#saveClientForm').find("input[type=text]").val("");
+        $('#saveClientForm').find("input[type=number]").val("");
+        $('#saveClientForm').find("select").val("0").trigger('change');
 
         $('#dropifyImgDiv').empty();
         $('#dropifyImgDiv').append('<input type="file" name="compPicture" id="companyPic" class="dropify" />');
@@ -72,13 +76,13 @@ $(document).ready(function(){
         $('#cancelClient').attr('disabled', 'disabled');
         $('#saveClient').text('Processing..');
 
-        $('#saveClientForm').append('<input type="text" name="pick_up_city" value="'+$('select[name="pick_up_city"]').val()+'" hidden />');
-        $('#saveClientForm').append('<input type="text" name="pick_up_province" value="'+$('select[name="pick_up_province"]').val()+'" hidden />');
-
+        // $('#saveClientForm').append('<input type="text" name="pick_up_city" value="'+$('select[name="pick_up_city"]').val()+'" hidden />');
+        // $('#saveClientForm').append('<input type="text" name="pick_up_province" value="'+$('select[name="pick_up_province"]').val()+'" hidden />');
+        //debugger;
         var ajaxUrl = "/Client_save";
-        if ($('#operation').val() !== "add") {
-            ajaxUrl = "/Client/" + $('input[name="product_updating_id"]').val();
-        }
+        // if ($('#operation').val() !== "add") {
+        //     ajaxUrl = "/Client/" + $('input[name="product_updating_id"]').val();
+        // }
         $('#saveClientForm').ajaxSubmit({
             type: "POST",
             url: ajaxUrl,
@@ -86,18 +90,22 @@ $(document).ready(function(){
             cache: false,
             success: function(response) {
                 //console.log(response);
-                $('input[name="pick_up_city"]').remove();
-                $('input[name="pick_up_province"]').remove();
+                // $('input[name="pick_up_city"]').remove();
+                // $('input[name="pick_up_province"]').remove();
                 if (JSON.parse(response) == "success") {
                     fetchClientsList();
                     $('#saveClient').removeAttr('disabled');
                     $('#cancelClient').removeAttr('disabled');
                     $('#saveClient').text('Save');
 
-                    if ($('#operation').val() !== "update") {
-                        $('#saveClientForm').find("input[type=text]").val("");
-                        $('.dropify-clear').click();
-                    }
+                    // if ($('#operation').val() !== "update") {
+                    //     $('#saveClientForm').find("input[type=text]").val("");
+                    //     $('.dropify-clear').click();
+                    // }
+                    $('#saveClientForm').find("input[type=text]").val("");
+                    $('#saveClientForm').find("input[type=number]").val("");
+                    $('#saveClientForm').find("select").val("0").trigger('change');
+                    $('.dropify-clear').click();
 
                     $('#notifDiv').fadeIn();
                     $('#notifDiv').css('background', 'green');
@@ -128,8 +136,8 @@ $(document).ready(function(){
                 }
             },
             error: function(err) {
-                $('input[name="pick_up_city"]').remove();
-                $('input[name="pick_up_province"]').remove();
+                // $('input[name="pick_up_city"]').remove();
+                // $('input[name="pick_up_province"]').remove();
                 if (err.status == 422) {
                     $.each(err.responseJSON.errors, function(i, error) {
                         var el = $(document).find('[name="' + i + '"]');

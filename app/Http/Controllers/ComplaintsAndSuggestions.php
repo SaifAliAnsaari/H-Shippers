@@ -7,7 +7,7 @@ use Cookie;
 use DB;
 use Auth;
 
-class ComplaintsAndSuggestions extends Controller
+class ComplaintsAndSuggestions extends ParentController
 {
     public function __construct()
     {
@@ -28,10 +28,11 @@ class ComplaintsAndSuggestions extends Controller
      */
 
     public function complaints_suggestions(){
+         parent::VerifyRights();if($this->redirectUrl){return redirect($this->redirectUrl);}
         if(Cookie::get('client_session')){
             $check_session = DB::table('clients')->select('id')->where('client_login_session', Cookie::get('client_session'))->first();
             if($check_session){
-                return view('complaints_suggestions.complaints_suggestion', ["client_id" => $check_session->id]);
+                return view('complaints_suggestions.complaints_suggestion', ["client_id" => $check_session->id, 'check_rights' => $this->check_employee_rights]);
             } 
         }else{
             return redirect('/');
@@ -39,19 +40,23 @@ class ComplaintsAndSuggestions extends Controller
     }
 
     public function complaints_list(){
-        return view('complaints_suggestions.complaints-list');
+         parent::VerifyRights();if($this->redirectUrl){return redirect($this->redirectUrl);}
+        return view('complaints_suggestions.complaints-list', ['check_rights' => $this->check_employee_rights]);
     }
 
     public function suggestions_list(){
-        return view('complaints_suggestions.suggestions-list');
+         parent::VerifyRights();if($this->redirectUrl){return redirect($this->redirectUrl);}
+        return view('complaints_suggestions.suggestions-list', ['check_rights' => $this->check_employee_rights]);
     }
 
     public function complaints_list_client(){
-        return view('complaints_suggestions.complaints-list-clients');
+         parent::VerifyRights();if($this->redirectUrl){return redirect($this->redirectUrl);}
+        return view('complaints_suggestions.complaints-list-clients', ['check_rights' => $this->check_employee_rights]);
     }
 
     public function suggestions_list_client(){
-        return view('complaints_suggestions.suggestions_list_client');
+         parent::VerifyRights();if($this->redirectUrl){return redirect($this->redirectUrl);}
+        return view('complaints_suggestions.suggestions_list_client', ['check_rights' => $this->check_employee_rights]);
     }
 
     public function saveComplaints(Request $request){

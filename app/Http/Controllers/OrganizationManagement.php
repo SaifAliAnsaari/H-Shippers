@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Storage;
 use DB;
 use URL;
 
-class OrganizationManagement extends Controller
+class OrganizationManagement extends ParentController
 {
     public function __construct()
     {
@@ -22,7 +22,8 @@ class OrganizationManagement extends Controller
      */
 
     public function manage_company(){
-        return view("organization_management.company_profile");
+         parent::VerifyRights();if($this->redirectUrl){return redirect($this->redirectUrl);}
+        return view("organization_management.company_profile", ['check_rights' => $this->check_employee_rights]);
     }
 
     public function add_company(Request $request){
@@ -99,7 +100,8 @@ class OrganizationManagement extends Controller
 
 
     public function manage_pickUp_delivery(){
-        return view('organization_management.pick_up_and_delivery');
+         parent::VerifyRights();if($this->redirectUrl){return redirect($this->redirectUrl);}
+        return view('organization_management.pick_up_and_delivery', ['check_rights' => $this->check_employee_rights]);
     }
 
     public function add_pickUp(Request $request){

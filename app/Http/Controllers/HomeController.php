@@ -5,8 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Cookie;
 use DB;
+use Auth;
 
-class HomeController extends Controller
+class HomeController extends ParentController
 {
     /**
      * Create a new controller instance.
@@ -16,19 +17,13 @@ class HomeController extends Controller
     public function __construct()
     {
         if(Cookie::get('client_session')){
-            $test = 123;
-            //Authenticate from client_session db table
             $check_session = DB::table('clients')->select('id')->where('client_login_session', Cookie::get('client_session'))->first();
             if(!$check_session){
                 return redirect('/client_login');
             }
-            /*if(Cookie::get('client_session'))
-            valid
-            else
-            invalid redirect to /login page
-            */
         }else{
             $this->middleware('auth');
+            //echo $this->get_employee_id; die;
         }
     }
 
@@ -39,6 +34,12 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        if(!Cookie::get('client_session')){
+            parent::VerifyRights();if($this->redirectUrl){return redirect($this->redirectUrl);}
+            return view('home', ['check_rights' => $this->check_employee_rights]);
+        }else{
+            return view('home');
+        }
+         
     }
 }

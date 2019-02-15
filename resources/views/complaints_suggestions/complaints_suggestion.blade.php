@@ -125,11 +125,11 @@
                         
                         <div class="col-md-4">
                         <div class="form-s2 pt-19">
-                                <select class="form-control formselect" name="city_suggestions" style="width:250px;" id="city_suggestions" placeholder="Select City">
-                                    <option value="0" selected disabled>Select City</option>
-                                    <option value="Lahore">Lahore</option>
-                                    <option value="Multan">Multan</option>
-                                </select>
+                            <select class="form-control formselect" name="city_suggestions" style="width:250px;" id="city_suggestions" placeholder="Select City">
+                                <option value="0" selected disabled>Select City</option>
+                                <option value="Lahore">Lahore</option>
+                                <option value="Multan">Multan</option>
+                            </select>
                         </div>
                         </div>
                         

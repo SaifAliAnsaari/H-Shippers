@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Cookie;
 use DB;
 
-class ConsignmentManagement extends Controller
+class ConsignmentManagement extends ParentController
 {
     public function __construct()
     {
@@ -28,17 +28,21 @@ class ConsignmentManagement extends Controller
 
      //Admin
     public function consignment_booking(){
-        return view('consignment_booking.consignment_booking');
+         parent::VerifyRights(); if($this->redirectUrl){return redirect($this->redirectUrl);}
+         $get_city_from_pickup = DB::table('pickup_delivery')->get();
+        return view('consignment_booking.consignment_booking', ['check_rights' => $this->check_employee_rights, 'pickup_city' => $get_city_from_pickup]);
     }
 
 
 
     //Client
     public function consignment_booking_client(){
+         parent::VerifyRights();if($this->redirectUrl){return redirect($this->redirectUrl);}
         $client_id = DB::table('clients')->select('id')->whereRaw('client_login_session = "'.Cookie::get('client_session').'"')->first();
         $check = DB::table('billing')->select('id')->whereRaw('customer_id = (Select id from clients where client_login_session = "'.Cookie::get('client_session').'")')->first();
+        $get_city_from_pickup = DB::table('pickup_delivery')->get();
         if($check){
-            return view('consignment_booking.consignment_booking_client', ['client_id' => $client_id->id]);
+            return view('consignment_booking.consignment_booking_client', ['client_id' => $client_id->id, 'check_rights' => $this->check_employee_rights, 'pickup_city' => $get_city_from_pickup]);
         }else{
             return redirect('/');
         }  
@@ -77,7 +81,8 @@ class ConsignmentManagement extends Controller
 
 
     public function consignment_booked(){
-        return view('consignment_booking.consignment_booked');
+         parent::VerifyRights();if($this->redirectUrl){return redirect($this->redirectUrl);}
+        return view('consignment_booking.consignment_booked', ['check_rights' => $this->check_employee_rights]);
     }
 
     public function GetConsignmentsList(){

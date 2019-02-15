@@ -8,7 +8,7 @@ use DB;
 use URL;
 use Cookie;
 
-class Clients extends Controller
+class Clients extends ParentController
 {
     public function __construct()
     {
@@ -30,7 +30,8 @@ class Clients extends Controller
 
     // Client View
     public function clients(){
-        return view("clients/clients");
+         parent::VerifyRights();if($this->redirectUrl){return redirect($this->redirectUrl);}
+        return view("clients/clients", ['check_rights' => $this->check_employee_rights]);
     }
 
     //get clients

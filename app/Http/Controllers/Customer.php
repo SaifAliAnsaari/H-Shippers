@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Storage;
 use Intervention\Image\ImageManagerStatic as Image;
 use Validator;
 
-class Customer extends Controller
+class Customer extends ParentController
 {
     
     public function __construct()
@@ -25,7 +25,8 @@ class Customer extends Controller
      */
     public function index()
     {
-        return view('customer.customer', [ 'customers' => Cust::selectRaw('id, company_name')->get(), 'types' => DB::table('customer_types')->get() ]);
+         parent::VerifyRights();if($this->redirectUrl){return redirect($this->redirectUrl);}
+        return view('customer.customer', [ 'customers' => Cust::selectRaw('id, company_name')->get(), 'types' => DB::table('customer_types')->get(), 'check_rights' => $this->check_employee_rights ]);
     }
 
     //Ajax Call from list-customers.js
@@ -35,7 +36,8 @@ class Customer extends Controller
     }
 
     public function viewProfile($customerId){
-        return view('customer.profile', [ 'customers' => Cust::select('id', 'company_name')->get(), 'types' => DB::table('customer_types')->get(), 'update_customer' => DB::table('customers')->where('id', $customerId)->first() ]);
+         parent::VerifyRights();if($this->redirectUrl){return redirect($this->redirectUrl);}
+        return view('customer.profile', [ 'customers' => Cust::select('id', 'company_name')->get(), 'types' => DB::table('customer_types')->get(), 'update_customer' => DB::table('customers')->where('id', $customerId)->first(), 'check_rights' => $this->check_employee_rights ]);
     }
 
     /**
@@ -45,7 +47,8 @@ class Customer extends Controller
      */
     public function create()
     {
-        return view('customer.create');
+         parent::VerifyRights();if($this->redirectUrl){return redirect($this->redirectUrl);}
+        return view('customer.create', ['check_rights' => $this->check_employee_rights]);
     }
 
     /**

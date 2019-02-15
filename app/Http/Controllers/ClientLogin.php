@@ -7,10 +7,11 @@ use DB;
 use Hash;
 use Cookie;
 
-class ClientLogin extends Controller
+class ClientLogin extends ParentController
 {
 
     public function client_login(){
+         //parent::VerifyRights();if($this->redirectUrl){return redirect($this->redirectUrl);}
         return view('clients.client_login');
     }
 

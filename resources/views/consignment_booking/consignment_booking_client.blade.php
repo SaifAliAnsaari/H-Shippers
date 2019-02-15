@@ -118,7 +118,10 @@
                 <div class="form-s2 pt-19">
                           <select class="form-control formselect" placeholder="Services Type" name="consignment_service_type_client" id="consignment_service_type_client">
                             <option value = "0">Services Type*</option>
-                            <option value="1">Services Type 1</option>
+                            <option value="1">Same Day Delivery</option>
+                            <option value="2">Over Night Delivery</option>
+                            <option value="3">Second Day Delivery</option>
+                            <option value="4">Over Land</option>
                           </select>
                 </div>
                 </div>
@@ -170,10 +173,18 @@
                 </div> 
                  
                      
-              <div class="col-md-4">
-                  <div class="form-group">
-                    <label class="control-label mb-10">Dest.City*</label>
-                    <input type="text" name="consignment_dest_city_client" id="consignment_dest_city_client" class="form-control" placeholder="" style="font-size: 13px">
+                <div class="col-md-4">
+                    <div class="form-s2 pt-19">
+                      <select class="form-control formselect" placeholder="Services Type" name="consignment_dest_city_client" id="consignment_dest_city_client">
+                          <option value = "0">Select Destination City*</option>
+                          <?php
+                            if(!$pickup_city->isEmpty()){
+                              foreach($pickup_city as $city){ ?>
+                                <option value = "<?= $city->id ?>"><?= $city->city_name ?></option>
+                              <?php }
+                            }
+                          ?>
+                        </select>
                   </div>
                 </div>
                 
@@ -201,47 +212,25 @@
         
         <div class="col-md-3 col-xs-3">
               <div class="custom-control custom-checkbox mr-sm-2">
-            <input type="checkbox" class="custom-control-input supplementary_services_client" value="Special Handing" id="id002">
-            <label class="custom-control-label" for="id002">Special Handing</label>
+            <input type="checkbox" class="custom-control-input supplementary_services_client" value="Special Handling" id="id002">
+            <label class="custom-control-label" for="id002">Special Handling</label>
           </div>
         </div>
         
         <div class="col-md-3 col-xs-3">
               <div class="custom-control custom-checkbox mr-sm-2">
-            <input type="checkbox" class="custom-control-input supplementary_services_client" value="Return Services" id="id003">
-            <label class="custom-control-label" for="id003">Return Services</label>
+            <input type="checkbox" class="custom-control-input supplementary_services_client" value="Time Specified" id="id003">
+            <label class="custom-control-label" for="id003">Time Specified</label>
           </div>
         </div>
         
         <div class="col-md-3 col-xs-3">
               <div class="custom-control custom-checkbox mr-sm-2">
-            <input type="checkbox" class="custom-control-input supplementary_services_client" value="Hand Carry" id="id004">
-            <label class="custom-control-label" for="id004">Hand Carry</label>
+            <input type="checkbox" class="custom-control-input supplementary_services_client" value="Passport" id="id004">
+            <label class="custom-control-label" for="id004">Passport</label>
           </div>
         </div>
         
-        <div class="col-md-3 col-xs-3">
-              <div class="custom-control custom-checkbox mr-sm-2">
-            <input type="checkbox" class="custom-control-input supplementary_services_client" value="Time Specified" id="id005">
-            <label class="custom-control-label" for="id005">Time Specified</label>
-          </div>
-        </div>
-        
-        <div class="col-md-3 col-xs-3">
-              <div class="custom-control custom-checkbox mr-sm-2">
-            <input type="checkbox" class="custom-control-input supplementary_services_client" value="Green Flyer" id="id006">
-            <label class="custom-control-label" for="id006">Green Flyer</label>
-          </div>
-        </div>
-        
-        <div class="col-md-3 col-xs-3">
-              <div class="custom-control custom-checkbox mr-sm-2">
-            <input type="checkbox" class="custom-control-input supplementary_services_client" value="GreenBox" id="id007">
-            <label class="custom-control-label" for="id007">GreenBox</label>
-          </div>
-        </div>	
-                                    
-  
         </div>
         
         

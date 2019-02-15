@@ -2,17 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+// use Illuminate\Http\Request;
 use DB;
 use Illuminate\Support\Facades\Input;
 use Validator;
 use Illuminate\Support\Facades\Storage;
 use File;
 
-class ManageBilling extends Controller
+class ManageBilling extends ParentController
 {
     private $splitName;
-    //private $cust = $splitName[4];
 
     public function __construct()
     {
@@ -26,19 +25,22 @@ class ManageBilling extends Controller
      */
 
     public function billing($id){
+        //parent::__construct();
+          parent::VerifyRights();if($this->redirectUrl){return redirect($this->redirectUrl);}
+        // if($this->redirectUrl){
+        //     return redirect($this->redirectUrl);
+        // }
         $splitName = explode('/', url()->current());
         $cust_id = $splitName[4];
         if(DB::table('clients')->whereRaw('id = "'.$id.'" AND billing_added = 1')->first()){
-            return redirect('/select_customer');
+            return redirect('/select_customer', ['check_rights' => $this->check_employee_rights]);
         }else{
             if(DB::table('clients')->where('id', $id)->first()){
-                return view('manage_billing.billing', ['cust_id' => $cust_id]);
+                return view('manage_billing.billing', ['cust_id' => $cust_id, 'check_rights' => $this->check_employee_rights]);
             }else{
-                return redirect('/select_customer');
+                return redirect('/select_customer', ['check_rights' => $this->check_employee_rights]);
             }
-            
         }
-        //return view("manage_billing.billing", ['cust_id' => $cust_id]);
     }
 
     public function save_billing(Request $request){
@@ -163,13 +165,6 @@ class ManageBilling extends Controller
         
     }
 
-    // public function testUnlink($unlinkFile, Request $request){
-    //     if(Storage::exists('public/uploads/'.$unlinkFile)){
-    //         Storage::delete('public/uploads/'.$unlinkFile);
-    //         DB::table('billing_documents')->where('customer_id', $request->cust_id)->delete();
-    //     }
-       
-    // }
 
     public function testUnlink($unlinkFile, Request $request){
         if(Storage::exists('public/uploads/'.$unlinkFile)){

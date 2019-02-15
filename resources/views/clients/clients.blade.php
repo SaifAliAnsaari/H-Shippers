@@ -63,13 +63,13 @@
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label class="control-label mb-10">POC Contact#</label>
-                                                        <input type="text" name="phone_number" class="form-control" placeholder="">
+                                                        <input type="number" name="phone_number" class="form-control" placeholder="">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label class="control-label mb-10">Office#</label>
-                                                        <input type="text" name="office_number" class="form-control" placeholder="">
+                                                        <input type="number" name="office_number" class="form-control" placeholder="">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
@@ -112,22 +112,22 @@
                                                         </select>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-12">
+                                                <div class="col-md-6">
                                                     <div class="form-s2">
                                                         <label class="PT-10 font12">Pick Up City</label>
-                                                        <select class="form-control sd-type" name="pick_up_city" multiple="multiple">
-                                                            <option value="0" disabled>Select City</option>
+                                                        <select class="form-control sd-type" name="pick_up_city">
+                                                            <option value="0" selected disabled>Select City</option>
                                                             <option value="islamabad">Islamabad</option>
                                                             <option value="rawalpindi">Rawalpindi</option>
                                                             <option value="lahore">Lahore</option>
                                                         </select>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-12">
+                                                <div class="col-md-6">
                                                     <div class="form-s2">
                                                         <label class="PT-10 font12">Pick Up Province</label>
-                                                        <select class="form-control sd-type" name="pick_up_province" multiple="multiple">
-                                                            <option value="0" disabled>Select Province</option>
+                                                        <select class="form-control sd-type" name="pick_up_province">
+                                                            <option value="0" selected disabled>Select Province</option>
                                                             <option value="sindh">Sindh</option>
                                                             <option value="kpk">KPK</option>
                                                             <option value="punjab">Punjab</option>

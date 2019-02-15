@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\User;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\ParentController;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -11,7 +12,7 @@ use Illuminate\Support\Facades\Input;
 use URL;
 use DB;
 
-class RegisterController extends Controller
+class RegisterController extends ParentController
 {
     /*
     |--------------------------------------------------------------------------
@@ -65,9 +66,15 @@ class RegisterController extends Controller
         ]);
     }
 
-    public function manage_employee(){
-        return view('auth.register');
+    public function showRegistrationForm(){
+         parent::VerifyRights();if($this->redirectUrl){return redirect($this->redirectUrl);}
+        return view('auth.register', ['check_rights' => $this->check_employee_rights]);
     }
+
+    // public function manage_employee(){
+    //      parent::VerifyRights();if($this->redirectUrl){return redirect($this->redirectUrl);}
+    //     return view('auth.register', ['check_rights' => $this->check_employee_rights]);
+    // }
 
     public function EmployeesList(){
         echo json_encode(User::all());

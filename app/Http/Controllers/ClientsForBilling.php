@@ -5,11 +5,15 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use DB;
 
-class ClientsForBilling extends Controller
+class ClientsForBilling extends ParentController
 {
     public function __construct()
     {
         $this->middleware('auth');
+        parent::__construct();
+        // if($this->redirectUrl){
+        //     return redirect($this->redirectUrl);
+        // }
     }
 
     /**
@@ -19,7 +23,8 @@ class ClientsForBilling extends Controller
     */
 
     public function select_customer(){
-        return view('manage_billing.customers_list');
+          parent::VerifyRights();if($this->redirectUrl){return redirect($this->redirectUrl);}
+        return view('manage_billing.customers_list', ['check_rights' => $this->check_employee_rights]);
     }
 
     public function GetCustomersListForBilling(){
