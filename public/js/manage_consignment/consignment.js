@@ -42,7 +42,7 @@ $(document).ready(function() {
         $('#saveConsignmentFormClient').ajaxSubmit({
             type: "POST",
             url: "/SaveConsignmentClient",
-            data: $('#saveCustomerForm').serialize(),
+            data: $('#saveConsignmentFormClient').serialize(),
             cache: false,
             success: function(response) {
                 // console.log(response);
@@ -127,16 +127,17 @@ $(document).ready(function() {
        // debugger;
         if(supplementary_services_admin.includes($(this).val())){
             supplementary_services_admin.splice(supplementary_services_admin.indexOf($(this).val()), 1);
+            $('#saveConsignmentForm').find('input[name=hidden_supplementary_services]').val(" ");
+            $('#saveConsignmentForm').find("input[name=hidden_supplementary_services]").val(supplementary_services_admin);
         }else{
             supplementary_services_admin.push($(this).val());
+            $('#saveConsignmentForm').find('input[name=hidden_supplementary_services]').val(" ");
+            $('#saveConsignmentForm').find("input[name=hidden_supplementary_services]").val(supplementary_services_admin);
         }
     });
 
 
     $(document).on('click', '.save_consignment_admin', function () {
-        //alert($('input[name="supplementary_services"]:checked'));
-        // console.log(supplementary_services);
-        // return;
 
         if($('#cnic').val() == "" || $('#shipper_name').val() == "" || $('#select_city_shipper').val() == 0 || $('#shipper_area').val() == "" || $('#shipper_cell_num').val() == "" || $('#shipper_land_line').val() == "" || $('#shipper_email').val() == "" || $('#shipper_address').val() == "" || $('#consignee_name').val() == "" || $('#consignee_ref_num').val() == "" || $('#consignee_cell_num').val() == "" || $('#consignee_email').val() == "" || $('#consignee_address').val() == "" || $('#consignment_regin_city').val() == "" || $('#service_type').val() == 0 || $('#consignment_pieces').val() == "" || $('#consignment_weight').val() == "" || $('#consignment_description').val() == "" || $('#consignment_price').val() == "" || $('#consignment_dest_city').val() == 0 || $('#consignment_dest_city').val() == null || $('#consignment_remarks').val() == "" || !$("input[name=inlineRadioOptions]").is(":checked")){
             $('#notifDiv').fadeIn();
@@ -148,7 +149,56 @@ $(document).ready(function() {
             return;
         }
         
-            alert('All Ok');
+        $('.save_consignment_admin').attr('disabled', 'disabled');
+         $('.save_consignment_admin').text('Processing..');
+ 
+         $('#saveConsignmentForm').ajaxSubmit({
+             type: "POST",
+             url: "/SaveConsignmentAdmin",
+             data: $('#saveConsignmentForm').serialize(),
+             cache: false,
+             success: function(response) {
+                 if (JSON.parse(response) == "success") {
+                     $('.save_consignment_admin').removeAttr('disabled');
+                      $('.save_consignment_admin').text('Save');
+                      $('#notifDiv').fadeIn();
+                      $('#notifDiv').css('background', 'green');
+                      $('#notifDiv').text('Consignment have been added successfully');
+                      setTimeout(() => {
+                          $('#notifDiv').fadeOut();
+                      }, 3000);
+                    $('#saveConsignmentForm').find('input').val('');
+                    $('#saveConsignmentForm').find('select').val('0').trigger('change');
+                    $('#saveConsignmentForm').find('textarea').val('');
+                    $('#Domestic').prop("checked", false);
+                    $('#International').prop("checked", false);
+                    $('.supplementary_services_admin').prop("checked", false);
+                 } else {
+                     $('.save_consignment_admin').removeAttr('disabled');
+                     $('.save_consignment_admin').text('Save');
+                     $('#notifDiv').fadeIn();
+                     $('#notifDiv').css('background', 'red');
+                     $('#notifDiv').text('Failed to add consignment at the moment');
+                     setTimeout(() => {
+                         $('#notifDiv').fadeOut();
+                     }, 3000);
+                     $('#saveConsignmentForm').find('input').val('');
+                     $('#saveConsignmentForm').find('select').val('0').trigger('change');
+                     $('#saveConsignmentForm').find('textarea').val('');
+                     $('#Domestic').prop("checked", false);
+                     $('#International').prop("checked", false);
+                     $('.supplementary_services_admin').prop("checked", false);
+                 }
+             },
+             error: function(err) {
+                 if (err.status == 422) {
+                     $.each(err.responseJSON.errors, function(i, error) {
+                         var el = $(document).find('[name="' + i + '"]');
+                         el.after($('<small style="color: red; position: absolute; width:100%; text-align: right; margin-left: -30px">' + error[0] + '</small>'));
+                     });
+                 }
+             }
+         });
         
     });
 });
@@ -158,12 +208,14 @@ function fetchConsignmentsList(){
         type: 'GET',
         url: '/GetConsignmentsList',
         success: function(response) {
+            // console.log(response);
+            // return;
             $('.body').empty();
-            $('.body').append('<table class="table table-hover dt-responsive nowrap" id="BookedConsignments" style="width:100%;"><thead><tr><th>Booking Date</th><th>Sender</th><th>Phone</th><th>Area</th><th>Reciver</th><th>Phone</th><th>Action</th></tr></thead><tbody></tbody></table>');
+            $('.body').append('<table class="table table-hover dt-responsive nowrap" id="BookedConsignments" style="width:100%;"><thead><tr><th>Booking Date</th><th>Sender</th><th>Phone</th><th>Shipper City</th><th>Reciver</th><th>Phone</th><th>Action</th></tr></thead><tbody></tbody></table>');
             $('#BookedConsignments tbody').empty();
             var response = JSON.parse(response);
             response.forEach(element => {
-                $('#BookedConsignments tbody').append('<tr><td>' + element['booking_date'] + '</td><td>' + element['sender_name'] + '</td><td>' + element['sender_phone'] + '</td><td>' + element['region'] + '</td><td>' + element['consignee_name'] + '</td><td>' + element['consignee_cell'] + '</td><td><button id="' + element['id'] + '" class="btn btn-default">View Detail</button></td></tr>');
+                $('#BookedConsignments tbody').append('<tr><td>' + element['booking_date'] + '</td><td>' + element['shipper_name'] + '</td><td>' + element['shipper_cell'] + '</td><td>' + element['shipper_city'] + '</td><td>' + element['consignee_name'] + '</td><td>' + element['consignee_cell'] + '</td><td><button id="' + element['id'] + '" class="btn btn-default">View Detail</button></td></tr>');
             });
             $('#tblLoader').hide();
             $('.body').fadeIn();

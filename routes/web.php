@@ -68,6 +68,7 @@ Route::post('/saveComplaints', 'ComplaintsAndSuggestions@saveComplaints');
 Route::post('/saveSuggestion', 'ComplaintsAndSuggestions@saveSuggestions');
 Route::post('/saveRoute', 'AccessRights@saveRoute');
 Route::post('/saveAccessRights', 'AccessRights@saveAccessRights');
+Route::post('/SaveConsignmentAdmin', 'ConsignmentManagement@SaveConsignmentAdmin');
 
 //Get Data to display on page
 Route::get('/GetCompaniesList', 'OrganizationManagement@companies_list');
