@@ -77,10 +77,17 @@
                                                 </div>
                                             </div> --}}
 
-                                            <div style="margin: 15px 0px 15px 0px;">
+                                            {{-- <div style="margin: 15px 0px 15px 0px;">
                                                 Are you a client?
                                                 <a style="font-weight: bold; display: inline" class="f_pass" href="/client_login">Login</a>
-                                            </div>
+                                            </div> --}}
+
+
+
+
+
+
+
                                             {{-- @if (Route::has('password.request'))
                                             <a class="f_pass" href="{{ route('password.request') }}">Forgot password?</a>
                                             @endif --}}

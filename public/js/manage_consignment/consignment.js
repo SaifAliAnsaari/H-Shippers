@@ -20,12 +20,51 @@ $(document).ready(function() {
                 $('#saveConsignmentFormClient').find('input[name=hidden_supplementary_services]').val("");
                 $('#saveConsignmentFormClient').find("input[name=hidden_supplementary_services]").val(supplementary_services_client);
             }
-        });
+    });
+
+    $(document).on('click', '.insurance_selector', function(){
+        if($(this).val() != "none"){
+            $('#insurance_yes').show();
+        }else{
+            $('#insurance_yes').hide();
+        }
+    });
+
+    $(document).on('change', '#consignment_type', function(){
+        if($('#consignment_type').val() == "Non Fragile"){
+            $('#fragile_cost_hidden').val('0');
+        }else{
+            $('#loader').show();
+            $('.save_consignment_client').attr('disabled', 'disabled');
+            $.ajax({
+                type: 'GET',
+                url: '/get_price_if_consignmentTypeFragile',
+                data: {
+                    _token: '{!! csrf_token() !!}'
+               },
+                success: function(response) {
+                    if(JSON.parse(response)){
+                        var response = JSON.parse(response);
+                        $('#loader').hide();
+                        $('.save_consignment_client').removeAttr('disabled');
+                        $('#fragile_cost_hidden').val(response);
+                    }else{
+                        $('#loader').hide();
+                        $('.save_consignment_client').removeAttr('disabled');
+                        $('#fragile_cost_hidden').val('0');
+                    }
+                        
+                }
+            });
+        }
+        
+
+    });
 
     $(document).on('click', '.save_consignment_client', function () {
         // alert($("input[name='inlineRadioOptions']:checked").val());
         // return;
-        if($('#cnic_client').val() == "" || $('#customer_id_client').val() == "" || $('#region_client').val() == "" || $('#consignee_name_client').val() == "" || $('#consignee_ref_client').val() == "" || $('#consignee_cell_client').val() == "" || $('#consignee_email_client').val() == "" || $('#consignee_address_client').val() == "" || $('#consignment_city_client').val() == "" || $('#consignment_service_type_client').val() == 0 || $('#consignment_pieces_client').val() == "" || $('#consignment_weight_client').val() == "" || $('#consignment_description_client').val() == "" || $('#consignment_price_client').val() == "" || $('#consignment_dest_city_client').val() == 0 || $('#remarks_client').val() == "" || !$("input[name=inlineRadioOptions]").is(":checked")){
+        if($('#cnic_client').val() == "" || $('#customer_id_client').val() == "" || $('#region_client').val() == "" || $('#consignee_name_client').val() == "" || $('#consignee_ref_client').val() == "" || $('#consignee_cell_client').val() == "" || $('#consignee_email_client').val() == "" || $('#consignee_address_client').val() == "" || $('#consignment_type').val() == 0 || $('#consignment_service_type_client').val() == 0 || $('#consignment_pieces_client').val() == "" || $('#consignment_weight_client').val() == "" || $('#consignment_description_client').val() == "" || $('#consignment_price_client').val() == "" || $('#consignment_dest_city_client').val() == 0 || $('#remarks_client').val() == "" || !$("input[name=Fragile_Criteria]").is(":checked") ){
             $('#notifDiv').fadeIn();
             $('#notifDiv').css('background', 'red');
             $('#notifDiv').text('Please fill all required fields(*).');
@@ -34,9 +73,20 @@ $(document).ready(function() {
             }, 3000);
             return;
         }
+
+        if($("input[name='Fragile_Criteria']:checked").val() != "none"){
+            if($('#product_price').val() == ""){
+                $('#notifDiv').fadeIn();
+                $('#notifDiv').css('background', 'red');
+                $('#notifDiv').text('Please Enter Product Price.');
+                setTimeout(() => {
+                    $('#notifDiv').fadeOut();
+                }, 3000);
+                return;
+            }
+        }
         
         $('.save_consignment_client').attr('disabled', 'disabled');
-       // $('#cancelCustomer').attr('disabled', 'disabled');
         $('.save_consignment_client').text('Processing..');
 
         $('#saveConsignmentFormClient').ajaxSubmit({
@@ -45,8 +95,14 @@ $(document).ready(function() {
             data: $('#saveConsignmentFormClient').serialize(),
             cache: false,
             success: function(response) {
-                // console.log(response);
+                 console.log(response);
                 // return;
+                $('.save_consignment_client').removeAttr('disabled');
+                $('.save_consignment_client').text('Save');
+                $('.test_total_price').text("Total Price : " + response);
+                return;
+
+                //return;
                 if (JSON.parse(response) == "success") {
                     $('.save_consignment_client').removeAttr('disabled');
                     // $('#cancelCustomer').removeAttr('disabled');
@@ -70,8 +126,12 @@ $(document).ready(function() {
                     $('#consignment_description_client').val('');
                     $('#consignment_price_client').val('');
                     //$('#consignment_dest_city_client').val('');
-                    $('#Domestic').prop("checked", false);
-                    $('#International').prop("checked", false);
+                    $('#Yes').prop("checked", false);
+                    $('#No').prop("checked", false);
+                    $('#Fragile').prop("checked", false);
+                    $('#Non-Fragile').prop("checked", false);
+                    $('#Electronics').prop("checked", false);
+                    $('#none').prop("checked", false);
                     $('.supplementary_services_client').prop("checked", false);
                     $('#saveConsignmentFormClient').find("select").val("0").trigger('change');
                     $('#remarks_client').val('');
@@ -98,8 +158,12 @@ $(document).ready(function() {
                     $('#consignment_description_client').val('');
                     $('#consignment_price_client').val('');
                     //$('#consignment_dest_city_client').val('');
-                    $('#Domestic').prop("checked", false);
-                    $('#International').prop("checked", false);
+                    $('#Yes').prop("checked", false);
+                    $('#No').prop("checked", false);
+                    $('#Fragile').prop("checked", false);
+                    $('#Non-Fragile').prop("checked", false);
+                    $('#Electronics').prop("checked", false);
+                    $('#none').prop("checked", false);
                     $('.supplementary_services_client').prop("checked", false);
                     $('#saveConsignmentFormClient').find("select").val("0").trigger('change');
                     $('#remarks_client').val('');

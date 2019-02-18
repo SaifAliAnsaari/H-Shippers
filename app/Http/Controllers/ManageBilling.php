@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-// use Illuminate\Http\Request;
+use Illuminate\Http\Request;
 use DB;
 use Illuminate\Support\Facades\Input;
 use Validator;
@@ -68,7 +68,7 @@ class ManageBilling extends ParentController
             $insert_same_day_data_within_city = DB::table('biling_criteria')->insert(
                 ['upto_025' => $request->with_in_city_twentyfive,
                 'upto_05' => $request->with_in_city_fifty,
-                '06-1KG' => $request->with_in_city_six,
+                'zero_five_1KG' => $request->with_in_city_six,
                 'additionals_05' => $request->with_in_city_additional,
                 'type' => 'within city',
                 'criteria' => "0",
@@ -77,7 +77,7 @@ class ManageBilling extends ParentController
             $insert_same_day_data_within_prov = DB::table('biling_criteria')->insert(
                 ['upto_025' => $request->with_in_province_twentyfive,
                 'upto_05' => $request->with_in_province_fifty,
-                '06-1KG' => $request->with_in_province_six,
+                'zero_five_1KG' => $request->with_in_province_six,
                 'additionals_05' => $request->with_in_province_additional,
                 'type' => 'within province',
                 'criteria' => "0",
@@ -86,7 +86,7 @@ class ManageBilling extends ParentController
             $insert_same_day_data_prov_to_prov = DB::table('biling_criteria')->insert(
                 ['upto_025' => $request->prov_to_prov_twentyfive,
                 'upto_05' => $request->prov_to_prov_fifty,
-                '06-1KG' => $request->prov_to_prov_six,
+                'zero_five_1KG' => $request->prov_to_prov_six,
                 'additionals_05' => $request->prov_to_prov_additional,
                 'type' => 'province to province',
                 'criteria' => "0",
@@ -96,7 +96,7 @@ class ManageBilling extends ParentController
             $insert_over_night_data_within_city = DB::table('biling_criteria')->insert(
                 ['upto_025' => $request->on_with_in_city_twentyfive,
                 'upto_05' => $request->on_with_in_city_fifty,
-                '06-1KG' => $request->on_with_in_city_six,
+                'zero_five_1KG' => $request->on_with_in_city_six,
                 'additionals_05' => $request->on_with_in_city_additional,
                 'type' => 'within city',
                 'criteria' => "1",
@@ -105,7 +105,7 @@ class ManageBilling extends ParentController
             $insert_over_night_data_within_prov = DB::table('biling_criteria')->insert(
                 ['upto_025' => $request->on_with_in_prov_twentyfive,
                 'upto_05' => $request->on_with_in_prov_fifty,
-                '06-1KG' => $request->on_with_in_prov_six,
+                'zero_five_1KG' => $request->on_with_in_prov_six,
                 'additionals_05' => $request->on_with_in_prov_additional,
                 'type' => 'within province',
                 'criteria' => "1",
@@ -114,7 +114,7 @@ class ManageBilling extends ParentController
             $insert_over_night_data_prov_to_prov = DB::table('biling_criteria')->insert(
                 ['upto_025' => $request->on_provience_to_prov_twentyfive,
                 'upto_05' => $request->on_provience_to_prov_fifty,
-                '06-1KG' => $request->on_provience_to_prov_six,
+                'zero_five_1KG' => $request->on_provience_to_prov_six,
                 'additionals_05' => $request->on_provience_to_prov_additional,
                 'type' => 'province to province',
                 'criteria' => "1",
@@ -131,8 +131,8 @@ class ManageBilling extends ParentController
             $insert_seccond_dat_data_prov_to_prov = DB::table('biling_criteria')->insert(
                 ['upto_3KG' => $request->second_day_delivery_prov_to_prov_upto3KG,
                 'additional_1KG' => $request->second_day_delivery_prov_to_prov_additional1KG,
-                '06-1KG' => $request->second_day_delivery_prov_to_prov_6to1KG,
-                'additionals_05' => $request->second_day_delivery_prov_to_prov_additionalpointFiveKg,
+                // 'zero_five_1KG' => $request->second_day_delivery_prov_to_prov_6to1KG,
+                // 'additionals_05' => $request->second_day_delivery_prov_to_prov_additionalpointFiveKg,
                 'type' => 'province to province',
                 'criteria' => "2",
                 'biling_id' => $insert_billing

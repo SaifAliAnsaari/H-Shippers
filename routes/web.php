@@ -79,6 +79,7 @@ Route::get('/GetSuggestionsListClient', 'ComplaintsAndSuggestions@GetSuggestions
 Route::get('/GetConsignmentsList', 'ConsignmentManagement@GetConsignmentsList');
 Route::get('/GetEmployeeListForRights', 'AccessRights@GetEmployeeListForRights');
 Route::get('/check_access_rights', 'AccessRights@check_access_rights');
+Route::get('/get_price_if_consignmentTypeFragile', 'ConsignmentManagement@get_price_if_consignmentTypeFragile');
 
 //Get data to show on update page
 Route::get('/company_data/{id}', 'OrganizationManagement@get_company_data');

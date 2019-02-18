@@ -61,7 +61,7 @@ class Clients extends ParentController
                         'phone' => $request->phone_number,
                         'office_num' => $request->office_number,
                         'website' => $request->website,
-                        'city' => $request->city,
+                        // 'city' => $request->city,
                         'address' => $request->address,
                         'ntn' => $request->ntn,
                         'strn' => $request->strn,

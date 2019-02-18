@@ -32,7 +32,7 @@
                                 </div>
                                 <div class="col-md-6" style="background-color: #f5f5f5">
                                     <div class="login-right">
-                                            <h3>Client LOG <span>IN</span></h3>
+                                            <h3>LOG <span>IN</span></h3>
                                             @if(session()->has('message'))
                                             <div class="alert alert-danger">
                                                 {{ session()->get('message') }}

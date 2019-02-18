@@ -86,13 +86,13 @@
     @elseif($controller == "OrganizationManagement")
         <script src="/js/manage_organization/manage_organization.js?v=2.0" ></script>
     @elseif($controller == "ManageBilling")
-        <script src="/js/manage_billing/manage_billing.js?v=2.0" ></script>
+        <script src="/js/manage_billing/manage_billing.js?v=2.1" ></script>
     @elseif($controller == "ClientsForBilling")
-        <script src="/js/manage_billing/customers_for_biling.js?v=2.0" ></script>
+        <script src="/js/manage_billing/customers_for_biling.js?v=2.1" ></script>
     @elseif($controller == "ComplaintsAndSuggestions")
         <script src="/js/manage_complaints_suggestions/complaints_suggestions.js?v=2.0" ></script>
     @elseif($controller == "ConsignmentManagement")
-        <script src="/js/manage_consignment/consignment.js?v=2.1" ></script>
+        <script src="/js/manage_consignment/consignment.js?v=2.31" ></script>
     @elseif($controller == "AccessRights")
         <script src="/js/access_rights/access_rights.js?v=2.0" ></script>
     @endif

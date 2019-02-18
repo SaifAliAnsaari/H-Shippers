@@ -120,7 +120,7 @@
                             
                             <div class="col-md-6">
                               <div class="form-group">
-                                <label class="control-label mb-10">0.6-1 KG</label>
+                                <label class="control-label mb-10">0.51-1 KG</label>
                                 <input type="text" id="with_in_city_six" class="form-control" style="font-size:13px">
                               </div>
                             </div>
@@ -152,7 +152,7 @@
                             
                             <div class="col-md-6">
                               <div class="form-group">
-                                <label class="control-label mb-10">0.6-1 KG</label>
+                                <label class="control-label mb-10">0.51-1 KG</label>
                                 <input type="text" id="with_in_province_six" class="form-control" style="font-size:13px">
                               </div>
                             </div>
@@ -184,7 +184,7 @@
                             
                             <div class="col-md-6">
                               <div class="form-group">
-                                <label class="control-label mb-10">0.6-1 KG</label>
+                                <label class="control-label mb-10">0.51-1 KG</label>
                                 <input type="text" id="prov_to_prov_six" class="form-control" style="font-size:13px">
                               </div>
                             </div>
@@ -243,7 +243,7 @@
                             
                             <div class="col-md-6">
                               <div class="form-group">
-                                <label class="control-label mb-10">0.6-1 KG</label>
+                                <label class="control-label mb-10">0.51-1 KG</label>
                                 <input type="text" id="on_with_in_city_six" class="form-control" style="font-size:13px">
                               </div>
                             </div>
@@ -275,7 +275,7 @@
                             
                             <div class="col-md-6">
                               <div class="form-group">
-                                <label class="control-label mb-10">0.6-1 KG</label>
+                                <label class="control-label mb-10">0.51-1 KG</label>
                                 <input type="text" id="on_with_in_prov_six" class="form-control" style="font-size:13px">
                               </div>
                             </div>
@@ -307,7 +307,7 @@
                             
                             <div class="col-md-6">
                               <div class="form-group">
-                                <label class="control-label mb-10">0.6-1 KG</label>
+                                <label class="control-label mb-10">0.51-1 KG</label>
                                 <input type="text" id="on_provience_to_prov_six" class="form-control" style="font-size:13px">
                               </div>
                             </div>
@@ -383,7 +383,7 @@
                               </div>
                             </div>
                             
-                            <div class="col-md-6">
+                            {{-- <div class="col-md-6">
                               <div class="form-group">
                                 <label class="control-label mb-10">0.6-1 KG</label>
                                 <input type="text" id="second_day_delivery_prov_to_prov_6to1KG" class="form-control" style="font-size:13px">
@@ -395,7 +395,7 @@
                                 <label class="control-label mb-10">Each	Additional 0.5 KGs</label>
                                 <input type="text" id="second_day_delivery_prov_to_prov_additionalpointFiveKg" class="form-control" style="font-size:13px">
                               </div>
-                            </div> 
+                            </div>  --}}
                             
                           </div>	
                                                 

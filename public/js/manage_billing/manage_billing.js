@@ -126,10 +126,10 @@ $(document).ready(function () {
 
 
         } else if (currentLayout == 'second_day_delivery') {
-            if ($('#second_day_delivery_upto_3kg').val() == "" || $('#second_day_delivery_additional_1KG').val() == "" || $('#second_day_delivery_prov_to_prov_upto3KG').val() == "" || $('#second_day_delivery_prov_to_prov_additional1KG').val() == "" || $('#second_day_delivery_prov_to_prov_6to1KG').val() == "" || $('#second_day_delivery_prov_to_prov_additionalpointFiveKg').val() == "") {
+            if ($('#second_day_delivery_upto_3kg').val() == "" || $('#second_day_delivery_additional_1KG').val() == "" || $('#second_day_delivery_prov_to_prov_upto3KG').val() == "" || $('#second_day_delivery_prov_to_prov_additional1KG').val() == "") {
                 $('#notifDiv').fadeIn();
                 $('#notifDiv').css('background', 'red');
-                $('#notifDiv').text('Please enter membership fee.');
+                $('#notifDiv').text('Please fill all required fields');
                 setTimeout(() => {
                     $('#notifDiv').fadeOut();
                 }, 3000);
@@ -463,8 +463,8 @@ $(document).ready(function () {
         $('#billing_form').append('<input hidden name="second_day_delivery_additional_1KG" value="'+$('#second_day_delivery_additional_1KG').val()+'" />');
         $('#billing_form').append('<input hidden name="second_day_delivery_prov_to_prov_upto3KG" value="'+$('#second_day_delivery_prov_to_prov_upto3KG').val()+'" />');
         $('#billing_form').append('<input hidden name="second_day_delivery_prov_to_prov_additional1KG" value="'+$('#second_day_delivery_prov_to_prov_additional1KG').val()+'" />');
-        $('#billing_form').append('<input hidden name="second_day_delivery_prov_to_prov_6to1KG" value="'+$('#second_day_delivery_prov_to_prov_6to1KG').val()+'" />');
-        $('#billing_form').append('<input hidden name="second_day_delivery_prov_to_prov_additionalpointFiveKg" value="'+$('#second_day_delivery_prov_to_prov_additionalpointFiveKg').val()+'" />');
+        // $('#billing_form').append('<input hidden name="second_day_delivery_prov_to_prov_6to1KG" value="'+$('#second_day_delivery_prov_to_prov_6to1KG').val()+'" />');
+        // $('#billing_form').append('<input hidden name="second_day_delivery_prov_to_prov_additionalpointFiveKg" value="'+$('#second_day_delivery_prov_to_prov_additionalpointFiveKg').val()+'" />');
         $('#billing_form').append('<input hidden name="over_land_upto10KG" value="'+$('#over_land_upto10KG').val()+'" />');
         $('#billing_form').append('<input hidden name="over_land_additional1KG" value="'+$('#over_land_additional1KG').val()+'" />');
         $('#billing_form').append('<input hidden name="over_land_prov_to_prov_upto10KG" value="'+$('#over_land_prov_to_prov_upto10KG').val()+'" />');

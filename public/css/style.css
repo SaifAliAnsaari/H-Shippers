@@ -2124,9 +2124,8 @@ table.dataTable.cell-border tbody tr:first-child th, table.dataTable.cell-border
 }
 ._new-consign-top{
 	display: flex;
-	margin-right: 15px;
-	margin-bottom: 10px
-	
+	margin-right: 12px;
+	margin-bottom: 10px	
 }
 ._new-consign-top input{
 	border: none;
@@ -2143,29 +2142,29 @@ table.dataTable.cell-border tbody tr:first-child th, table.dataTable.cell-border
     color: #282828!important;
     margin-bottom: 0;
     line-height: 35px;
-	width: 91px
+	width: 81px
 }
 ._new-consign-top .label2{ 
     color: #282828!important;
     margin-bottom: 0;
     line-height: 35px;
-	width: 46px
+	width: 40px
 }
 ._new-consign-top .label3 {
     color: #282828!important;
     margin-bottom: 0;
     line-height: 35px;
-    width: 79px
+    width: 75px
 }
 ._new-consign-top .label4{ 
     color: #282828!important;
     margin-bottom: 0;
     line-height: 35px;
-	width: 48px
+	width: 94px
 }
 
 ._new-consign-top input {
-    width: 200px;
+    width: 196px;
 }
 
 .calendar-icon{
@@ -2256,7 +2255,12 @@ table.dataTable.cell-border tbody tr:first-child th, table.dataTable.cell-border
 .inv-footer p{
 	margin-bottom: 0
 }
-
+.mb-5 {
+	margin-bottom:5px!important
+}
+.mt-5 {
+	margin-top:5px!important
+}
 .mb-10 {
 	margin-bottom:10px!important
 }
@@ -2287,6 +2291,26 @@ table.dataTable.cell-border tbody tr:first-child th, table.dataTable.cell-border
 .mt-40 {
 	margin-top: 40px!important
 }
+
+
+.mr-20 {
+	margin-right: 20px!important
+}
+.mr-30 {
+	margin-right: 30px!important
+}
+.mr-40 {
+	margin-right: 40px!important
+}
+
+
+
+
+
+
+
+
+
 .p-10 {
 	padding: 10px!important
 }
@@ -2341,7 +2365,7 @@ table.dataTable.cell-border tbody tr:first-child th, table.dataTable.cell-border
     padding: .75rem;
 }
 ._new-consign-top input {
-    width: 156px;
+    width: 150px;
 }
 ._new-consign-top {margin-right: 8px}
 }
@@ -2354,7 +2378,7 @@ table.dataTable.cell-border tbody tr:first-child th, table.dataTable.cell-border
 
 @media (max-width: 992px) {
 ._new-consign-top input {
-    width: 213px;
+    width: 142px;
 }
 }
 @media (min-width: 768px) {
@@ -2503,9 +2527,7 @@ body.sidebar-toggled footer.sticky-footer {
 ._head01 {
 	font-size: 17px
 }
-.control-label {
-	font-size: 14px
-}
+ 
 .breadcrumb {
 	font-size: 13px
 }
@@ -2515,6 +2537,9 @@ body.sidebar-toggled footer.sticky-footer {
 }
 .ml-800{margin-left: -15px}
 .sm-pb-30{padding-bottom: 15px}
+._new-consign-top input {
+    width: 182px;
+}
 }
 @media (max-width: 767px) {
 .radio_topPD {padding-top: 10px}
@@ -2647,6 +2672,8 @@ body.sidebar-toggled footer.sticky-footer {
 ._new-consign-top .label1, ._new-consign-top .label2, ._new-consign-top .label3, ._new-consign-top .label4 {
     width: 100px}
 ._new-consign-top input{width: 350px}
+._new-consign-top .form-group{margin-bottom: 0}
+.RBpadd{padding-left:15px; padding-top: 10px}
 }
 @media (max-width: 480px) {
 .card .header h2, .card ._head03, .modal-title {

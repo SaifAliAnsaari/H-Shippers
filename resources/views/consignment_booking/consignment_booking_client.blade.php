@@ -21,6 +21,8 @@
   @csrf
 
     <input hidden type="text" value="" name="hidden_supplementary_services"/>
+    <input hidden type="text" value="" name="fragile_cost_hidden" id="fragile_cost_hidden"/>
+
          <div class="col-md-12 sm-pb-30">
           <div class="row">					
          
@@ -58,7 +60,7 @@
 
 <div class="col-md-12">
  <div id="floating-label" class="card p-20 top_border mb-3">
-            
+    <img src="/images/loader.gif" width="30px" height="auto" id="loader" style="position: absolute; left: 50%; top: 45%; display:none;">
           <h2 class="_head03">Consignee <span></span></h2>
           <div class="form-wrap pt-0 PB-20">	
                    
@@ -107,17 +109,26 @@
           <div class="form-wrap pt-0 PB-20">						  		 
               <div class="row">
               
-              <div class="col-md-4">
+              {{-- <div class="col-md-4">
                   <div class="form-group">
                     <label class="control-label mb-10">Region City*</label>
                     <input type="text" name="consignment_city_client" id="consignment_city_client" class="form-control" placeholder="" style="font-size: 13px">
                   </div>
-                </div>
+                </div> --}}
+                <div class="col-md-4">
+                  <div class="form-s2 pt-19">
+                        <select class="form-control formselect" placeholder="Consignment Type" name="consignment_type" id="consignment_type">
+                        <option value="0" selected disabled>Consignment Type*</option>
+                        <option value="Fragile">Fragile</option>
+                        <option value="Non Fragile">Non Fragile</option>
+                        </select>
+                  </div>
+                  </div>
 
                 <div class="col-md-4">
                 <div class="form-s2 pt-19">
                           <select class="form-control formselect" placeholder="Services Type" name="consignment_service_type_client" id="consignment_service_type_client">
-                            <option value = "0">Services Type*</option>
+                            <option value = "0" selected disabled>Services Type*</option>
                             <option value="1">Same Day Delivery</option>
                             <option value="2">Over Night Delivery</option>
                             <option value="3">Second Day Delivery</option>
@@ -154,39 +165,85 @@
                     <input type="number" name="consignment_price_client" id="consignment_price_client" class="form-control" placeholder="" style="font-size: 13px">
                   </div>
                 </div>
-                
-                <div class="col-lg-4 col-md-6">
-                <div class="row radio_topPD">
-                 <div class="col-md-6">					   	
-                     <div class="custom-control custom-radio">
-                          <input class="custom-control-input" type="radio" name="inlineRadioOptions" id="Domestic" value='Domestic' data-id="Domestic">
-                          <label class="custom-control-label" for="Domestic">Domestic*</label>
-                     </div>					   	
-                </div>
-                 <div class="col-md-6">					   	
-                     <div class="custom-control custom-radio">
-                          <input class="custom-control-input" type="radio" name="inlineRadioOptions" id="International" value='International' data-id="International">
-                          <label class="custom-control-label" for="International">International*</label>
-                     </div>					   	
-                 </div>
-                </div>
-                </div> 
-                 
-                     
+
                 <div class="col-md-4">
-                    <div class="form-s2 pt-19">
-                      <select class="form-control formselect" placeholder="Services Type" name="consignment_dest_city_client" id="consignment_dest_city_client">
-                          <option value = "0">Select Destination City*</option>
-                          <?php
-                            if(!$pickup_city->isEmpty()){
-                              foreach($pickup_city as $city){ ?>
-                                <option value = "<?= $city->id ?>"><?= $city->city_name ?></option>
-                              <?php }
-                            }
-                          ?>
-                        </select>
+                  <div class="form-s2 pt-19">
+                    <select class="form-control formselect" placeholder="Services Type" name="consignment_dest_city_client" id="consignment_dest_city_client">
+                        <option value = "0" selected disabled>Select Destination City*</option>
+                        <?php
+                          if(!$pickup_city->isEmpty()){
+                            foreach($pickup_city as $city){ ?>
+                              <option value = "<?= $city->city_name ?>"><?= $city->city_name ?></option>
+                            <?php }
+                          }
+                        ?>
+                      </select>
                   </div>
                 </div>
+
+                
+                <div class="col-md-12">
+
+                      <hr class="mb-2">	
+
+                      <div class="col-md-12">						 		
+                          <div class="row mb-10">		
+                            <div class="custom-control custom-radio col-md-3 col-xs-3">
+                               <input class="custom-control-input insurance_selector" type="radio" name="Fragile_Criteria" id="Fragile" value='For Fragile' data-id="Fragile">
+                               <label class="custom-control-label" for="Fragile">For Fragile</label>
+                            </div>			 	   	
+                             
+                            <div class="custom-control custom-radio col-md-3 col-xs-3">
+                               <input class="custom-control-input insurance_selector" type="radio" name="Fragile_Criteria" id="Non-Fragile" value='For Non Fragile' data-id="Non-Fragile">
+                               <label class="custom-control-label" for="Non-Fragile">For Non Fragile</label>
+                            </div>	
+                            
+                             <div class="custom-control custom-radio col-md-3 col-xs-3">
+                               <input class="custom-control-input insurance_selector" type="radio" name="Fragile_Criteria" id="Electronics" value='For Electronics' data-id="Electronics">
+                               <label class="custom-control-label" for="Electronics">For Electronics</label>
+                            </div>
+                            
+                            <div class="custom-control custom-radio col-md-3 col-xs-3">
+                             <input class="custom-control-input insurance_selector" type="radio" name="Fragile_Criteria" id="none" value='none' data-id="none">
+                             <label class="custom-control-label" for="none">None</label>
+                          </div>
+                            
+                           </div>		   			   	
+                 
+                         </div> 
+                      {{-- <div class="row pt-2">
+                        <div class="col-md-3">Add Insurance on Consignment?*</div>
+                      
+                         <div class="RBpadd">
+                          <div class="custom-control custom-radio float-left mr-5">
+                            <input class="custom-control-input insurance_selector" type="radio" name="inlineRadioOptions" id="Yes" value='1' data-id="Yes">
+                            <label class="custom-control-label" for="Yes">Yes</label>
+                         </div>			 	   	
+                          
+                         <div class="custom-control custom-radio float-left">
+                            <input class="custom-control-input insurance_selector" type="radio" name="inlineRadioOptions" id="No" value='0' data-id="No">
+                            <label class="custom-control-label" for="No">No</label>
+                         </div>	
+                         </div>	
+                         
+                      </div> --}}
+
+                      </div>
+
+                      <div class="col-md-12" id="insurance_yes" style="display:none;">
+                        <div class="col-md-4">
+                          <div class="form-group">
+                              <label class="control-label mb-10">Product Price*</label>
+                              <input type="number" id="product_price" name="product_price" class="form-control" placeholder="" style="font-size: 13px">
+                            </div>
+                        </div>
+                        
+
+                        <hr class="mb-2">
+
+                      
+                      </div>
+                 
                 
                 <div class="col-md-12">
                <label class="PT-10 font12">Remarks*</label>
@@ -194,6 +251,7 @@
                     <textarea name="remarks_client" id="remarks_client" rows="8" style="font-size: 13px"></textarea>
                     </div>
                 </div>
+                
 
               </div>    
               
@@ -232,6 +290,8 @@
         </div>
         
         </div>
+
+        <h2 class="_head03 test_total_price">Total Price<span></span></h2>
         
         
    <div class="bottom-btns">

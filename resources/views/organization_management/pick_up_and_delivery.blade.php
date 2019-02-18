@@ -63,7 +63,7 @@
                                                     <div class="form-s2">
                                                         <label class="PT-10 font12">Location Service*</label>
                                                         <select class="form-control sd-type" name="location" multiple="multiple">
-                                                            <option value="0">Select Location Service</option>
+                                                            <option value="0" disabled>Select Location Service</option>
                                                             <option value="1">Pick Up</option> 
                                                             <option value="2">Delivery</option> 
                                                         </select>

@@ -78,12 +78,12 @@
                                                         <input type="text" name="website" class="form-control" placeholder="">
                                                     </div>
                                                 </div>
-                                                <div class="col-md-6">
+                                                {{-- <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label class="control-label mb-10">City</label>
                                                         <input type="text" name="city" class="form-control" placeholder="">
                                                     </div>
-                                                </div>
+                                                </div> --}}
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label class="control-label mb-10">Address</label>
