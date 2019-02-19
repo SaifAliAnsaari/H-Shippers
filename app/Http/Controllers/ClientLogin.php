@@ -16,23 +16,30 @@ class ClientLogin extends ParentController
     }
 
     public function client_login_form(Request $request){
-        //echo "here";
-        $check = DB::table('clients')->select('id', 'password')->where('username', $request->username)->first();
         
-        if($check){
-            if (Hash::check($request->password, $check->password)){
-                $token = $this->random_string(50);
-                Cookie::queue('client_session', $token, 525600);
-                DB::table('clients')->where('id', $check->id)->update(["client_login_session" => $token]);
-                return redirect('/');
+        
+            $check = DB::table('clients')->select('id', 'password')->where('username', $request->username)->first();
+        
+            if($check){
+                $check_activation = DB::table('clients')->select('id')->whereRaw('username = "'.$request->username.'" AND is_active = 1')->first();
+                if($check_activation){
+                    if (Hash::check($request->password, $check->password)){
+                        $token = $this->random_string(50);
+                        Cookie::queue('client_session', $token, 525600);
+                        DB::table('clients')->where('id', $check->id)->update(["client_login_session" => $token]);
+                        return redirect('/');
+                    }else{
+                        return redirect()->back()->with('message', 'Invalid credientials!');
+                        //echo 'Invalid credientials!';
+                    }
+                }else{
+                    return redirect()->back()->with('message', 'Inactive client!');
+                }
+                
             }else{
-                return redirect()->back()->with('message', 'Invalid credientials!');
-                //echo 'Invalid credientials!';
+                return redirect()->back()->with('message', 'Invalid client username!');
+                //echo 'Invalid client username!';
             }
-        }else{
-            return redirect()->back()->with('message', 'Invalid client username!');
-            //echo 'Invalid client username!';
-        }
     }
 
 

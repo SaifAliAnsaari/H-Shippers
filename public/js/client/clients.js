@@ -1,5 +1,50 @@
-$(document).ready(function(){
+//Dropzone.autoDiscover = false;
 
+var acceptedFileTypes = "image/*"; //dropzone requires this param be a comma separated list
+var fileList = new Array;
+var i = 0;
+var callForDzReset = false;
+
+var myDropzone = new Dropzone("#dropzonewidgetclient", {
+    url: "/client_docs",
+    addRemoveLinks: true,
+    maxFiles: 4,
+    acceptedFiles: 'image/*',
+    maxFilesize: 5,
+    init: function() {
+        this.on("success", function(file, serverFileName) {
+            file.serverFn = serverFileName;
+            fileList[i] = {"serverFileName" : serverFileName, "fileName" : file.name,"fileId" : i };
+            i++;
+        });
+    },
+    removedfile: function(file) {
+        if (!callForDzReset) {
+            var name = file.serverFn; 
+            var cust_id = $('.client_key_docs').val();
+            //console.log(cust_id);
+            $.ajax({
+            type: 'GET',
+            url: '/remove_client_docs/'+name,
+            data: {
+                _token: '{!! csrf_token() !!}',
+            cust_id: cust_id
+                },
+            sucess: function(data){
+                console.log('success: ' + data);
+            }
+            });
+        }
+        var _ref;
+            return (_ref = file.previewElement) != null ? _ref.parentNode.removeChild(file.previewElement) : void 0;
+        }
+});
+
+
+
+
+
+$(document).ready(function(){
     fetchClientsList();
 
     var lastOp = "add";
@@ -40,6 +85,13 @@ $(document).ready(function(){
             $('select[name="pick_up_province"]').val("0").trigger('change');
         }
         lastOp = 'add';
+        var gen_id = makeid();
+        setTimeout(function(){
+            $('.client_key_docs').val(gen_id);
+            $('.client_key_data').val(gen_id);
+        }, 500);
+        callForDzReset = false;
+
         if ($('#saveClientForm input[name="_method"]').length) {
             $('#saveClientForm input[name="_method"]').remove();
         }
@@ -113,6 +165,12 @@ $(document).ready(function(){
                     setTimeout(() => {
                         $('#notifDiv').fadeOut();
                     }, 3000);
+                   
+                    $('.client_key_docs').val("");
+                    $('.client_key_data').val("");
+                    $('#pl-close').click();
+                  
+                    
                 } else if(JSON.parse(response) == "failed"){
                     $('#saveClient').removeAttr('disabled');
                     $('#cancelClient').removeAttr('disabled');
@@ -134,6 +192,9 @@ $(document).ready(function(){
                         $('#notifDiv').fadeOut();
                     }, 3000);
                 }
+
+                callForDzReset = true;
+                myDropzone.removeAllFiles(true);
             },
             error: function(err) {
                 // $('input[name="pick_up_city"]').remove();
@@ -239,9 +300,9 @@ $(document).ready(function(){
                 // response.documents.forEach(element => {
                 //     document.push(element["client_document"]);
                 // });
-                $(document).on('click', '.dropzone', function() {
-                    alert('documents');
-                });
+                // $(document).on('click', '.dropzone', function() {
+                //     //alert('documents');
+                // });
 
                 // $('input[name="documents[]"]').focus();
                 // $('input[name="documents[]"]').val(document);
@@ -319,38 +380,120 @@ $(document).ready(function(){
     });
 
     //Delete
-    $(document).on('click', '.deleteClient', function(){
+    // $(document).on('click', '.deleteClient', function(){
+    //     $(this).text('PROCESSING....');
+    //     $(this).attr("disabled", "disabled");
+    //     var id = $(this).attr('id');
+    //     $.ajax({
+    //         type: 'GET',
+    //         url: '/DeleteClient',
+    //         data: {
+    //             _token: '{!! csrf_token() !!}',
+    //             id: id
+    //         },
+    //         success: function(response) {
+    //             if(JSON.parse(response) == "success"){
+    //                 fetchClientsList();
+    //                 // $('#deleteClient').removeAttr('disabled');
+    //                 // $('#deleteClient').text('Delete');
+
+    //                 $('#notifDiv').fadeIn();
+    //                 $('#notifDiv').css('background', 'green');
+    //                 $('#notifDiv').text('Client deleted successfully');
+    //                 setTimeout(() => {
+    //                     $('#notifDiv').fadeOut();
+    //                 }, 3000);
+    //             }else if(JSON.parse(response) == "failed"){
+    //                 $('#notifDiv').fadeIn();
+    //                 $('#notifDiv').css('background', 'red');
+    //                 $('#notifDiv').text('Unable to delete client');
+    //                 setTimeout(() => {
+    //                     $('#notifDiv').fadeOut();
+    //                 }, 3000);
+    //             }
+                    
+    //         }
+    //     });
+    // });
+
+    //Activate Client
+    $(document).on('click', '.activate_btn', function(){
+        var id = $(this).attr('id');
         $(this).text('PROCESSING....');
         $(this).attr("disabled", "disabled");
-        var id = $(this).attr('id');
+        var thisRef = $(this);
+
         $.ajax({
             type: 'GET',
-            url: '/DeleteClient',
+            url: '/activate_client',
             data: {
                 _token: '{!! csrf_token() !!}',
-                id: id
-            },
+               id: id
+           },
             success: function(response) {
                 if(JSON.parse(response) == "success"){
-                    fetchClientsList();
-                    // $('#deleteClient').removeAttr('disabled');
-                    // $('#deleteClient').text('Delete');
+                    //fetchCompaniesList();
+                    thisRef.removeAttr('disabled');
+                    thisRef.text('Deactivate');
+                    thisRef.removeClass("activate_btn");
+                    thisRef.addClass("deactivate_btn");
+                    thisRef.addClass('red-bg');
 
                     $('#notifDiv').fadeIn();
                     $('#notifDiv').css('background', 'green');
-                    $('#notifDiv').text('Client deleted successfully');
+                    $('#notifDiv').text('Activated successfully');
                     setTimeout(() => {
                         $('#notifDiv').fadeOut();
                     }, 3000);
                 }else if(JSON.parse(response) == "failed"){
                     $('#notifDiv').fadeIn();
                     $('#notifDiv').css('background', 'red');
-                    $('#notifDiv').text('Unable to delete client');
+                    $('#notifDiv').text('Unable to activate client');
                     setTimeout(() => {
                         $('#notifDiv').fadeOut();
                     }, 3000);
-                }
-                    
+                }    
+            }
+        });
+    });
+
+    //Deactivate Client
+    $(document).on('click', '.deactivate_btn', function(){
+        var id = $(this).attr('id');
+        $(this).text('PROCESSING....');
+        $(this).attr("disabled", "disabled");
+        var thisRef = $(this);
+
+        $.ajax({
+            type: 'GET',
+            url: '/deactivate_client',
+            data: {
+                _token: '{!! csrf_token() !!}',
+               id: id
+           },
+            success: function(response) {
+                if(JSON.parse(response) == "success"){
+                    //fetchCompaniesList();
+                    thisRef.removeAttr('disabled');
+                    thisRef.text('Activate');
+                    thisRef.removeClass("deactivate_btn");
+                    thisRef.removeClass('red-bg');
+                    thisRef.addClass("activate_btn");
+
+                    $('#notifDiv').fadeIn();
+                    $('#notifDiv').css('background', 'green');
+                    $('#notifDiv').text('Deactivated successfully');
+                    setTimeout(() => {
+                        $('#notifDiv').fadeOut();
+                    }, 3000);
+                }else if(JSON.parse(response) == "failed"){
+                    $('#notifDiv').fadeIn();
+                    $('#notifDiv').css('background', 'red');
+                    $('#notifDiv').text('Unable to deactivate client');
+                    setTimeout(() => {
+                        $('#notifDiv').fadeOut();
+                    }, 3000);
+                }    
             }
         });
     });
@@ -369,11 +512,21 @@ function fetchClientsList() {
             $('#clientsListTable tbody').empty();
             var response = JSON.parse(response);
             response.forEach(element => {
-                $('#clientsListTable tbody').append('<tr><td>' + element['id'] + '</td><td>' + element['company_name'] + '</td><td>' + element['poc_name'] + '</td><td>' + element['username'] + '</td><td>' + element['phone'] + '</td><td>' + element['customer_type'] + '</td><td><button id="' + element['id'] + '" class="btn btn-default btn-line openDataSidebarForUpdateCustomer openDataSidebarForUpdate">Edit</button><a href="/CustomerProfile/' + element['id'] + '" id="' + element['id'] + '" class="btn btn-default">Profile</a><form id="deleteCustomerForm" style="display: inline-block"><input type="text" name="_method" value="DELETE" hidden /><input type="text" name="_token" value="' + $('input[name="tokenForAjaxReq"]').val() + '" hidden /><button type="button" id="' + element['id'] + '" class="btn btn-default red-bg deleteClient" title="Delete">Delete</button></form></td></tr>');
+                $('#clientsListTable tbody').append('<tr><td>' + element['id'] + '</td><td>' + element['company_name'] + '</td><td>' + element['poc_name'] + '</td><td>' + element['username'] + '</td><td>' + element['phone'] + '</td><td>' + element['customer_type'] + '</td><td><button id="' + element['id'] + '" class="btn btn-default btn-line openDataSidebarForUpdateCustomer openDataSidebarForUpdate">Edit</button><a href="/CustomerProfile/' + element['id'] + '" id="' + element['id'] + '" class="btn btn-default">Profile</a>'+ (element["is_active"] == 1 ? '<button id="' + element['id'] + '" class="btn btn-default red-bg  deactivate_btn" title="View Detail">Deactivate</button>' : '<button id="' + element['id'] + '" class="btn btn-default activate_btn">Activate</button>') +'</td></tr>');
             });
             $('#tblLoader').hide();
             $('.body').fadeIn();
             $('#clientsListTable').DataTable();
         }
     });
+}
+
+function makeid() {
+    var text = "";
+    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  
+    for (var i = 0; i < 50; i++)
+      text += possible.charAt(Math.floor(Math.random() * possible.length));
+  
+    return text;
 }

@@ -64,7 +64,7 @@ $(document).ready(function() {
     $(document).on('click', '.save_consignment_client', function () {
         // alert($("input[name='inlineRadioOptions']:checked").val());
         // return;
-        if($('#cnic_client').val() == "" || $('#customer_id_client').val() == "" || $('#region_client').val() == "" || $('#consignee_name_client').val() == "" || $('#consignee_ref_client').val() == "" || $('#consignee_cell_client').val() == "" || $('#consignee_email_client').val() == "" || $('#consignee_address_client').val() == "" || $('#consignment_type').val() == 0 || $('#consignment_service_type_client').val() == 0 || $('#consignment_pieces_client').val() == "" || $('#consignment_weight_client').val() == "" || $('#consignment_description_client').val() == "" || $('#consignment_price_client').val() == "" || $('#consignment_dest_city_client').val() == 0 || $('#remarks_client').val() == "" || !$("input[name=Fragile_Criteria]").is(":checked") ){
+        if($('#cnic_client').val() == "" || $('#customer_id_client').val() == "" || $('#region_client').val() == "" || $('#consignee_name_client').val() == "" || $('#consignee_ref_client').val() == "" || $('#consignee_cell_client').val() == "" || $('#consignee_email_client').val() == "" || $('#consignee_address_client').val() == "" || $('#consignment_type').val() == 0 || $('#consignment_service_type_client').val() == 0 || $('#consignment_pieces_client').val() == "" || $('#consignment_weight_client').val() == "" || $('#consignment_description_client').val() == "" || $('#consignment_dest_city_client').val() == 0 || $('#remarks_client').val() == "" || !$("input[name=Fragile_Criteria]").is(":checked") ){
             $('#notifDiv').fadeIn();
             $('#notifDiv').css('background', 'red');
             $('#notifDiv').text('Please fill all required fields(*).');
@@ -124,7 +124,6 @@ $(document).ready(function() {
                     $('#consignment_pieces_client').val('');
                     $('#consignment_weight_client').val('');
                     $('#consignment_description_client').val('');
-                    $('#consignment_price_client').val('');
                     //$('#consignment_dest_city_client').val('');
                     $('#Yes').prop("checked", false);
                     $('#No').prop("checked", false);
@@ -156,7 +155,6 @@ $(document).ready(function() {
                     $('#consignment_pieces_client').val('');
                     $('#consignment_weight_client').val('');
                     $('#consignment_description_client').val('');
-                    $('#consignment_price_client').val('');
                     //$('#consignment_dest_city_client').val('');
                     $('#Yes').prop("checked", false);
                     $('#No').prop("checked", false);

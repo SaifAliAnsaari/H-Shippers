@@ -11,6 +11,7 @@ class ConsignmentManagement extends ParentController
     public function __construct()
     {
         if(Cookie::get('client_session')){
+            $test = Cookie::get('client_session');
             $check_session = DB::table('clients')->select('id')->where('client_login_session', Cookie::get('client_session'))->first();
             if(!$check_session){
                 return redirect('/client_login');
@@ -68,18 +69,24 @@ class ConsignmentManagement extends ParentController
     }
 
 
-
     //Client
     public function consignment_booking_client(){
-         parent::VerifyRights();if($this->redirectUrl){return redirect($this->redirectUrl);}
-        $client_id = DB::table('clients')->select('id')->whereRaw('client_login_session = "'.Cookie::get('client_session').'"')->first();
-        $check = DB::table('billing')->select('id')->whereRaw('customer_id = (Select id from clients where client_login_session = "'.Cookie::get('client_session').'")')->first();
-        $get_city_from_pickup = DB::table('pickup_delivery')->get();
-
-        if($check){
-            return view('consignment_booking.consignment_booking_client', ['client_id' => $client_id->id, 'check_rights' => $this->check_employee_rights, 'pickup_city' => $get_city_from_pickup]);
+        //$this->verifySession();
+        $check_session = DB::table('clients')->select('id')->where('client_login_session', Cookie::get('client_session'))->first();
+        if(!$check_session){
+            return redirect('/cout');
         }else{
-            return redirect('/');
+
+            $test = Cookie::get('client_session');
+            $client_id = DB::table('clients')->select('id')->whereRaw('client_login_session = "'.Cookie::get('client_session').'"')->first();
+            $check = DB::table('billing')->select('id')->whereRaw('customer_id = (Select id from clients where client_login_session = "'.Cookie::get('client_session').'")')->first();
+            $get_city_from_pickup = DB::table('pickup_delivery')->get();
+
+            if($check){
+                return view('consignment_booking.consignment_booking_client', ['client_id' => $client_id->id, 'check_rights' => $this->check_employee_rights, 'pickup_city' => $get_city_from_pickup]);
+            }else{
+                return redirect('/');
+            }
         }  
     }
 
@@ -92,7 +99,8 @@ class ConsignmentManagement extends ParentController
         $service_type = $request->consignment_service_type_client;
         $chargesCriteria = "";
         $service_criteria = "";
-        $client_city = DB::table('clients')->select('city')->whereRaw('client_login_session = "'.Cookie::get('client_session').'"')->first();
+        $test = Cookie::get('client_session');
+        $client_city = DB::table('clients')->select('pick_up_city')->whereRaw('client_login_session = "'.Cookie::get('client_session').'"')->first();
        
         if($request->Fragile_Criteria == "For Fragile"){
             $insurance = DB::table('billing')->select('insurance_for_fragile')->whereRaw('customer_id = (Select id from clients where client_login_session = "'.Cookie::get('client_session').'")')->first();
@@ -131,7 +139,7 @@ class ConsignmentManagement extends ParentController
 
         //yani service type (Second Day) aur (Over Land) nae hai
         if($request->consignment_service_type_client != 3 || $request->consignment_service_type_client != 4){
-            if($client_city->city == $request->consignment_dest_city_client){
+            if(strtolower($client_city->pick_up_city) == strtolower($request->consignment_dest_city_client)){
                 //within city
                 $service_criteria = "within city";
             }else{
@@ -140,7 +148,7 @@ class ConsignmentManagement extends ParentController
 
                 // echo json_encode(['client'=> $clientProvince, 'dest' => $destinationProvince]);
                 // die;
-                if($clientProvince->province == $destinationProvince->province){
+                if(strtolower($clientProvince->province) == strtolower($destinationProvince->province)){
                     //within province
                     $service_criteria = "within province";
                 }else{
@@ -152,7 +160,7 @@ class ConsignmentManagement extends ParentController
             $clientProvince = DB::table('pickup_delivery')->select('province')->whereRaw('city_name = (Select city from clients where client_login_session = "'.Cookie::get('client_session').'")')->first();
             $destinationProvince = DB::table('pickup_delivery')->select('province')->where('city_name', $request->consignment_dest_city_client)->first();
 
-            if($clientProvince->province == $destinationProvince->province){
+            if(strtolower($clientProvince->province) == strtolower($destinationProvince->province)){
                 //within province
                 $service_criteria = "within province";
             }else{
@@ -274,7 +282,7 @@ class ConsignmentManagement extends ParentController
             }else if($request->consignment_weight_client > 1){
                 if($service_criteria == "within city"){
                     $eachAdditionalPrice = DB::table('biling_criteria')->select('additionals_05')->whereRaw('biling_id = (Select id from billing where customer_id = (Select id from clients where client_login_session = "'.Cookie::get('client_session').'")) AND type = "within city" AND criteria = 0')->first();
-                    $chunks = ($request->consignment_weight_client-1) / 0.5;
+                    $chunks = ceil(($request->consignment_weight_client-1) / 0.5);
                     $price = $chunks * $eachAdditionalPrice->additionals_05;
                     $maxKgPrice = DB::table('biling_criteria')->select('zero_five_1KG')->whereRaw('biling_id = (Select id from billing where customer_id = (Select id from clients where client_login_session = "'.Cookie::get('client_session').'")) AND type = "within city" AND criteria = 0')->first();
                     $totalPrice = $maxKgPrice->zero_five_1KG + $price;
@@ -288,7 +296,7 @@ class ConsignmentManagement extends ParentController
                     }
                 }else if($service_criteria == "within province"){
                     $eachAdditionalPrice = DB::table('biling_criteria')->select('additionals_05')->whereRaw('biling_id = (Select id from billing where customer_id = (Select id from clients where client_login_session = "'.Cookie::get('client_session').'")) AND type = "within province" AND criteria = 0')->first();
-                    $chunks = ($request->consignment_weight_client-1) / 0.5;
+                    $chunks = ceil(($request->consignment_weight_client-1) / 0.5);
                     $price = $chunks * $eachAdditionalPrice->additionals_05;
                     $maxKgPrice = DB::table('biling_criteria')->select('zero_five_1KG')->whereRaw('biling_id = (Select id from billing where customer_id = (Select id from clients where client_login_session = "'.Cookie::get('client_session').'")) AND type = "within province" AND criteria = 0')->first();
                     $totalPrice = $maxKgPrice->zero_five_1KG + $price;
@@ -303,7 +311,7 @@ class ConsignmentManagement extends ParentController
                 }else if($service_criteria == "province to province"){
                     $test = Cookie::get('client_session');
                     $eachAdditionalPrice = DB::table('biling_criteria')->select('additionals_05')->whereRaw('biling_id = (Select id from billing where customer_id = (Select id from clients where client_login_session = "'.Cookie::get('client_session').'")) AND type = "province to province" AND criteria = 0')->first();
-                    $chunks = ($request->consignment_weight_client-1) / 0.5;
+                    $chunks = ceil(($request->consignment_weight_client-1) / 0.5);
                     $price = $chunks * $eachAdditionalPrice->additionals_05;
                     $abc = "" ;
                     $maxKgPrice = DB::table('biling_criteria')->select('zero_five_1KG')->whereRaw('biling_id = (Select id from billing where customer_id = (Select id from clients where client_login_session = "'.Cookie::get('client_session').'")) AND type = "province to province" AND criteria = 0')->first();
@@ -432,7 +440,7 @@ class ConsignmentManagement extends ParentController
             }else if($request->consignment_weight_client > 1){
                 if($service_criteria == "within city"){
                     $eachAdditionalPrice = DB::table('biling_criteria')->select('additionals_05')->whereRaw('biling_id = (Select id from billing where customer_id = (Select id from clients where client_login_session = "'.Cookie::get('client_session').'")) AND type = "within city" AND criteria = 1')->first();
-                    $chunks = ($request->consignment_weight_client-1) / 0.5;
+                    $chunks = ceil(($request->consignment_weight_client-1) / 0.5);
                     $price = $chunks * $eachAdditionalPrice->additionals_05;
                     $maxKgPrice = DB::table('biling_criteria')->select('zero_five_1KG')->whereRaw('biling_id = (Select id from billing where customer_id = (Select id from clients where client_login_session = "'.Cookie::get('client_session').'")) AND type = "within city" AND criteria = 1')->first();
                     $totalPrice = $maxKgPrice->zero_five_1KG + $price;
@@ -446,7 +454,7 @@ class ConsignmentManagement extends ParentController
                     }
                 }else if($service_criteria == "within province"){
                     $eachAdditionalPrice = DB::table('biling_criteria')->select('additionals_05')->whereRaw('biling_id = (Select id from billing where customer_id = (Select id from clients where client_login_session = "'.Cookie::get('client_session').'")) AND type = "within province" AND criteria = 1')->first();
-                    $chunks = ($request->consignment_weight_client-1) / 0.5;
+                    $chunks = ceil(($request->consignment_weight_client-1) / 0.5);
                     $price = $chunks * $eachAdditionalPrice->additionals_05;
                     $maxKgPrice = DB::table('biling_criteria')->select('zero_five_1KG')->whereRaw('biling_id = (Select id from billing where customer_id = (Select id from clients where client_login_session = "'.Cookie::get('client_session').'")) AND type = "within province" AND criteria = 1')->first();
                     $totalPrice = $maxKgPrice->zero_five_1KG + $price;
@@ -460,7 +468,7 @@ class ConsignmentManagement extends ParentController
                     }
                 }else if($service_criteria == "province to province"){
                     $eachAdditionalPrice = DB::table('biling_criteria')->select('additionals_05')->whereRaw('biling_id = (Select id from billing where customer_id = (Select id from clients where client_login_session = "'.Cookie::get('client_session').'")) AND type = "province to province" AND criteria = 1')->first();
-                    $chunks = ($request->consignment_weight_client-1) / 0.5;
+                    $chunks = ceil(($request->consignment_weight_client-1) / 0.5);
                     $price = $chunks * $eachAdditionalPrice->additionals_05;
                     $maxKgPrice = DB::table('biling_criteria')->select('zero_five_1KG')->whereRaw('biling_id = (Select id from billing where customer_id = (Select id from clients where client_login_session = "'.Cookie::get('client_session').'")) AND type = "province to province" AND criteria = 1')->first();
                     $totalPrice = $maxKgPrice->zero_five_1KG + $price;
@@ -504,7 +512,7 @@ class ConsignmentManagement extends ParentController
             }else if($request->consignment_weight_client > 3){
                 if($service_criteria == "within province"){
                     $eachAdditionalPrice = DB::table('biling_criteria')->select('additional_1KG')->whereRaw('biling_id = (Select id from billing where customer_id = (Select id from clients where client_login_session = "'.Cookie::get('client_session').'")) AND type = "within province" AND criteria = 2')->first();
-                    $chunks = ($request->consignment_weight_client-3) / 1;
+                    $chunks = ceil(($request->consignment_weight_client-3) / 1);
                     $price = $chunks * $eachAdditionalPrice->additional_1KG;
                     $maxKgPrice = DB::table('biling_criteria')->select('upto_3KG')->whereRaw('biling_id = (Select id from billing where customer_id = (Select id from clients where client_login_session = "'.Cookie::get('client_session').'")) AND type = "within province" AND criteria = 2')->first();
                     $totalPrice = $maxKgPrice->upto_3KG + $price;
@@ -518,7 +526,7 @@ class ConsignmentManagement extends ParentController
                     }
                 }else if($service_criteria == "province to province"){
                     $eachAdditionalPrice = DB::table('biling_criteria')->select('additional_1KG')->whereRaw('biling_id = (Select id from billing where customer_id = (Select id from clients where client_login_session = "'.Cookie::get('client_session').'")) AND type = "province to province" AND criteria = 2')->first();
-                    $chunks = ($request->consignment_weight_client-3) / 1;
+                    $chunks = ceil(($request->consignment_weight_client-3) / 1);
                     $price = $chunks * $eachAdditionalPrice->additional_1KG;
                     $maxKgPrice = DB::table('biling_criteria')->select('upto_3KG')->whereRaw('biling_id = (Select id from billing where customer_id = (Select id from clients where client_login_session = "'.Cookie::get('client_session').'")) AND type = "province to province" AND criteria = 2')->first();
                     $totalPrice = $maxKgPrice->upto_3KG + $price;
@@ -560,7 +568,7 @@ class ConsignmentManagement extends ParentController
             }else if($request->consignment_weight_client > 10){
                 if($service_criteria == "within province"){
                     $eachAdditionalPrice = DB::table('biling_criteria')->select('additional_1KG')->whereRaw('biling_id = (Select id from billing where customer_id = (Select id from clients where client_login_session = "'.Cookie::get('client_session').'")) AND type = "within province" AND criteria = 3')->first();
-                    $chunks = ($request->consignment_weight_client-10) / 1;
+                    $chunks = ceil(($request->consignment_weight_client-10) / 1);
                     $price = $chunks * $eachAdditionalPrice->additional_1KG;
                     $maxKgPrice = DB::table('biling_criteria')->select('upto_3KG')->whereRaw('biling_id = (Select id from billing where customer_id = (Select id from clients where client_login_session = "'.Cookie::get('client_session').'")) AND type = "within province" AND criteria = 3')->first();
                     $totalPrice = $maxKgPrice->upto_3KG + $price;
@@ -574,7 +582,7 @@ class ConsignmentManagement extends ParentController
                     }
                 }else if($service_criteria == "province to province"){
                     $eachAdditionalPrice = DB::table('biling_criteria')->select('additionals_05')->whereRaw('biling_id = (Select id from billing where customer_id = (Select id from clients where client_login_session = "'.Cookie::get('client_session').'")) AND type = "province to province" AND criteria = 3')->first();
-                    $chunks = ($request->consignment_weight_client-10) / 0.5;
+                    $chunks = ceil(($request->consignment_weight_client-10) / 0.5);
                     $price = $chunks * $eachAdditionalPrice->additionals_05;
                     $maxKgPrice = DB::table('biling_criteria')->select('upto_3KG')->whereRaw('biling_id = (Select id from billing where customer_id = (Select id from clients where client_login_session = "'.Cookie::get('client_session').'")) AND type = "province to province" AND criteria = 3')->first();
                     $totalPrice = $maxKgPrice->upto_3KG + $price;
@@ -643,7 +651,6 @@ class ConsignmentManagement extends ParentController
             'consignment_pieces' => $request->consignment_pieces_client,
             'consignment_weight' => $request->consignment_weight_client,
             'consignment_description' => $request->consignment_description_client,
-            'consignment_price' => $request->consignment_price_client,
             'fragile_criteria' => $request->Fragile_Criteria,
             'add_insurance' => $request->inlineRadioOptions,
             'product_price' => $request->product_price,
@@ -653,7 +660,7 @@ class ConsignmentManagement extends ParentController
             'total_price' => $totalPrice
             ]);
             if($save_consignment_client){
-                echo json_encode($totalPrice);
+                echo json_encode(round($totalPrice));
             }else{
                 echo json_encode('failed');
             }
@@ -662,8 +669,20 @@ class ConsignmentManagement extends ParentController
 
 
     public function consignment_booked(){
-         parent::VerifyRights();if($this->redirectUrl){return redirect($this->redirectUrl);}
-        return view('consignment_booking.consignment_booked', ['check_rights' => $this->check_employee_rights]);
+        if(Cookie::get('client_session')){
+            $check_session = DB::table('clients')->select('id')->where('client_login_session', Cookie::get('client_session'))->first();
+            if(!$check_session){
+                return redirect('/cout');
+            }else{
+                return view('consignment_booking.consignment_booked', ['check_rights' => $this->check_employee_rights]);
+            }
+        }else{
+            parent::VerifyRights();if($this->redirectUrl){return redirect($this->redirectUrl);}
+            return view('consignment_booking.consignment_booked', ['check_rights' => $this->check_employee_rights]);
+        }
+
+        
+        
     }
 
     public function GetConsignmentsList(){

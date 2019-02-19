@@ -159,12 +159,12 @@
                   </div>
                 </div>
                 
-                <div class="col-md-4">
+                {{-- <div class="col-md-4">
                   <div class="form-group">
                     <label class="control-label mb-10">Price*</label>
                     <input type="number" name="consignment_price_client" id="consignment_price_client" class="form-control" placeholder="" style="font-size: 13px">
                   </div>
-                </div>
+                </div> --}}
 
                 <div class="col-md-4">
                   <div class="form-s2 pt-19">

@@ -9,6 +9,8 @@ use Auth;
 
 class HomeController extends ParentController
 {
+
+    protected $invalidSess = false;
     /**
      * Create a new controller instance.
      *
@@ -17,13 +19,13 @@ class HomeController extends ParentController
     public function __construct()
     {
         if(Cookie::get('client_session')){
+            $test = Cookie::get('client_session');
             $check_session = DB::table('clients')->select('id')->where('client_login_session', Cookie::get('client_session'))->first();
             if(!$check_session){
                 return redirect('/client_login');
             }
         }else{
             $this->middleware('auth');
-            //echo $this->get_employee_id; die;
         }
     }
 
@@ -38,7 +40,12 @@ class HomeController extends ParentController
             parent::VerifyRights();if($this->redirectUrl){return redirect($this->redirectUrl);}
             return view('home', ['check_rights' => $this->check_employee_rights]);
         }else{
-            return view('home');
+            $check_session = DB::table('clients')->select('id')->where('client_login_session', Cookie::get('client_session'))->first();
+            if(!$check_session){
+                return redirect('/cout');
+            }else{
+                return view('home');
+            }
         }
          
     }

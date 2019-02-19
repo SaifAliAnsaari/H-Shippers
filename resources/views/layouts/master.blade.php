@@ -73,7 +73,7 @@
 
     {{-- <form action="/test-upload" class="dropzone" id="dropzonewidget" method="POST" enctype="multipart/form-data">
         @csrf
-        </form>  --}}
+    </form>  --}}
 
     @if($controller == "Customer")
         <script src="/js/custom/customer.js?v=2.0" ></script>
@@ -82,7 +82,7 @@
     @elseif($controller == "RegisterController")
         <script src="/js/custom/employee.js?v=2.0" ></script>
     @elseif($controller == "Clients")
-        <script src="/js/client/clients.js?v=2.0" ></script>
+        <script src="/js/client/clients.js?v=2.4" ></script>
     @elseif($controller == "OrganizationManagement")
         <script src="/js/manage_organization/manage_organization.js?v=2.0" ></script>
     @elseif($controller == "ManageBilling")
@@ -90,9 +90,9 @@
     @elseif($controller == "ClientsForBilling")
         <script src="/js/manage_billing/customers_for_biling.js?v=2.1" ></script>
     @elseif($controller == "ComplaintsAndSuggestions")
-        <script src="/js/manage_complaints_suggestions/complaints_suggestions.js?v=2.0" ></script>
+        <script src="/js/manage_complaints_suggestions/complaints_suggestions.js?v=2.1" ></script>
     @elseif($controller == "ConsignmentManagement")
-        <script src="/js/manage_consignment/consignment.js?v=2.31" ></script>
+        <script src="/js/manage_consignment/consignment.js?v=2.4" ></script>
     @elseif($controller == "AccessRights")
         <script src="/js/access_rights/access_rights.js?v=2.0" ></script>
     @endif

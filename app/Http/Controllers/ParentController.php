@@ -28,4 +28,12 @@ class ParentController extends Controller
     public function getAccRights(){
         $this->check_employee_rights = DB::table('access_rights')->where('employee_id', Auth::user()->id)->get();
     }
+
+    // public function verifySession(){
+    //     $check_session = DB::table('clients')->select('id')->where('client_login_session', Cookie::get('client_session'))->first();
+    //     if(!$check_session){
+    //         // $this->invalidSess = true;
+    //         return redirect('/cout');
+    //     }
+    // }
 }

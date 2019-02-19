@@ -7,6 +7,9 @@ use Illuminate\Support\Facades\Storage;
 use DB;
 use URL;
 use Cookie;
+use Illuminate\Support\Facades\Input;
+use Validator;
+use File;
 
 class Clients extends ParentController
 {
@@ -46,6 +49,35 @@ class Clients extends ParentController
         // if(DB::table('clients')->select('id')->where("email", $request->email)->first()){
         //     echo json_encode('already exist');
         // }else{
+
+            // $insert_client_data = DB::table('clients')->insertGetId(
+            //     ['username' => $request->username, 
+            //     'password' => bcrypt($request->password), 
+            //     'company_name' => $request->company_name,
+            //     'poc_name' => $request->poc, 
+            //     'phone' => $request->phone_number,
+            //     'office_num' => $request->office_number,
+            //     'website' => $request->website,
+            //     // 'city' => $request->city,
+            //     'address' => $request->address,
+            //     'ntn' => $request->ntn,
+            //     'strn' => $request->strn,
+            //     'customer_type' => $request->customer_type,
+            //     'pick_up_city' => $request->pick_up_city,
+            //     'pick_up_province' => $request->pick_up_province,
+            //     'company_pic' => $compPic,
+            //     'client_key' => $request->client_key
+            //     ]);
+
+            //     if($insert_client_data){
+            //         echo json_encode('success');
+            //     }else{
+            //         echo json_encode('failed');
+            //     }
+
+            //     die;
+
+
                 if($request->hasFile('compPicture')){
                     $completeFileName = $request->file('compPicture')->getClientOriginalName();
                     $fileNameOnly = pathinfo($completeFileName, PATHINFO_FILENAME);
@@ -68,32 +100,13 @@ class Clients extends ParentController
                         'customer_type' => $request->customer_type,
                         'pick_up_city' => $request->pick_up_city,
                         'pick_up_province' => $request->pick_up_province,
-                        'company_pic' => $compPic
+                        'company_pic' => $compPic,
+                        'client_key' => $request->client_key
                         ]);
                     if($insert_client_data){
-                        if($request->hasFile('documents')){
-                            foreach($request->file('documents') as $file) :
-                                $completeFileName = $file->getClientOriginalName();
-                                $fileNameOnly = pathinfo($completeFileName, PATHINFO_FILENAME);
-                                $extension = $file->getClientOriginalExtension();
-                                $randomized = rand();
-                                $documents = str_replace(' ', '', $fileNameOnly).'-'.$randomized.''.time().'.'.$extension;
-                                $path = $file->storeAs('public/documents', $documents);
-                                $insert_doc = DB::table('client_documents')->insert([
-                                    'client_document' => $documents,
-                                    'client_id' => $insert_client_data
-                                ]);
-                            endforeach;
-                            if($insert_doc){
-                                echo json_encode("success");
-                            }else{
-                                echo json_encode("failed");
-                            }
-                        }else{
-                            echo json_encode("success");
-                        }
+                        echo json_encode('success');
                     }else{
-                        echo json_encode("failed");
+                        echo json_encode('failed');
                     }
                 }else{
                     $insert_client_data = DB::table('clients')->insertGetId(
@@ -110,36 +123,58 @@ class Clients extends ParentController
                         'strn' => $request->strn,
                         'customer_type' => $request->customer_type,
                         'pick_up_city' => $request->pick_up_city,
-                        'pick_up_province' => $request->pick_up_province
+                        'pick_up_province' => $request->pick_up_province,
+                        'client_key' => $request->client_key
                         ]);
-                    if($insert_client_data){
-                        if($request->hasFile('documents')){
-                            foreach($request->file('documents') as $file) :
-                                $completeFileName = $file->getClientOriginalName();
-                                $fileNameOnly = pathinfo($completeFileName, PATHINFO_FILENAME);
-                                $extension = $file->getClientOriginalExtension();
-                                $randomized = rand();
-                                $documents = str_replace(' ', '', $fileNameOnly).'-'.$randomized.''.time().'.'.$extension;
-                                $path = $file->storeAs('public/documents', $documents);
-                                $insert_doc = DB::table('client_documents')->insert([
-                                    'client_document' => $documents,
-                                    'client_id' => $insert_client_data
-                                ]);
-                            endforeach;
-                            if($insert_doc){
-                                echo json_encode("success");
-                            }else{
-                                echo json_encode("failed");
-                            }
-                            
+                        if($insert_client_data){
+                            echo json_encode('success');
                         }else{
-                            echo json_encode("success");
+                            echo json_encode('failed');
                         }
-                    }else{
-                        echo json_encode("failed");
-                    }
                 }
         //}
+    }
+
+    //Upload Client DOCS
+    public function upload_docs(Request $request){
+       
+        $input = Input::all();
+		$rules = array(
+		    'file' => 'image|max:3000',
+		);
+
+		$validation = Validator::make($input, $rules);
+
+		if ($validation->fails())
+		{
+			return Response::make($validation->errors->first(), 400);
+		}
+
+        if($request->hasFile('file')){
+            $file = $request->file('file');
+            $completeFileName = $file->getClientOriginalName();
+            $fileNameOnly = pathinfo($completeFileName, PATHINFO_FILENAME);
+            $extension = $file->getClientOriginalExtension();
+            $randomized = rand();
+            $documents = str_replace(' ', '', $fileNameOnly).'-'.$randomized.''.time().'.'.$extension;
+            $path = $file->storeAs('public/documents', $documents);
+            $test2 = $request->hasFile('file');
+            $insert_doc = DB::table('client_documents')->insert([
+                    'client_document' => $documents,
+                    'client_key' => $request->client_key_docs
+                ]);
+        }
+        
+        echo $documents;
+        die;
+    }
+
+    //Remove client DOCS
+    public function remove_docs($unlinkFile, Request $request){
+        if(Storage::exists('public/documents/'.$unlinkFile)){
+            Storage::delete('public/documents/'.$unlinkFile);
+            DB::table('client_documents')->where('client_document', $unlinkFile)->delete();
+        }
     }
 
     //Get client data
@@ -277,5 +312,31 @@ class Clients extends ParentController
             Cookie::forget('client_session')
         );
         return redirect('/client_login');
+    }
+
+    //Activate Client
+    public function activate_client(Request $request){
+        try{
+            $add = DB::table('clients')
+            ->where('id', $request->id)->update(
+                ['is_active' => 1
+                ]);
+            echo json_encode('success');
+        }catch(\Illuminate\Database\QueryException $ex){ 
+            echo json_encode('failed'); 
+        }
+    }
+
+    //Deactivate Client
+    public function deactivate_client(Request $request){
+        try{
+            $add = DB::table('clients')
+            ->where('id', $request->id)->update(
+                ['is_active' => 0
+                ]);
+            echo json_encode('success');
+        }catch(\Illuminate\Database\QueryException $ex){ 
+            echo json_encode('failed'); 
+        }
     }
 }

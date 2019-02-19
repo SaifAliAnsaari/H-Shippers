@@ -14,6 +14,7 @@
             {!! Form::hidden('tokenForAjaxReq', csrf_token()) !!}
             @csrf
             <input type="text" id="operation" hidden>
+            <input hidden value="" type="text" class="client_key_data" name="client_key"/>
             <div class="overflow-plist">
                 <div class="plist-content">
                     <div class="_left-filter">
@@ -103,7 +104,8 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
-                                                    <div class="form-s2 pt-19">
+                                                    <div class="form-s2">
+                                                        <label class="PT-10 font12">Customer Type</label>
                                                         <select class="form-control formselect" name="customer_type" placeholder="Customer type">
                                                             <option value="0" disabled selected>Select Customer Type</option>
                                                             <option value="corporate">Corporate</option>
@@ -135,11 +137,26 @@
                                                         </select>
                                                     </div>
                                                 </div>
+                                            </form>
                                                 <div class="col-md-12">
-                                                    <div class="form-s2">
-                                                        <label class="PT-10 font12">Contract Copy</label>
-                                                        <input name="documents[]" type="file" class="dropzone" multiple />
-                                                    </div>
+                                                        <div class="row">
+                                                            <div class="col-md-12 pt-10 mb-10">
+                                                                <h2 class="_head04">Contract <span> Copy</span></h2>
+                                                            </div> 
+                                                            
+                                                            <div class="col-md-12">
+                                                            <label class="font12">Documents Attachment</label>
+                                                                <div class="">
+                                                                    <form action="/client_docs" class="dropzone" id="dropzonewidgetclient" method="POST" enctype="multipart/form-data">
+                                                                    @csrf
+                                                                    
+                                                                    <input type="text" hidden class="client_key_docs" name="client_key_docs"/>
+                                                                    </form>
+                                                                </div>
+                            
+                                                            </div>  
+                                                                  
+                                                        </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -150,7 +167,7 @@
                     </div>
                 </div>
             </div>
-        </form>
+        {{-- </form> --}}
     </div>
     <div class="_cl-bottom">
         <button type="submit" class="btn btn-primary mr-2" id="saveClient">Save</button>

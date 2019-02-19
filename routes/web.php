@@ -80,6 +80,8 @@ Route::get('/GetConsignmentsList', 'ConsignmentManagement@GetConsignmentsList');
 Route::get('/GetEmployeeListForRights', 'AccessRights@GetEmployeeListForRights');
 Route::get('/check_access_rights', 'AccessRights@check_access_rights');
 Route::get('/get_price_if_consignmentTypeFragile', 'ConsignmentManagement@get_price_if_consignmentTypeFragile');
+Route::get('/activate_client', 'Clients@activate_client');
+Route::get('/deactivate_client', 'Clients@deactivate_client');
 
 //Get data to show on update page
 Route::get('/company_data/{id}', 'OrganizationManagement@get_company_data');
@@ -107,3 +109,6 @@ Route::get('/cout', 'Clients@cout');
 
 Route::post('/test-upload', 'ManageBilling@test');
 Route::get('/testingRoute/{test}', 'ManageBilling@testUnlink');
+
+Route::post('/client_docs', 'Clients@upload_docs');
+Route::get('/remove_client_docs/{test}', 'Clients@remove_docs');
