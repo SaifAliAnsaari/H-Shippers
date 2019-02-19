@@ -64,9 +64,9 @@
                      
                         
                             <div class="col-md-6">
-                            <label class="PT-10 font12">Start Date</label>
+                            <label class="PT-10 font12">Start Date*</label>
                               <div class="form-group" style="height: auto">
-                            <input type="text" id="datepicker" class="form-control" placeholder="" style="font-size:13px">
+                            <input type="text" id="datepicker" class="form-control required_date" placeholder="" style="font-size:13px">
                             </div>
                            </div>
 
@@ -106,29 +106,29 @@
                             
                             <div class="col-md-6">
                               <div class="form-group">
-                                <label class="control-label mb-10">Upto	0.25 KGs</label>
-                                <input type="text" id="with_in_city_twentyfive" class="form-control" style="font-size:13px">
+                                <label class="control-label mb-10">Upto	0.25 KGs*</label>
+                                <input type="text" id="with_in_city_twentyfive" class="form-control required_same_day" style="font-size:13px">
                               </div>
                             </div>
                             
                             <div class="col-md-6">
                               <div class="form-group">
-                                <label class="control-label mb-10">Upto	0.50 KGs</label>
-                                <input type="text" id="with_in_city_fifty" class="form-control" style="font-size:13px">
+                                <label class="control-label mb-10">Upto	0.50 KGs*</label>
+                                <input type="text" id="with_in_city_fifty" class="form-control required_same_day" style="font-size:13px">
                               </div>
                             </div>
                             
                             <div class="col-md-6">
                               <div class="form-group">
-                                <label class="control-label mb-10">0.51-1 KG</label>
-                                <input type="text" id="with_in_city_six" class="form-control" style="font-size:13px">
+                                <label class="control-label mb-10">0.51-1 KG*</label>
+                                <input type="text" id="with_in_city_six" class="form-control required_same_day" style="font-size:13px">
                               </div>
                             </div>
                             
                             <div class="col-md-6">
                               <div class="form-group">
-                                <label class="control-label mb-10">Each	Additional 0.5 KGs</label>
-                                <input type="text" id="with_in_city_additional" class="form-control" style="font-size:13px">
+                                <label class="control-label mb-10">Each	Additional 0.5 KGs*</label>
+                                <input type="text" id="with_in_city_additional" class="form-control required_same_day" style="font-size:13px">
                               </div>
                             </div>
 
@@ -138,29 +138,29 @@
                             
                             <div class="col-md-6">
                               <div class="form-group">
-                                <label class="control-label mb-10">Upto	0.25 KGs</label>
-                                <input type="text" id="with_in_province_twentyfive" class="form-control" style="font-size:13px">
+                                <label class="control-label mb-10">Upto	0.25 KGs*</label>
+                                <input type="text" id="with_in_province_twentyfive" class="form-control required_same_day" style="font-size:13px">
                               </div>
                             </div>
                             
                             <div class="col-md-6">
                               <div class="form-group">
-                                <label class="control-label mb-10">Upto	0.50 KGs</label>
-                                <input type="text" id="with_in_province_fifty" class="form-control" style="font-size:13px">
+                                <label class="control-label mb-10">Upto	0.50 KGs*</label>
+                                <input type="text" id="with_in_province_fifty" class="form-control required_same_day" style="font-size:13px">
                               </div>
                             </div>
                             
                             <div class="col-md-6">
                               <div class="form-group">
-                                <label class="control-label mb-10">0.51-1 KG</label>
-                                <input type="text" id="with_in_province_six" class="form-control" style="font-size:13px">
+                                <label class="control-label mb-10">0.51-1 KG*</label>
+                                <input type="text" id="with_in_province_six" class="form-control required_same_day" style="font-size:13px">
                               </div>
                             </div>
                             
                             <div class="col-md-6">
                               <div class="form-group">
-                                <label class="control-label mb-10">Each	Additional 0.5 KGs</label>
-                                <input type="text" id="with_in_province_additional" class="form-control" style="font-size:13px">
+                                <label class="control-label mb-10">Each	Additional 0.5 KGs*</label>
+                                <input type="text" id="with_in_province_additional" class="form-control required_same_day" style="font-size:13px">
                               </div>
                             </div>
                             
@@ -170,29 +170,29 @@
                             
                             <div class="col-md-6">
                               <div class="form-group">
-                                <label class="control-label mb-10">Upto	0.25 KGs</label>
-                                <input type="text" id="prov_to_prov_twentyfive" class="form-control" style="font-size:13px">
+                                <label class="control-label mb-10">Upto	0.25 KGs*</label>
+                                <input type="text" id="prov_to_prov_twentyfive" class="form-control required_same_day" style="font-size:13px">
                               </div>
                             </div>
                             
                             <div class="col-md-6">
                               <div class="form-group">
-                                <label class="control-label mb-10">Upto	0.50 KGs</label>
-                                <input type="text" id="prov_to_prov_fifty" class="form-control" style="font-size:13px">
+                                <label class="control-label mb-10">Upto	0.50 KGs*</label>
+                                <input type="text" id="prov_to_prov_fifty" class="form-control required_same_day" style="font-size:13px">
                               </div>
                             </div>
                             
                             <div class="col-md-6">
                               <div class="form-group">
-                                <label class="control-label mb-10">0.51-1 KG</label>
-                                <input type="text" id="prov_to_prov_six" class="form-control" style="font-size:13px">
+                                <label class="control-label mb-10">0.51-1 KG*</label>
+                                <input type="text" id="prov_to_prov_six" class="form-control required_same_day" style="font-size:13px">
                               </div>
                             </div>
                             
                             <div class="col-md-6">
                               <div class="form-group">
-                                <label class="control-label mb-10">Each	Additional 0.5 KGs</label>
-                                <input type="text" id="prov_to_prov_additional" class="form-control" style="font-size:13px">
+                                <label class="control-label mb-10">Each	Additional 0.5 KGs*</label>
+                                <input type="text" id="prov_to_prov_additional" class="form-control required_same_day" style="font-size:13px">
                               </div>
                             </div> 
                             
@@ -229,29 +229,29 @@
                             
                             <div class="col-md-6">
                               <div class="form-group">
-                                <label class="control-label mb-10">Upto	0.25 KGs</label>
-                                <input type="text" id="on_with_in_city_twentyfive" class="form-control" style="font-size:13px">
+                                <label class="control-label mb-10">Upto	0.25 KGs*</label>
+                                <input type="text" id="on_with_in_city_twentyfive" class="form-control required_over_night" style="font-size:13px">
                               </div>
                             </div>
                             
                             <div class="col-md-6">
                               <div class="form-group">
-                                <label class="control-label mb-10">Upto	0.50 KGs</label>
-                                <input type="text" id="on_with_in_city_fifty" class="form-control" style="font-size:13px">
+                                <label class="control-label mb-10">Upto	0.50 KGs*</label>
+                                <input type="text" id="on_with_in_city_fifty" class="form-control required_over_night" style="font-size:13px">
                               </div>
                             </div>
                             
                             <div class="col-md-6">
                               <div class="form-group">
-                                <label class="control-label mb-10">0.51-1 KG</label>
-                                <input type="text" id="on_with_in_city_six" class="form-control" style="font-size:13px">
+                                <label class="control-label mb-10">0.51-1 KG*</label>
+                                <input type="text" id="on_with_in_city_six" class="form-control required_over_night" style="font-size:13px">
                               </div>
                             </div>
                             
                             <div class="col-md-6">
                               <div class="form-group">
-                                <label class="control-label mb-10">Each	Additional 0.5 KGs</label>
-                                <input type="text" id="on_with_in_city_additional" class="form-control" style="font-size:13px">
+                                <label class="control-label mb-10">Each	Additional 0.5 KGs*</label>
+                                <input type="text" id="on_with_in_city_additional" class="form-control required_over_night" style="font-size:13px">
                               </div>
                             </div>
 
@@ -261,29 +261,29 @@
                             
                             <div class="col-md-6">
                               <div class="form-group">
-                                <label class="control-label mb-10">Upto	0.25 KGs</label>
-                                <input type="text" id="on_with_in_prov_twentyfive" class="form-control" style="font-size:13px">
+                                <label class="control-label mb-10">Upto	0.25 KGs*</label>
+                                <input type="text" id="on_with_in_prov_twentyfive" class="form-control required_over_night" style="font-size:13px">
                               </div>
                             </div>
                             
                             <div class="col-md-6">
                               <div class="form-group">
-                                <label class="control-label mb-10">Upto	0.50 KGs</label>
-                                <input type="text" id="on_with_in_prov_fifty" class="form-control" style="font-size:13px">
+                                <label class="control-label mb-10">Upto	0.50 KGs*</label>
+                                <input type="text" id="on_with_in_prov_fifty" class="form-control required_over_night" style="font-size:13px">
                               </div>
                             </div>
                             
                             <div class="col-md-6">
                               <div class="form-group">
-                                <label class="control-label mb-10">0.51-1 KG</label>
-                                <input type="text" id="on_with_in_prov_six" class="form-control" style="font-size:13px">
+                                <label class="control-label mb-10">0.51-1 KG*</label>
+                                <input type="text" id="on_with_in_prov_six" class="form-control required_over_night" style="font-size:13px">
                               </div>
                             </div>
                             
                             <div class="col-md-6">
                               <div class="form-group">
-                                <label class="control-label mb-10">Each	Additional 0.5 KGs</label>
-                                <input type="text" id="on_with_in_prov_additional" class="form-control" style="font-size:13px">
+                                <label class="control-label mb-10">Each	Additional 0.5 KGs*</label>
+                                <input type="text" id="on_with_in_prov_additional" class="form-control required_over_night" style="font-size:13px">
                               </div>
                             </div>
                             
@@ -293,29 +293,29 @@
                             
                             <div class="col-md-6">
                               <div class="form-group">
-                                <label class="control-label mb-10">Upto	0.25 KGs</label>
-                                <input type="text" id="on_provience_to_prov_twentyfive" class="form-control" style="font-size:13px">
+                                <label class="control-label mb-10">Upto	0.25 KGs*</label>
+                                <input type="text" id="on_provience_to_prov_twentyfive" class="form-control required_over_night" style="font-size:13px">
                               </div>
                             </div>
                             
                             <div class="col-md-6">
                               <div class="form-group">
-                                <label class="control-label mb-10">Upto	0.50 KGs</label>
-                                <input type="text" id="on_provience_to_prov_fifty" class="form-control" style="font-size:13px">
+                                <label class="control-label mb-10">Upto	0.50 KGs*</label>
+                                <input type="text" id="on_provience_to_prov_fifty" class="form-control required_over_night" style="font-size:13px">
                               </div>
                             </div>
                             
                             <div class="col-md-6">
                               <div class="form-group">
-                                <label class="control-label mb-10">0.51-1 KG</label>
-                                <input type="text" id="on_provience_to_prov_six" class="form-control" style="font-size:13px">
+                                <label class="control-label mb-10">0.51-1 KG*</label>
+                                <input type="text" id="on_provience_to_prov_six" class="form-control required_over_night" style="font-size:13px">
                               </div>
                             </div>
                             
                             <div class="col-md-6">
                               <div class="form-group">
-                                <label class="control-label mb-10">Each	Additional 0.5 KGs</label>
-                                <input type="text" id="on_provience_to_prov_additional" class="form-control" style="font-size:13px">
+                                <label class="control-label mb-10">Each	Additional 0.5 KGs*</label>
+                                <input type="text" id="on_provience_to_prov_additional" class="form-control required_over_night" style="font-size:13px">
                               </div>
                             </div> 
                             
@@ -353,15 +353,15 @@
                             
                             <div class="col-md-6">
                               <div class="form-group">
-                                <label class="control-label mb-10">Upto	3 KGs</label>
-                                <input type="text" id="second_day_delivery_upto_3kg" class="form-control" style="font-size:13px">
+                                <label class="control-label mb-10">Upto	3 KGs*</label>
+                                <input type="text" id="second_day_delivery_upto_3kg" class="form-control required_second_day" style="font-size:13px">
                               </div>
                             </div>
                             
                             <div class="col-md-6">
                               <div class="form-group">
-                                <label class="control-label mb-10">Each	Additional 1 KGs</label>
-                                <input type="text" id="second_day_delivery_additional_1KG" class="form-control" style="font-size:13px">
+                                <label class="control-label mb-10">Each	Additional 1 KGs*</label>
+                                <input type="text" id="second_day_delivery_additional_1KG" class="form-control required_second_day" style="font-size:13px">
                               </div>
                             </div>
                              
@@ -371,15 +371,15 @@
                             
                             <div class="col-md-6">
                               <div class="form-group">
-                                <label class="control-label mb-10">Upto	3 KGs</label>
-                                <input type="text" id="second_day_delivery_prov_to_prov_upto3KG" class="form-control" style="font-size:13px">
+                                <label class="control-label mb-10">Upto	3 KGs*</label>
+                                <input type="text" id="second_day_delivery_prov_to_prov_upto3KG" class="form-control required_second_day" style="font-size:13px">
                               </div>
                             </div>
                             
                             <div class="col-md-6">
                               <div class="form-group">
-                                <label class="control-label mb-10">Each	Additional 1 KGs</label>
-                                <input type="text" id="second_day_delivery_prov_to_prov_additional1KG" class="form-control" style="font-size:13px">
+                                <label class="control-label mb-10">Each	Additional 1 KGs*</label>
+                                <input type="text" id="second_day_delivery_prov_to_prov_additional1KG" class="form-control required_second_day" style="font-size:13px">
                               </div>
                             </div>
                             
@@ -427,15 +427,15 @@
                             
                             <div class="col-md-6">
                               <div class="form-group">
-                                <label class="control-label mb-10">Upto	10 KGs</label>
-                                <input type="text" id="over_land_upto10KG" class="form-control" style="font-size:13px">
+                                <label class="control-label mb-10">Upto	10 KGs*</label>
+                                <input type="text" id="over_land_upto10KG" class="form-control required_over_land" style="font-size:13px">
                               </div>
                             </div>
                             
                             <div class="col-md-6">
                               <div class="form-group">
-                                <label class="control-label mb-10">Each	Additional	1 KGs</label>
-                                <input type="text" id="over_land_additional1KG" class="form-control" style="font-size:13px">
+                                <label class="control-label mb-10">Each	Additional	1 KGs*</label>
+                                <input type="text" id="over_land_additional1KG" class="form-control required_over_land" style="font-size:13px">
                               </div>
                             </div>
                              
@@ -445,15 +445,15 @@
                             
                             <div class="col-md-6">
                               <div class="form-group">
-                                <label class="control-label mb-10">Upto 10 KGs</label>
-                                <input type="text" id="over_land_prov_to_prov_upto10KG" class="form-control" style="font-size:13px">
+                                <label class="control-label mb-10">Upto 10 KGs*</label>
+                                <input type="text" id="over_land_prov_to_prov_upto10KG" class="form-control required_over_land" style="font-size:13px">
                               </div>
                             </div> 
                             
                             <div class="col-md-6">
                               <div class="form-group">
-                                <label class="control-label mb-10">Each	Additional 0.5 KGs</label>
-                                <input type="text" id="over_land_prov_to_prov_additionalpoint5KG" class="form-control" style="font-size:13px">
+                                <label class="control-label mb-10">Each	Additional 0.5 KGs*</label>
+                                <input type="text" id="over_land_prov_to_prov_additionalpoint5KG" class="form-control required_over_land" style="font-size:13px">
                               </div>
                             </div> 
         
@@ -486,7 +486,7 @@
                               <div class="col-md-6">
                                 <div  class="form-group">
                                   <label class="control-label mb-10">Cost</label>
-                                  <input type="text" id="fragile_cost_price" class="form-control" style="font-size:13px">
+                                  <input type="text" id="fragile_cost_price" class="form-control required_cost" style="font-size:13px">
                                 </div>
                               </div>
                           </div>	
@@ -516,22 +516,22 @@
                  
                               <div class="col-md-6">
                                 <div  class="form-group">
-                                  <label class="control-label mb-10">For Fragile</label>
-                                  <input type="text" id="insurance_for_fragile" class="form-control" style="font-size:13px">
+                                  <label class="control-label mb-10">For Fragile*</label>
+                                  <input type="text" id="insurance_for_fragile" class="form-control required_insurance" style="font-size:13px">
                                 </div>
                               </div>
                               
                               <div class="col-md-6">
                                 <div  class="form-group">
-                                  <label class="control-label mb-10">For Non Fragile</label>
-                                  <input type="text" id="insurance_for_non_fragile" class="form-control" style="font-size:13px">
+                                  <label class="control-label mb-10">For Non Fragile*</label>
+                                  <input type="text" id="insurance_for_non_fragile" class="form-control required_insurance" style="font-size:13px">
                                 </div>
                               </div>
                               
                               <div class="col-md-6">
                                 <div  class="form-group">
-                                  <label class="control-label mb-10">For Electronics</label>
-                                  <input type="text" id="insurance_for_electronics" class="form-control" style="font-size:13px">
+                                  <label class="control-label mb-10">For Electronics*</label>
+                                  <input type="text" id="insurance_for_electronics" class="form-control required_insurance" style="font-size:13px">
                                 </div>
                               </div> 
                       
@@ -563,29 +563,29 @@
                       
                                <div class="col-md-6">
                                 <div  class="form-group">
-                                  <label class="control-label mb-10">Holiday</label>
-                                  <input type="number" id="supplementary_services_holiday" class="form-control" style="font-size:13px">
+                                  <label class="control-label mb-10">Holiday*</label>
+                                  <input type="number" id="supplementary_services_holiday" class="form-control required_supplementary" style="font-size:13px">
                                 </div>
                               </div>
                           
                            <div class="col-md-6">
                                 <div  class="form-group">
-                                  <label class="control-label mb-10">Special Handling</label>
-                                  <input type="number" id="supplementary_services_special_holiday" class="form-control" style="font-size:13px">
+                                  <label class="control-label mb-10">Special Handling*</label>
+                                  <input type="number" id="supplementary_services_special_holiday" class="form-control required_supplementary" style="font-size:13px">
                                 </div>
                               </div>
                           
                            <div class="col-md-6">
                                 <div  class="form-group">
-                                  <label class="control-label mb-10">Time Specified</label>
-                                  <input type="number" id="supplementary_services_time_specified" class="form-control" style="font-size:13px">
+                                  <label class="control-label mb-10">Time Specified*</label>
+                                  <input type="number" id="supplementary_services_time_specified" class="form-control required_supplementary" style="font-size:13px">
                                 </div>
                               </div>
                           
                            <div class="col-md-6">
                                 <div  class="form-group">
-                                  <label class="control-label mb-10">Passport</label>
-                                  <input type="number" id="supplementary_services_passport" class="form-control" style="font-size:13px">
+                                  <label class="control-label mb-10">Passport*</label>
+                                  <input type="number" id="supplementary_services_passport" class="form-control required_supplementary" style="font-size:13px">
                                 </div>
                               </div> 
                               
@@ -615,8 +615,8 @@
                                  
                               <div class="col-md-6">
                                 <div  class="form-group">
-                                  <label class="control-label mb-10">Fuel Charges</label>
-                                  <input type="text" id="fuel_charges" class="form-control" style="font-size:13px">
+                                  <label class="control-label mb-10">Fuel Charges*</label>
+                                  <input type="text" id="fuel_charges" class="form-control required_fuel" style="font-size:13px">
                                 </div>
                               </div>
                               
@@ -648,7 +648,7 @@
                              <div class="col-md-6">
                                 <div  class="form-group">
                                   <label class="control-label mb-10">GST</label>
-                                  <input type="text" id="gst_tax" class="form-control" style="font-size:13px">
+                                  <input type="text" id="gst_tax" class="form-control required_tax" style="font-size:13px">
                                 </div>
                               </div>
                               

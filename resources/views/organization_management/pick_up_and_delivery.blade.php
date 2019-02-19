@@ -30,13 +30,13 @@
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label class="control-label mb-10">City Name*</label>
-                                                                <input type="text" name="city_name" class="form-control" placeholder="" required>
+                                                                <input type="text" name="city_name" class="form-control required" placeholder="" required>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label class="control-label mb-10">Province*</label>
-                                                                <input type="text" name="province" class="form-control" placeholder="" required>
+                                                                <input type="text" name="province" class="form-control required" placeholder="" required>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -48,7 +48,7 @@
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label class="control-label mb-10">City Short Code*</label>
-                                                                <input type="text" name="city_short_code" class="form-control" placeholder="" required>
+                                                                <input type="text" name="city_short_code" class="form-control required" placeholder="" required>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6">
@@ -62,11 +62,13 @@
                                                 <div class="col-md-12">
                                                     <div class="form-s2">
                                                         <label class="PT-10 font12">Location Service*</label>
-                                                        <select class="form-control sd-type" name="location" multiple="multiple">
-                                                            <option value="0" disabled>Select Location Service</option>
-                                                            <option value="1">Pick Up</option> 
-                                                            <option value="2">Delivery</option> 
-                                                        </select>
+                                                        <div>
+                                                            <select class="form-control sd-type required" name="location" multiple="multiple">
+                                                                <option value="0" disabled>Select Location Service</option>
+                                                                <option value="1">Pick Up</option> 
+                                                                <option value="2">Delivery</option> 
+                                                            </select>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>

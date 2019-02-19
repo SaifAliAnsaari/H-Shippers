@@ -40,7 +40,7 @@
      
                   <div class="_new-consign-top">
                     <label class="control-label label2">CNNo*:</label>
-                    <input type="text" id="cnic_client" name="cnic_client" class="form-control" placeholder="" style="font-size: 13px">				 
+                    <input type="text" id="cnic_client" name="cnic_client" class="form-control required" placeholder="" style="font-size: 13px">				 
                 </div>
                 
                  <div class="_new-consign-top">
@@ -50,7 +50,7 @@
                 
                  <div class="_new-consign-top mr-0">
                     <label class="control-label label4">Region*:</label>
-                    <input type="text" name="region_client" id="region_client" class="form-control" placeholder="Lahore" style="font-size: 13px">				 
+                    <input type="text" name="region_client" id="region_client" class="form-control required" placeholder="Lahore" style="font-size: 13px">				 
                 </div>
         </div>
         </div>
@@ -69,34 +69,34 @@
               <div class="col-md-4">
                   <div class="form-group">
                     <label class="control-label mb-10">Consignee Name*</label>
-                    <input type="text" name="consignee_name_client" id="consignee_name_client" class="form-control" placeholder="" style="font-size: 13px">
+                    <input type="text" name="consignee_name_client" id="consignee_name_client" class="form-control required" placeholder="" style="font-size: 13px">
                   </div>
                 </div>
               <div class="col-md-4">
                   <div class="form-group">
                     <label class="control-label mb-10">Consignee Ref#*</label>
-                    <input type="text" name="consignee_ref_client" id="consignee_ref_client" class="form-control" placeholder="" style="font-size: 13px">
+                    <input type="text" name="consignee_ref_client" id="consignee_ref_client" class="form-control required" placeholder="" style="font-size: 13px">
                   </div>
                 </div>
                 
                 <div class="col-md-4">
                   <div class="form-group">
                     <label class="control-label mb-10">Consignee Cell#*</label>
-                    <input type="number" name="consignee_cell_client" id="consignee_cell_client" class="form-control" placeholder="" style="font-size: 13px">
+                    <input type="number" name="consignee_cell_client" id="consignee_cell_client" class="form-control required" placeholder="" style="font-size: 13px">
                   </div>
                 </div>
 
                 <div class="col-md-4">
                   <div class="form-group">
                     <label class="control-label mb-10">Email*</label>
-                    <input type="email" name="consignee_email_client" id="consignee_email_client" class="form-control" placeholder="" style="font-size: 13px">
+                    <input type="email" name="consignee_email_client" id="consignee_email_client" class="form-control required" placeholder="" style="font-size: 13px">
                   </div>
                 </div> 
 
                 <div class="col-md-8">
                   <div class="form-group">
                     <label class="control-label mb-10">Address*</label>
-                    <input type="text" name="consignee_address_client" id="consignee_address_client" class="form-control" placeholder="" style="font-size: 13px">
+                    <input type="text" name="consignee_address_client" id="consignee_address_client" class="form-control required" placeholder="" style="font-size: 13px">
                   </div>
                 </div>
 
@@ -117,23 +117,27 @@
                 </div> --}}
                 <div class="col-md-4">
                   <div class="form-s2 pt-19">
-                        <select class="form-control formselect" placeholder="Consignment Type" name="consignment_type" id="consignment_type">
-                        <option value="0" selected disabled>Consignment Type*</option>
-                        <option value="Fragile">Fragile</option>
-                        <option value="Non Fragile">Non Fragile</option>
-                        </select>
+                    <div>
+                      <select class="form-control formselect required" placeholder="Consignment Type" name="consignment_type" id="consignment_type">
+                      <option value="0" selected disabled>Consignment Type*</option>
+                      <option value="Fragile">Fragile</option>
+                      <option value="Non Fragile">Non Fragile</option>
+                      </select>
+                    </div>
                   </div>
                   </div>
 
                 <div class="col-md-4">
                 <div class="form-s2 pt-19">
-                          <select class="form-control formselect" placeholder="Services Type" name="consignment_service_type_client" id="consignment_service_type_client">
-                            <option value = "0" selected disabled>Services Type*</option>
-                            <option value="1">Same Day Delivery</option>
-                            <option value="2">Over Night Delivery</option>
-                            <option value="3">Second Day Delivery</option>
-                            <option value="4">Over Land</option>
-                          </select>
+                  <div>
+                    <select class="form-control formselect required" placeholder="Services Type" name="consignment_service_type_client" id="consignment_service_type_client">
+                      <option value = "0" selected disabled>Services Type*</option>
+                      <option value="1">Same Day Delivery</option>
+                      <option value="2">Over Night Delivery</option>
+                      <option value="3">Second Day Delivery</option>
+                      <option value="4">Over Land</option>
+                    </select>
+                  </div>
                 </div>
                 </div>
                 
@@ -141,21 +145,21 @@
                 <div class="col-md-4">
                   <div class="form-group">
                     <label class="control-label mb-10">Pieces*</label>
-                    <input type="number" id="consignment_pieces_client" name="consignment_pieces_client" class="form-control" placeholder="" style="font-size: 13px">
+                    <input type="number" id="consignment_pieces_client" name="consignment_pieces_client" class="form-control required" placeholder="" style="font-size: 13px">
                   </div>
                 </div>
 
                 <div class="col-md-4">
                   <div class="form-group">
                     <label class="control-label mb-10">Weight(Kgs)*</label>
-                    <input type="number" name="consignment_weight_client" id="consignment_weight_client" class="form-control" placeholder="" style="font-size: 13px">
+                    <input type="number" name="consignment_weight_client" id="consignment_weight_client" class="form-control required" placeholder="" style="font-size: 13px">
                   </div>
                 </div> 
 
                 <div class="col-md-4">
                   <div class="form-group">
                     <label class="control-label mb-10">Description (Product/Item)*</label>
-                    <input type="text" name="consignment_description_client" id="consignment_description_client" class="form-control" placeholder="" style="font-size: 13px">
+                    <input type="text" name="consignment_description_client" id="consignment_description_client" class="form-control required" placeholder="" style="font-size: 13px">
                   </div>
                 </div>
                 
@@ -168,16 +172,18 @@
 
                 <div class="col-md-4">
                   <div class="form-s2 pt-19">
-                    <select class="form-control formselect" placeholder="Services Type" name="consignment_dest_city_client" id="consignment_dest_city_client">
-                        <option value = "0" selected disabled>Select Destination City*</option>
-                        <?php
-                          if(!$pickup_city->isEmpty()){
-                            foreach($pickup_city as $city){ ?>
-                              <option value = "<?= $city->city_name ?>"><?= $city->city_name ?></option>
-                            <?php }
-                          }
-                        ?>
-                      </select>
+                    <div>
+                      <select class="form-control formselect required" placeholder="Services Type" name="consignment_dest_city_client" id="consignment_dest_city_client">
+                          <option value = "0" selected disabled>Select Destination City*</option>
+                          <?php
+                            if(!$pickup_city->isEmpty()){
+                              foreach($pickup_city as $city){ ?>
+                                <option value = "<?= $city->city_name ?>"><?= $city->city_name ?></option>
+                              <?php }
+                            }
+                          ?>
+                        </select>
+                      </div>
                   </div>
                 </div>
 
@@ -248,7 +254,7 @@
                 <div class="col-md-12">
                <label class="PT-10 font12">Remarks*</label>
                   <div class="form-group">							 
-                    <textarea name="remarks_client" id="remarks_client" rows="8" style="font-size: 13px"></textarea>
+                    <textarea name="remarks_client" id="remarks_client" class="required" rows="8" style="font-size: 13px"></textarea>
                     </div>
                 </div>
                 

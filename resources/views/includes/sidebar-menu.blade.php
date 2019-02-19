@@ -11,6 +11,17 @@
                 <a class="dropdown-item" href="/consignment_booked">Booked List</a>
             </div>
         </li>
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navi-l1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <img src="/images/comment.svg" alt="" />
+                <span>Complaints & Suggestions</span>
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navi-l1">
+                <a class="dropdown-item" href="/complaints_suggestions">Complaints & Suggestions</a>
+                <a class="dropdown-item" href="/complaints_list_client">Complaints List</a>
+                <a class="dropdown-item" href="/suggestions_list_client">Suggestion List</a>
+            </div>
+        </li>
    <?php }else{
         if(!$check_rights->isEmpty()){
             $test_array = array();
@@ -87,15 +98,17 @@
             @endif
         </div>
     </li>
-
+    
     <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navi-l1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <img src="/images/comment.svg" alt="" />
             <span>Complaints & Suggestions</span>
         </a>
         <div class="dropdown-menu" aria-labelledby="navi-l1">
-            @if(in_array("/complaints_suggestions", $test_array))
-                <a class="dropdown-item" href="/complaints_suggestions">Complaints & Suggestions</a>
+            @if(!Auth::check())
+                @if(in_array("/complaints_suggestions", $test_array))
+                    <a class="dropdown-item" href="/complaints_suggestions">Complaints & Suggestions</a>
+                @endif
             @endif
             @if(in_array("/complaints_list_client", $test_array))
                 <a class="dropdown-item" href="/complaints_list_client">Complaints List</a>

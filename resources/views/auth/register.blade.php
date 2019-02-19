@@ -24,7 +24,7 @@
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label class="control-label mb-10">Full Name*</label>
-                                                        <input type="text" name="name" class="form-control" placeholder="">
+                                                        <input type="text" name="name" class="form-control required" placeholder="">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
@@ -51,8 +51,8 @@
                                             <div class="row">
                                                 <div class="col-md-6">
                                                     <div class="form-group">
-                                                        <label class="control-label mb-10">Email ID</label>
-                                                        <input type="text" name="email" class="form-control" placeholder="">
+                                                        <label class="control-label mb-10">Email ID*</label>
+                                                        <input type="text" name="email" class="form-control required" placeholder="">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
@@ -66,7 +66,7 @@
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label class="control-label mb-10">City*</label>
-                                                        <input type="text" name="city" class="form-control" placeholder="">
+                                                        <input type="text" name="city" class="form-control required" placeholder="">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
@@ -97,11 +97,11 @@
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label class="control-label mb-10">Username*</label>
-                                                        <input type="text" name="username" class="form-control" placeholder="">
+                                                        <input type="text" name="username" class="form-control required" placeholder="">
                                                     </div>
                                                     <div class="form-group">
                                                         <label class="control-label mb-10">Password*</label>
-                                                        <input type="password" name="password" class="form-control" placeholder="">
+                                                        <input type="password" name="password" class="form-control required" placeholder="">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
@@ -117,28 +117,32 @@
                                                 <div class="col-md-12">
                                                     <label class="PT-10 font12">Hiring Date*</label>
                                                     <div class="form-group" style="height: auto">
-                                                        <input type="text" name="hiring" id="datepicker" class="form-control" placeholder="">
+                                                        <input type="text" name="hiring" id="datepicker" class="form-control required" placeholder="">
                                                     </div>
                                                     <div class="form-s2 pt-10">
-                                                        <select name="designation" class="form-control formselect" placeholder="select Designation">
-                                                            <option value="0" selected>Select Designation*</option>
-                                                            <option value="1">CEO</option>
-                                                            <option value="2">Manager</option>
-                                                            <option value="3">Officer</option>
-                                                            <option value="4">CSR</option>
-                                                            <option value="5">Rider</option>
-                                                            <option value="6">Office Staff</option> 
-                                                        </select>
+                                                        <div>
+                                                            <select name="designation" class="form-control formselect required" placeholder="select Designation">
+                                                                <option value="0" selected>Select Designation*</option>
+                                                                <option value="1">CEO</option>
+                                                                <option value="2">Manager</option>
+                                                                <option value="3">Officer</option>
+                                                                <option value="4">CSR</option>
+                                                                <option value="5">Rider</option>
+                                                                <option value="6">Office Staff</option> 
+                                                            </select>
+                                                        </div>
                                                     </div>
                                                     <div class="form-s2 pt-19">
-                                                        <select name="reporting" class="form-control formselect" placeholder="Reporting To">
-                                                            <option value="0" selected>Reporting To*</option>
-                                                            <option value="1">Admin</option>
-                                                            <option value="2">Manager</option>
-                                                            <option value="3">Salesman</option>
-                                                            <option value="4">Rider</option>
-                                                            <option value="5">Cashier</option> 
-                                                        </select>
+                                                        <div>
+                                                            <select name="reporting" class="form-control formselect required" placeholder="Reporting To">
+                                                                <option value="0" selected>Reporting To*</option>
+                                                                <option value="1">Admin</option>
+                                                                <option value="2">Manager</option>
+                                                                <option value="3">Salesman</option>
+                                                                <option value="4">Rider</option>
+                                                                <option value="5">Cashier</option> 
+                                                            </select>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>

@@ -114,16 +114,28 @@ $(document).ready(function(){
 
     //Save
     $(document).on('click', '#saveClient', function() {
+        var verif = [];
+        $('.required').css('border', '');
+        $('.required').parent().css('border', '');
 
-        if (!$('input[name="username"]').val() || !$('input[name="password"]').val() || !$('input[name="company_name"]').val() ) {
-            $('#notifDiv').fadeIn();
-            $('#notifDiv').css('background', 'red');
-            $('#notifDiv').text('Please provide all the required information (*)');
-            setTimeout(() => {
-                $('#notifDiv').fadeOut();
-            }, 3000);
+        $('.required').each(function () {
+            if ($(this).val() == "") {
+                $(this).css("border", "1px solid red");
+                verif.push(false);
+                return;
+            }else if( $(this).val() == 0 || $(this).val() == null){
+                $(this).parent().css("border", "1px solid red");
+                verif.push(false);
+                return;
+            } else {
+                verif.push(true);
+            }
+        });
+
+        if(verif.includes(false)){
             return;
         }
+        
         $('#saveClient').attr('disabled', 'disabled');
         $('#cancelClient').attr('disabled', 'disabled');
         $('#saveClient').text('Processing..');

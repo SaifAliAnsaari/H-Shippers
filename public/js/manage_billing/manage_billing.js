@@ -71,15 +71,24 @@ $(document).ready(function () {
         // return;
 
         if (currentLayout == 'start_date') {
-            if ($('#datepicker').val() == "") {
-                $('#notifDiv').fadeIn();
-                $('#notifDiv').css('background', 'red');
-                $('#notifDiv').text('Please enter start date.');
-                setTimeout(() => {
-                    $('#notifDiv').fadeOut();
-                }, 3000);
+            var verif = [];
+            $('.required_date').css('border', '');
+            $('.required_date').parent().css('border', '');
+
+            $('.required_date').each(function () {
+                if ($(this).val() == "") {
+                    $(this).css("border", "1px solid red");
+                    verif.push(false);
+                    return;
+                } else {
+                    verif.push(true);
+                }
+            });
+
+            if(verif.includes(false)){
                 return;
-            }
+            } 
+
             currentLayout = 'same_day_delivery_rate';
             $('#v-pills-tab a:eq(1)').css("pointer-events", "");
             $('#v-pills-tab a').removeClass("active");
@@ -87,16 +96,23 @@ $(document).ready(function () {
             $('#v-pills-01').removeClass('active show');
             $('#v-pills-02').addClass('active show');
         } else if (currentLayout == 'same_day_delivery_rate') {
-            // debugger;
-            if ($('#with_in_city_twentyfive').val() == "" || $('#with_in_city_fifty').val() == "" || $('#with_in_city_six').val() == "" || $('#with_in_city_additional').val() == "" || $('#with_in_province_twentyfive').val() == "" || $('#with_in_province_fifty').val() == "" || $('#with_in_province_six').val() == "" || $('#with_in_province_additional').val() == "" || $('#prov_to_prov_twentyfive').val() == "" || $('#prov_to_prov_fifty').val() == "" || $('#prov_to_prov_six').val() == "" || $('#prov_to_prov_additional').val() == "") {
-                $('#notifDiv').fadeIn();
-                $('#notifDiv').css('background', 'red');
-                $('#notifDiv').text('Please fill all required fields.');
-                setTimeout(() => {
-                    $('#notifDiv').fadeOut();
-                }, 3000);
+            var verif = [];
+            $('.required_same_day').css('border', '');
+            $('.required_same_day').parent().css('border', '');
+
+            $('.required_same_day').each(function () {
+                if ($(this).val() == "") {
+                    $(this).css("border", "1px solid red");
+                    verif.push(false);
+                    return;
+                } else {
+                    verif.push(true);
+                }
+            });
+
+            if(verif.includes(false)){
                 return;
-            }
+            } 
 
             currentLayout = 'over_night_delivery';
             $('#v-pills-tab a:eq(2)').css("pointer-events", "");
@@ -106,16 +122,23 @@ $(document).ready(function () {
             $('#v-pills-03').addClass('active show');
 
         } else if (currentLayout == 'over_night_delivery') {
-            //debugger;
-            if ($('#on_with_in_city_twentyfive').val() == "" || $('#on_with_in_city_fifty').val() == "" || $('#on_with_in_city_six').val() == "" || $('#on_with_in_city_additional').val() == "" || $('#on_with_in_prov_twentyfive').val() == "" || $('#on_with_in_prov_fifty').val() == "" || $('#on_with_in_prov_six').val() == "" || $('#on_with_in_prov_additional').val() == "" || $('#on_provience_to_prov_twentyfive').val() == "" || $('#on_provience_to_prov_fifty').val() == "" || $('#on_provience_to_prov_six').val() == "" || $('#on_provience_to_prov_additional').val() == "") {
-                $('#notifDiv').fadeIn();
-                $('#notifDiv').css('background', 'red');
-                $('#notifDiv').text('Please fill all required fields.');
-                setTimeout(() => {
-                    $('#notifDiv').fadeOut();
-                }, 3000);
+            var verif = [];
+            $('.required_over_night').css('border', '');
+            $('.required_over_night').parent().css('border', '');
+
+            $('.required_over_night').each(function () {
+                if ($(this).val() == "") {
+                    $(this).css("border", "1px solid red");
+                    verif.push(false);
+                    return;
+                } else {
+                    verif.push(true);
+                }
+            });
+
+            if(verif.includes(false)){
                 return;
-            }
+            } 
 
             currentLayout = 'second_day_delivery';
             $('#v-pills-tab a:eq(3)').css("pointer-events", "");
@@ -126,15 +149,23 @@ $(document).ready(function () {
 
 
         } else if (currentLayout == 'second_day_delivery') {
-            if ($('#second_day_delivery_upto_3kg').val() == "" || $('#second_day_delivery_additional_1KG').val() == "" || $('#second_day_delivery_prov_to_prov_upto3KG').val() == "" || $('#second_day_delivery_prov_to_prov_additional1KG').val() == "") {
-                $('#notifDiv').fadeIn();
-                $('#notifDiv').css('background', 'red');
-                $('#notifDiv').text('Please fill all required fields');
-                setTimeout(() => {
-                    $('#notifDiv').fadeOut();
-                }, 3000);
+            var verif = [];
+            $('.required_second_day').css('border', '');
+            $('.required_second_day').parent().css('border', '');
+
+            $('.required_second_day').each(function () {
+                if ($(this).val() == "") {
+                    $(this).css("border", "1px solid red");
+                    verif.push(false);
+                    return;
+                } else {
+                    verif.push(true);
+                }
+            });
+
+            if(verif.includes(false)){
                 return;
-            }
+            } 
             currentLayout = 'over_land_service';
             $('#v-pills-tab a:eq(4)').css("pointer-events", "");
             $('#v-pills-tab a').removeClass("active");
@@ -144,16 +175,23 @@ $(document).ready(function () {
             //$('.membership_sidebar').text(numberWithCommas($('#membership_fee').val()));
 
         } else if (currentLayout == 'over_land_service') {
-            //debugger;   
-            if ($('#over_land_upto10KG').val() == "" || $('#over_land_additional1KG').val() == "" || $('#over_land_prov_to_prov_upto10KG').val() == "" || $('#over_land_prov_to_prov_additionalpoint5KG').val() == "") {
-                $('#notifDiv').fadeIn();
-                $('#notifDiv').css('background', 'red');
-                $('#notifDiv').text('Please fill all fields');
-                setTimeout(() => {
-                    $('#notifDiv').fadeOut();
-                }, 3000);
+            var verif = [];
+            $('.required_over_land').css('border', '');
+            $('.required_over_land').parent().css('border', '');
+
+            $('.required_over_land').each(function () {
+                if ($(this).val() == "") {
+                    $(this).css("border", "1px solid red");
+                    verif.push(false);
+                    return;
+                } else {
+                    verif.push(true);
+                }
+            });
+
+            if(verif.includes(false)){
                 return;
-            }
+            } 
             currentLayout = 'fragile_item_cost';
             $('#v-pills-tab a:eq(5)').css("pointer-events", "");
             $('#v-pills-tab a').removeClass("active");
@@ -163,15 +201,23 @@ $(document).ready(function () {
 
 
         } else if (currentLayout == 'fragile_item_cost') {
-            if ($('#fragile_cost_price').val() == "") {
-                $('#notifDiv').fadeIn();
-                $('#notifDiv').css('background', 'red');
-                $('#notifDiv').text('Please fill required fields');
-                setTimeout(() => {
-                    $('#notifDiv').fadeOut();
-                }, 3000);
+            var verif = [];
+            $('.required_cost').css('border', '');
+            $('.required_cost').parent().css('border', '');
+
+            $('.required_cost').each(function () {
+                if ($(this).val() == "") {
+                    $(this).css("border", "1px solid red");
+                    verif.push(false);
+                    return;
+                } else {
+                    verif.push(true);
+                }
+            });
+
+            if(verif.includes(false)){
                 return;
-            }
+            } 
             currentLayout = 'insurance_on_consignment';
             $('#v-pills-tab a:eq(6)').css("pointer-events", "");
             $('#v-pills-tab a').removeClass("active");
@@ -181,15 +227,23 @@ $(document).ready(function () {
             $('#cost_txt').text($('#fragile_cost_price').val());
 
         } else if (currentLayout == 'insurance_on_consignment') {
-            if ($('#insurance_for_fragile').val() == "" || $('#insurance_for_non_fragile').val() == "" || $('#insurance_for_electronics').val() == "") {
-                $('#notifDiv').fadeIn();
-                $('#notifDiv').css('background', 'red');
-                $('#notifDiv').text('Please enter consmuption');
-                setTimeout(() => {
-                    $('#notifDiv').fadeOut();
-                }, 3000);
+            var verif = [];
+            $('.required_insurance').css('border', '');
+            $('.required_insurance').parent().css('border', '');
+
+            $('.required_insurance').each(function () {
+                if ($(this).val() == "") {
+                    $(this).css("border", "1px solid red");
+                    verif.push(false);
+                    return;
+                } else {
+                    verif.push(true);
+                }
+            });
+
+            if(verif.includes(false)){
                 return;
-            }
+            } 
             currentLayout = 'supplementary_services';
             $('#v-pills-tab a:eq(7)').css("pointer-events", "");
             $('#v-pills-tab a').removeClass("active");
@@ -200,17 +254,23 @@ $(document).ready(function () {
             $('#e_insurance_txt').text($('#insurance_for_electronics').val());
 
         } else if (currentLayout == 'supplementary_services') {
-            if ($('#supplementary_services_holiday').val() == "" || $('#supplementary_services_special_holiday').val() == "" || $('#supplementary_services_time_specified').val() == "" || $('#supplementary_services_passport').val() == "") {
-                $('#notifDiv').fadeIn();
-                $('#notifDiv').css('background', 'red');
-                $('#notifDiv').text('Please fill required fields');
-                setTimeout(() => {
-                    $('#notifDiv').fadeOut();
-                }, 3000);
-                return;
-            }
-            //delivery_detail = $("input[name='txt-rate']:checked").val();
+            var verif = [];
+            $('.required_supplementary').css('border', '');
+            $('.required_supplementary').parent().css('border', '');
 
+            $('.required_supplementary').each(function () {
+                if ($(this).val() == "") {
+                    $(this).css("border", "1px solid red");
+                    verif.push(false);
+                    return;
+                } else {
+                    verif.push(true);
+                }
+            });
+
+            if(verif.includes(false)){
+                return;
+            } 
             currentLayout = 'fuel_charges';
             $('#v-pills-tab a:eq(8)').css("pointer-events", "");
             $('#v-pills-tab a').removeClass("active");
@@ -219,15 +279,23 @@ $(document).ready(function () {
             $('#v-pills-09').addClass('active show');
 
         } else if (currentLayout == 'fuel_charges') {
-            if ($('#fuel_charges').val() == "") {
-                $('#notifDiv').fadeIn();
-                $('#notifDiv').css('background', 'red');
-                $('#notifDiv').text('Please check asset Issuance');
-                setTimeout(() => {
-                    $('#notifDiv').fadeOut();
-                }, 3000);
+            var verif = [];
+            $('.required_fuel').css('border', '');
+            $('.required_fuel').parent().css('border', '');
+
+            $('.required_fuel').each(function () {
+                if ($(this).val() == "") {
+                    $(this).css("border", "1px solid red");
+                    verif.push(false);
+                    return;
+                } else {
+                    verif.push(true);
+                }
+            });
+
+            if(verif.includes(false)){
                 return;
-            }
+            } 
             currentLayout = 'government_taxes';
             $('#v-pills-tab a:eq(9)').css("pointer-events", "");
             $('#v-pills-tab a').removeClass("active");
@@ -237,15 +305,23 @@ $(document).ready(function () {
             $('#fuel_txt').text($('#fuel_charges').val());
 
         } else if (currentLayout == 'government_taxes') {
-            if ($('#gst_tax').val() == "") {
-                $('#notifDiv').fadeIn();
-                $('#notifDiv').css('background', 'red');
-                $('#notifDiv').text('Please check asset Issuance');
-                setTimeout(() => {
-                    $('#notifDiv').fadeOut();
-                }, 3000);
+            var verif = [];
+            $('.required_tax').css('border', '');
+            $('.required_tax').parent().css('border', '');
+
+            $('.required_tax').each(function () {
+                if ($(this).val() == "") {
+                    $(this).css("border", "1px solid red");
+                    verif.push(false);
+                    return;
+                } else {
+                    verif.push(true);
+                }
+            });
+
+            if(verif.includes(false)){
                 return;
-            }
+            } 
             currentLayout = 'contract_copy';
             $('#v-pills-tab a:eq(10)').css("pointer-events", "");
             $('#v-pills-tab a').removeClass("active");

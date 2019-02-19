@@ -155,13 +155,26 @@ $(document).ready(function() {
 
     $(document).on('click', '#saveEmployee', function() {
         $(".validation_errors").remove();
-        if (!$('input[name="name"]').val() || !$('input[name="city"]').val() || !$('input[name="username"]').val() || !$('input[name="password"]').val() || !$('input[name="hiring"]').val() || $('select[name="designation"]').val() == 0 || $('select[name="reporting"]').val() == 0) {
-            $('#notifDiv').fadeIn();
-            $('#notifDiv').css('background', 'red');
-            $('#notifDiv').text('Please provide all the required information (*)');
-            setTimeout(() => {
-                $('#notifDiv').fadeOut();
-            }, 3000);
+        var verif = [];
+
+        $('.required').css('border', '');
+        $('.required').parent().css('border', '');
+
+        $('.required').each(function () {
+            if ($(this).val() == "") {
+                $(this).css("border", "1px solid red");
+                verif.push(false);
+                return;
+            }else if( $(this).val() == 0 || $(this).val() == null){
+                $(this).parent().css("border", "1px solid red");
+                verif.push(false);
+                return;
+            } else {
+                verif.push(true);
+            }
+        });
+
+        if(verif.includes(false)){
             return;
         }
 

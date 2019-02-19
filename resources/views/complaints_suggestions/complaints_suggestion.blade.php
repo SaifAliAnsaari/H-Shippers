@@ -49,42 +49,42 @@
                     
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label class="control-label mb-10">Name</label>
-                            <input type="text" id="name_complaint" name="name_complaint" class="form-control" placeholder="" style="font-size: 13px">
+                            <label class="control-label mb-10">Name*</label>
+                            <input type="text" id="name_complaint" name="name_complaint" class="form-control required_complain" placeholder="" style="font-size: 13px">
                         </div>
                         </div>
 
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label class="control-label mb-10">Cell#</label>
-                            <input type="number" id="cell_complaint" name="cell_complaint" class="form-control" placeholder="" style="font-size: 13px">
+                            <label class="control-label mb-10">Cell#*</label>
+                            <input type="number" id="cell_complaint" name="cell_complaint" class="form-control required_complain" placeholder="" style="font-size: 13px">
                         </div>
                         </div>
                         
                         <div class="col-md-4">
                         <div class="form-group">
-                            <label class="control-label mb-10">Email</label>
-                            <input type="text" id="email_complaint" name="email_complaint" class="form-control" placeholder="" style="font-size: 13px">
+                            <label class="control-label mb-10">Email*</label>
+                            <input type="text" id="email_complaint" name="email_complaint" class="form-control required_complain" placeholder="" style="font-size: 13px">
                         </div>
                         </div>
                         <div class="col-md-4">
                         <div class="form-group">
-                            <label class="control-label mb-10">Subject</label>
-                            <input type="text" id="subject_complaint" name="subject_complaint" class="form-control" placeholder="" style="font-size: 13px">
+                            <label class="control-label mb-10">Subject*</label>
+                            <input type="text" id="subject_complaint" name="subject_complaint" class="form-control required_complain" placeholder="" style="font-size: 13px">
                         </div>
                         </div>
                         
                         <div class="col-md-4">
                         <div class="form-group">
-                            <label class="control-label mb-10">Tracking No</label>
-                            <input type="text" id="tracking_no_complaint" name="tracking_no_complaint" class="form-control" placeholder="" style="font-size: 13px">
+                            <label class="control-label mb-10">Tracking No*</label>
+                            <input type="text" id="tracking_no_complaint" name="tracking_no_complaint" class="form-control required_complain" placeholder="" style="font-size: 13px">
                         </div>
                         </div>
                         
                     <div class="col-md-12">
-                    <label class="PT-10 font12">Complaint</label>
+                    <label class="PT-10 font12">Complaint*</label>
                         <div>							 
-                            <textarea name="description" id="description_complaint" rows="6"></textarea>
+                            <textarea name="description" class="required_complain" id="description_complaint" rows="6"></textarea>
                             </div>
                     </div>
                         
@@ -104,46 +104,48 @@
                     
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label class="control-label mb-10">Name</label>
-                            <input type="text" id="name_suggestions" name="name_suggestions" class="form-control" placeholder="" style="font-size: 13px">
+                            <label class="control-label mb-10">Name*</label>
+                            <input type="text" id="name_suggestions" name="name_suggestions" class="form-control required_suggestion" placeholder="" style="font-size: 13px">
                         </div>
                         </div>
 
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label class="control-label mb-10">Cell#</label>
-                            <input type="number" id="call_suggestions" name="cell_suggestions" class="form-control" placeholder="" style="font-size: 13px">
+                            <label class="control-label mb-10">Cell#*</label>
+                            <input type="number" id="call_suggestions" name="cell_suggestions" class="form-control required_suggestion" placeholder="" style="font-size: 13px">
                         </div>
                         </div>
                         
                         <div class="col-md-4">
                         <div class="form-group">
-                            <label class="control-label mb-10">Email</label>
-                            <input type="text" id="email_suggestions" name="email_suggestions" class="form-control" placeholder="" style="font-size: 13px">
+                            <label class="control-label mb-10">Email*</label>
+                            <input type="text" id="email_suggestions" name="email_suggestions" class="form-control required_suggestion" placeholder="" style="font-size: 13px">
                         </div>
                         </div>
                         
                         <div class="col-md-4">
                         <div class="form-s2 pt-19">
-                            <select class="form-control formselect" name="city_suggestions" style="width:250px;" id="city_suggestions" placeholder="Select City">
-                                <option value="0" selected disabled>Select City</option>
-                                <option value="Lahore">Lahore</option>
-                                <option value="Multan">Multan</option>
-                            </select>
+                            <div>
+                                <select class="form-control formselect required_suggestion" name="city_suggestions" style="width:250px;" id="city_suggestions" placeholder="Select City">
+                                    <option value="0" selected disabled>Select City</option>
+                                    <option value="Lahore">Lahore</option>
+                                    <option value="Multan">Multan</option>
+                                </select>
+                            </div>
                         </div>
                         </div>
                         
                         <div class="col-md-4">
                         <div class="form-group">
-                            <label class="control-label mb-10">Subject</label>
-                            <input type="text" id="subject_suggestions" name="subject_suggestions" class="form-control" placeholder="" style="font-size: 13px">
+                            <label class="control-label mb-10">Subject*</label>
+                            <input type="text" id="subject_suggestions" name="subject_suggestions" class="form-control required_suggestion" placeholder="" style="font-size: 13px">
                         </div>
                         </div>
                         
                     <div class="col-md-12">
-                    <label class="PT-10 font12">Suggestion</label>
+                    <label class="PT-10 font12">Suggestion*</label>
                         <div>							 
-                            <textarea name="description" id="description_suggestions" rows="6" style="font-size: 13px"></textarea>
+                            <textarea name="description" class="required_suggestion" id="description_suggestions" rows="6" style="font-size: 13px"></textarea>
                             </div>
                     </div>
                         

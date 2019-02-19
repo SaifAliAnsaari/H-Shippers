@@ -30,11 +30,11 @@
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label class="control-label mb-10">Username*</label>
-                                                        <input type="text" name="username" class="form-control" placeholder="" required>
+                                                        <input type="text" name="username" class="form-control required" placeholder="" required>
                                                     </div>
                                                     <div class="form-group">
                                                         <label class="control-label mb-10">Password*</label>
-                                                        <input type="password" name="password" class="form-control" placeholder="" required>
+                                                        <input type="password" name="password" class="form-control required" placeholder="" required>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
@@ -52,7 +52,7 @@
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label class="control-label mb-10">Company Name*</label>
-                                                        <input type="text" name="company_name" class="form-control" required>
+                                                        <input type="text" name="company_name" class="form-control required" required>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
@@ -106,35 +106,41 @@
                                                 <div class="col-md-6">
                                                     <div class="form-s2">
                                                         <label class="PT-10 font12">Customer Type</label>
-                                                        <select class="form-control formselect" name="customer_type" placeholder="Customer type">
-                                                            <option value="0" disabled selected>Select Customer Type</option>
-                                                            <option value="corporate">Corporate</option>
-                                                            <option value="individual">Individual</option> 
-                                                            <option value="brand">Brand</option> 
-                                                        </select>
+                                                        <div>
+                                                            <select class="form-control formselect required" name="customer_type" placeholder="Customer type">
+                                                                <option value="0" disabled selected>Select Customer Type</option>
+                                                                <option value="corporate">Corporate</option>
+                                                                <option value="individual">Individual</option> 
+                                                                <option value="brand">Brand</option> 
+                                                            </select>
+                                                        </div>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="form-s2">
                                                         <label class="PT-10 font12">Pick Up City</label>
-                                                        <select class="form-control sd-type" name="pick_up_city">
-                                                            <option value="0" selected disabled>Select City</option>
-                                                            <option value="islamabad">Islamabad</option>
-                                                            <option value="rawalpindi">Rawalpindi</option>
-                                                            <option value="lahore">Lahore</option>
-                                                        </select>
+                                                        <div>
+                                                            <select class="form-control sd-type required" name="pick_up_city">
+                                                                <option value="0" selected disabled>Select City</option>
+                                                                <option value="islamabad">Islamabad</option>
+                                                                <option value="rawalpindi">Rawalpindi</option>
+                                                                <option value="lahore">Lahore</option>
+                                                            </select>
+                                                        </div>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="form-s2">
                                                         <label class="PT-10 font12">Pick Up Province</label>
-                                                        <select class="form-control sd-type" name="pick_up_province">
-                                                            <option value="0" selected disabled>Select Province</option>
-                                                            <option value="sindh">Sindh</option>
-                                                            <option value="kpk">KPK</option>
-                                                            <option value="punjab">Punjab</option>
-                                                            <option value="balochistan">Balochistan</option>
-                                                        </select>
+                                                        <div>
+                                                            <select class="form-control sd-type required" name="pick_up_province">
+                                                                <option value="0" selected disabled>Select Province</option>
+                                                                <option value="sindh">Sindh</option>
+                                                                <option value="kpk">KPK</option>
+                                                                <option value="punjab">Punjab</option>
+                                                                <option value="balochistan">Balochistan</option>
+                                                            </select>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </form>

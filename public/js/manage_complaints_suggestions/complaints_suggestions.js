@@ -22,13 +22,25 @@ $(document).ready(function() {
 
     $(document).on('click', '.save_btn', function(){
         if($('#rb-complaint').prop('checked')){
-            if($('#name_complaint').val() == "" || $('#cell_complaint').val() == "" || $('#email_complaint').val() == "" || $('#subject_complaint').val() == "" || $('#tracking_no_complaint').val() == "" || $('#description_complaint').val() == ""){
-                $('#notifDiv').fadeIn();
-                $('#notifDiv').css('background', 'red');
-                $('#notifDiv').text('Please fill all required fields(*).');
-                setTimeout(() => {
-                    $('#notifDiv').fadeOut();
-                }, 3000);
+            var verif = [];
+            $('.required_complain').css('border', '');
+            $('.required_complain').parent().css('border', '');
+
+            $('.required_complain').each(function () {
+                if ($(this).val() == "") {
+                    $(this).css("border", "1px solid red");
+                    verif.push(false);
+                    return;
+                }else if( $(this).val() == 0 || $(this).val() == null){
+                    $(this).parent().css("border", "1px solid red");
+                    verif.push(false);
+                    return;
+                } else {
+                    verif.push(true);
+                }
+            });
+
+            if(verif.includes(false)){
                 return;
             }
 
@@ -88,13 +100,25 @@ $(document).ready(function() {
             });
 
         }else{
-            if($('#name_suggestions').val() == "" || $('#call_suggestions').val() == "" || $('#email_suggestions').val() == "" || $('#city_suggestions').val() == 0 || $('#city_suggestions').val() == null || $('#subject_suggestions').val() == "" || $('#description_suggestions').val() == ""){
-                $('#notifDiv').fadeIn();
-                $('#notifDiv').css('background', 'red');
-                $('#notifDiv').text('Please fill all required fields(*).');
-                setTimeout(() => {
-                    $('#notifDiv').fadeOut();
-                }, 3000);
+            var verif = [];
+            $('.required_suggestion').css('border', '');
+            $('.required_suggestion').parent().css('border', '');
+
+            $('.required_suggestion').each(function () {
+                if ($(this).val() == "") {
+                    $(this).css("border", "1px solid red");
+                    verif.push(false);
+                    return;
+                }else if( $(this).val() == 0 || $(this).val() == null){
+                    $(this).parent().css("border", "1px solid red");
+                    verif.push(false);
+                    return;
+                } else {
+                    verif.push(true);
+                }
+            });
+
+            if(verif.includes(false)){
                 return;
             }
 
