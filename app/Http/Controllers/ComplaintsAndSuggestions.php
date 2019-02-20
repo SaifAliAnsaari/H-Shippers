@@ -28,11 +28,11 @@ class ComplaintsAndSuggestions extends ParentController
      */
 
     public function complaints_suggestions(){
-         parent::VerifyRights();if($this->redirectUrl){return redirect($this->redirectUrl);}
+        parent::VerifyRights();if($this->redirectUrl){return redirect($this->redirectUrl);}
         if(Cookie::get('client_session')){
-            $check_session = DB::table('clients')->select('id')->where('client_login_session', Cookie::get('client_session'))->first();
+            $check_session = DB::table('clients')->select('username', 'id')->where('client_login_session', Cookie::get('client_session'))->first();
             if($check_session){
-                return view('complaints_suggestions.complaints_suggestion', ["client_id" => $check_session->id, 'check_rights' => $this->check_employee_rights]);
+                return view('complaints_suggestions.complaints_suggestion', ["client_id" => $check_session->id, 'check_rights' => $this->check_employee_rights, 'name' => $check_session]);
             } 
         }else{
             return redirect('/');
@@ -51,12 +51,35 @@ class ComplaintsAndSuggestions extends ParentController
 
     public function complaints_list_client(){
          parent::VerifyRights();if($this->redirectUrl){return redirect($this->redirectUrl);}
-        return view('complaints_suggestions.complaints-list-clients', ['check_rights' => $this->check_employee_rights]);
+        if(!Auth::user()){
+            if(Cookie::get('client_session')){
+                $check_session = DB::table('clients')->select('username')->where('client_login_session', Cookie::get('client_session'))->first();
+                if($check_session){
+                   return view('complaints_suggestions.complaints-list-clients', ['check_rights' => $this->check_employee_rights, 'name' => $check_session]);
+                } 
+            }else{
+                return redirect('/');
+            } 
+        }else{
+            return view('complaints_suggestions.complaints-list-clients', ['check_rights' => $this->check_employee_rights]);
+        } 
     }
 
     public function suggestions_list_client(){
          parent::VerifyRights();if($this->redirectUrl){return redirect($this->redirectUrl);}
-        return view('complaints_suggestions.suggestions_list_client', ['check_rights' => $this->check_employee_rights]);
+         if(!Auth::user()){
+            if(Cookie::get('client_session')){
+                $check_session = DB::table('clients')->select('username')->where('client_login_session', Cookie::get('client_session'))->first();
+                if($check_session){
+                    return view('complaints_suggestions.suggestions_list_client', ['check_rights' => $this->check_employee_rights, 'name' => $check_session]);
+                } 
+            }else{
+                return redirect('/');
+            } 
+        }else{
+            return view('complaints_suggestions.suggestions_list_client', ['check_rights' => $this->check_employee_rights]);
+        } 
+        
     }
 
     public function saveComplaints(Request $request){

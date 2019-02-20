@@ -18,7 +18,7 @@
             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
                 aria-haspopup="true" aria-expanded="false">
                 <img src="{{ Auth::check() ? Auth::user()->picture : 'NA' }}" class="user_log" alt="" />
-                <span>{{ Auth::check() ? Auth::user()->name : "Client Name" }}</span>
+                <span>{{ Auth::check() ? Auth::user()->name : $name->username }}</span>
             </a>
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
                 <span class="dropdown-item usernamelab">{{ Auth::check() ? Auth::user()->name : "Client Name" }}</span>

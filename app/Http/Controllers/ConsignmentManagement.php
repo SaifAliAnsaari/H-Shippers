@@ -72,7 +72,7 @@ class ConsignmentManagement extends ParentController
     //Client
     public function consignment_booking_client(){
         //$this->verifySession();
-        $check_session = DB::table('clients')->select('id')->where('client_login_session', Cookie::get('client_session'))->first();
+        $check_session = DB::table('clients')->select('username')->where('client_login_session', Cookie::get('client_session'))->first();
         if(!$check_session){
             return redirect('/cout');
         }else{
@@ -83,7 +83,7 @@ class ConsignmentManagement extends ParentController
             $get_city_from_pickup = DB::table('pickup_delivery')->get();
 
             if($check){
-                return view('consignment_booking.consignment_booking_client', ['client_id' => $client_id->id, 'check_rights' => $this->check_employee_rights, 'pickup_city' => $get_city_from_pickup]);
+                return view('consignment_booking.consignment_booking_client', ['client_id' => $client_id->id, 'check_rights' => $this->check_employee_rights, 'pickup_city' => $get_city_from_pickup, 'name' => $check_session]);
             }else{
                 return redirect('/');
             }
@@ -670,11 +670,11 @@ class ConsignmentManagement extends ParentController
 
     public function consignment_booked(){
         if(Cookie::get('client_session')){
-            $check_session = DB::table('clients')->select('id')->where('client_login_session', Cookie::get('client_session'))->first();
+            $check_session = DB::table('clients')->select('username')->where('client_login_session', Cookie::get('client_session'))->first();
             if(!$check_session){
                 return redirect('/cout');
             }else{
-                return view('consignment_booking.consignment_booked', ['check_rights' => $this->check_employee_rights]);
+                return view('consignment_booking.consignment_booked', ['check_rights' => $this->check_employee_rights, 'name' => $check_session]);
             }
         }else{
             parent::VerifyRights();if($this->redirectUrl){return redirect($this->redirectUrl);}

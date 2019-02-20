@@ -40,11 +40,11 @@ class HomeController extends ParentController
             parent::VerifyRights();if($this->redirectUrl){return redirect($this->redirectUrl);}
             return view('home', ['check_rights' => $this->check_employee_rights]);
         }else{
-            $check_session = DB::table('clients')->select('id')->where('client_login_session', Cookie::get('client_session'))->first();
+            $check_session = DB::table('clients')->select('username')->where('client_login_session', Cookie::get('client_session'))->first();
             if(!$check_session){
                 return redirect('/cout');
             }else{
-                return view('home');
+                return view('home', ['name' => $check_session]);
             }
         }
          
