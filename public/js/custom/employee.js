@@ -164,10 +164,22 @@ $(document).ready(function() {
             if ($(this).val() == "") {
                 $(this).css("border", "1px solid red");
                 verif.push(false);
+                $('#notifDiv').fadeIn();
+                $('#notifDiv').css('background', 'red');
+                $('#notifDiv').text('Please provide all the required information (*)');
+                setTimeout(() => {
+                    $('#notifDiv').fadeOut();
+                }, 3000);
                 return;
             }else if( $(this).val() == 0 || $(this).val() == null){
                 $(this).parent().css("border", "1px solid red");
                 verif.push(false);
+                $('#notifDiv').fadeIn();
+                $('#notifDiv').css('background', 'red');
+                $('#notifDiv').text('Please provide all the required information (*)');
+                setTimeout(() => {
+                    $('#notifDiv').fadeOut();
+                }, 3000);
                 return;
             } else {
                 verif.push(true);

@@ -30,7 +30,7 @@ class ComplaintsAndSuggestions extends ParentController
     public function complaints_suggestions(){
         parent::VerifyRights();if($this->redirectUrl){return redirect($this->redirectUrl);}
         if(Cookie::get('client_session')){
-            $check_session = DB::table('clients')->select('username', 'id')->where('client_login_session', Cookie::get('client_session'))->first();
+            $check_session = DB::table('clients')->select('username', 'id', 'company_pic')->where('client_login_session', Cookie::get('client_session'))->first();
             if($check_session){
                 return view('complaints_suggestions.complaints_suggestion', ["client_id" => $check_session->id, 'check_rights' => $this->check_employee_rights, 'name' => $check_session]);
             } 
@@ -53,7 +53,7 @@ class ComplaintsAndSuggestions extends ParentController
          parent::VerifyRights();if($this->redirectUrl){return redirect($this->redirectUrl);}
         if(!Auth::user()){
             if(Cookie::get('client_session')){
-                $check_session = DB::table('clients')->select('username')->where('client_login_session', Cookie::get('client_session'))->first();
+                $check_session = DB::table('clients')->select('username', 'company_pic')->where('client_login_session', Cookie::get('client_session'))->first();
                 if($check_session){
                    return view('complaints_suggestions.complaints-list-clients', ['check_rights' => $this->check_employee_rights, 'name' => $check_session]);
                 } 
@@ -69,7 +69,7 @@ class ComplaintsAndSuggestions extends ParentController
          parent::VerifyRights();if($this->redirectUrl){return redirect($this->redirectUrl);}
          if(!Auth::user()){
             if(Cookie::get('client_session')){
-                $check_session = DB::table('clients')->select('username')->where('client_login_session', Cookie::get('client_session'))->first();
+                $check_session = DB::table('clients')->select('username', 'company_pic')->where('client_login_session', Cookie::get('client_session'))->first();
                 if($check_session){
                     return view('complaints_suggestions.suggestions_list_client', ['check_rights' => $this->check_employee_rights, 'name' => $check_session]);
                 } 

@@ -72,7 +72,7 @@ class ConsignmentManagement extends ParentController
     //Client
     public function consignment_booking_client(){
         //$this->verifySession();
-        $check_session = DB::table('clients')->select('username')->where('client_login_session', Cookie::get('client_session'))->first();
+        $check_session = DB::table('clients')->select('username', 'company_pic')->where('client_login_session', Cookie::get('client_session'))->first();
         if(!$check_session){
             return redirect('/cout');
         }else{
@@ -670,7 +670,7 @@ class ConsignmentManagement extends ParentController
 
     public function consignment_booked(){
         if(Cookie::get('client_session')){
-            $check_session = DB::table('clients')->select('username')->where('client_login_session', Cookie::get('client_session'))->first();
+            $check_session = DB::table('clients')->select('username', 'company_pic')->where('client_login_session', Cookie::get('client_session'))->first();
             if(!$check_session){
                 return redirect('/cout');
             }else{

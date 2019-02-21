@@ -70,10 +70,22 @@ $(document).ready(function() {
             if ($(this).val() == "") {
                 $(this).css("border", "1px solid red");
                 verif.push(false);
+                $('#notifDiv').fadeIn();
+                $('#notifDiv').css('background', 'red');
+                $('#notifDiv').text('Please fill all required fields(*).');
+                setTimeout(() => {
+                    $('#notifDiv').fadeOut();
+                }, 3000);
                 return;
             }else if( $(this).val() == 0 || $(this).val() == null){
                 $(this).parent().css("border", "1px solid red");
                 verif.push(false);
+                $('#notifDiv').fadeIn();
+                $('#notifDiv').css('background', 'red');
+                $('#notifDiv').text('Please fill all required fields(*).');
+                setTimeout(() => {
+                    $('#notifDiv').fadeOut();
+                }, 3000);
                 return;
             } else {
                 verif.push(true);
@@ -223,15 +235,58 @@ $(document).ready(function() {
 
     $(document).on('click', '.save_consignment_admin', function () {
 
-        if($('#cnic').val() == "" || $('#shipper_name').val() == "" || $('#select_city_shipper').val() == 0 || $('#shipper_area').val() == "" || $('#shipper_cell_num').val() == "" || $('#shipper_land_line').val() == "" || $('#shipper_email').val() == "" || $('#shipper_address').val() == "" || $('#consignee_name').val() == "" || $('#consignee_ref_num').val() == "" || $('#consignee_cell_num').val() == "" || $('#consignee_email').val() == "" || $('#consignee_address').val() == "" || $('#consignment_regin_city').val() == "" || $('#service_type').val() == 0 || $('#consignment_pieces').val() == "" || $('#consignment_weight').val() == "" || $('#consignment_description').val() == "" || $('#consignment_price').val() == "" || $('#consignment_dest_city').val() == 0 || $('#consignment_dest_city').val() == null || $('#consignment_remarks').val() == "" || !$("input[name=inlineRadioOptions]").is(":checked")){
+        // if($('#cnic').val() == "" || $('#shipper_name').val() == "" || $('#select_city_shipper').val() == 0 || $('#shipper_area').val() == "" || $('#shipper_cell_num').val() == "" || $('#shipper_land_line').val() == "" || $('#shipper_email').val() == "" || $('#shipper_address').val() == "" || $('#consignee_name').val() == "" || $('#consignee_ref_num').val() == "" || $('#consignee_cell_num').val() == "" || $('#consignee_email').val() == "" || $('#consignee_address').val() == "" || $('#consignment_regin_city').val() == "" || $('#service_type').val() == 0 || $('#consignment_pieces').val() == "" || $('#consignment_weight').val() == "" || $('#consignment_description').val() == "" || $('#consignment_price').val() == "" || $('#consignment_dest_city').val() == 0 || $('#consignment_dest_city').val() == null || $('#consignment_remarks').val() == "" || !$("input[name=inlineRadioOptions]").is(":checked")){
+        //     $('#notifDiv').fadeIn();
+        //     $('#notifDiv').css('background', 'red');
+        //     $('#notifDiv').text('Please fill all required fields(*).');
+        //     setTimeout(() => {
+        //         $('#notifDiv').fadeOut();
+        //     }, 3000);
+        //     return;
+        // }
+        var verif = [];
+        $('.required').css('border', '');
+        $('.required').parent().css('border', '');
+        $('.required').each(function () {
+            if ($(this).val() == "") {
+                $(this).css("border", "1px solid red");
+                verif.push(false);
+                $('#notifDiv').fadeIn();
+                $('#notifDiv').css('background', 'red');
+                $('#notifDiv').text('Please fill all required fields(*).');
+                setTimeout(() => {
+                    $('#notifDiv').fadeOut();
+                }, 3000);
+                return;
+            }else if( $(this).val() == 0 || $(this).val() == null){
+                $(this).parent().css("border", "1px solid red");
+                verif.push(false);
+                $('#notifDiv').fadeIn();
+                $('#notifDiv').css('background', 'red');
+                $('#notifDiv').text('Please fill all required fields(*).');
+                setTimeout(() => {
+                    $('#notifDiv').fadeOut();
+                }, 3000);
+                return;
+            }else {
+                verif.push(true);
+            }
+        });
+       // debugger;
+        if(verif.includes(false)){
+            return;
+        }
+
+        if(!$("input[name=inlineRadioOptions]").is(":checked")){
             $('#notifDiv').fadeIn();
             $('#notifDiv').css('background', 'red');
-            $('#notifDiv').text('Please fill all required fields(*).');
+            $('#notifDiv').text('Please Check Consignment Type.');
             setTimeout(() => {
                 $('#notifDiv').fadeOut();
             }, 3000);
             return;
         }
+
         
         $('.save_consignment_admin').attr('disabled', 'disabled');
          $('.save_consignment_admin').text('Processing..');

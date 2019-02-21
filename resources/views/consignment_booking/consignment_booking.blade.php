@@ -26,7 +26,7 @@
                     <label class="control-label label1">Booking Date:</label>
                     <div class="form-group">
                       <div class="input-append date position-relative" id="dp3" data-date="12-02-2012" data-date-format="dd-mm-yyyy">
-                                    <input type="text" value="12-02-2012" name="booking_date" readonly style="font-size: 13px">
+                                    <input type="text" class="required" value="12-02-2012" name="booking_date" readonly style="font-size: 13px">
                                     <span class="add-on calendar-icon">
                                     <img src="images/calendar-icon.svg" alt=""/> </span> 
                       </div>
@@ -36,7 +36,7 @@
      
                   <div class="_new-consign-top">
                     <label class="control-label label2">CNNo:*</label>
-                    <input type="text" name="cnic" id="cnic" class="form-control" placeholder="" style="font-size: 13px">				 
+                    <input type="text" name="cnic" id="cnic" class="form-control required" placeholder="" style="font-size: 13px">				 
                 </div>
         </div>
         </div>
@@ -55,12 +55,13 @@
               <div class="col-md-4">
                   <div class="form-group">
                     <label class="control-label mb-10">Name*</label>
-                    <input type="text" id="shipper_name" name="shipper_name" class="form-control" placeholder="" style="font-size: 13px">
+                    <input type="text" id="shipper_name" name="shipper_name" class="form-control required" placeholder="" style="font-size: 13px">
                   </div>
                 </div>
                 <div class="col-md-4">
                     <div class="form-s2 pt-19">
-                      <select class="form-control formselect" placeholder="Services Type" name="select_city_shipper" id="select_city_shipper">
+                      <div>
+                        <select class="form-control formselect required" placeholder="Services Type" name="select_city_shipper" id="select_city_shipper">
                           <option value = "0" selected disabled>Select City*</option>
                           <?php
                             if(!$pickup_city->isEmpty()){
@@ -70,6 +71,7 @@
                             }
                           ?>
                         </select>
+                      </div>
                   </div>
                 </div>
                   
@@ -77,34 +79,34 @@
               <div class="col-md-4">
                   <div class="form-group">
                     <label class="control-label mb-10">Area*</label>
-                    <input type="text" id="shipper_area" name="shipper_area" class="form-control" placeholder="" style="font-size: 13px">
+                    <input type="text" id="shipper_area" name="shipper_area" class="form-control required" placeholder="" style="font-size: 13px">
                   </div>
                 </div>
                 
                 <div class="col-md-4">
                   <div class="form-group">
                     <label class="control-label mb-10">Cell#*</label>
-                    <input type="number" id="shipper_cell_num" name="shipper_cell_num" class="form-control" placeholder="" style="font-size: 13px">
+                    <input type="number" id="shipper_cell_num" name="shipper_cell_num" class="form-control required" placeholder="" style="font-size: 13px">
                   </div>
                 </div>
 
                 <div class="col-md-4">
                   <div class="form-group">
                     <label class="control-label mb-10">Land Line#*</label>
-                    <input type="number" id="shipper_land_line" name="shipper_land_line" class="form-control" placeholder="" style="font-size: 13px">
+                    <input type="number" id="shipper_land_line" name="shipper_land_line" class="form-control required" placeholder="" style="font-size: 13px">
                   </div>
                 </div> 
                 
                 <div class="col-md-4">
                   <div class="form-group">
                     <label class="control-label mb-10">Email*</label>
-                    <input type="email" id="shipper_email" name="shipper_email" class="form-control" placeholder="" style="font-size: 13px">
+                    <input type="email" id="shipper_email" name="shipper_email" class="form-control required" placeholder="" style="font-size: 13px">
                   </div>
                 </div>
                 <div class="col-md-8">
                   <div class="form-group">
                     <label class="control-label mb-10">Address*</label>
-                    <input type="text" id="shipper_address" name="shipper_address" class="form-control" placeholder="" style="font-size: 13px">
+                    <input type="text" id="shipper_address" name="shipper_address" class="form-control required" placeholder="" style="font-size: 13px">
                   </div>
                 </div>
 
@@ -120,34 +122,34 @@
               <div class="col-md-4">
                   <div class="form-group">
                     <label class="control-label mb-10">Consignee Name*</label>
-                    <input type="text" id="consignee_name" name="consignee_name" class="form-control" placeholder="" style="font-size: 13px">
+                    <input type="text" id="consignee_name" name="consignee_name" class="form-control required" placeholder="" style="font-size: 13px">
                   </div>
                 </div>
               <div class="col-md-4">
                   <div class="form-group">
                     <label class="control-label mb-10">Consignee Ref#*</label>
-                    <input type="text" id="consignee_ref_num" name="consignee_ref_num" class="form-control" placeholder="" style="font-size: 13px">
+                    <input type="text" id="consignee_ref_num" name="consignee_ref_num" class="form-control required" placeholder="" style="font-size: 13px">
                   </div>
                 </div>
                 
                 <div class="col-md-4">
                   <div class="form-group">
                     <label class="control-label mb-10">Consignee Cell#*</label>
-                    <input type="number" id="consignee_cell_num" name="consignee_cell_num" class="form-control" placeholder="" style="font-size: 13px">
+                    <input type="number" id="consignee_cell_num" name="consignee_cell_num" class="form-control required" placeholder="" style="font-size: 13px">
                   </div>
                 </div>
 
                 <div class="col-md-4">
                   <div class="form-group">
                     <label class="control-label mb-10">Email*</label>
-                    <input type="email" id="consignee_email" name="consignee_email" class="form-control" placeholder="" style="font-size: 13px">
+                    <input type="email" id="consignee_email" name="consignee_email" class="form-control required" placeholder="" style="font-size: 13px">
                   </div>
                 </div> 
 
                 <div class="col-md-8">
                   <div class="form-group">
                     <label class="control-label mb-10">Address*</label>
-                    <input type="text" id="consignee_address" name="consignee_address" class="form-control" placeholder="" style="font-size: 13px">
+                    <input type="text" id="consignee_address" name="consignee_address" class="form-control required" placeholder="" style="font-size: 13px">
                   </div>
                 </div>
 
@@ -163,19 +165,21 @@
               <div class="col-md-4">
                   <div class="form-group">
                     <label class="control-label mb-10">Region City*</label>
-                    <input type="text" id="consignment_regin_city" name="consignment_regin_city" class="form-control" placeholder="" style="font-size: 13px">
+                    <input type="text" id="consignment_regin_city" name="consignment_regin_city" class="form-control required" placeholder="" style="font-size: 13px">
                   </div>
                 </div>
 
                 <div class="col-md-4">
                 <div class="form-s2 pt-19">
-                          <select class="form-control formselect" name="service_type" placeholder="Services Type" id="service_type">
-                            <option value="0" selected disabled>Select Services Type*</option>
-                            <option value="1">Same Day Delivery</option>
-                            <option value="2">Over Night Delivery</option>
-                            <option value="3">Second Day Delivery</option>
-                            <option value="4">Over Land</option>
-                          </select>
+                  <div>
+                    <select class="form-control formselect required" name="service_type" placeholder="Services Type" id="service_type">
+                      <option value="0" selected disabled>Select Services Type*</option>
+                      <option value="1">Same Day Delivery</option>
+                      <option value="2">Over Night Delivery</option>
+                      <option value="3">Second Day Delivery</option>
+                      <option value="4">Over Land</option>
+                    </select>
+                  </div>
                 </div>
                 </div>
                 
@@ -183,28 +187,28 @@
                 <div class="col-md-4">
                   <div class="form-group">
                     <label class="control-label mb-10">Pieces*</label>
-                    <input type="number" id="consignment_pieces" name="consignment_pieces" class="form-control" placeholder="" style="font-size: 13px">
+                    <input type="number" id="consignment_pieces" name="consignment_pieces" class="form-control required" placeholder="" style="font-size: 13px">
                   </div>
                 </div>
 
                 <div class="col-md-4">
                   <div class="form-group">
                     <label class="control-label mb-10">Weight(Kgs)*</label>
-                    <input type="number" id="consignment_weight" name="consignment_weight" class="form-control" placeholder="" style="font-size: 13px">
+                    <input type="number" id="consignment_weight" name="consignment_weight" class="form-control required" placeholder="" style="font-size: 13px">
                   </div>
                 </div> 
 
                 <div class="col-md-4">
                   <div class="form-group">
                     <label class="control-label mb-10">Description (Product/Item)*</label>
-                    <input type="text" id="consignment_description" name="consignment_description" class="form-control" placeholder="" style="font-size: 13px">
+                    <input type="text" id="consignment_description" name="consignment_description" class="form-control required" placeholder="" style="font-size: 13px">
                   </div>
                 </div>
                 
                 <div class="col-md-4">
                   <div class="form-group">
                     <label class="control-label mb-10">Price*</label>
-                    <input type="number" id="consignment_price" name="consignment_price" class="form-control" placeholder="" style="font-size: 13px">
+                    <input type="number" id="consignment_price" name="consignment_price" class="form-control required" placeholder="" style="font-size: 13px">
                   </div>
                 </div>
                 
@@ -227,7 +231,8 @@
                  
                 <div class="col-md-4">
                     <div class="form-s2 pt-19">
-                      <select class="form-control formselect" placeholder="Services Type" name="consignment_dest_city" id="consignment_dest_city">
+                      <div>
+                        <select class="form-control formselect required" placeholder="Services Type" name="consignment_dest_city" id="consignment_dest_city">
                           <option value = "0" selected disabled>Select Destination City*</option>
                           <?php
                             if(!$pickup_city->isEmpty()){
@@ -237,13 +242,14 @@
                             }
                           ?>
                         </select>
+                      </div>
                   </div>
                 </div>
                 
                 <div class="col-md-12">
                <label class="PT-10 font12">Remarks*</label>
                   <div class="form-group">							 
-                    <textarea name="description" id="consignment_remarks" rows="8" style="font-size: 13px"></textarea>
+                    <textarea name="description" class="required" id="consignment_remarks" rows="8" style="font-size: 13px"></textarea>
                     </div>
                 </div>
 

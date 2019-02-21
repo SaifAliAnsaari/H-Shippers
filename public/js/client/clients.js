@@ -11,47 +11,66 @@ var myDropzone = new Dropzone("#dropzonewidgetclient", {
     maxFiles: 4,
     acceptedFiles: 'image/*',
     maxFilesize: 5,
-    init: function() {
-        this.on("success", function(file, serverFileName) {
+    init: function () {
+        this.on("success", function (file, serverFileName) {
             file.serverFn = serverFileName;
-            fileList[i] = {"serverFileName" : serverFileName, "fileName" : file.name,"fileId" : i };
+            fileList[i] = {
+                "serverFileName": serverFileName,
+                "fileName": file.name,
+                "fileId": i
+            };
             i++;
         });
     },
-    removedfile: function(file) {
-        if (!callForDzReset) {
-            var name = file.serverFn; 
-            var cust_id = $('.client_key_docs').val();
-            //console.log(cust_id);
+    removedfile: function (file) {
+        if ($('.operation_docs').val() == "update") {
             $.ajax({
-            type: 'GET',
-            url: '/remove_client_docs/'+name,
-            data: {
-                _token: '{!! csrf_token() !!}',
-            cust_id: cust_id
+                type: 'GET',
+                url: '/remove_client_docs/' + file.name.split('documents/')[1],
+                data: {
+                    _token: '{!! csrf_token() !!}',
+                    cust_id: cust_id
                 },
-            sucess: function(data){
-                console.log('success: ' + data);
-            }
+                success: function (data) {
+                    var _ref;
+                    return (_ref = file.previewElement) != null ? _ref.parentNode.removeChild(file.previewElement) : void 0;
+                }
             });
-        }
-        var _ref;
+        } else {
+            if (!callForDzReset) {
+                var name = file.serverFn;
+                var cust_id = $('.client_key_docs').val();
+                //console.log(cust_id);
+                $.ajax({
+                    type: 'GET',
+                    url: '/remove_client_docs/' + name,
+                    data: {
+                        _token: '{!! csrf_token() !!}',
+                        cust_id: cust_id
+                    },
+                    success: function (data) {
+                        console.log('success: ' + data);
+                    }
+                });
+            }
+            var _ref;
             return (_ref = file.previewElement) != null ? _ref.parentNode.removeChild(file.previewElement) : void 0;
         }
+    }
 });
 
 
 
 
 
-$(document).ready(function(){
+$(document).ready(function () {
     fetchClientsList();
 
     var lastOp = "add";
     var client_id = "";
-    $(document).on('click', '.openDataSidebarForAddingClient', function() {
+    $(document).on('click', '.openDataSidebarForAddingClient', function () {
         //Form ki id wapis kr de hai
-        $('#updateClientForm').prop('id','saveClientForm');     
+        $('#updateClientForm').prop('id', 'saveClientForm');
 
         if (lastOp == "update") {
             $('input[name="username"]').val("");
@@ -76,21 +95,23 @@ $(document).ready(function(){
             $('input[name="ntn"]').blur();
             $('input[name="strn"]').val("");
             $('input[name="strn"]').blur();
-            
+
             $('.dropify-clear').click();
             $('#saveClient').show();
             $('#updateClient').hide();
             $('select[name="customer_type"]').val("0").trigger('change');
             $('select[name="pick_up_city"]').val("0").trigger('change');
             $('select[name="pick_up_province"]').val("0").trigger('change');
+            $('.operation_docs').val('');
         }
         lastOp = 'add';
         var gen_id = makeid();
-        setTimeout(function(){
+        setTimeout(function () {
             $('.client_key_docs').val(gen_id);
             $('.client_key_data').val(gen_id);
         }, 500);
         callForDzReset = false;
+        $('.operation_docs').val('');
 
         if ($('#saveClientForm input[name="_method"]').length) {
             $('#saveClientForm input[name="_method"]').remove();
@@ -113,7 +134,7 @@ $(document).ready(function(){
 
 
     //Save
-    $(document).on('click', '#saveClient', function() {
+    $(document).on('click', '#saveClient', function () {
         var verif = [];
         $('.required').css('border', '');
         $('.required').parent().css('border', '');
@@ -122,20 +143,32 @@ $(document).ready(function(){
             if ($(this).val() == "") {
                 $(this).css("border", "1px solid red");
                 verif.push(false);
+                $('#notifDiv').fadeIn();
+                $('#notifDiv').css('background', 'red');
+                $('#notifDiv').text('Please provide all the required information (*)');
+                setTimeout(() => {
+                    $('#notifDiv').fadeOut();
+                }, 3000);
                 return;
-            }else if( $(this).val() == 0 || $(this).val() == null){
+            } else if ($(this).val() == 0 || $(this).val() == null) {
                 $(this).parent().css("border", "1px solid red");
                 verif.push(false);
+                $('#notifDiv').fadeIn();
+                $('#notifDiv').css('background', 'red');
+                $('#notifDiv').text('Please provide all the required information (*)');
+                setTimeout(() => {
+                    $('#notifDiv').fadeOut();
+                }, 3000);
                 return;
             } else {
                 verif.push(true);
             }
         });
 
-        if(verif.includes(false)){
+        if (verif.includes(false)) {
             return;
         }
-        
+
         $('#saveClient').attr('disabled', 'disabled');
         $('#cancelClient').attr('disabled', 'disabled');
         $('#saveClient').text('Processing..');
@@ -152,7 +185,7 @@ $(document).ready(function(){
             url: ajaxUrl,
             data: $('#saveClientForm').serialize(),
             cache: false,
-            success: function(response) {
+            success: function (response) {
                 //console.log(response);
                 // $('input[name="pick_up_city"]').remove();
                 // $('input[name="pick_up_province"]').remove();
@@ -177,13 +210,13 @@ $(document).ready(function(){
                     setTimeout(() => {
                         $('#notifDiv').fadeOut();
                     }, 3000);
-                   
+
                     $('.client_key_docs').val("");
                     $('.client_key_data').val("");
                     $('#pl-close').click();
-                  
-                    
-                } else if(JSON.parse(response) == "failed"){
+
+
+                } else if (JSON.parse(response) == "failed") {
                     $('#saveClient').removeAttr('disabled');
                     $('#cancelClient').removeAttr('disabled');
                     $('#saveClient').text('Save');
@@ -193,7 +226,7 @@ $(document).ready(function(){
                     setTimeout(() => {
                         $('#notifDiv').fadeOut();
                     }, 3000);
-                }else if(JSON.parse(response) == "already exist"){
+                } else if (JSON.parse(response) == "already exist") {
                     $('#saveClient').removeAttr('disabled');
                     $('#cancelClient').removeAttr('disabled');
                     $('#saveClient').text('Save');
@@ -208,11 +241,11 @@ $(document).ready(function(){
                 callForDzReset = true;
                 myDropzone.removeAllFiles(true);
             },
-            error: function(err) {
+            error: function (err) {
                 // $('input[name="pick_up_city"]').remove();
                 // $('input[name="pick_up_province"]').remove();
                 if (err.status == 422) {
-                    $.each(err.responseJSON.errors, function(i, error) {
+                    $.each(err.responseJSON.errors, function (i, error) {
                         var el = $(document).find('[name="' + i + '"]');
                         el.after($('<small style="color: red; position: absolute; width:100%; text-align: right; margin-left: -30px">' + error[0] + '</small>'));
                     });
@@ -223,7 +256,7 @@ $(document).ready(function(){
     });
 
     //Display update client data
-    $(document).on('click', '.openDataSidebarForUpdate', function() {
+    $(document).on('click', '.openDataSidebarForUpdate', function () {
         $('input[id="operation"]').val('update');
         lastOp = 'update';
         $('#dataSidebarLoader').show();
@@ -231,7 +264,7 @@ $(document).ready(function(){
         $('.pc-cartlist').hide();
 
         //Form ki id change kr de hai
-        $('#saveClientForm').prop('id','updateClientForm');
+        $('#saveClientForm').prop('id', 'updateClientForm');
 
         var id = $(this).attr('id');
         $('input[name="team_updating_id"]').val(id);
@@ -245,10 +278,10 @@ $(document).ready(function(){
         $.ajax({
             type: 'GET',
             url: '/client_data/' + id,
-            success: function(response) {
-            var response = JSON.parse(response);
-            //console.log(response);
-            //debugger;
+            success: function (response) {
+                var response = JSON.parse(response);
+                //console.log(response);
+                //debugger;
                 $('#dataSidebarLoader').hide();
                 $('._cl-bottom').show();
                 $('.pc-cartlist').show();
@@ -299,31 +332,47 @@ $(document).ready(function(){
                 $('input[name="strn"]').blur();
 
                 $('select[name="customer_type"]').val(response.info.customer_type).trigger("change");
+
+                // var core_cities = response.info.pick_up_city;
+                // var city = core_cities.split(",");
+                $('select[name="pick_up_city"]').val(response.info.pick_up_city).trigger("change");
+
+                // var core_provinces = response.info.pick_up_province;
+                // var province = core_provinces.split(",");
+                $('select[name="pick_up_province"]').val(response.info.pick_up_province).trigger("change");
+
+                $('.client_key_data').val(response.info.client_key);
+                $('.client_key_docs').val(response.info.client_key);
+                $('.operation_docs').val('update');
+
+                if(response.info.company_pic != null){
+                    var imgUrl = response.base_url + response.info.company_pic;
+                    $("#compPicture").attr("data-height", '100px');
+                    $("#compPicture").attr("data-default-file", imgUrl);
+                    $('#compPicture').dropify();
+                }else{
+                    $("#compPicture").attr("data-height", '100px');
+                    $("#compPicture").attr("data-default-file", response.base_url+"profile-img--.jpg");
+                    $('#compPicture').dropify();
+                }
                 
-                var core_cities = response.info.pick_up_city;
-                var city = core_cities.split(",");
-                $('select[name="pick_up_city"]').val(city).trigger("change");
 
-                var core_provinces = response.info.pick_up_province;
-                var province = core_provinces.split(",");
-                $('select[name="pick_up_province"]').val(province).trigger("change");
+                // debugger;
+                var mockFile = "";
+                response.documents.forEach(element => {
+                    mockFile = {
+                        name: response.doc_url + element.client_document,
+                        size: 12345
+                    };
+                    myDropzone.options.addedfile.call(myDropzone, mockFile);
+                    // And to show the thumbnail of the file:
+                    myDropzone.options.thumbnail.call(myDropzone, mockFile, response.doc_url + element.client_document);
+                });
 
-                // var document = [];
-                // response.documents.forEach(element => {
-                //     document.push(element["client_document"]);
-                // });
-                // $(document).on('click', '.dropzone', function() {
-                //     //alert('documents');
-                // });
-
-                // $('input[name="documents[]"]').focus();
-                // $('input[name="documents[]"]').val(document);
-                // $('input[name="documents[]"]').blur();
-
-                var imgUrl = response.base_url + response.info.company_pic;
-                $("#compPicture").attr("data-height", '100px');
-                $("#compPicture").attr("data-default-file", imgUrl);
-                $('#compPicture').dropify();
+                setTimeout(function () {
+                    $('.dz-image').find('img').css('width', '100%');
+                    $('.dz-image').find('img').css('height', '100%');
+                }, 500)
 
                 $('input[name="client_id"]').val(response.info.id);
                 $('input[name="logo_hidden"]').val(response.info.company_pic);
@@ -339,12 +388,46 @@ $(document).ready(function(){
         $('.collapse.in').toggleClass('in');
         $('a[aria-expanded=true]').attr('aria-expanded', 'false');
         $('body').toggleClass('no-scroll');
-        
+
     });
 
     //Update
-    $(document).on('click', '#updateClient', function() {
+    $(document).on('click', '#updateClient', function () {
 
+        var verif = [];
+        $('.required').css('border', '');
+        $('.required').parent().css('border', '');
+
+        $('.required').each(function () {
+            if ($(this).val() == "") {
+                $(this).css("border", "1px solid red");
+                verif.push(false);
+                $('#notifDiv').fadeIn();
+                $('#notifDiv').css('background', 'red');
+                $('#notifDiv').text('Please provide all the required information (*)');
+                setTimeout(() => {
+                    $('#notifDiv').fadeOut();
+                }, 3000);
+                return;
+            } else if ($(this).val() == 0 || $(this).val() == null) {
+                $(this).parent().css("border", "1px solid red");
+                verif.push(false);
+                $('#notifDiv').fadeIn();
+                $('#notifDiv').css('background', 'red');
+                $('#notifDiv').text('Please provide all the required information (*)');
+                setTimeout(() => {
+                    $('#notifDiv').fadeOut();
+                }, 3000);
+                return;
+            } else {
+                verif.push(true);
+            }
+        });
+
+        if (verif.includes(false)) {
+            return;
+        }
+        
         lastOp = "update";
         $('#updateClient').attr('disabled', 'disabled');
         $('#updateClient').text('Processing..');
@@ -354,8 +437,8 @@ $(document).ready(function(){
             url: ajaxUrl,
             data: $('#updateClientForm').serialize(),
             cache: false,
-            success: function(response) {
-               // console.log(response);
+            success: function (response) {
+                // console.log(response);
                 if (JSON.parse(response) == "success") {
                     fetchClientsList();
                     $('#updateClient').removeAttr('disabled');
@@ -367,7 +450,8 @@ $(document).ready(function(){
                     setTimeout(() => {
                         $('#notifDiv').fadeOut();
                     }, 3000);
-                } else if(JSON.parse(response) == "failed"){
+                    $('.operation_docs').val('');
+                } else if (JSON.parse(response) == "failed") {
                     $('#saveDeliveryTeam').removeAttr('disabled');
                     $('#cancelDeliveryTeam').removeAttr('disabled');
                     $('#saveDeliveryTeam').text('Update');
@@ -379,9 +463,9 @@ $(document).ready(function(){
                     }, 3000);
                 }
             },
-            error: function(err) {
+            error: function (err) {
                 if (err.status == 422) {
-                    $.each(err.responseJSON.errors, function(i, error) {
+                    $.each(err.responseJSON.errors, function (i, error) {
                         var el = $(document).find('[name="' + i + '"]');
                         el.after($('<small style="color: red; position: absolute; width:100%; text-align: right; margin-left: -30px">' + error[0] + '</small>'));
                     });
@@ -423,13 +507,13 @@ $(document).ready(function(){
     //                     $('#notifDiv').fadeOut();
     //                 }, 3000);
     //             }
-                    
+
     //         }
     //     });
     // });
 
     //Activate Client
-    $(document).on('click', '.activate_btn', function(){
+    $(document).on('click', '.activate_btn', function () {
         var id = $(this).attr('id');
         $(this).text('PROCESSING....');
         $(this).attr("disabled", "disabled");
@@ -440,10 +524,10 @@ $(document).ready(function(){
             url: '/activate_client',
             data: {
                 _token: '{!! csrf_token() !!}',
-               id: id
-           },
-            success: function(response) {
-                if(JSON.parse(response) == "success"){
+                id: id
+            },
+            success: function (response) {
+                if (JSON.parse(response) == "success") {
                     //fetchCompaniesList();
                     thisRef.removeAttr('disabled');
                     thisRef.text('Deactivate');
@@ -457,20 +541,20 @@ $(document).ready(function(){
                     setTimeout(() => {
                         $('#notifDiv').fadeOut();
                     }, 3000);
-                }else if(JSON.parse(response) == "failed"){
+                } else if (JSON.parse(response) == "failed") {
                     $('#notifDiv').fadeIn();
                     $('#notifDiv').css('background', 'red');
                     $('#notifDiv').text('Unable to activate client');
                     setTimeout(() => {
                         $('#notifDiv').fadeOut();
                     }, 3000);
-                }    
+                }
             }
         });
     });
 
     //Deactivate Client
-    $(document).on('click', '.deactivate_btn', function(){
+    $(document).on('click', '.deactivate_btn', function () {
         var id = $(this).attr('id');
         $(this).text('PROCESSING....');
         $(this).attr("disabled", "disabled");
@@ -481,10 +565,10 @@ $(document).ready(function(){
             url: '/deactivate_client',
             data: {
                 _token: '{!! csrf_token() !!}',
-               id: id
-           },
-            success: function(response) {
-                if(JSON.parse(response) == "success"){
+                id: id
+            },
+            success: function (response) {
+                if (JSON.parse(response) == "success") {
                     //fetchCompaniesList();
                     thisRef.removeAttr('disabled');
                     thisRef.text('Activate');
@@ -498,14 +582,14 @@ $(document).ready(function(){
                     setTimeout(() => {
                         $('#notifDiv').fadeOut();
                     }, 3000);
-                }else if(JSON.parse(response) == "failed"){
+                } else if (JSON.parse(response) == "failed") {
                     $('#notifDiv').fadeIn();
                     $('#notifDiv').css('background', 'red');
                     $('#notifDiv').text('Unable to deactivate client');
                     setTimeout(() => {
                         $('#notifDiv').fadeOut();
                     }, 3000);
-                }    
+                }
             }
         });
     });
@@ -517,14 +601,14 @@ function fetchClientsList() {
     $.ajax({
         type: 'GET',
         url: '/GetClientsList',
-        success: function(response) {
+        success: function (response) {
             //console.log(response);
             $('.body').empty();
             $('.body').append('<table class="table table-hover dt-responsive nowrap" id="clientsListTable" style="width:100%;"><thead><tr><th>ID</th><th>Company Name</th><th>POC Name</th><th>Username</th><th>Phone#</th><th>Customer Type</th><th>Action</th></tr></thead><tbody></tbody></table>');
             $('#clientsListTable tbody').empty();
             var response = JSON.parse(response);
             response.forEach(element => {
-                $('#clientsListTable tbody').append('<tr><td>' + element['id'] + '</td><td>' + element['company_name'] + '</td><td>' + element['poc_name'] + '</td><td>' + element['username'] + '</td><td>' + element['phone'] + '</td><td>' + element['customer_type'] + '</td><td><button id="' + element['id'] + '" class="btn btn-default btn-line openDataSidebarForUpdateCustomer openDataSidebarForUpdate">Edit</button><a href="/CustomerProfile/' + element['id'] + '" id="' + element['id'] + '" class="btn btn-default">Profile</a>'+ (element["is_active"] == 1 ? '<button id="' + element['id'] + '" class="btn btn-default red-bg  deactivate_btn" title="View Detail">Deactivate</button>' : '<button id="' + element['id'] + '" class="btn btn-default activate_btn">Activate</button>') +'</td></tr>');
+                $('#clientsListTable tbody').append('<tr><td>' + element['id'] + '</td><td>' + element['company_name'] + '</td><td>' + element['poc_name'] + '</td><td>' + element['username'] + '</td><td>' + element['phone'] + '</td><td>' + element['customer_type'] + '</td><td><button id="' + element['id'] + '" class="btn btn-default btn-line openDataSidebarForUpdateCustomer openDataSidebarForUpdate">Edit</button><a href="/CustomerProfile/' + element['id'] + '" id="' + element['id'] + '" class="btn btn-default">Profile</a>' + (element["is_active"] == 1 ? '<button id="' + element['id'] + '" class="btn btn-default red-bg  deactivate_btn" title="View Detail">Deactivate</button>' : '<button id="' + element['id'] + '" class="btn btn-default activate_btn">Activate</button>') + '</td></tr>');
             });
             $('#tblLoader').hide();
             $('.body').fadeIn();
@@ -536,9 +620,9 @@ function fetchClientsList() {
 function makeid() {
     var text = "";
     var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-  
+
     for (var i = 0; i < 50; i++)
-      text += possible.charAt(Math.floor(Math.random() * possible.length));
-  
+        text += possible.charAt(Math.floor(Math.random() * possible.length));
+
     return text;
 }

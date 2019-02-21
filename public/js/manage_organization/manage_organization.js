@@ -273,7 +273,6 @@ $(document).ready(function () {
 
     $(document).on('click', '#savePickUp', function () {
         var verif = [];
-
         $('.required').css('border', '');
         $('.required').parent().css('border', '');
 
@@ -283,11 +282,23 @@ $(document).ready(function () {
                     if ($(this).val() == 0 || $(this).val() == null) {
                         $(this).parent().css("border", "1px solid red");
                         verif.push(false);
+                        $('#notifDiv').fadeIn();
+                        $('#notifDiv').css('background', 'red');
+                        $('#notifDiv').text('Please provide all the required information (*)');
+                        setTimeout(() => {
+                            $('#notifDiv').fadeOut();
+                        }, 3000);
                         return;
                     }
                 } else {
                     $(this).css("border", "1px solid red");
                     verif.push(false);
+                    $('#notifDiv').fadeIn();
+                        $('#notifDiv').css('background', 'red');
+                        $('#notifDiv').text('Please provide all the required information (*)');
+                        setTimeout(() => {
+                            $('#notifDiv').fadeOut();
+                        }, 3000);
                     return;
                 }
             } else {
@@ -423,6 +434,42 @@ $(document).ready(function () {
     });
 
     $(document).on('click', '#updatePickUp', function () {
+
+        var verif = [];
+        $('.required').css('border', '');
+        $('.required').parent().css('border', '');
+        $('.required').each(function () {
+            if ($(this).val() == "") {
+                if ($(this).attr('name') == 'location') {
+                    if ($(this).val() == 0 || $(this).val() == null) {
+                        $(this).parent().css("border", "1px solid red");
+                        verif.push(false);
+                        $('#notifDiv').fadeIn();
+                        $('#notifDiv').css('background', 'red');
+                        $('#notifDiv').text('Please provide all the required information (*)');
+                        setTimeout(() => {
+                            $('#notifDiv').fadeOut();
+                        }, 3000);
+                        return;
+                    }
+                } else {
+                    $(this).css("border", "1px solid red");
+                    verif.push(false);
+                    $('#notifDiv').fadeIn();
+                        $('#notifDiv').css('background', 'red');
+                        $('#notifDiv').text('Please provide all the required information (*)');
+                        setTimeout(() => {
+                            $('#notifDiv').fadeOut();
+                        }, 3000);
+                    return;
+                }
+            } else {
+                verif.push(true);
+            }
+        });
+        if(verif.includes(false)){
+            return;
+        }
 
         $('#updatePickUp').attr('disabled', 'disabled');
         $('#updatePickUp').text('Processing..');

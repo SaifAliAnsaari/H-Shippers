@@ -137,7 +137,7 @@ class Clients extends ParentController
 
     //Upload Client DOCS
     public function upload_docs(Request $request){
-       
+
         $input = Input::all();
 		$rules = array(
 		    'file' => 'image|max:3000',
@@ -180,8 +180,8 @@ class Clients extends ParentController
     //Get client data
     public function get_client_data($id){
         $select_client_data = DB::table('clients')->where('id', $id)->first();
-        $select_documents = DB::table('client_documents')->where('client_id', $id)->get();
-        echo json_encode(array('info' => $select_client_data, 'documents' => $select_documents, 'base_url' => URL::to('/storage/clients').'/'));
+        $select_documents = DB::table('client_documents')->whereRaw('client_key = (Select client_key from clients where id = "'.$id.'")')->get();
+        echo json_encode(array('info' => $select_client_data, 'documents' => $select_documents, 'base_url' => URL::to('/storage/clients').'/', 'doc_url' => URL::to('/storage/documents').'/'));
     }
 
     //Update

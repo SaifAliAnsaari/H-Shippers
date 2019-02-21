@@ -79,6 +79,12 @@ $(document).ready(function () {
                 if ($(this).val() == "") {
                     $(this).css("border", "1px solid red");
                     verif.push(false);
+                    $('#notifDiv').fadeIn();
+                    $('#notifDiv').css('background', 'red');
+                    $('#notifDiv').text('Please provide all the required information (*)');
+                    setTimeout(() => {
+                        $('#notifDiv').fadeOut();
+                    }, 3000);
                     return;
                 } else {
                     verif.push(true);
@@ -99,17 +105,21 @@ $(document).ready(function () {
             var verif = [];
             $('.required_same_day').css('border', '');
             $('.required_same_day').parent().css('border', '');
-
             $('.required_same_day').each(function () {
                 if ($(this).val() == "") {
                     $(this).css("border", "1px solid red");
                     verif.push(false);
+                    $('#notifDiv').fadeIn();
+                    $('#notifDiv').css('background', 'red');
+                    $('#notifDiv').text('Please provide all the required information (*)');
+                    setTimeout(() => {
+                        $('#notifDiv').fadeOut();
+                    }, 3000);
                     return;
                 } else {
                     verif.push(true);
                 }
             });
-
             if(verif.includes(false)){
                 return;
             } 
@@ -125,17 +135,21 @@ $(document).ready(function () {
             var verif = [];
             $('.required_over_night').css('border', '');
             $('.required_over_night').parent().css('border', '');
-
             $('.required_over_night').each(function () {
                 if ($(this).val() == "") {
                     $(this).css("border", "1px solid red");
                     verif.push(false);
+                    $('#notifDiv').fadeIn();
+                    $('#notifDiv').css('background', 'red');
+                    $('#notifDiv').text('Please provide all the required information (*)');
+                    setTimeout(() => {
+                        $('#notifDiv').fadeOut();
+                    }, 3000);
                     return;
                 } else {
                     verif.push(true);
                 }
             });
-
             if(verif.includes(false)){
                 return;
             } 
@@ -152,11 +166,16 @@ $(document).ready(function () {
             var verif = [];
             $('.required_second_day').css('border', '');
             $('.required_second_day').parent().css('border', '');
-
             $('.required_second_day').each(function () {
                 if ($(this).val() == "") {
                     $(this).css("border", "1px solid red");
                     verif.push(false);
+                    $('#notifDiv').fadeIn();
+                    $('#notifDiv').css('background', 'red');
+                    $('#notifDiv').text('Please provide all the required information (*)');
+                    setTimeout(() => {
+                        $('#notifDiv').fadeOut();
+                    }, 3000);
                     return;
                 } else {
                     verif.push(true);
@@ -178,17 +197,21 @@ $(document).ready(function () {
             var verif = [];
             $('.required_over_land').css('border', '');
             $('.required_over_land').parent().css('border', '');
-
             $('.required_over_land').each(function () {
                 if ($(this).val() == "") {
                     $(this).css("border", "1px solid red");
                     verif.push(false);
+                    $('#notifDiv').fadeIn();
+                    $('#notifDiv').css('background', 'red');
+                    $('#notifDiv').text('Please provide all the required information (*)');
+                    setTimeout(() => {
+                        $('#notifDiv').fadeOut();
+                    }, 3000);
                     return;
                 } else {
                     verif.push(true);
                 }
             });
-
             if(verif.includes(false)){
                 return;
             } 
@@ -204,17 +227,21 @@ $(document).ready(function () {
             var verif = [];
             $('.required_cost').css('border', '');
             $('.required_cost').parent().css('border', '');
-
             $('.required_cost').each(function () {
                 if ($(this).val() == "") {
                     $(this).css("border", "1px solid red");
                     verif.push(false);
+                    $('#notifDiv').fadeIn();
+                    $('#notifDiv').css('background', 'red');
+                    $('#notifDiv').text('Please provide all the required information (*)');
+                    setTimeout(() => {
+                        $('#notifDiv').fadeOut();
+                    }, 3000);
                     return;
                 } else {
                     verif.push(true);
                 }
             });
-
             if(verif.includes(false)){
                 return;
             } 
@@ -230,17 +257,21 @@ $(document).ready(function () {
             var verif = [];
             $('.required_insurance').css('border', '');
             $('.required_insurance').parent().css('border', '');
-
             $('.required_insurance').each(function () {
                 if ($(this).val() == "") {
                     $(this).css("border", "1px solid red");
                     verif.push(false);
+                    $('#notifDiv').fadeIn();
+                    $('#notifDiv').css('background', 'red');
+                    $('#notifDiv').text('Please provide all the required information (*)');
+                    setTimeout(() => {
+                        $('#notifDiv').fadeOut();
+                    }, 3000);
                     return;
                 } else {
                     verif.push(true);
                 }
             });
-
             if(verif.includes(false)){
                 return;
             } 
@@ -257,11 +288,16 @@ $(document).ready(function () {
             var verif = [];
             $('.required_supplementary').css('border', '');
             $('.required_supplementary').parent().css('border', '');
-
             $('.required_supplementary').each(function () {
                 if ($(this).val() == "") {
                     $(this).css("border", "1px solid red");
                     verif.push(false);
+                    $('#notifDiv').fadeIn();
+                    $('#notifDiv').css('background', 'red');
+                    $('#notifDiv').text('Please provide all the required information (*)');
+                    setTimeout(() => {
+                        $('#notifDiv').fadeOut();
+                    }, 3000);
                     return;
                 } else {
                     verif.push(true);
@@ -282,17 +318,21 @@ $(document).ready(function () {
             var verif = [];
             $('.required_fuel').css('border', '');
             $('.required_fuel').parent().css('border', '');
-
             $('.required_fuel').each(function () {
                 if ($(this).val() == "") {
                     $(this).css("border", "1px solid red");
                     verif.push(false);
+                    $('#notifDiv').fadeIn();
+                    $('#notifDiv').css('background', 'red');
+                    $('#notifDiv').text('Please provide all the required information (*)');
+                    setTimeout(() => {
+                        $('#notifDiv').fadeOut();
+                    }, 3000);
                     return;
                 } else {
                     verif.push(true);
                 }
             });
-
             if(verif.includes(false)){
                 return;
             } 
@@ -308,11 +348,16 @@ $(document).ready(function () {
             var verif = [];
             $('.required_tax').css('border', '');
             $('.required_tax').parent().css('border', '');
-
             $('.required_tax').each(function () {
                 if ($(this).val() == "") {
                     $(this).css("border", "1px solid red");
                     verif.push(false);
+                    $('#notifDiv').fadeIn();
+                    $('#notifDiv').css('background', 'red');
+                    $('#notifDiv').text('Please provide all the required information (*)');
+                    setTimeout(() => {
+                        $('#notifDiv').fadeOut();
+                    }, 3000);
                     return;
                 } else {
                     verif.push(true);

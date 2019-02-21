@@ -25,15 +25,26 @@ $(document).ready(function() {
             var verif = [];
             $('.required_complain').css('border', '');
             $('.required_complain').parent().css('border', '');
-
             $('.required_complain').each(function () {
                 if ($(this).val() == "") {
                     $(this).css("border", "1px solid red");
                     verif.push(false);
+                    $('#notifDiv').fadeIn();
+                    $('#notifDiv').css('background', 'red');
+                    $('#notifDiv').text('Please fill all required fields(*).');
+                    setTimeout(() => {
+                        $('#notifDiv').fadeOut();
+                    }, 3000);
                     return;
                 }else if( $(this).val() == 0 || $(this).val() == null){
                     $(this).parent().css("border", "1px solid red");
                     verif.push(false);
+                    $('#notifDiv').fadeIn();
+                    $('#notifDiv').css('background', 'red');
+                    $('#notifDiv').text('Please fill all required fields(*).');
+                    setTimeout(() => {
+                        $('#notifDiv').fadeOut();
+                    }, 3000);
                     return;
                 } else {
                     verif.push(true);
@@ -108,10 +119,22 @@ $(document).ready(function() {
                 if ($(this).val() == "") {
                     $(this).css("border", "1px solid red");
                     verif.push(false);
+                    $('#notifDiv').fadeIn();
+                    $('#notifDiv').css('background', 'red');
+                    $('#notifDiv').text('Please fill all required fields(*).');
+                    setTimeout(() => {
+                        $('#notifDiv').fadeOut();
+                    }, 3000);
                     return;
                 }else if( $(this).val() == 0 || $(this).val() == null){
                     $(this).parent().css("border", "1px solid red");
                     verif.push(false);
+                    $('#notifDiv').fadeIn();
+                    $('#notifDiv').css('background', 'red');
+                    $('#notifDiv').text('Please fill all required fields(*).');
+                    setTimeout(() => {
+                        $('#notifDiv').fadeOut();
+                    }, 3000);
                     return;
                 } else {
                     verif.push(true);

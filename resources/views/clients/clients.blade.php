@@ -155,7 +155,7 @@
                                                                 <div class="">
                                                                     <form action="/client_docs" class="dropzone" id="dropzonewidgetclient" method="POST" enctype="multipart/form-data">
                                                                     @csrf
-                                                                    
+                                                                    <input type="text" hidden name="operation" class = "operation_docs"/>
                                                                     <input type="text" hidden class="client_key_docs" name="client_key_docs"/>
                                                                     </form>
                                                                 </div>
