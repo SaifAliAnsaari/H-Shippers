@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\User;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\ParentController;
 use Illuminate\Support\Facades\Hash;
@@ -11,6 +12,7 @@ use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Input;
 use URL;
 use DB;
+use Auth;
 
 class RegisterController extends ParentController
 {
@@ -130,6 +132,44 @@ class RegisterController extends ParentController
         }else{
             echo json_encode('email_exist'); 
             die;
+        }
+    }
+
+    public function edit_profile($id){
+        parent::VerifyRights();
+        if($this->redirectUrl){return redirect($this->redirectUrl);}
+        if($id != Auth::id()){
+            return redirect('/', ['check_rights' => $this->check_employee_rights]);
+        }
+        return view('includes.edit_profile', ['check_rights' => $this->check_employee_rights]);
+    }
+
+    public function update_user_profile(Request $request){
+        $employee = User::find($request->user_id);
+        $hashedPassword = $employee->password;
+
+        if (Hash::check($request->current_password, $hashedPassword)) {
+            $employee->password = bcrypt($request->confirm_password);
+
+            if($request->hasFile('employeePicture')){
+                $completeFileName = $request->file('employeePicture')->getClientOriginalName();
+                $fileNameOnly = pathinfo($completeFileName, PATHINFO_FILENAME);
+                $extension = $request->file('employeePicture')->getClientOriginalExtension();
+                $empPicture = str_replace(' ', '_', $fileNameOnly).'_'.time().'.'.$extension;
+                $path = $request->file('employeePicture')->storeAs('public/employees', $empPicture);
+                if(Storage::exists('public/employees/'.str_replace('./storage/employees/', '', $employee->picture))){
+                    Storage::delete('public/employees/'.str_replace('./storage/employees/', '', $employee->picture));
+                }
+                $employee->picture = './storage/employees/'.$empPicture;
+            }
+
+            if($employee->save()){
+                echo json_encode("success");
+            }else{
+                echo json_encode("failed");
+            }
+        }else{
+            echo json_encode('not_match');
         }
     }
     

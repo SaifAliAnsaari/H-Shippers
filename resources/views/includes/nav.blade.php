@@ -25,7 +25,7 @@
                 
                 <?php
                     if(Auth::check()){ ?>
-                        <a class="dropdown-item" href="user-profile.html"><i class="fa fa-user"> </i> Profile</a>
+                        <a class="dropdown-item" href="/edit_profile/{{ Auth::user()->id }}"><i class="fa fa-user"> </i> Profile</a>
                         <a class="dropdown-item" href="user-profile.html"><i class="fa fa-cogs"> </i> Settings</a>
                         <a class="dropdown-item" href="/logout"><i class="fa fa-power-off"> </i> Logout</a>
                     <?php }else{ ?>

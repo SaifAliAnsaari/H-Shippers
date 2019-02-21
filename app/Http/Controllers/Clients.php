@@ -186,102 +186,128 @@ class Clients extends ParentController
 
     //Update
     public function update_client(Request $request){
+        try{
+            if($request->password == "*****"){
+                if($request->hasFile('compPicture')){
+                    $completeFileName = $request->file('compPicture')->getClientOriginalName();
+                    $fileNameOnly = pathinfo($completeFileName, PATHINFO_FILENAME);
+                    $extension = $request->file('compPicture')->getClientOriginalExtension();
+                    $compPic = str_replace(' ', '_', $fileNameOnly).'-'. rand() .'_'.time().'.'.$extension;
+                    $path = $request->file('compPicture')->storeAs('public/clients', $compPic);
         
-        if($request->hasFile('compPicture')){
-
-            $completeFileName = $request->file('compPicture')->getClientOriginalName();
-            $fileNameOnly = pathinfo($completeFileName, PATHINFO_FILENAME);
-            $extension = $request->file('compPicture')->getClientOriginalExtension();
-            $compPic = str_replace(' ', '_', $fileNameOnly).'-'. rand() .'_'.time().'.'.$extension;
-            $path = $request->file('compPicture')->storeAs('public/clients', $compPic);
-
-            if(Storage::exists('public/clients/'.str_replace('./storage/clients/', '', $request->logo_hidden))){
-                Storage::delete('public/clients/'.str_replace('./storage/clients/', '', $request->logo_hidden));
-            }
-
-            //$profile->company_logo = $compPic;
-            $update_client_data = DB::table('clients')->where('id', $request->client_id)->update(
-                ['username' => $request->username, 
-                'password' => bcrypt($request->password), 
-                'company_name' => $request->company_name,
-                'poc_name' => $request->poc, 
-                'phone' => $request->phone_number,
-                'office_num' => $request->office_number,
-                'website' => $request->website,
-                'city' => $request->city,
-                'address' => $request->address,
-                'ntn' => $request->ntn,
-                'strn' => $request->strn,
-                'customer_type' => $request->customer_type,
-                'pick_up_city' => $request->pick_up_city,
-                'pick_up_province' => $request->pick_up_province,
-                'company_pic' => $compPic
-                ]);
-            if($update_client_data){
-                // if($request->hasFile('documents')){
-                //     foreach($request->file('documents') as $file) :
-                //         $completeFileName = $file->getClientOriginalName();
-                //         $fileNameOnly = pathinfo($completeFileName, PATHINFO_FILENAME);
-                //         $extension = $file->getClientOriginalExtension();
-                //         $randomized = rand();
-                //         $documents = str_replace(' ', '', $fileNameOnly).'-'.$randomized.''.time().'.'.$extension;
-                //         $path = $file->storeAs('public/documents', $documents);
-                //         $insert_doc = DB::table('client_documents')->insert([
-                //             'client_document' => $documents,
-                //             'client_id' => $insert_client_data
-                //         ]);
-                //     endforeach;
-                //     if($insert_doc){
-                //         echo json_encode("success");
-                //     }else{
-                //         echo json_encode("failed");
-                //     }
-                // }
-                echo json_encode("success");
+                    if(Storage::exists('public/clients/'.str_replace('./storage/clients/', '', $request->logo_hidden))){
+                        Storage::delete('public/clients/'.str_replace('./storage/clients/', '', $request->logo_hidden));
+                    }
+        
+                    //$profile->company_logo = $compPic;
+                    $update_client_data = DB::table('clients')->where('id', $request->client_id)->update(
+                        ['username' => $request->username,  
+                        'company_name' => $request->company_name,
+                        'poc_name' => $request->poc, 
+                        'phone' => $request->phone_number,
+                        'office_num' => $request->office_number,
+                        'website' => $request->website,
+                        'city' => $request->city,
+                        'address' => $request->address,
+                        'ntn' => $request->ntn,
+                        'strn' => $request->strn,
+                        'customer_type' => $request->customer_type,
+                        'pick_up_city' => $request->pick_up_city,
+                        'pick_up_province' => $request->pick_up_province,
+                        'company_pic' => $compPic
+                        ]);
+                    if($update_client_data){
+                    
+                        echo json_encode("success");
+                    }else{
+                        echo json_encode("failed");
+                    }
+                }else{
+                    $update_client_data = DB::table('clients')->where('id', $request->client_id)->update(
+                        ['username' => $request->username, 
+                        'company_name' => $request->company_name,
+                        'poc_name' => $request->poc, 
+                        'phone' => $request->phone_number,
+                        'office_num' => $request->office_number,
+                        'website' => $request->website,
+                        'city' => $request->city,
+                        'address' => $request->address,
+                        'ntn' => $request->ntn,
+                        'strn' => $request->strn,
+                        'customer_type' => $request->customer_type,
+                        'pick_up_city' => $request->pick_up_city,
+                        'pick_up_province' => $request->pick_up_province
+                        ]);
+                    if($update_client_data){
+                    
+                        echo json_encode("success");
+                    }else{
+                        echo json_encode("failed");
+                    }
+                }
             }else{
-                echo json_encode("failed");
+                if($request->hasFile('compPicture')){
+                    $completeFileName = $request->file('compPicture')->getClientOriginalName();
+                    $fileNameOnly = pathinfo($completeFileName, PATHINFO_FILENAME);
+                    $extension = $request->file('compPicture')->getClientOriginalExtension();
+                    $compPic = str_replace(' ', '_', $fileNameOnly).'-'. rand() .'_'.time().'.'.$extension;
+                    $path = $request->file('compPicture')->storeAs('public/clients', $compPic);
+        
+                    if(Storage::exists('public/clients/'.str_replace('./storage/clients/', '', $request->logo_hidden))){
+                        Storage::delete('public/clients/'.str_replace('./storage/clients/', '', $request->logo_hidden));
+                    }
+        
+                    //$profile->company_logo = $compPic;
+                    $update_client_data = DB::table('clients')->where('id', $request->client_id)->update(
+                        ['username' => $request->username, 
+                        'password' => bcrypt($request->password), 
+                        'company_name' => $request->company_name,
+                        'poc_name' => $request->poc, 
+                        'phone' => $request->phone_number,
+                        'office_num' => $request->office_number,
+                        'website' => $request->website,
+                        'city' => $request->city,
+                        'address' => $request->address,
+                        'ntn' => $request->ntn,
+                        'strn' => $request->strn,
+                        'customer_type' => $request->customer_type,
+                        'pick_up_city' => $request->pick_up_city,
+                        'pick_up_province' => $request->pick_up_province,
+                        'company_pic' => $compPic
+                        ]);
+                    if($update_client_data){
+                    
+                        echo json_encode("success");
+                    }else{
+                        echo json_encode("failed");
+                    }
+                }else{
+                    $update_client_data = DB::table('clients')->where('id', $request->client_id)->update(
+                        ['username' => $request->username, 
+                        'password' => bcrypt($request->password), 
+                        'company_name' => $request->company_name,
+                        'poc_name' => $request->poc, 
+                        'phone' => $request->phone_number,
+                        'office_num' => $request->office_number,
+                        'website' => $request->website,
+                        'city' => $request->city,
+                        'address' => $request->address,
+                        'ntn' => $request->ntn,
+                        'strn' => $request->strn,
+                        'customer_type' => $request->customer_type,
+                        'pick_up_city' => $request->pick_up_city,
+                        'pick_up_province' => $request->pick_up_province
+                        ]);
+                    if($update_client_data){
+                    
+                        echo json_encode("success");
+                    }else{
+                        echo json_encode("failed");
+                    }
+                }
             }
-        }else{
-            $update_client_data = DB::table('clients')->where('id', $request->client_id)->update(
-                ['username' => $request->username, 
-                'password' => bcrypt($request->password), 
-                'company_name' => $request->company_name,
-                'poc_name' => $request->poc, 
-                'phone' => $request->phone_number,
-                'office_num' => $request->office_number,
-                'website' => $request->website,
-                'city' => $request->city,
-                'address' => $request->address,
-                'ntn' => $request->ntn,
-                'strn' => $request->strn,
-                'customer_type' => $request->customer_type,
-                'pick_up_city' => $request->pick_up_city,
-                'pick_up_province' => $request->pick_up_province
-                ]);
-            if($update_client_data){
-                // if($request->hasFile('documents')){
-                //     foreach($request->file('documents') as $file) :
-                //         $completeFileName = $file->getClientOriginalName();
-                //         $fileNameOnly = pathinfo($completeFileName, PATHINFO_FILENAME);
-                //         $extension = $file->getClientOriginalExtension();
-                //         $randomized = rand();
-                //         $documents = str_replace(' ', '', $fileNameOnly).'-'.$randomized.''.time().'.'.$extension;
-                //         $path = $file->storeAs('public/documents', $documents);
-                //         $insert_doc = DB::table('client_documents')->insert([
-                //             'client_document' => $documents,
-                //             'client_id' => $insert_client_data
-                //         ]);
-                //     endforeach;
-                //     if($insert_doc){
-                //         echo json_encode("success");
-                //     }else{
-                //         echo json_encode("failed");
-                //     }
-                // }
-                echo json_encode("success");
-            }else{
-                echo json_encode("failed");
-            }
+        }catch(\Illuminate\Database\QueryException $ex){ 
+            echo json_encode('failed'); 
         }
 
     }

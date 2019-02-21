@@ -80,9 +80,9 @@
     @elseif($controller == "CustomerTypes")
         <script src="/js/custom/customer-types.js?v=2.13" ></script>
     @elseif($controller == "RegisterController")
-        <script src="/js/custom/employee.js?v=2.13" ></script>
+        <script src="/js/custom/employee.js?v=2.15" ></script>
     @elseif($controller == "Clients")
-        <script src="/js/client/clients.js?v=2.14" ></script>
+        <script src="/js/client/clients.js?v=2.15" ></script>
     @elseif($controller == "OrganizationManagement")
         <script src="/js/manage_organization/manage_organization.js?v=2.13" ></script>
     @elseif($controller == "ManageBilling")

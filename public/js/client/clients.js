@@ -291,8 +291,11 @@ $(document).ready(function () {
                 $('input[name="username"]').val(response.info.username);
                 $('input[name="username"]').blur();
 
+                // $('input[name="password"]').focus();
+                // $('input[name="password"]').val(response.info.password);
+                // $('input[name="password"]').blur();
                 $('input[name="password"]').focus();
-                $('input[name="password"]').val(response.info.password);
+                $('input[name="password"]').val("*****");
                 $('input[name="password"]').blur();
 
                 $('input[name="company_name"]').focus();
@@ -438,7 +441,7 @@ $(document).ready(function () {
             data: $('#updateClientForm').serialize(),
             cache: false,
             success: function (response) {
-                // console.log(response);
+                 console.log(response);
                 if (JSON.parse(response) == "success") {
                     fetchClientsList();
                     $('#updateClient').removeAttr('disabled');
@@ -452,9 +455,8 @@ $(document).ready(function () {
                     }, 3000);
                     $('.operation_docs').val('');
                 } else if (JSON.parse(response) == "failed") {
-                    $('#saveDeliveryTeam').removeAttr('disabled');
-                    $('#cancelDeliveryTeam').removeAttr('disabled');
-                    $('#saveDeliveryTeam').text('Update');
+                    $('#updateClient').removeAttr('disabled');
+                    $('#updateClient').text('Update');
                     $('#notifDiv').fadeIn();
                     $('#notifDiv').css('background', 'red');
                     $('#notifDiv').text('Failed to update Client at the moment');

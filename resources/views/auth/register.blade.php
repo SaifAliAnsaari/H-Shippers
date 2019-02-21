@@ -52,7 +52,7 @@
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label class="control-label mb-10">Email ID*</label>
-                                                        <input type="text" name="email" class="form-control required" placeholder="">
+                                                        <input type="text" name="email" id="email_address" class="form-control required" placeholder="">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">

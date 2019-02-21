@@ -56,6 +56,7 @@ Route::get('/suggestions_list', 'ComplaintsAndSuggestions@suggestions_list');
 Route::get('/access_rights/{id}', 'AccessRights@access_rights');
 Route::get('/save_controllers', 'AccessRights@save_controllers');
 Route::get('/select_employee', 'AccessRights@select_employee');
+Route::get('/edit_profile/{id}', 'Auth\RegisterController@edit_profile');
 
 //Save
 Route::post('/Client_save', 'Clients@save_client');
@@ -69,6 +70,7 @@ Route::post('/saveSuggestion', 'ComplaintsAndSuggestions@saveSuggestions');
 Route::post('/saveRoute', 'AccessRights@saveRoute');
 Route::post('/saveAccessRights', 'AccessRights@saveAccessRights');
 Route::post('/SaveConsignmentAdmin', 'ConsignmentManagement@SaveConsignmentAdmin');
+Route::post('/update_user_profile', 'Auth\RegisterController@update_user_profile');
 
 //Get Data to display on page
 Route::get('/GetCompaniesList', 'OrganizationManagement@companies_list');
