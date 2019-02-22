@@ -136,11 +136,11 @@
                                                         <div>
                                                             <select name="reporting" class="form-control formselect required" placeholder="Reporting To">
                                                                 <option value="0" selected>Reporting To*</option>
-                                                                <option value="1">Admin</option>
-                                                                <option value="2">Manager</option>
-                                                                <option value="3">Salesman</option>
-                                                                <option value="4">Rider</option>
-                                                                <option value="5">Cashier</option> 
+                                                                @if(!$employees->isEmpty())
+                                                                    @foreach($employees as $employe)
+                                                                        <option value="{{ $employe->id }}">{{ $employe->name }}</option>
+                                                                    @endforeach
+                                                                @endif
                                                             </select>
                                                         </div>
                                                     </div>

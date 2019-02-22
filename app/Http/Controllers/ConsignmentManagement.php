@@ -169,6 +169,7 @@ class ConsignmentManagement extends ParentController
             }
         }
 
+
         $price = 0;
         $totalPrice = 0;
         if($request->consignment_service_type_client == 1){
@@ -632,10 +633,15 @@ class ConsignmentManagement extends ParentController
 
         }
 
-        //echo json_encode($totalPrice);
+        $gst_fuel = DB::table('billing')->select('tax', 'fuel_charges')->whereRaw('customer_id = (Select id from clients where client_login_session = "'.Cookie::get('client_session').'")')->first();
+        if($gst_fuel->tax != "" || $gst_fuel->fuel_charges != ""){
+            $totalPrice = $totalPrice + (($gst_fuel->tax / 100) * $totalPrice);
+            $totalPrice = $totalPrice + (($gst_fuel->fuel_charges / 100) * $totalPrice);
+        }
+        echo json_encode(round($totalPrice));
         
 
-       // die;
+        die;
         $save_consignment_client = DB::table('consignment_client')->insert(
             ['booking_date' => $request->datepicker, 
             'cnic' => $request->cnic_client, 

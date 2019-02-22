@@ -70,7 +70,8 @@ class RegisterController extends ParentController
 
     public function showRegistrationForm(){
          parent::VerifyRights();if($this->redirectUrl){return redirect($this->redirectUrl);}
-        return view('auth.register', ['check_rights' => $this->check_employee_rights]);
+        $employees = User::all();
+        return view('auth.register', ['check_rights' => $this->check_employee_rights, 'employees' => $employees]);
     }
 
     // public function manage_employee(){
