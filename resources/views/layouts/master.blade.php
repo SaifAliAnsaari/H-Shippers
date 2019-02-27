@@ -74,28 +74,33 @@
     {{-- <form action="/test-upload" class="dropzone" id="dropzonewidget" method="POST" enctype="multipart/form-data">
         @csrf
     </form>  --}}
+    
 
     @if($controller == "Customer")
-        <script src="/js/custom/customer.js?v=2.13" ></script>
+        <script src="/js/custom/customer.js?v=2.23" ></script>
     @elseif($controller == "CustomerTypes")
-        <script src="/js/custom/customer-types.js?v=2.13" ></script>
+        <script src="/js/custom/customer-types.js?v=2.23" ></script>
     @elseif($controller == "RegisterController")
-        <script src="/js/custom/employee.js?v=2.15" ></script>
+        <script src="/js/custom/employee.js?v=2.25" ></script>
     @elseif($controller == "Clients")
-        <script src="/js/client/clients.js?v=2.15" ></script>
+        <script src="/js/client/clients.js?v=2.25" ></script>
     @elseif($controller == "OrganizationManagement")
-        <script src="/js/manage_organization/manage_organization.js?v=2.13" ></script>
+        <script src="/js/manage_organization/manage_organization.js?v=2.23" ></script>
     @elseif($controller == "ManageBilling")
-        <script src="/js/manage_billing/manage_billing.js?v=2.13" ></script>
+        <script src="/js/manage_billing/manage_billing.js?v=2.23" ></script>
     @elseif($controller == "ClientsForBilling")
-        <script src="/js/manage_billing/customers_for_biling.js?v=2.13" ></script>
+        <script src="/js/manage_billing/customers_for_biling.js?v=2.23" ></script>
     @elseif($controller == "ComplaintsAndSuggestions")
-        <script src="/js/manage_complaints_suggestions/complaints_suggestions.js?v=2.13" ></script>
+        <script src="/js/manage_complaints_suggestions/complaints_suggestions.js?v=2.23" ></script>
     @elseif($controller == "ConsignmentManagement")
-        <script src="/js/manage_consignment/consignment.js?v=2.13" ></script>
+        <script src="/js/manage_consignment/consignment.js?v=2.23" ></script>
     @elseif($controller == "AccessRights")
-        <script src="/js/access_rights/access_rights.js?v=2.13" ></script>
+        <script src="/js/access_rights/access_rights.js?v=2.23" ></script>
+    @elseif($controller == "HomeController")
+        <script src="/js/notif_pref/notif_pref.js?v=2.23" ></script>
     @endif
+
+    <script type="text/javascript"></script>
 
 </body>
 

@@ -291,9 +291,6 @@ $(document).ready(function () {
                 $('input[name="username"]').val(response.info.username);
                 $('input[name="username"]').blur();
 
-                // $('input[name="password"]').focus();
-                // $('input[name="password"]').val(response.info.password);
-                // $('input[name="password"]').blur();
                 $('input[name="password"]').focus();
                 $('input[name="password"]').val("*****");
                 $('input[name="password"]').blur();
@@ -336,8 +333,6 @@ $(document).ready(function () {
 
                 $('select[name="customer_type"]').val(response.info.customer_type).trigger("change");
 
-                // var core_cities = response.info.pick_up_city;
-                // var city = core_cities.split(",");
                 $('select[name="pick_up_city"]').val(response.info.pick_up_city).trigger("change");
 
                 // var core_provinces = response.info.pick_up_province;

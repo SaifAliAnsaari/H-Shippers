@@ -22,8 +22,9 @@ class OrganizationManagement extends ParentController
      */
 
     public function manage_company(){
+        parent::get_notif_data();
          parent::VerifyRights();if($this->redirectUrl){return redirect($this->redirectUrl);}
-        return view("organization_management.company_profile", ['check_rights' => $this->check_employee_rights]);
+        return view("organization_management.company_profile", ['check_rights' => $this->check_employee_rights, 'notifications_counts' => $this->notif_counts, 'notif_data' => $this->notif_data]);
     }
 
     public function add_company(Request $request){
@@ -100,8 +101,9 @@ class OrganizationManagement extends ParentController
 
 
     public function manage_pickUp_delivery(){
+        parent::get_notif_data();
          parent::VerifyRights();if($this->redirectUrl){return redirect($this->redirectUrl);}
-        return view('organization_management.pick_up_and_delivery', ['check_rights' => $this->check_employee_rights]);
+        return view('organization_management.pick_up_and_delivery', ['check_rights' => $this->check_employee_rights, 'notifications_counts' => $this->notif_counts, 'notif_data' => $this->notif_data]);
     }
 
     public function add_pickUp(Request $request){

@@ -57,6 +57,8 @@ Route::get('/access_rights/{id}', 'AccessRights@access_rights');
 Route::get('/save_controllers', 'AccessRights@save_controllers');
 Route::get('/select_employee', 'AccessRights@select_employee');
 Route::get('/edit_profile/{id}', 'Auth\RegisterController@edit_profile');
+Route::get('/notifications', 'HomeController@notifications');
+Route::get('/notification_prefrences', 'HomeController@notification_prefrences');
 
 //Save
 Route::post('/Client_save', 'Clients@save_client');
@@ -71,6 +73,8 @@ Route::post('/saveRoute', 'AccessRights@saveRoute');
 Route::post('/saveAccessRights', 'AccessRights@saveAccessRights');
 Route::post('/SaveConsignmentAdmin', 'ConsignmentManagement@SaveConsignmentAdmin');
 Route::post('/update_user_profile', 'Auth\RegisterController@update_user_profile');
+Route::post('/save_pref_against_emp', 'HomeController@save_pref_against_emp');
+Route::post('/read_notif_four', 'HomeController@read_notif_four');
 
 //Get Data to display on page
 Route::get('/GetCompaniesList', 'OrganizationManagement@companies_list');
@@ -85,10 +89,13 @@ Route::get('/get_price_if_consignmentTypeFragile', 'ConsignmentManagement@get_pr
 Route::get('/activate_client', 'Clients@activate_client');
 Route::get('/deactivate_client', 'Clients@deactivate_client');
 
+
 //Get data to show on update page
 Route::get('/company_data/{id}', 'OrganizationManagement@get_company_data');
 Route::get('/pickUp_data/{id}', 'OrganizationManagement@get_pickUp_data');
 Route::get('/client_data/{id}', 'Clients@get_client_data');
+Route::get('/notif_pref_against_emp/{id}', 'HomeController@notif_pref_against_emp');
+Route::get('/checkBillinAddedOrNot/{id}', 'ManageBilling@checkBillinAddedOrNot');
 
 //Update
 Route::post('/company_update', 'OrganizationManagement@update_company');

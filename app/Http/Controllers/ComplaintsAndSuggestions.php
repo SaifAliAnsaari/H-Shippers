@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Cookie;
 use DB;
 use Auth;
+use Mail;
+use App\Mail\SendMailable;
 
 class ComplaintsAndSuggestions extends ParentController
 {
@@ -32,7 +34,7 @@ class ComplaintsAndSuggestions extends ParentController
         if(Cookie::get('client_session')){
             $check_session = DB::table('clients')->select('username', 'id', 'company_pic')->where('client_login_session', Cookie::get('client_session'))->first();
             if($check_session){
-                return view('complaints_suggestions.complaints_suggestion', ["client_id" => $check_session->id, 'check_rights' => $this->check_employee_rights, 'name' => $check_session]);
+                return view('complaints_suggestions.complaints_suggestion', ["client_id" => $check_session->id, 'check_rights' => $this->check_employee_rights, 'name' => $check_session, ]);
             } 
         }else{
             return redirect('/');
@@ -40,16 +42,19 @@ class ComplaintsAndSuggestions extends ParentController
     }
 
     public function complaints_list(){
+        parent::get_notif_data();
          parent::VerifyRights();if($this->redirectUrl){return redirect($this->redirectUrl);}
-        return view('complaints_suggestions.complaints-list', ['check_rights' => $this->check_employee_rights]);
+        return view('complaints_suggestions.complaints-list', ['check_rights' => $this->check_employee_rights, 'notifications_counts' => $this->notif_counts, 'notif_data' => $this->notif_data]);
     }
 
     public function suggestions_list(){
+        parent::get_notif_data();
          parent::VerifyRights();if($this->redirectUrl){return redirect($this->redirectUrl);}
-        return view('complaints_suggestions.suggestions-list', ['check_rights' => $this->check_employee_rights]);
+        return view('complaints_suggestions.suggestions-list', ['check_rights' => $this->check_employee_rights, 'notifications_counts' => $this->notif_counts, 'notif_data' => $this->notif_data]);
     }
 
     public function complaints_list_client(){
+        //
          parent::VerifyRights();if($this->redirectUrl){return redirect($this->redirectUrl);}
         if(!Auth::user()){
             if(Cookie::get('client_session')){
@@ -61,11 +66,13 @@ class ComplaintsAndSuggestions extends ParentController
                 return redirect('/');
             } 
         }else{
-            return view('complaints_suggestions.complaints-list-clients', ['check_rights' => $this->check_employee_rights]);
+            parent::get_notif_data();
+            return view('complaints_suggestions.complaints-list-clients', ['check_rights' => $this->check_employee_rights, 'notifications_counts' => $this->notif_counts, 'notif_data' => $this->notif_data]);
         } 
     }
 
     public function suggestions_list_client(){
+        
          parent::VerifyRights();if($this->redirectUrl){return redirect($this->redirectUrl);}
          if(!Auth::user()){
             if(Cookie::get('client_session')){
@@ -77,14 +84,15 @@ class ComplaintsAndSuggestions extends ParentController
                 return redirect('/');
             } 
         }else{
-            return view('complaints_suggestions.suggestions_list_client', ['check_rights' => $this->check_employee_rights]);
+            parent::get_notif_data();
+            return view('complaints_suggestions.suggestions_list_client', ['check_rights' => $this->check_employee_rights, 'notifications_counts' => $this->notif_counts, 'notif_data' => $this->notif_data]);
         } 
         
     }
 
     public function saveComplaints(Request $request){
-       
-        $insert_complaint = DB::table('complaints_suggestions')->insert([
+    
+        $insert_complaint = DB::table('complaints_suggestions')->insertGetId([
             "operation" => "Complaint",
             "name" => $request->name_complaint,
             "cell" => $request->cell_complaint,
@@ -96,14 +104,34 @@ class ComplaintsAndSuggestions extends ParentController
             "client_id" => $request->client_id
         ]);
         if($insert_complaint){
-            echo json_encode('success');
+            $insert_notification = DB::table('notifications_list')->insert([
+                'code' => 102,
+                'message' => 'New complain added',
+                'complain_id' => $insert_complaint
+            ]);
+
+            // $get_email_addresses = DB::table('users')->select('email')->whereRaw('id IN (Select emp_id from subscribed_notifications WHERE email = 1 AND notification_code_id = 102)')->get();
+               
+            // if(!$get_email_addresses->isEmpty()){
+            //     foreach($get_email_addresses as $email){
+            //         $name = 'Krunal';
+            //          Mail::to($email->email)->send(new SendMailable($name));
+            //     }
+            // }
+            
+            
+            if($insert_notification){
+                echo json_encode('success');
+            }else{
+                echo json_encode('failed');
+            }
         }else{
             echo json_encode('failed');
         }
     }
 
     public function saveSuggestions(Request $request){
-        $insert_complaint = DB::table('complaints_suggestions')->insert([
+        $insert_suggestion = DB::table('complaints_suggestions')->insertGetId([
             "operation" => "Suggestion",
             "name" => $request->name_suggestions,
             "cell" => $request->cell_suggestions,
@@ -114,8 +142,27 @@ class ComplaintsAndSuggestions extends ParentController
             "status" => "pending",
             "client_id" => $request->client_id
         ]);
-        if($insert_complaint){
-            echo json_encode('success');
+        if($insert_suggestion){
+            $insert_notification = DB::table('notifications_list')->insert([
+                'code' => 103,
+                'message' => 'New suggestion added',
+                'complain_id' => $insert_suggestion
+            ]);
+            
+            // $get_email_addresses = DB::table('users')->select('email')->whereRaw('id IN (Select emp_id from subscribed_notifications WHERE email = 1 AND notification_code_id = 103)')->get();
+               
+            // if(!$get_email_addresses->isEmpty()){
+            //     foreach($get_email_addresses as $email){
+            //         $name = 'Krunal';
+            //          Mail::to($email->email)->send(new SendMailable($name));
+            //     }
+            // }
+            
+            if($insert_notification){
+                echo json_encode('success');
+            }else{
+                echo json_encode('failed');
+            }
         }else{
             echo json_encode('failed');
         }

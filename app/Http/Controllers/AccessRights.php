@@ -19,8 +19,9 @@ class AccessRights extends ParentController
      */
 
     public function save_controllers(){
+         parent::get_notif_data();
          parent::VerifyRights();if($this->redirectUrl){return redirect($this->redirectUrl);}
-        return view('access_rights.save_controllers', ['check_rights' => $this->check_employee_rights]);
+        return view('access_rights.save_controllers', ['check_rights' => $this->check_employee_rights, 'notifications_counts' => $this->notif_counts, 'notif_data' => $this->notif_data]);
     }
 
     public function saveRoute(Request $request){
@@ -42,8 +43,9 @@ class AccessRights extends ParentController
 
 
     public function select_employee(){
+        parent::get_notif_data();
          parent::VerifyRights();if($this->redirectUrl){return redirect($this->redirectUrl);}
-        return view('access_rights.clients_list', ['check_rights' => $this->check_employee_rights]);
+        return view('access_rights.clients_list', ['check_rights' => $this->check_employee_rights, 'notifications_counts' => $this->notif_counts, 'notif_data' => $this->notif_data]);
     }
 
     public function GetEmployeeListForRights(){
@@ -51,14 +53,15 @@ class AccessRights extends ParentController
     }
 
     public function access_rights($id){
+        parent::get_notif_data();
          parent::VerifyRights();if($this->redirectUrl){return redirect($this->redirectUrl);}
         $controllers = DB::table('controllers')->get();
         $check = DB::table('access_rights')->where('employee_id', $id)->get();
 
         if(!$check->isEmpty()){
-            return view('access_rights.access_rights', ['employee_id' => $id, 'controllers' => $controllers, "rights" => $check, 'check_rights' => $this->check_employee_rights]);
+            return view('access_rights.access_rights', ['employee_id' => $id, 'controllers' => $controllers, "rights" => $check, 'check_rights' => $this->check_employee_rights, 'notifications_counts' => $this->notif_counts, 'notif_data' => $this->notif_data]);
         }else{
-            return view('access_rights.access_rights', ['employee_id' => $id, 'controllers' => $controllers, "rights" => "", 'check_rights' => $this->check_employee_rights]);
+            return view('access_rights.access_rights', ['employee_id' => $id, 'controllers' => $controllers, "rights" => "", 'check_rights' => $this->check_employee_rights, 'notifications_counts' => $this->notif_counts, 'notif_data' => $this->notif_data]);
         }
     }
 

@@ -69,9 +69,10 @@ class RegisterController extends ParentController
     }
 
     public function showRegistrationForm(){
+        parent::get_notif_data();
          parent::VerifyRights();if($this->redirectUrl){return redirect($this->redirectUrl);}
         $employees = User::all();
-        return view('auth.register', ['check_rights' => $this->check_employee_rights, 'employees' => $employees]);
+        return view('auth.register', ['check_rights' => $this->check_employee_rights, 'employees' => $employees, 'notifications_counts' => $this->notif_counts, 'notif_data' => $this->notif_data]);
     }
 
     // public function manage_employee(){
@@ -124,6 +125,11 @@ class RegisterController extends ParentController
                 'picture' => $userPicture  
             ]);
             if($status){
+                // $save_notif = DB::table('notifications')->insert([
+                //     'emp_id' => $status->id,
+                //     'reporting_to' => $data['reporting'],
+                //     'notif_status' => 'new emp'
+                // ]);
                 echo json_encode('success');
                 die;
             }else{
@@ -138,11 +144,12 @@ class RegisterController extends ParentController
 
     public function edit_profile($id){
         parent::VerifyRights();
+        parent::get_notif_data();
         if($this->redirectUrl){return redirect($this->redirectUrl);}
         if($id != Auth::id()){
-            return redirect('/', ['check_rights' => $this->check_employee_rights]);
+            return redirect('/');
         }
-        return view('includes.edit_profile', ['check_rights' => $this->check_employee_rights]);
+        return view('includes.edit_profile', ['check_rights' => $this->check_employee_rights, 'notifications_counts' => $this->notif_counts, 'notif_data' => $this->notif_data]);
     }
 
     public function update_user_profile(Request $request){

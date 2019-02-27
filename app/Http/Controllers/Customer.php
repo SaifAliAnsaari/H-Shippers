@@ -26,7 +26,8 @@ class Customer extends ParentController
     public function index()
     {
          parent::VerifyRights();if($this->redirectUrl){return redirect($this->redirectUrl);}
-        return view('customer.customer', [ 'customers' => Cust::selectRaw('id, company_name')->get(), 'types' => DB::table('customer_types')->get(), 'check_rights' => $this->check_employee_rights ]);
+         parent::get_notif_data();
+        return view('customer.customer', [ 'customers' => Cust::selectRaw('id, company_name')->get(), 'types' => DB::table('customer_types')->get(), 'check_rights' => $this->check_employee_rights, 'notifications_counts' => $this->notif_counts, 'notif_data' => $this->notif_data]);
     }
 
     //Ajax Call from list-customers.js
@@ -36,8 +37,9 @@ class Customer extends ParentController
     }
 
     public function viewProfile($customerId){
+        parent::get_notif_data();
          parent::VerifyRights();if($this->redirectUrl){return redirect($this->redirectUrl);}
-        return view('customer.profile', [ 'customers' => Cust::select('id', 'company_name')->get(), 'types' => DB::table('customer_types')->get(), 'update_customer' => DB::table('customers')->where('id', $customerId)->first(), 'check_rights' => $this->check_employee_rights ]);
+        return view('customer.profile', [ 'customers' => Cust::select('id', 'company_name')->get(), 'types' => DB::table('customer_types')->get(), 'update_customer' => DB::table('customers')->where('id', $customerId)->first(), 'check_rights' => $this->check_employee_rights, 'notifications_counts' => $this->notif_counts, 'notif_data' => $this->notif_data]);
     }
 
     /**
@@ -47,8 +49,9 @@ class Customer extends ParentController
      */
     public function create()
     {
+        parent::get_notif_data();
          parent::VerifyRights();if($this->redirectUrl){return redirect($this->redirectUrl);}
-        return view('customer.create', ['check_rights' => $this->check_employee_rights]);
+        return view('customer.create', ['check_rights' => $this->check_employee_rights, 'notifications_counts' => $this->notif_counts, 'notif_data' => $this->notif_data]);
     }
 
     /**

@@ -50,25 +50,30 @@ body {
 	margin-right: 5px;
 	color: #adaeb4
 }
-.top_nav .dropdown-menu .dropdown-item:HOVER .fa, .top_nav .dropdown-menu .dropdown-item:focus .fa {
+/*.top_nav .dropdown-menu .dropdown-item:HOVER .fa, .top_nav .dropdown-menu .dropdown-item:focus .fa {
 	color: #fff
-}
+}*/
 .top_nav .dropdown-item {
 	padding: 10px 15px;
 	font-size: 12px;
-	font-weight: 600;
+	font-weight: 500;
 	border-bottom: solid 1px #f3f3f3;
 	font-family: 'Montserrat', sans-serif;
-	letter-spacing: 0.5px
+	letter-spacing: 0.5px; 	
+	-webkit-transition: all 0.3s ease-in-out;
+	transition: all 0.3s ease-in-out
 }
-.top_nav .dropdown-item:HOVER {
-	color: #fff;
-	background-color: #0c397a
+.top_nav .dropdown-item:HOVER { 
+	background-color: #f7f8fa;
+	letter-spacing: 0.5px; 	
+	-webkit-transition: all 0.3s ease-in-out;
+	transition: all 0.3s ease-in-out;
+	color: #282828
 }
 .usernamelab {
 	display: none
 }
-.TM_icon{margin-right:22px; position: relative; margin-top:10px}
+.TM_icon{margin-right:30px; position: relative; margin-top:10px}
 .TM_icon img{width: auto; height:20px;}
 
 .hamburger, .hamburger:HOVER {
@@ -2255,6 +2260,103 @@ table.dataTable.cell-border tbody tr:first-child th, table.dataTable.cell-border
 .inv-footer p{
 	margin-bottom: 0
 }
+.notiF-title{
+    border-bottom: 1px solid #f7f8fa;
+    color: #282828;
+    font-size: 15px;
+    font-weight: 500;
+    padding:15px;
+    text-align: left;
+	margin-bottom: 0;
+}
+.top_nav .notiF, .Qlinks {
+    width: 280px; 
+}
+.top_nav .notiF strong {
+    font-size: 14px; 
+	font-weight: normal!important;
+    display: block; line-height: 18px;margin-top: -2px;
+}
+.top_nav .notiF a {
+    font-size: 12px; display: block; padding:10px 12px; color: #282828; border-bottom: 1px solid #f7f8fa;
+		-webkit-transition: all 0.3s ease-in-out;
+	transition: all 0.3s ease-in-out
+}
+.top_nav .notiF a:HOVER, .Qlinks a:HOVER{text-decoration: none; background-color:#f7f8fa}
+.top_nav .notiF p {margin:0; color:#6c747c}
+.top_nav .notiF .all-NF{font-size: 13px; font-weight:500; letter-spacing:1px; font-family:'Montserrat', sans-serif; text-align: center}
+._NF-se{padding-top: 40px}
+._NF-se{padding: 10px 30px 10px 10px; font-family: 'Source Sans Pro', sans-serif; margin-right: 0px; margin-top: 0px;  margin-bottom:15px}
+._NF-se .close{position: absolute; top: 3px; right: 5px; border: none; outline: none; font-size: 22px; padding: 5px}
+.NU-img{
+	height: 32px!important;
+    width: 32px!important;
+    vertical-align: middle;
+    border-radius: 50%; margin-left: 5px; 
+    margin-right: 10px; margin-bottom: 10px; float: left
+}
+.Qlinks a{ font-size: 12px;font-family:'Montserrat', sans-serif; font-weight: normal; line-height: 22px;  letter-spacing: 1px; display: block; padding:10px; color: #282828;
+ border-bottom: 1px solid #f7f8fa; -webkit-transition: all 0.3s ease-in-out; transition: all 0.3s ease-in-out}
+.Qlinks img{
+	height: auto;
+    width: 20px!important;
+    margin-right: 15px; float: left
+}
+._left-filter{margin-top: 15px}
+
+.AssNotification{font-size: 13px; margin-top: 20px}
+.AssNotification thead th{
+	background: linear-gradient(0deg, #f8f8f8 0%, #ffffff 100%); border-bottom: none
+}
+.AssNotification .switch{position:relative;display:inline-block;width:44px;height:23px;margin-bottom:0}
+.AssNotification .switch input{opacity:0;width:0;height:0}
+.AssNotification .switch .slider{position:absolute;cursor:pointer;top:0;left:0;right:0;bottom:0;background-color:#ccc;-webkit-transition:.4s;transition:.4s}
+.AssNotification .switch .slider:before{position:absolute;content:"";height:15px;width:15px;left:4px;bottom:4px;background-color:#fff;-webkit-transition:.4s;transition:.4s}
+.AssNotification .switch input:checked+.slider{background-color:#0c397a}input:focus+.slider{box-shadow:0 0 1px #0c397a}
+.AssNotification .switch input:checked+.slider:before{-webkit-transform:translateX(20px);-ms-transform:translateX(20px);transform:translateX(20px)}
+.AssNotification .switch .slider.round{border-radius:34px}
+.AssNotification .switch .slider.round:before{border-radius:50%}
+
+.CB-view{font-size: 13px}
+.CB-view thead th{
+	background: linear-gradient(0deg, #f8f8f8 0%, #ffffff 100%); border-bottom: none;padding: 5px
+}
+.CB-view .table td, .table th, .CB-view .table td, .table th{font-size:12px; padding: 5px}
+
+.CB-view ._boxgray{
+	background-color: #f9f9f9; border: solid 1px #e7eaed; padding: 5px 10px;
+	-webkit-transition: all 0.3s ease-in-out;
+	transition: all 0.3s ease-in-out
+}
+.CB-view ._boxgray span{display: block; font-size:18px; font-weight: 600}
+.CB-view ._boxgray:HOVER{
+	box-shadow: 0px 0px 8px 0 rgba(79,79,79,.2);
+	border: solid 1px #fbd536;
+	-webkit-transition: all 0.3s ease-in-out;
+	transition: all 0.3s ease-in-out
+}
+.CB-view .Doclink{margin-top:47px}
+.modal-full {
+    min-width: 100%;
+    margin: 0}
+.modal-full .modal-content {
+    min-height: 100vh}
+.modal-full .modal-content .close{
+    position: absolute;
+    z-index: 100;
+    right: 30px;
+    top: 15px;
+    font-size: 42px;
+    height: 40px;
+    line-height: 0px;
+    border-radius: 4px;
+    width: 30px;
+    color: #333333;
+    opacity: 0.5;
+}
+.modal-open .modal{margin: 0!important; padding: 0!important}
+
+
 .mb-5 {
 	margin-bottom:5px!important
 }
@@ -2291,8 +2393,6 @@ table.dataTable.cell-border tbody tr:first-child th, table.dataTable.cell-border
 .mt-40 {
 	margin-top: 40px!important
 }
-
-
 .mr-20 {
 	margin-right: 20px!important
 }
@@ -2302,15 +2402,6 @@ table.dataTable.cell-border tbody tr:first-child th, table.dataTable.cell-border
 .mr-40 {
 	margin-right: 40px!important
 }
-
-
-
-
-
-
-
-
-
 .p-10 {
 	padding: 10px!important
 }
@@ -2401,6 +2492,7 @@ body.fixed-nav.sidebar-toggled #content-wrapper {
 	text-align: left;
 	padding: 12px 15px;
 	width: 310px;
+	
 }
 .sidebar .nav-item .nav-link span {
 	display: inline;
@@ -2429,10 +2521,14 @@ body.fixed-nav.sidebar-toggled #content-wrapper {
 .sidebar .nav-item .nav-link {
 /*	color:#b4bec4;
 	border-bottom: solid 1px #003db6*/
+		-webkit-transition: all 0.3s ease-in-out;
+	transition: all 0.3s ease-in-out
 }
 .sidebar .nav-item .nav-link:HOVER {
 	color: #ffffff;
 	background-color: #0c397a;
+	-webkit-transition: all 0.3s ease-in-out;
+	transition: all 0.3s ease-in-out
 }
 .sidebar .dropdown-item {
 	font-size: 13px;
@@ -2441,11 +2537,13 @@ body.fixed-nav.sidebar-toggled #content-wrapper {
 	border-bottom: solid 1px #10336b;
 	padding: 12px 1.5rem;
 	color: #fff;
-	letter-spacing: 1px
+	letter-spacing: 1px;	-webkit-transition: all 0.3s ease-in-out;
+	transition: all 0.3s ease-in-out
 }
 .sidebar .dropdown-item:HOVER {
 	background-color: #10336b;
-	color: #ffffff;
+	color: #ffffff;	-webkit-transition: all 0.3s ease-in-out;
+	transition: all 0.3s ease-in-out
 }
 .sidebar.toggled {
 	overflow: hidden;
@@ -2592,7 +2690,7 @@ body.sidebar-toggled footer.sticky-footer {
 	padding-bottom: 15px
 }
 .dropdown-item:focus, .dropdown-item:hover {
-	color: #fff;
+	color: #282828;
 	text-decoration: none;
 	background-color: #0c397a;
 }
@@ -2674,6 +2772,8 @@ body.sidebar-toggled footer.sticky-footer {
 ._new-consign-top input{width: 350px}
 ._new-consign-top .form-group{margin-bottom: 0}
 .RBpadd{padding-left:15px; padding-top: 10px}
+.sm-mt15{margin-top: 15px}
+.CB-view .Doclink{margin-top:15px}
 }
 @media (max-width: 480px) {
 .card .header h2, .card ._head03, .modal-title {
@@ -2686,7 +2786,7 @@ body.sidebar-toggled footer.sticky-footer {
 	font-size: 16px;
 }
 ._new-consign-top input{width: 274px}
-
+.top_nav .notiF, .Qlinks {width: 250px}
 }
 
 
@@ -2737,4 +2837,7 @@ body.sidebar-toggled footer.sticky-footer {
     padding: 5px 6px; font-size: 11px
 }
 ._new-consign-top input{width: 270px}
+.top_nav .notiF, .Qlinks {
+    width: 220px;
+}
 }

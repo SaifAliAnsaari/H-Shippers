@@ -29,9 +29,10 @@ class ConsignmentManagement extends ParentController
 
      //Admin
     public function consignment_booking(){
+        parent::get_notif_data();
          parent::VerifyRights(); if($this->redirectUrl){return redirect($this->redirectUrl);}
          $get_city_from_pickup = DB::table('pickup_delivery')->get();
-        return view('consignment_booking.consignment_booking', ['check_rights' => $this->check_employee_rights, 'pickup_city' => $get_city_from_pickup]);
+        return view('consignment_booking.consignment_booking', ['check_rights' => $this->check_employee_rights, 'pickup_city' => $get_city_from_pickup, 'notifications_counts' => $this->notif_counts, 'notif_data' => $this->notif_data]);
     }
 
     public function SaveConsignmentAdmin(Request $request){
@@ -642,7 +643,7 @@ class ConsignmentManagement extends ParentController
         
 
         die;
-        $save_consignment_client = DB::table('consignment_client')->insert(
+        $save_consignment_client = DB::table('consignment_client')->insertGetId(
             ['booking_date' => $request->datepicker, 
             'cnic' => $request->cnic_client, 
             'customer_id' => $request->customer_id_client,
@@ -666,7 +667,27 @@ class ConsignmentManagement extends ParentController
             'total_price' => $totalPrice
             ]);
             if($save_consignment_client){
-                echo json_encode(round($totalPrice));
+                //echo json_encode(round($totalPrice));
+                $insert_notification = DB::table('notifications_list')->insert([
+                    'code' => 101,
+                    'message' => 'New consignment added',
+                    'complain_id' => $insert_suggestion
+                ]);
+                
+                // $get_email_addresses = DB::table('users')->select('email')->whereRaw('id IN (Select emp_id from subscribed_notifications WHERE email = 1 AND notification_code_id = 101)')->get();
+               
+                // if(!$get_email_addresses->isEmpty()){
+                //     foreach($get_email_addresses as $email){
+                //         $name = 'Krunal';
+                //          Mail::to($email->email)->send(new SendMailable($name));
+                //     }
+                // }
+
+                if($insert_notification){
+                    echo json_encode('success');
+                }else{
+                    echo json_encode('failed');
+                }
             }else{
                 echo json_encode('failed');
             }
@@ -683,8 +704,9 @@ class ConsignmentManagement extends ParentController
                 return view('consignment_booking.consignment_booked', ['check_rights' => $this->check_employee_rights, 'name' => $check_session]);
             }
         }else{
+            parent::get_notif_data();
             parent::VerifyRights();if($this->redirectUrl){return redirect($this->redirectUrl);}
-            return view('consignment_booking.consignment_booked', ['check_rights' => $this->check_employee_rights]);
+            return view('consignment_booking.consignment_booked', ['check_rights' => $this->check_employee_rights, 'notifications_counts' => $this->notif_counts, 'notif_data' => $this->notif_data]);
         }
 
         
