@@ -842,7 +842,7 @@
                                                         </div>
                                                         <div class="col-md-6">
                                                             <div class="form-group">
-                                                                <label class="control-label mb-10">Fuel Charges*</label>
+                                                                <label class="control-label mb-10">Fuel Charges (%)*</label>
                                                                 <input type="number" id="fuel_charges" name="fuel_charges"
                                                                     class="form-control required_fuel" style="font-size:13px">
                                                             </div>
@@ -868,7 +868,7 @@
                                                         </div>
                                                         <div class="col-md-6">
                                                             <div class="form-group">
-                                                                <label class="control-label mb-10">GST</label>
+                                                                <label class="control-label mb-10">GST (%)*</label>
                                                                 <input type="number" id="gst_tax" name="gst_tax" class="form-control required_tax"
                                                                     style="font-size:13px">
                                                             </div>

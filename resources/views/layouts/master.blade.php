@@ -16,7 +16,7 @@
     <link rel="stylesheet" type="text/css" href="/css/datatables.min.css"/>
     <link rel="stylesheet" type="text/css" href="/css/select2.min.css">
     <link rel="stylesheet" type="text/css" href="/css/select2-bootstrap4.css">
-    <link rel="stylesheet" type="text/css" href="/css/style.css?v=1.3">
+    <link rel="stylesheet" type="text/css" href="/css/style.css?v=1.4">
     <link rel="stylesheet" type="text/css" href="/css/dropify.min.css" />
     <link rel="stylesheet" type="text/css" href="/css/dropzone.css" />
     <style>
@@ -87,7 +87,7 @@
     @elseif($controller == "OrganizationManagement")
         <script src="/js/manage_organization/manage_organization.js?v=2.23" ></script>
     @elseif($controller == "ManageBilling")
-        <script src="/js/manage_billing/manage_billing.js?v=2.23" ></script>
+        <script src="/js/manage_billing/manage_billing.js?v=2.25" ></script>
     @elseif($controller == "ClientsForBilling")
         <script src="/js/manage_billing/customers_for_biling.js?v=2.23" ></script>
     @elseif($controller == "ComplaintsAndSuggestions")
