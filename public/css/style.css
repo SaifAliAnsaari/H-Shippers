@@ -1,3 +1,5 @@
+.logo-md{display: block}
+.logo-xs{display: none} 
 html {
 	position: relative;
 	min-height: 100%;
@@ -21,7 +23,7 @@ body {
 	background-color: #0c397a
 }
 .no-scroll {
-	overflow: hidden
+	overflow: hidden      
 }
 .btn, h1, h2, h3, h4, h5, h6, .modal-order-detail .modal-title, .co-name {
 	font-family: 'Montserrat', sans-serif; 
@@ -347,9 +349,8 @@ footer.sticky-footer .copyright {
 	background:#0c397a;
 }
 .btn-primary:HOVER, .btn-primary:focus, .lgray-btn:HOVER {
-	color: #fff;
- 
-	border: solid 1px #0c397a; background:#0c397a;
+	color: #fff; 
+	border: solid 1px #0c397a; background:#0c397a!important;
 }
 .btn-cancel {
 	color: #0c397a;
@@ -1432,7 +1433,7 @@ table.dataTable.nowrap td {
 	right: 10px;
 }
 .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
-	color: #0c397a;
+	color: #0c3879;
 	background-color: #fff;
 	border-color: #fff #fff #fff;
 	font-size: 15px;
@@ -1441,14 +1442,14 @@ table.dataTable.nowrap td {
 	box-shadow: 0px -2px 8px 0px rgba(0,0,0,0.06);
 	letter-spacing: 1
 }
-.nav-tabs .nav-item.show, .nav-tabs .nav-link:HOVER, .nav-tabs .nav-link.active{border-bottom: solid 2px #0c397a}
+.nav-tabs .nav-item.show, .nav-tabs .nav-link:HOVER, .nav-tabs .nav-link.active{border-bottom: solid 2px #fbd536}
 
 .nav-tabs {
 	border-bottom: 2px solid #ffffff;
 }
 .nav-tabs .nav-link:focus, .nav-tabs .nav-link:hover {
 	border: 1px solid transparent;
-	border-bottom: solid 2px #0c397a
+	border-bottom: solid 2px #fbd536
 }
 .nav-tabs .nav-item a {
 	font-size: 15px;
@@ -1512,7 +1513,7 @@ table.dataTable.nowrap td {
 .cp-stats-value {
 	font-size: 30px;
 	font-weight: 600;
-	color: #0c397a;
+	color: #282828;
 	padding: 11px 0px
 }
 .cp-stats h5 {
@@ -2355,6 +2356,101 @@ table.dataTable.cell-border tbody tr:first-child th, table.dataTable.cell-border
     opacity: 0.5;
 }
 .modal-open .modal{margin: 0!important; padding: 0!important}
+#myModal2 .modal-content{
+	border: solid 1px #f0f0f0;
+	box-shadow: 0px 0px 50px 0px rgba(0,0,0,0.6);
+}
+.HS_CO{padding-top: 15px; text-shadow: 1px 1px 5px rgba(0,0,0,0.4);}
+.HS_CO .cp-stats{padding: 0px 15px 15px 15px}
+.HS_CO .cp-stats h5 {font-size: 13px; letter-spacing: normal; color: #fff!important; margin-bottom: 5px}
+.HS_CO .cp-stats-value{font-family: 'Source Sans Pro', sans-serif; letter-spacing: normal; color: #fff}
+.HS_CO .cp-stats-icon {position: absolute; right: 15px; top: 20px}
+.HS_CO .cp-stats-icon img{width: 60px; opacity: 0.35}
+.yb_border {background-color: #fbd536; margin-bottom: 10px;}
+.yr_border {background-color: #f02701; margin-bottom: 10px;}
+.lb_border {background-color: #099bd7; margin-bottom: 10px;}
+.bb_border {background-color: #0c397a}
+.track-search{background-color: #f6f6f6; padding: 30px 0px; background-image: url(../images/track-bg.jpg); background-position: center center; background-repeat: no-repeat;
+	font-size: 14px; font-weight: 600; text-shadow: 1px 1px 14px rgba(255,255,255,1); color: #0c397a; letter-spacing: 1px;
+	font-family: 'Montserrat', sans-serif
+}
+.track-search .form-control{
+	box-shadow: none;
+	border-color: #eeeeee;
+	height: 36px; padding: 0px 8px
+}
+.track-search .form-control:focus{
+	border-color: #eeeeee!important;
+	border-bottom: solid 2px #0c397a!important
+}
+.track-search .btn-primary{
+	margin-right: 18px
+}
+.track-search .track-icon{
+	width: 100px;
+	margin: 10px auto 30px auto;
+}
+.track-search .ta-text{text-align: right}
+._head_trac{
+    position: relative;
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0px 0px 3px 0px;
+    padding-bottom: 10px;
+    border-bottom: solid 2px #efefef;
+    font-family: 'Montserrat', sans-serif;
+    color: #282828;
+}
+.track_detail{padding-top: 30px; font-size: 13px}
+._track_his{
+	padding-top: 20px
+}
+._track_his td{
+	padding: 5px; border-color: #eeeeee!important
+}
+._track_his th{
+	font-size: 13px; 
+	font-family: 'Montserrat', sans-serif;
+	padding: 5px;
+	background-color: #0c397a; color: #fff; border: none!important
+}
+._track_his table{
+	margin-bottom: 0
+}
+._tra-box{border: solid 1px #eeeeee; padding: 15px}
+._tra-box ._head03{
+	margin-bottom: 10px
+}
+._btn-Track{padding-left: 0px}
+.track-id{
+	position: absolute; right: -10px; left: auto; top:5px; min-width: 392px!important; box-shadow: none!important; background-color: #fff ;
+	-webkit-transition: all 0.3s ease-in-out;
+	transition: all 0.3s ease-in-out
+}
+.M_search{
+	box-shadow: none;
+	border:solid 1px #eeeeee;
+	height: 36px; padding: 0px 8px; outline: none!important;
+	width: 354px;
+	margin: 0;
+}
+.M_search:focus{
+	border-color: #eeeeee!important;
+	border-bottom: solid 2px #0c397a!important
+}
+.track-id img {
+    width: auto;
+    height: 20px;
+}
+.track-id .btn-primary {
+	padding: 0; margin: 0; width: 36px; height: 36px; float: right
+}
+
+
+
+
+
+
 
 
 .mb-5 {
@@ -2423,11 +2519,20 @@ table.dataTable.cell-border tbody tr:first-child th, table.dataTable.cell-border
 .pt-30 {
 	padding-top: 30px!important
 }
+.pb-0 {
+	padding-bottom: 0px!important
+}
 .pb-15 {
 	padding-bottom: 15px!important
 }
 .PB-20{padding-bottom: 20px!important}
 .yellow{color: yellow}
+._paymenttab .tab-pane{ padding: 20px}
+._pay-lab{padding-top: 18px}
+._paymenttab .upload-pic{font-size: 12px; margin-bottom: 5px}
+.acc-right{ padding:10px; margin: 0; list-style: none; width:33.33%}
+.acc-right li{margin-bottom: 10px }
+.acc-right ._head04{margin-bottom: 15px; margin-right:15px; font-size: 14px; letter-spacing: 1px; font-weight: 500; border-bottom:solid 1px #efefef}
 
 
 @media (max-width: 1440px) {
@@ -2459,6 +2564,8 @@ table.dataTable.cell-border tbody tr:first-child th, table.dataTable.cell-border
     width: 150px;
 }
 ._new-consign-top {margin-right: 8px}
+ 
+	
 }
 
 @media (min-width: 992px) {
@@ -2470,6 +2577,16 @@ table.dataTable.cell-border tbody tr:first-child th, table.dataTable.cell-border
 @media (max-width: 992px) {
 ._new-consign-top input {
     width: 142px;
+}
+.track-id{
+  min-width: 292px!important;
+}
+.M_search{
+	width: 254px;
+}
+._logo img {
+    height: 35px;
+    width: auto;
 }
 }
 @media (min-width: 768px) {
@@ -2552,7 +2669,7 @@ body.fixed-nav.sidebar-toggled #content-wrapper {
 	transition: all 0.3s ease-in-out;
 }
 .sidebar.toggled:HOVER {
-	width: 300px !important;
+	width: 310px !important;
 	transition: all .3s ease;
 	-webkit-transition: all .3s ease;
 }
@@ -2638,6 +2755,7 @@ body.sidebar-toggled footer.sticky-footer {
 ._new-consign-top input {
     width: 182px;
 }
+.acc-right{ width:50%}
 }
 @media (max-width: 767px) {
 .radio_topPD {padding-top: 10px}
@@ -2723,9 +2841,6 @@ body.sidebar-toggled footer.sticky-footer {
 .add_button span {
 	display: none
 }
-._logo img {
-	height: 40px
-}
 .top_nav .nav-link .uname {
 	display: none
 }
@@ -2774,22 +2889,50 @@ body.sidebar-toggled footer.sticky-footer {
 .RBpadd{padding-left:15px; padding-top: 10px}
 .sm-mt15{margin-top: 15px}
 .CB-view .Doclink{margin-top:15px}
+.HS_CO .cp-stats-icon {right: 15px; top: 15px}
+._tra-box{margin-bottom: 30px}
+._track_his {padding-top: 0px}
+.track-id {
+    right: -11px;
+    top: -5px;
+    min-width: 292px!important;
+}
+.logo-md{display: none}
+.logo-xs{display: block} 
+._pay-lab{padding-top: 0px}
+.acc-right{ width:100%}
+.acc-right ._head04 {margin-right:0px}
 }
 @media (max-width: 480px) {
-.card .header h2, .card ._head03, .modal-title {
-    font-size: 14px;
-}
-.dash-heading {
-	font-size: 25px;
-}
-.dash-sm-heading{
-	font-size: 16px;
-}
+.card .header h2, .card ._head03, .modal-title {font-size: 14px}
+.dash-heading {font-size: 25px}
+.dash-sm-heading{font-size: 16px}
 ._new-consign-top input{width: 274px}
 .top_nav .notiF, .Qlinks {width: 250px}
+.track-search{padding: 20px; font-size: 13px; letter-spacing: normal}
+.track-search .track-icon{
+	width: 60px; margin: 10px auto 20px auto;
+}
+.track-search .ta-text{text-align: left;}
+.track-search .col-7{padding: 0}
+.track-search .col-5{padding-right:0; padding-left: 10px}
+
+.track-id {
+   right: -161px;
+    top: -10px;
+    min-width: 447px!important;
+    padding: 5px 50px!important;
+}
+.M_search {
+    width: 309px;
+}
+.acc-right{ padding-left: 0px; padding-right:0px }
 }
 
-
+@media (max-width: 425px) {
+.track-id {right: -176px}
+}
+	
 @media (max-width: 420px) {
 .login-right {
 	padding: 30px 10px
@@ -2829,8 +2972,18 @@ body.sidebar-toggled footer.sticky-footer {
 ._new-consign-top input{width: 324px}
 ._new-consign-top {
 	margin:0}
+.track-id {right: -157px}
 }
 
+@media (max-width:375px) {
+.track-id {
+    right: -134px;
+    top: -10px;
+    min-width: 357px!important;
+    padding: 5px 18px!important;
+}
+.M_search {width: 283px}
+}
 @media (max-width: 320px) {
 .TM_icon{margin-right:10px}
 .nav-pills .nav-link.active, .nav-pills .show>.nav-link, .nav-pills .nav-link {
@@ -2840,4 +2993,11 @@ body.sidebar-toggled footer.sticky-footer {
 .top_nav .notiF, .Qlinks {
     width: 220px;
 }
+.track-id {
+    right: -124px;
+    top: -10px;
+    min-width: 311px!important;
+    padding: 5px 20px!important;
+}
+.M_search {width: 232px;}
 }

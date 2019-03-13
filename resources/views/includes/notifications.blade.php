@@ -24,7 +24,7 @@
                   @if(!empty($all_notif))
                         @foreach($all_notif as $notifications)
                               <div class="alert alert-warning alert-dismissible fade show alert-color _NF-se" role="alert">
-                                    <img src="{{ URL::to('/storage/clients').'/'.$notifications->picture}}" class="NU-img float-none mb-0" alt="">
+                                    <img src="{{ $notifications->picture!= null ? URL::to('/storage/clients').'/'.$notifications->picture : '/images/profile-img--.jpg'}}" class="NU-img float-none mb-0" alt="">
                                     <strong class="notifications_list_all" id="{{$notifications->id}}">{{$notifications->notif_by}} </strong> {{ $notifications->message }}
                               </div>
                         @endforeach

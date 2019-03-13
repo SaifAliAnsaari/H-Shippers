@@ -35,7 +35,7 @@ class Clients extends ParentController
     public function clients(){
         parent::get_notif_data();
          parent::VerifyRights();if($this->redirectUrl){return redirect($this->redirectUrl);}
-        return view("clients/clients", ['check_rights' => $this->check_employee_rights, 'notifications_counts' => $this->notif_counts, 'notif_data' => $this->notif_data]);
+        return view("clients/clients", ['check_rights' => $this->check_employee_rights, 'notifications_counts' => $this->notif_counts, 'notif_data' => $this->notif_data, 'all_notif' => $this->all_notification]);
     }
 
     //get clients
@@ -366,4 +366,45 @@ class Clients extends ParentController
             echo json_encode('failed'); 
         }
     }
+
+
+    //Client profile from admin portal
+    public function ClientProfile($id){
+        parent::get_notif_data();
+        parent::VerifyRights();
+        if($this->redirectUrl){
+            return redirect($this->redirectUrl);
+        }
+        $clients_data = DB::table('clients')->where('id', $id)->first();
+       return view("clients.client_profile", ['check_rights' => $this->check_employee_rights, 'notifications_counts' => $this->notif_counts, 'notif_data' => $this->notif_data, 'client_data' => $clients_data, "client_id" => $id, 'all_notif' => $this->all_notification]);
+    }
+
+    public function updateClientProfile(Request $request){
+
+        if($request->hasFile('client_pic')){
+            $completeFileName = $request->file('client_pic')->getClientOriginalName();
+            $fileNameOnly = pathinfo($completeFileName, PATHINFO_FILENAME);
+            $extension = $request->file('client_pic')->getClientOriginalExtension();
+            $empPicture = str_replace(' ', '_', $fileNameOnly).'_'.time().'.'.$extension;
+            $path = $request->file('client_pic')->storeAs('public/clients', $empPicture);
+            if(Storage::exists('public/clients/'.str_replace('./storage/clients/', '', $request->hidden_img))){
+                Storage::delete('public/clients/'.str_replace('./storage/clients/', '', $request->hidden_img));
+            }
+            DB::table('clients')->where('id', $request->id)->update([
+                'company_pic' => $empPicture
+            ]);
+        }
+        $update = DB::table('clients')->where('id', $request->id)->update([
+            'company_name' => $request->profile_page_company_page,
+            'poc_name' => $request->profile_page_poc,
+            'phone' => $request->profile_page_phone,
+            'address' => $request->profile_page_address
+        ]);
+        if($update){
+            echo json_encode('success');
+        }else{
+            echo json_encode('failed');
+        }
+    }
+
 }

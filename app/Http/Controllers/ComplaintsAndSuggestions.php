@@ -34,7 +34,7 @@ class ComplaintsAndSuggestions extends ParentController
         if(Cookie::get('client_session')){
             $check_session = DB::table('clients')->select('username', 'id', 'company_pic')->where('client_login_session', Cookie::get('client_session'))->first();
             if($check_session){
-                return view('complaints_suggestions.complaints_suggestion', ["client_id" => $check_session->id, 'check_rights' => $this->check_employee_rights, 'name' => $check_session, ]);
+                return view('complaints_suggestions.complaints_suggestion', ["client_id" => $check_session->id, 'check_rights' => $this->check_employee_rights, 'name' => $check_session, 'all_notif' => $this->all_notification]);
             } 
         }else{
             return redirect('/');
@@ -44,13 +44,13 @@ class ComplaintsAndSuggestions extends ParentController
     public function complaints_list(){
         parent::get_notif_data();
          parent::VerifyRights();if($this->redirectUrl){return redirect($this->redirectUrl);}
-        return view('complaints_suggestions.complaints-list', ['check_rights' => $this->check_employee_rights, 'notifications_counts' => $this->notif_counts, 'notif_data' => $this->notif_data]);
+        return view('complaints_suggestions.complaints-list', ['check_rights' => $this->check_employee_rights, 'notifications_counts' => $this->notif_counts, 'notif_data' => $this->notif_data, 'all_notif' => $this->all_notification]);
     }
 
     public function suggestions_list(){
         parent::get_notif_data();
          parent::VerifyRights();if($this->redirectUrl){return redirect($this->redirectUrl);}
-        return view('complaints_suggestions.suggestions-list', ['check_rights' => $this->check_employee_rights, 'notifications_counts' => $this->notif_counts, 'notif_data' => $this->notif_data]);
+        return view('complaints_suggestions.suggestions-list', ['check_rights' => $this->check_employee_rights, 'notifications_counts' => $this->notif_counts, 'notif_data' => $this->notif_data, 'all_notif' => $this->all_notification]);
     }
 
     public function complaints_list_client(){
@@ -67,7 +67,7 @@ class ComplaintsAndSuggestions extends ParentController
             } 
         }else{
             parent::get_notif_data();
-            return view('complaints_suggestions.complaints-list-clients', ['check_rights' => $this->check_employee_rights, 'notifications_counts' => $this->notif_counts, 'notif_data' => $this->notif_data]);
+            return view('complaints_suggestions.complaints-list-clients', ['check_rights' => $this->check_employee_rights, 'notifications_counts' => $this->notif_counts, 'notif_data' => $this->notif_data, 'all_notif' => $this->all_notification]);
         } 
     }
 
@@ -85,7 +85,7 @@ class ComplaintsAndSuggestions extends ParentController
             } 
         }else{
             parent::get_notif_data();
-            return view('complaints_suggestions.suggestions_list_client', ['check_rights' => $this->check_employee_rights, 'notifications_counts' => $this->notif_counts, 'notif_data' => $this->notif_data]);
+            return view('complaints_suggestions.suggestions_list_client', ['check_rights' => $this->check_employee_rights, 'notifications_counts' => $this->notif_counts, 'notif_data' => $this->notif_data, 'all_notif' => $this->all_notification]);
         } 
         
     }
@@ -146,7 +146,7 @@ class ComplaintsAndSuggestions extends ParentController
             $insert_notification = DB::table('notifications_list')->insert([
                 'code' => 103,
                 'message' => 'New suggestion added',
-                'complain_id' => $insert_suggestion
+                'suggestion_id' => $insert_suggestion
             ]);
             
             // $get_email_addresses = DB::table('users')->select('email')->whereRaw('id IN (Select emp_id from subscribed_notifications WHERE email = 1 AND notification_code_id = 103)')->get();

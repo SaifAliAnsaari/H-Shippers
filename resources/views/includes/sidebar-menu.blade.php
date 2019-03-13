@@ -93,8 +93,20 @@
             @if(in_array("/consignment_booking_client", $test_array))
                 <a class="dropdown-item" href="/consignment_booking_client">Consignment & Booking client</a>
             @endif
-            @if(in_array("/consignment_booked", $test_array))
+            @if(in_array("/pending_consignments", $test_array))
+                <a class="dropdown-item" href="/pending_consignments">Booked Consignments</a>
+            @endif
+            @if(in_array("/confirmed_consignments", $test_array))
+                <a class="dropdown-item" href="/confirmed_consignments">Confirmed Consignments</a>
+            @endif
+            @if(in_array("/consignment_statuses", $test_array))
+                <a class="dropdown-item" href="/consignment_statuses">Consignment Statuses</a>
+            @endif
+            {{-- @if(in_array("/consignment_booked", $test_array))
                 <a class="dropdown-item" href="/consignment_booked">Booked List</a>
+            @endif --}}
+            @if(in_array("/shipment_tracking", $test_array))
+            <a class="dropdown-item" href="/shipment_tracking/pg">Shipment Tracking</a>
             @endif
         </div>
     </li>

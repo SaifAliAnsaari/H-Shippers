@@ -40,7 +40,7 @@
      
                   <div class="_new-consign-top">
                     <label class="control-label label2">CNNo*:</label>
-                    <input type="text" id="cnic_client" name="cnic_client" class="form-control required" placeholder="" style="font-size: 13px">				 
+                    <input type="text" id="cnic_client" name="cnic_client" value="{{ $cnno }}" readonly class="form-control required" placeholder="" style="font-size: 13px">				 
                 </div>
                 
                  <div class="_new-consign-top">
@@ -297,7 +297,7 @@
         
         </div>
 
-        <h2 class="_head03 test_total_price">Total Price<span></span></h2>
+        {{-- <h2 class="_head03 test_total_price">Total Price<span></span></h2> --}}
         
         
    <div class="bottom-btns">

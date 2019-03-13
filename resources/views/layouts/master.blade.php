@@ -4,8 +4,9 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    {{-- <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"> --}}
     <meta name="description" content="">
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="author" content="">
 
     <title>Hashmi Shippers</title>
@@ -16,7 +17,7 @@
     <link rel="stylesheet" type="text/css" href="/css/datatables.min.css"/>
     <link rel="stylesheet" type="text/css" href="/css/select2.min.css">
     <link rel="stylesheet" type="text/css" href="/css/select2-bootstrap4.css">
-    <link rel="stylesheet" type="text/css" href="/css/style.css?v=1.4">
+    <link rel="stylesheet" type="text/css" href="/css/style.css?v=1.1.0">
     <link rel="stylesheet" type="text/css" href="/css/dropify.min.css" />
     <link rel="stylesheet" type="text/css" href="/css/dropzone.css" />
     <style>
@@ -64,7 +65,7 @@
     <script src="/js/dropify.min.js"></script>
     <script src="/js/form-file-upload-data.js"></script>
     <script src="/js/custom.js" ></script>
-    <script src="/js/master.js?v=1.0" ></script>
+    <script src="/js/master.js?v=1.1" ></script>
     <script src="/js/jquery.form.min.js" ></script>
     <script src="/js/bootstrap-datepicker.js"></script>
     {{-- <script src="/js/dropzone-amd-module.js"></script>
@@ -77,27 +78,27 @@
     
 
     @if($controller == "Customer")
-        <script src="/js/custom/customer.js?v=2.23" ></script>
+        <script src="/js/custom/customer.js?v=2.2.1" ></script>
     @elseif($controller == "CustomerTypes")
-        <script src="/js/custom/customer-types.js?v=2.23" ></script>
+        <script src="/js/custom/customer-types.js?v=2.2.1" ></script>
     @elseif($controller == "RegisterController")
-        <script src="/js/custom/employee.js?v=2.25" ></script>
+        <script src="/js/custom/employee.js?v=2.2.1" ></script>
     @elseif($controller == "Clients")
-        <script src="/js/client/clients.js?v=2.25" ></script>
+        <script src="/js/client/clients.js?v=2.2.1" ></script>
     @elseif($controller == "OrganizationManagement")
-        <script src="/js/manage_organization/manage_organization.js?v=2.23" ></script>
+        <script src="/js/manage_organization/manage_organization.js?v=2.2.1" ></script>
     @elseif($controller == "ManageBilling")
-        <script src="/js/manage_billing/manage_billing.js?v=2.25" ></script>
+        <script src="/js/manage_billing/manage_billing.js?v=2.2.1" ></script>
     @elseif($controller == "ClientsForBilling")
-        <script src="/js/manage_billing/customers_for_biling.js?v=2.23" ></script>
+        <script src="/js/manage_billing/customers_for_biling.js?v=2.2.1" ></script>
     @elseif($controller == "ComplaintsAndSuggestions")
-        <script src="/js/manage_complaints_suggestions/complaints_suggestions.js?v=2.23" ></script>
+        <script src="/js/manage_complaints_suggestions/complaints_suggestions.js?v=2.2.1" ></script>
     @elseif($controller == "ConsignmentManagement")
-        <script src="/js/manage_consignment/consignment.js?v=2.23" ></script>
+        <script src="/js/manage_consignment/consignment.js?v=2.2.1" ></script>
     @elseif($controller == "AccessRights")
-        <script src="/js/access_rights/access_rights.js?v=2.23" ></script>
+        <script src="/js/access_rights/access_rights.js?v=2.2.1" ></script>
     @elseif($controller == "HomeController")
-        <script src="/js/notif_pref/notif_pref.js?v=2.23" ></script>
+        <script src="/js/notif_pref/notif_pref.js?v=2.2.1" ></script>
     @endif
 
     <script type="text/javascript"></script>

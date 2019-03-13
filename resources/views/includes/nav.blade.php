@@ -1,10 +1,20 @@
 <nav class="navbar navbar-expand  static-top">
     <a class="hamburger" href="#" id="sidebarToggle"><i class="fas fa-bars"></i></a>
-    <a class="_logo" href="/"><img src="/images/h-shippers.svg" alt="" /></a>
+    <a class="_logo" href="/"><img class="logo-md" src="/images/h-shippers.svg" alt=""/> <img class="logo-xs" src="/images/h-shippers-sm.svg" alt=""/></a>
 
     
     <ul class="navbar-nav ml-auto top_nav">
-        @if(Auth::user())
+            @if(Auth::user())
+        <li class="nav-item TM_icon dropdown no-arrow">
+                {{-- <a hidden href="" id="hidden_link_to_shipment"> </a> --}}
+            <a class="nav-link dropdown-toggle" href="#" id="track-id" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="/images/search-icon.svg" alt=""/></a>
+                <div class="dropdown-menu track-id" aria-labelledby="track-id">			 
+                <button type="button" id="search_shipment_button" class="btn btn-primary"><img src="/images/search-icon-w.svg" alt=""/></button>
+                <input type="number" class="M_search search_shipment_field" placeholder="Enter Tracking No" style="font-size: 13px">			
+            </div>
+        </li>
+
+       
         <li class="nav-item TM_icon dropdown no-arrow">
             <a class="nav-link dropdown-toggle" href="#" id="Qlinks" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="{{ URL::to('/images/q-link-icon.svg') }}" alt=""/></a>
              <div class="dropdown-menu dropdown-menu-right Qlinks" aria-labelledby="Qlinks">
@@ -18,6 +28,7 @@
         {{-- <li class="nav-item TM_icon">
             <a class="nav-link" href="#"><img src="/images/settings-icon.svg" alt="" /></a>
         </li> --}}
+        
         @csrf
         <li class="nav-item TM_icon dropdown no-arrow"> 
             <a class="nav-link dropdown-toggle" href="#" id="NotiFications" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <span class="badge">
@@ -32,14 +43,8 @@
                <h4 class="notiF-title">Notification </h4>
                 @if(!empty($notif_data))
                    @foreach($notif_data as $notifications)
-                   <a href="#"><img src="{{ URL::to('/storage/clients').'/'.$notifications->picture}}" class="NU-img" alt=""><strong class="notifications_list" id="{{$notifications->id}}">{{$notifications->message}} </strong><p>
+                   <a href="#"><img src="{{ $notifications->picture != null ? URL::to('/storage/clients').'/'.$notifications->picture : '/images/profile-img--.jpg'}} " class="NU-img" alt=""><strong class="notifications_list" id="{{$notifications->id}}">{{$notifications->message}} </strong><p>
                        <?php 
-                            
-                            // $date2 = $notifications->created_at;   
-                            // $date = new DateTime($date2);
-                            // $now = new DateTime();
-                            // echo $date->diff($now)->format("%d days, %h hours and %i minuts and %s seconds ago");
-
                             $datetime1 = new DateTime(date('Y-m-d H:i:s'));//start time
                             $datetime2 = new DateTime($notifications->created_at);//end time
                             $interval = $datetime1->diff($datetime2);
@@ -48,11 +53,7 @@
                    </p></a>
                    @endforeach     
                 @endif
-               {{-- <a href="#"><img src="images/profile-img.jpg" class="NU-img" alt=""><strong>Usman Khan CVR has been generated </strong><p>5 minutes ago</p></a>
-               <a href="#"><img src="images/profile-img.jpg" class="NU-img" alt=""><strong>Sulman Khan Add New Customer Add New Customer</strong><p>5 minutes ago</p></a>
-               <a href="#"><img src="images/profile-img.jpg" class="NU-img" alt=""><strong>New user registered</strong><p>5 minutes ago</p></a>
-               <a href="#"><img src="images/profile-img.jpg" class="NU-img" alt=""><strong>New user registered</strong><p>5 minutes ago</p></a> --}}
-               <a href="/notifications" class="all-NF">View All</a>
+                <a href="/notifications" class="all-NF">View All ( {{ sizeof($all_notif) }} )</a>
             </div> 
         </li>
         @endif

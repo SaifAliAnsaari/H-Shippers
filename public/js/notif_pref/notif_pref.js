@@ -49,12 +49,25 @@ $(document).ready(function () {
                 $('.suggestions_box').removeAttr('disabled');
                 $('#update_emp_pref').text('Save');
                 var response = JSON.parse(response);
+                notifications = [];
                 response.forEach(element => {
-                    $('input[id="' + element['notification_code_id'] + '"]').each(function () {
-                        if($(this).val() == "email"){
-                            $(this).prop('checked', (element['email'] == "1" ? true : false) );
-                        }else{
-                            $(this).prop('checked', (element['web'] == "1" ? true : false) );
+                    $('input[id="' + element['notification_code_id'] + '"]').each(function() {
+                        if ($(this).val() == "email") {
+                            $(this).prop('checked', (element['email'] == "1" ? true : false));
+                            if (element["email"] == "1") {
+                                notifications.push({
+                                    code: element['notification_code_id'],
+                                    properties: ["email"]
+                                });
+                            }
+                        } else {
+                            $(this).prop('checked', (element['web'] == "1" ? true : false));
+                            if (element["web"] == "1") {
+                                notifications.push({
+                                    code: element['notification_code_id'],
+                                    properties: ["web"]
+                                });
+                            }
                         }
                     });
                 });

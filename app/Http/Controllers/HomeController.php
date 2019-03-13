@@ -41,7 +41,7 @@ class HomeController extends ParentController
             if($this->redirectUrl){return redirect($this->redirectUrl);}
             parent::get_notif_data();
             //echo "<pre>"; print_r($this->notif_data); die;
-            return view('home', ['check_rights' => $this->check_employee_rights, 'notifications_counts' => $this->notif_counts, 'notif_data' => $this->notif_data]);
+            return view('home', ['check_rights' => $this->check_employee_rights, 'notifications_counts' => $this->notif_counts, 'notif_data' => $this->notif_data, 'all_notif' => $this->all_notification]);
         }else{
             $check_session = DB::table('clients')->select('username', 'company_pic')->where('client_login_session', Cookie::get('client_session'))->first();
             if(!$check_session){
@@ -61,7 +61,7 @@ class HomeController extends ParentController
         $employees = DB::table('users')->get();
         $notifications_name = DB::table('notifications_code')->get();
         //print_r($employees); die;
-        return view('notif_pref.notification_pref', ['check_rights' => $this->check_employee_rights, 'emp' => $employees, 'notifications_code' => $notifications_name, 'notifications_counts' => $this->notif_counts, 'notif_data' => $this->notif_data]);
+        return view('notif_pref.notification_pref', ['check_rights' => $this->check_employee_rights, 'emp' => $employees, 'notifications_code' => $notifications_name, 'notifications_counts' => $this->notif_counts, 'notif_data' => $this->notif_data, 'all_notif' => $this->all_notification]);
     }
 
     //Save Prefrences
@@ -73,19 +73,21 @@ class HomeController extends ParentController
                 foreach($request->notifications as $notifications){
                     $emailProp = 0;
                     $webProp = 0;
-                    foreach($notifications["properties"] as $props){
-                        if($props == "email"){
-                            $emailProp = 1;
-                        }else{
-                            $webProp = 1;
+                    if(isset($notifications["properties"])){
+                        foreach($notifications["properties"] as $props){
+                            if($props == "email"){
+                                $emailProp = 1;
+                            }else{
+                                $webProp = 1;
+                            }
                         }
+                        $insert = DB::table('subscribed_notifications')->insert([
+                            'notification_code_id' => $notifications['code'],
+                            'web' => $webProp,
+                            'email' => $emailProp,
+                            'emp_id' => $request->emp_id
+                        ]);
                     }
-                    $insert = DB::table('subscribed_notifications')->insert([
-                        'notification_code_id' => $notifications['code'],
-                        'web' => $webProp,
-                        'email' => $emailProp,
-                        'emp_id' => $request->emp_id
-                    ]);
                 }
                 echo json_encode('success');
             }else{

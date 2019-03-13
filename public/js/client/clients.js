@@ -5,67 +5,80 @@ var fileList = new Array;
 var i = 0;
 var callForDzReset = false;
 
-var myDropzone = new Dropzone("#dropzonewidgetclient", {
-    url: "/client_docs",
-    addRemoveLinks: true,
-    maxFiles: 4,
-    acceptedFiles: 'image/*',
-    maxFilesize: 5,
-    init: function () {
-        this.on("success", function (file, serverFileName) {
-            file.serverFn = serverFileName;
-            fileList[i] = {
-                "serverFileName": serverFileName,
-                "fileName": file.name,
-                "fileId": i
-            };
-            i++;
-        });
-    },
-    removedfile: function (file) {
-        if ($('.operation_docs').val() == "update") {
-            $.ajax({
-                type: 'GET',
-                url: '/remove_client_docs/' + file.name.split('documents/')[1],
-                data: {
-                    _token: '{!! csrf_token() !!}',
-                    cust_id: cust_id
-                },
-                success: function (data) {
-                    var _ref;
-                    return (_ref = file.previewElement) != null ? _ref.parentNode.removeChild(file.previewElement) : void 0;
-                }
+var segments = location.href.split('/');
+var action = segments[3];
+if (action == 'clients'){
+    var myDropzone = new Dropzone("#dropzonewidgetclient", {
+        url: "/client_docs",
+        addRemoveLinks: true,
+        maxFiles: 4,
+        acceptedFiles: 'image/*',
+        maxFilesize: 5,
+        init: function () {
+            this.on("success", function (file, serverFileName) {
+                file.serverFn = serverFileName;
+                fileList[i] = {
+                    "serverFileName": serverFileName,
+                    "fileName": file.name,
+                    "fileId": i
+                };
+                i++;
             });
-        } else {
-            if (!callForDzReset) {
-                var name = file.serverFn;
-                var cust_id = $('.client_key_docs').val();
-                //console.log(cust_id);
+        },
+        removedfile: function (file) {
+            if ($('.operation_docs').val() == "update") {
                 $.ajax({
                     type: 'GET',
-                    url: '/remove_client_docs/' + name,
+                    url: '/remove_client_docs/' + file.name.split('documents/')[1],
                     data: {
                         _token: '{!! csrf_token() !!}',
                         cust_id: cust_id
                     },
                     success: function (data) {
-                        console.log('success: ' + data);
+                        var _ref;
+                        return (_ref = file.previewElement) != null ? _ref.parentNode.removeChild(file.previewElement) : void 0;
                     }
                 });
+            } else {
+                if (!callForDzReset) {
+                    var name = file.serverFn;
+                    var cust_id = $('.client_key_docs').val();
+                    //console.log(cust_id);
+                    $.ajax({
+                        type: 'GET',
+                        url: '/remove_client_docs/' + name,
+                        data: {
+                            _token: '{!! csrf_token() !!}',
+                            cust_id: cust_id
+                        },
+                        success: function (data) {
+                            console.log('success: ' + data);
+                        }
+                    });
+                }
+                var _ref;
+                return (_ref = file.previewElement) != null ? _ref.parentNode.removeChild(file.previewElement) : void 0;
             }
-            var _ref;
-            return (_ref = file.previewElement) != null ? _ref.parentNode.removeChild(file.previewElement) : void 0;
         }
-    }
-});
+    }); 
+}
+
+
 
 
 
 
 
 $(document).ready(function () {
-    fetchClientsList();
+    $('#example,#poclist').DataTable();
+    var segments = location.href.split('/');
+    var action = segments[3];
+    if (action == 'clients'){
+        fetchClientsList();
+    }else{
 
+    }
+    
     var lastOp = "add";
     var client_id = "";
     $(document).on('click', '.openDataSidebarForAddingClient', function () {
@@ -592,6 +605,99 @@ $(document).ready(function () {
     });
 
 
+    //Edit Client Profile
+    var count_click_edit = 0;
+    $(document).on('click', '.edit_profile_btn', function(){
+        var thisRef = $(this);
+        var currentcompany_name = $('#company_name').text();
+        var currentpoc = $('#poc_name').text();
+        var currentphone = $('#phone_num').text();
+        var currentaddress = $('#address').text();
+        if(count_click_edit == 0){
+            thisRef.text('Save');
+            count_click_edit ++;
+            $('#image_div').empty();
+            $('#image_div').append('<div class="form-wrap pt-19" id="dropifyImgDiv" style=""> <input type="file" name="client_pic" id="client_pic" /></div>');
+            var imgUrl = $('#hidden_img_url').val();
+            $("#client_pic").attr("data-default-file", imgUrl);
+            $('#client_pic').dropify();
+
+            setTimeout(function () {
+                $('.dropify-wrapper').css({"display": "block", "margin": "0 auto"});
+                $('.dropify-render').find('img').css({"display": "block", "margin-top": "45px"});
+            }, 300);
+            
+
+             $('#company_name').empty();
+             $('#poc_name').empty();
+             $('#phone_num').empty();
+             $('#address').empty();
+            
+            $('#company_name').append('<div class="form-group" ><input style="max-height: 30px; font-size:12px !important;" type="text" value="'+ currentcompany_name +'" id="profile_page_company_page" name="profile_page_company_page" class="form-control required_one"></div>');
+
+            $('#poc_name').append('<div class="form-group" ><input style="max-height: 30px; font-size:12px !important;" type="text" value="'+ currentpoc +'" id="profile_page_poc" name="profile_page_poc" class="form-control required_one"></div>');
+
+            $('#phone_num').append('<div class="form-group" ><input style="max-height: 30px; font-size:12px !important;" type="text" value="'+ currentphone +'" id="profile_page_phone" name="profile_page_phone" class="form-control required_one"></div>');
+
+            $('#address').append('<div class="form-group" ><input style="max-height: 30px; font-size:12px !important;" type="text" value="'+ currentaddress +'" id="profile_page_address" name="profile_page_address" class="form-control required_one"></div>');
+
+        }else{
+            var id = segments[4];
+            thisRef.text('PROCESSING....');
+            thisRef.attr("disabled", "disabled");
+            count_click_edit = 0;
+            // $.ajax({
+            //     type: 'GET',
+            //     url: '/updateClientProfile',
+            //     data: {
+            //         _token: '{!! csrf_token() !!}',
+            //         id: id,
+            //         company_name: $('#profile_page_company_page').val(),
+            //         poc: $('#profile_page_poc').val(),
+            //         phone: $('#profile_page_phone').val(),
+            //         address: $('#profile_page_address').val()
+            //     },
+            //     success: function(response) {
+            //        console.log(response);
+            //        thisRef.text('Edit');
+            //        thisRef.removeAttr('disabled');
+            //         if(JSON.parse(response) == 'success'){
+            //             location.reload();
+            //         }else{
+            //             location.reload();
+            //         }
+            //     }
+            // });
+            $('#update_client_profile').ajaxSubmit({
+                type: "POST",
+                url: '/updateClientProfile',
+                data: $('#update_client_profile').serialize(),
+                cache: false,
+                success: function(response) {
+                    //debugger;
+                    console.log(response);
+                    
+                    if (JSON.parse(response) == "success") {
+                        location.reload();
+                    } else {
+                        location.reload();
+                    }
+                },
+                error: function(err) {
+                    //location.reload();
+                    if (err.status == 422) {
+                        $.each(err.responseJSON.errors, function(i, error) {
+                            var el = $(document).find('[name="' + i + '"]');
+                            el.after($('<small class = "validation_errors" style="color: red; position: absolute; width:100%; text-align: right; margin-left: -30px">' + error[0] + '</small>'));
+                        });
+                    }
+                }
+            });
+        }
+      
+    });
+
+
 });
 
 function fetchClientsList() {
@@ -605,7 +711,7 @@ function fetchClientsList() {
             $('#clientsListTable tbody').empty();
             var response = JSON.parse(response);
             response.forEach(element => {
-                $('#clientsListTable tbody').append('<tr><td>' + element['id'] + '</td><td>' + element['company_name'] + '</td><td>' + element['poc_name'] + '</td><td>' + element['username'] + '</td><td>' + element['phone'] + '</td><td>' + element['customer_type'] + '</td><td><button id="' + element['id'] + '" class="btn btn-default btn-line openDataSidebarForUpdateCustomer openDataSidebarForUpdate">Edit</button><a href="/CustomerProfile/' + element['id'] + '" id="' + element['id'] + '" class="btn btn-default">Profile</a>' + (element["is_active"] == 1 ? '<button id="' + element['id'] + '" class="btn btn-default red-bg  deactivate_btn" title="View Detail">Deactivate</button>' : '<button id="' + element['id'] + '" class="btn btn-default activate_btn">Activate</button>') + '</td></tr>');
+                $('#clientsListTable tbody').append('<tr><td>' + element['id'] + '</td><td>' + element['company_name'] + '</td><td>' + element['poc_name'] + '</td><td>' + element['username'] + '</td><td>' + element['phone'] + '</td><td>' + element['customer_type'] + '</td><td><button id="' + element['id'] + '" class="btn btn-default btn-line openDataSidebarForUpdateCustomer openDataSidebarForUpdate">Edit</button><a href="/ClientProfile/' + element['id'] + '" id="' + element['id'] + '" class="btn btn-default">Profile</a>' + (element["is_active"] == 1 ? '<button id="' + element['id'] + '" class="btn btn-default red-bg  deactivate_btn" title="View Detail">Deactivate</button>' : '<button id="' + element['id'] + '" class="btn btn-default activate_btn">Activate</button>') + '</td></tr>');
             });
             $('#tblLoader').hide();
             $('.body').fadeIn();

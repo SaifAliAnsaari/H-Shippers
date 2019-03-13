@@ -38,7 +38,7 @@ class ManageBilling extends ParentController
         //     return redirect('/select_customer');
         // }else{
             if(DB::table('clients')->where('id', $id)->first()){
-                return view('manage_billing.billing', ['cust_id' => $cust_id, 'check_rights' => $this->check_employee_rights, 'notifications_counts' => $this->notif_counts, 'notif_data' => $this->notif_data]);
+                return view('manage_billing.billing', ['cust_id' => $cust_id, 'check_rights' => $this->check_employee_rights, 'notifications_counts' => $this->notif_counts, 'notif_data' => $this->notif_data, 'all_notif' => $this->all_notification]);
             }else{
                 return redirect('/select_customer');
             }

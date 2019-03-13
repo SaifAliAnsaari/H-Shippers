@@ -48,6 +48,7 @@ Route::get('/select_customer', 'ClientsForBilling@select_customer');
 Route::get('/consignment_booking', 'ConsignmentManagement@consignment_booking');
 Route::get('/consignment_booking_client', 'ConsignmentManagement@consignment_booking_client');
 Route::get('/consignment_booked', 'ConsignmentManagement@consignment_booked');
+Route::get('/pending_consignments', 'ConsignmentManagement@pending_consignments');
 Route::get('/complaints_suggestions', 'ComplaintsAndSuggestions@complaints_suggestions');
 Route::get('/complaints_list', 'ComplaintsAndSuggestions@complaints_list');
 Route::get('/complaints_list_client', 'ComplaintsAndSuggestions@complaints_list_client');
@@ -59,6 +60,12 @@ Route::get('/select_employee', 'AccessRights@select_employee');
 Route::get('/edit_profile/{id}', 'Auth\RegisterController@edit_profile');
 Route::get('/notifications', 'HomeController@notifications');
 Route::get('/notification_prefrences', 'HomeController@notification_prefrences');
+Route::get('/ClientProfile/{id}', 'Clients@ClientProfile');
+Route::get('/shipment_tracking/{id}', 'ConsignmentManagement@shipment_tracking');
+Route::get('/confirmed_consignments', 'ConsignmentManagement@confirmed_consignments');
+Route::get('/consignment_statuses', 'ConsignmentManagement@consignment_statuses');
+Route::get('/update_consignment_ad/{id}', 'ConsignmentManagement@update_consignment_ad');
+Route::get('/update_consignment_cc/{id}', 'ConsignmentManagement@update_consignment_cc');
 
 //Save
 Route::post('/Client_save', 'Clients@save_client');
@@ -75,6 +82,7 @@ Route::post('/SaveConsignmentAdmin', 'ConsignmentManagement@SaveConsignmentAdmin
 Route::post('/update_user_profile', 'Auth\RegisterController@update_user_profile');
 Route::post('/save_pref_against_emp', 'HomeController@save_pref_against_emp');
 Route::post('/read_notif_four', 'HomeController@read_notif_four');
+Route::post('/UpdateConsignmentClient', 'ConsignmentManagement@UpdateConsignmentClient');
 
 //Get Data to display on page
 Route::get('/GetCompaniesList', 'OrganizationManagement@companies_list');
@@ -86,8 +94,17 @@ Route::get('/GetConsignmentsList', 'ConsignmentManagement@GetConsignmentsList');
 Route::get('/GetEmployeeListForRights', 'AccessRights@GetEmployeeListForRights');
 Route::get('/check_access_rights', 'AccessRights@check_access_rights');
 Route::get('/get_price_if_consignmentTypeFragile', 'ConsignmentManagement@get_price_if_consignmentTypeFragile');
+Route::get('/process_this_consignment', 'ConsignmentManagement@process_this_consignment');
+Route::get('/delete_pending_consignment', 'ConsignmentManagement@delete_pending_consignment');
 Route::get('/activate_client', 'Clients@activate_client');
 Route::get('/deactivate_client', 'Clients@deactivate_client');
+Route::get('/GetCNNOData', 'ConsignmentManagement@GetCNNOData');
+Route::get('/save_consignment_statuses', 'ConsignmentManagement@save_consignment_statuses');
+Route::get('/update_status_log', 'ConsignmentManagement@update_status_log');
+Route::get('/GetStatusList', 'ConsignmentManagement@GetStatusList');
+Route::get('/update_custom_status', 'ConsignmentManagement@update_custom_status');
+Route::get('/get_custom_status_data', 'ConsignmentManagement@get_custom_status_data');
+Route::get('/GetCCData', 'ConsignmentManagement@GetCCData');
 
 
 //Get data to show on update page
@@ -101,11 +118,13 @@ Route::get('/checkBillinAddedOrNot/{id}', 'ManageBilling@checkBillinAddedOrNot')
 Route::post('/company_update', 'OrganizationManagement@update_company');
 Route::post('/pickUp_update', 'OrganizationManagement@update_pickUp');
 Route::post('/client_update', 'Clients@update_client');
+Route::post('/updateClientProfile', 'Clients@updateClientProfile');
 
 //Delete
 Route::get('/DeleteCompany', 'OrganizationManagement@delete_company_entry');
 Route::get('/DeletepickUp', 'OrganizationManagement@delete_pickUp_entry');
 Route::get('/DeleteClient', 'Clients@delete_client_entry');
+Route::get('/delete_custom_status', 'ConsignmentManagement@delete_custom_status');
 
 //Deactive or Active Employee
 Route::get('/activate_employee', 'Employee@activate_employee');

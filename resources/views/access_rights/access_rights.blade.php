@@ -32,24 +32,34 @@
 
                     <div class="body">
                     <div class="col-md-12">
-                        <div class="row _checkbox-padd">
-                            <?php
-                            if(!$controllers->isEmpty()){
-                                foreach($controllers as $controller){ ?>
-                            <div class="col-md-3 col-xs-3">
-                                <div class="custom-control custom-checkbox mr-sm-2">
-                                    <input type="checkbox" class="custom-control-input routes" name="right_boxes" value="<?= $controller->route_name ?>"
-                                        id="<?= $controller->route_name ?>" <?= (!$rights == "")?(array_search($controller->route_name, array_column($rights->toArray(), 'access')) !== false && array_search($controller->route_name, array_column($rights->toArray(), 'access')) >= 0) ? "checked" : "" : "" ?>>
-                                    <label class="custom-control-label" for="<?= $controller->route_name ?>">
-                                        <?= $controller->show_up_name ?></label>
-                                </div>
-                            </div>
-                            <?php }
-                            }
-                        ?>
+                        <div class="row">
+                          
+                            @if (!empty($controllers))
+                                @foreach ($controllers as $controller)
+                                    <ul class="acc-right">
+                                        <h2 class="_head04"> {{ $controller['heading'] }}</h2>
+                                        @foreach($controller['detail'] as $detail)
+                                        <li>
+                                                <div class="custom-control custom-checkbox mr-sm-2">
+                                                        <input type="checkbox" class="custom-control-input routes" name="right_boxes" value="<?= $detail['route'] ?>"
+                                                            id="<?= $detail['route'] ?>" <?= (!$rights == "")?(array_search($detail['route'], array_column($rights->toArray(), 'access')) !== false && array_search($detail['route'], array_column($rights->toArray(), 'access')) >= 0) ? "checked" : "" : "" ?>>
+                                                        <label class="custom-control-label" for="<?= $detail['route'] ?>">
+                                                            <?= $detail['name'] ?></label>
+                                                    </div>
+                                        </li>
+                                        @endforeach
+                                            
+                                    </ul>
+                                @endforeach
+                            @endif()
+
+                           
+
+                           
+
                         </div>
                     </div>
-                    <div class="row body">
+                    <div class="col-md-12 pt-20 text-center">
                         <button style="margin-left:10px;" type="button" class="btn btn-primary mr-2 save_rights">Save</button>
                     </div>
                 </div>

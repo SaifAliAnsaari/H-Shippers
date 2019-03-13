@@ -21,7 +21,7 @@ class AccessRights extends ParentController
     public function save_controllers(){
          parent::get_notif_data();
          parent::VerifyRights();if($this->redirectUrl){return redirect($this->redirectUrl);}
-        return view('access_rights.save_controllers', ['check_rights' => $this->check_employee_rights, 'notifications_counts' => $this->notif_counts, 'notif_data' => $this->notif_data]);
+        return view('access_rights.save_controllers', ['check_rights' => $this->check_employee_rights, 'notifications_counts' => $this->notif_counts, 'notif_data' => $this->notif_data, 'all_notif' => $this->all_notification]);
     }
 
     public function saveRoute(Request $request){
@@ -45,23 +45,67 @@ class AccessRights extends ParentController
     public function select_employee(){
         parent::get_notif_data();
          parent::VerifyRights();if($this->redirectUrl){return redirect($this->redirectUrl);}
-        return view('access_rights.clients_list', ['check_rights' => $this->check_employee_rights, 'notifications_counts' => $this->notif_counts, 'notif_data' => $this->notif_data]);
+        return view('access_rights.clients_list', ['check_rights' => $this->check_employee_rights, 'notifications_counts' => $this->notif_counts, 'notif_data' => $this->notif_data, 'all_notif' => $this->all_notification]);
     }
 
     public function GetEmployeeListForRights(){
         echo json_encode(DB::table('users')->get());
     }
 
+    //View
     public function access_rights($id){
         parent::get_notif_data();
          parent::VerifyRights();if($this->redirectUrl){return redirect($this->redirectUrl);}
-        $controllers = DB::table('controllers')->get();
+        $controllers = DB::table('controllers')->selectRaw('id, route_name, show_up_name, Heading')->get();
         $check = DB::table('access_rights')->where('employee_id', $id)->get();
+        //$controllers = json_decode(json_encode($controllers), True);
+        //$uniqueHeadings = $this->unique_multidim_array($controllers, "Heading");
+        // $data = array();
+         $counter = 0;
+        
+        // $data = array_map(function($item) use($counter, $controllers){
+        //     $data[$counter]["heading"] = $item["Heading"];
+        //     $data[$counter]["data"] = array_filter($controllers, function($cont) use($item){
+        //         return ($cont["Heading"] == $item["Heading"] ? $cont : null);
+        //     });
+        //     $counter++;
+        //     return array_values($data);
+        // }, $uniqueHeadings);
+
+
+        $array_heading = array();
+        foreach($controllers as $headings){
+            $array_heading[$counter] = $headings->Heading;
+            $counter++;
+        }
+
+        $array_heading = array_unique($array_heading);
+
+        $data = array();
+        $counter_two = 0;
+        
+        //echo '<pre>'; print_r($array_heading); die;
+        foreach($array_heading as $arr_heading){
+            $data[$counter_two]['heading'] = $arr_heading;
+            $counter_three = 0;
+            $array_routes = array();
+            foreach($controllers as $routes){
+                if($routes->Heading == $arr_heading){
+                    $array_routes[$counter_three] = array('id' => $routes->id, 'name' => $routes->show_up_name, 'route' => $routes->route_name);
+                    $counter_three++;
+                }
+            }
+            $data[$counter_two]["detail"] = $array_routes;
+            $counter_three = 0;
+            $counter_two ++;
+        }
+        
+        //echo '<pre>'; print_r($data); die;
 
         if(!$check->isEmpty()){
-            return view('access_rights.access_rights', ['employee_id' => $id, 'controllers' => $controllers, "rights" => $check, 'check_rights' => $this->check_employee_rights, 'notifications_counts' => $this->notif_counts, 'notif_data' => $this->notif_data]);
+            return view('access_rights.access_rights', ['employee_id' => $id, 'controllers' => $data, "rights" => $check, 'check_rights' => $this->check_employee_rights, 'notifications_counts' => $this->notif_counts, 'notif_data' => $this->notif_data, 'all_notif' => $this->all_notification]);
         }else{
-            return view('access_rights.access_rights', ['employee_id' => $id, 'controllers' => $controllers, "rights" => "", 'check_rights' => $this->check_employee_rights, 'notifications_counts' => $this->notif_counts, 'notif_data' => $this->notif_data]);
+            return view('access_rights.access_rights', ['employee_id' => $id, 'controllers' => $data, "rights" => "", 'check_rights' => $this->check_employee_rights, 'notifications_counts' => $this->notif_counts, 'notif_data' => $this->notif_data, 'all_notif' => $this->all_notification]);
         }
     }
 
@@ -99,4 +143,20 @@ class AccessRights extends ParentController
             echo json_encode('success');
         }
     }
+
+    function unique_multidim_array($array, $key) { 
+        $temp_array = array(); 
+        $i = 0; 
+        $key_array = array(); 
+        
+        foreach($array as $val) { 
+            if (!in_array($val[$key], $key_array)) { 
+                $key_array[$i] = $val[$key]; 
+                $temp_array[$i] = $val; 
+            } 
+            $i++; 
+        } 
+        return $temp_array; 
+    } 
+
 }
