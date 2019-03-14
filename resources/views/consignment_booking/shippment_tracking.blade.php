@@ -97,49 +97,33 @@
             <div class="row">
                 <div class="col-md-12 _track_his">
                     <h2 class="_head03 mb-0 border-0">Tracking History</h2>
-                    <table class="table table-hover dt-responsive nowrap">
-                        <thead>
-                            <tr>
-                                <th>Date</th>
-                                <th>Status</th>
-                                <th>Location</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>03-07-2019</td>
-                                <td>Booked</td>
-                                <td>Karachi</td>
-                            </tr>
-                            <tr>
-                                <td>03-07-2019</td>
-                                <td>Arrived or Origin Branch</td>
-                                <td>Lahore</td>
-                            </tr>
-                            <tr>
-                                <td>03-07-2019</td>
-                                <td>Moved to DEST. Branch </td>
-                                <td>Lahore</td>
-                            </tr>
-                            <tr>
-                                <td>03-07-2019</td>
-                                <td>Booked</td>
-                                <td>Karachi</td>
-                            </tr>
-                            <tr>
-                                <td>03-07-2019</td>
-                                <td>Arrived or Origin Branch</td>
-                                <td>Lahore</td>
-                            </tr>
-                            <tr>
-                                <td>03-07-2019</td>
-                                <td>Moved to DEST. Branch </td>
-                                <td>Lahore</td>
-                            </tr>
+                    <div class="table_body">
+                            <table class="table table-hover dt-responsive nowrap">
+                                    <thead>
+                                        <tr>
+                                            <th>Date</th>
+                                            <th>Status</th>
+                                            <th>Location</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
 
-
-                        </tbody>
-                    </table>
+                                        @if(!empty($statuses))
+                                            @foreach ($statuses as $status)
+                                                <tr>
+                                                    <td>{{ $status->date }}</td>
+                                                    <td>{{ $status->status }}</td>
+                                                    <td>{{ $status->created_by }}</td>
+                                                </tr>
+                                            @endforeach
+                                        @endif
+                                       
+            
+            
+                                    </tbody>
+                                </table>
+                    </div>
+                   
 
                 </div>
             </div>    

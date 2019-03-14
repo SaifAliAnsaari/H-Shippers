@@ -51,6 +51,7 @@ $(document).ready(function() {
                 },
                 success: function(response) {
                    $('#loader').hide();
+                   
                     if(JSON.parse(response) == 'error'){
                         if(segments[3] == 'shipment_tracking'){
                             $('#detail_div').hide();
@@ -69,21 +70,32 @@ $(document).ready(function() {
                             }, 3000);
                         }
                     }else{
+                        
                         if(segments[3] == 'shipment_tracking'){
-                            var response = JSON.parse(response);
-                            //JSON.parse(response).forEach(element => {
+                            JSON.parse(response).forEach(element => {
                                 $('#detail_div').show();
                                 $('.error_text').text('');
                                 $('.error_heading').text('');
                                 //console.log(response);
-                                $('#shipment_cnno').text(response.cnic);
-                                $('#shipment_consignee_name').text(response.consignee_name);
-                                $('#shipment_destination').text(response.consignment_dest_city);
-                                $('#shipment_bookin_date').text(response.booking_date);
-                                $('#shipment_consignment_status').text((response.status == 0 ? "Pending" : "Proceed"));
-                                $('#shipment_shippername').text((response.company_name != null ? response.company_name : response.username));
-                                $('#shipment_origin').text(response.city);
-                           // });
+                                $('#shipment_cnno').text(element.core.cnic);
+                                $('#shipment_consignee_name').text(element.core.consignee_name);
+                                $('#shipment_destination').text(element.core.consignment_dest_city);
+                                $('#shipment_bookin_date').text(element.core.booking_date);
+                                $('#shipment_consignment_status').text((element.core.status == 0 ? "Pending" : "Proceed"));
+                                $('#shipment_shippername').text((element.core.company_name != null ? element.core.company_name : element.core.username));
+                                $('#shipment_origin').text(element.core.city);
+
+                                $('.table_body').empty();
+                                $('.table_body').append('<table class="table table-hover dt-responsive nowrap" id="statusListTable" style="width:100%;"><thead><tr><th>Date</th><th>Status</th><th>Location</th></tr></thead><tbody></tbody></table>');
+                                $('#statusListTable tbody').empty();
+                                
+                                element.statuses.forEach(element => {
+                                    $('#statusListTable tbody').append('<tr><td>' + element['date'] + '</td><td>' + element['status'] + '</td><td>' + element['created_by'] + '</td></tr>');
+                                });
+                                $('.table_body').fadeIn();
+                                $('#statusListTable').DataTable();
+                            });
+
                         }else{
                             window.location.href = "/shipment_tracking/"+id;
                         }

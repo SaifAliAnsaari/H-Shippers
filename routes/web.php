@@ -67,6 +67,8 @@ Route::get('/consignment_statuses', 'ConsignmentManagement@consignment_statuses'
 Route::get('/update_consignment_ad/{id}', 'ConsignmentManagement@update_consignment_ad');
 Route::get('/update_consignment_cc/{id}', 'ConsignmentManagement@update_consignment_cc');
 
+Route::get('/invoice/{id}', 'ConsignmentManagement@invoice');
+
 //Save
 Route::post('/Client_save', 'Clients@save_client');
 Route::post('/Company_save', 'OrganizationManagement@add_company');

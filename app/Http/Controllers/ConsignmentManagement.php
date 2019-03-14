@@ -702,13 +702,31 @@ class ConsignmentManagement extends ParentController
                 // }
 
                 if($insert_notification){
-                    echo json_encode('success');
+                    echo json_encode($request->cnic_client);
+                    //return redirect('/invoice/"'.$request->cnic_client.'"');
                 }else{
                     echo json_encode('failed');
                 }
             }else{
                 echo json_encode('failed');
             }
+    }
+
+    public function invoice($id){
+        $check_session = DB::table('clients')->select('username', 'company_pic')->where('client_login_session', Cookie::get('client_session'))->first();
+        if(!$check_session){
+            return redirect('/cout');
+        }else{
+            // $Bar = new Picqer\Barcode\BarcodeGeneratorHTML();
+            // $code = $Bar->getBarcode($_POST['sale_token'], $Bar::TYPE_CODE_128);
+
+            $client_consignment = DB::table('consignment_client as cc')->selectRaw('id, booking_date, consignee_ref, consignee_cell, consignee_address, consignee_name, remarks, customer_id, consignment_description, consignment_weight, fragile_cost, consignment_dest_city, consignment_pieces, TIME(created_at) as time, (Select city from clients where id = cc.customer_id) as origin, (Select company_name from clients where id = cc.customer_id) as shipper_name')->where('cnic', $id)->first();
+            if($client_consignment){
+                return view('invoices.invoice', ['data' => $client_consignment, 'name' => $check_session]);
+            }else{
+                return redirect('/consignment_booking_client');
+            } 
+        } 
     }
 
     public function UpdateConsignmentClient(Request $request){
@@ -1281,12 +1299,15 @@ class ConsignmentManagement extends ParentController
             return redirect($this->redirectUrl);
         }
         $cnno_data = DB::table('consignment_client as cc')->selectRaw('id, cnic, consignee_name, booking_date, status, customer_id, consignment_dest_city, (Select company_name from clients where id = cc.customer_id) as company_name, (Select username from clients where id = cc.customer_id) as username, (Select city from clients where id = cc.customer_id) as city')->where('cnic', $id)->first();
+        
+        $statuses = DB::table('status_log as sl')->selectRaw('DATE(created_at) as date, status, created_by, (Select name from users where id = sl.created_by) as created_by')->where('cnno', $id)->get();
+
         if(!$cnno_data){
             $check = 1;
-            return view('consignment_booking.shippment_tracking', ['check_rights' => $this->check_employee_rights, 'notifications_counts' => $this->notif_counts, 'notif_data' => $this->notif_data, 'data'=> $check, 'consignment' => null, 'all_notif' => $this->all_notification]);
+            return view('consignment_booking.shippment_tracking', ['check_rights' => $this->check_employee_rights, 'notifications_counts' => $this->notif_counts, 'notif_data' => $this->notif_data, 'data'=> $check, 'consignment' => null, 'all_notif' => $this->all_notification, 'statuses' => $statuses]);
         }else{
             $check = 2;
-            return view('consignment_booking.shippment_tracking', ['check_rights' => $this->check_employee_rights, 'notifications_counts' => $this->notif_counts, 'notif_data' => $this->notif_data, 'data'=> $check, 'consignment' => $cnno_data, 'all_notif' => $this->all_notification]);
+            return view('consignment_booking.shippment_tracking', ['check_rights' => $this->check_employee_rights, 'notifications_counts' => $this->notif_counts, 'notif_data' => $this->notif_data, 'data'=> $check, 'consignment' => $cnno_data, 'all_notif' => $this->all_notification, 'statuses' => $statuses]);
         }
         
        
@@ -1294,8 +1315,11 @@ class ConsignmentManagement extends ParentController
 
     public function GetCNNOData(Request $request){
         $core_data = DB::table('consignment_client as cc')->selectRaw('id, cnic, consignee_name, booking_date, status, customer_id, consignment_dest_city, (Select company_name from clients where id = cc.customer_id) as company_name, (Select username from clients where id = cc.customer_id) as username, (Select city from clients where id = cc.customer_id) as city')->where('cnic', $request->id)->first();
+        
+        $statuses = DB::table('status_log as sl')->selectRaw('DATE(created_at) as date, status, created_by, (Select name from users where id = sl.created_by) as created_by')->where('cnno', $request->id)->get();
+        
         if($core_data){
-            echo json_encode($core_data);
+            echo json_encode(array(['core' => $core_data, 'statuses' => $statuses]));
         }else{
             echo json_encode('error');
         }
@@ -1314,9 +1338,9 @@ class ConsignmentManagement extends ParentController
 
         $final_consignments = array();
         $counter = 0;
-        $consignments_client = DB::table('consignment_client as cc')->selectRaw('id, booking_date, cnic, consignment_weight, status, total_price, consignee_name, (Select username from clients where id = cc.customer_id) as sender_name')->where('status', 1)->get();
+        $consignments_client = DB::table('consignment_client as cc')->selectRaw('id, booking_date, cnic, consignment_weight, status, total_price, consignee_name, (Select username from clients where id = cc.customer_id) as shipper_name, (Select status from status_log where cnno = cc.cnic order by id desc LIMIT 1) as status_log, (Select remarks from status_log where cnno = cc.cnic order by id desc LIMIT 1) as status_remark')->where('status', 1)->get();
         //echo '<pre>'; print_r($consignments_client); die;
-        $consignments_admin = DB::table('consignment_admin')->where('status', 1)->get();
+        $consignments_admin = DB::table('consignment_admin as ca')->SelectRaw('id, booking_date, cnic, consignment_weight, status, total_price, consignee_name, shipper_name, (Select status from status_log where cnno = ca.cnic order by id desc LIMIT 1) as status_log, (Select remarks from status_log where cnno = ca.cnic order by id desc LIMIT 1) as status_remark')->where('status', 1)->get();
         //echo '<pre>'; print_r($consignments_admin); die;
         foreach($consignments_client as $client){
             $final_consignments[$counter]['id'] = $counter+1;
@@ -1324,9 +1348,11 @@ class ConsignmentManagement extends ParentController
             $final_consignments[$counter]['date'] = $client->booking_date;
             $final_consignments[$counter]['weight'] = $client->consignment_weight;
             $final_consignments[$counter]['price'] = $client->total_price;
-            $final_consignments[$counter]['sender_name'] = $client->sender_name;
+            $final_consignments[$counter]['sender_name'] = $client->shipper_name;
             $final_consignments[$counter]['reciver_name'] = $client->consignee_name;
             $final_consignments[$counter]['cnno'] = $client->cnic;
+            $final_consignments[$counter]['status_log'] = $client->status_log;
+            $final_consignments[$counter]['status_remark'] = $client->status_remark;
             $final_consignments[$counter]['opp'] = 'client';
             $counter++;
         }
@@ -1338,6 +1364,8 @@ class ConsignmentManagement extends ParentController
             $final_consignments[$counter]['price'] = $admin->total_price;
             $final_consignments[$counter]['sender_name'] = $admin->shipper_name;
             $final_consignments[$counter]['cnno'] = $admin->cnic;
+            $final_consignments[$counter]['status_log'] = $admin->status_log;
+            $final_consignments[$counter]['status_remark'] = $admin->status_remark;
             $final_consignments[$counter]['reciver_name'] = $admin->consignee_name;
             $final_consignments[$counter]['opp'] = 'admin';
             $counter++;

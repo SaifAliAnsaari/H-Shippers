@@ -91,23 +91,25 @@
 
                         @if(!empty($consignments))
                         @foreach($consignments as $consignmnet)
+                       
                         <tr>
-                            <td>{{ $consignmnet['id'] }}</td>
+                            <td>{{ $consignmnet['cnno'] }}</td>
                             <td>{{ $consignmnet['date'] }}</td>
                             <td>{{ $consignmnet['sender_name'] }}</td>
                             <td>{{ $consignmnet['reciver_name'] }}</td>
                             <td>
+                                <input type="text" id="hidden_cn_status" hidden value="{{ $consignmnet['status_log'] }}" />
                                 <select name="status" class="formselect select_status">
                                     <option value="0" selected disabled>Select Status</option>
                                     @if(!empty($status))
                                         @foreach($status as $stat)
-                                            <option value="{{ $stat->status }}">{{ $stat->status }}</option>  
+                                            <option value="{{ $stat->status }}" {{ $consignmnet['status_log'] === $stat->status ? "selected" : null }} >{{ $stat->status }}</option>  
                                         @endforeach
                                     @endif
                                 </select>
                             </td>
                             <td>
-                                <textarea type="text" class="form-control status_remarks" rows="3"></textarea>
+                                <textarea type="text" class="form-control status_remarks" rows="3">{{ $consignmnet['status_remark'] }}</textarea>
                             </td>
                             <td>
                                 <button class="btn btn-default update_cn_status" name="{{ $consignmnet['opp'] }}"
