@@ -702,7 +702,8 @@ class ConsignmentManagement extends ParentController
                 // }
 
                 if($insert_notification){
-                    echo json_encode($request->cnic_client);
+                    //echo json_encode($request->cnic_client);
+                    echo json_encode(round($totalPrice));
                     //return redirect('/invoice/"'.$request->cnic_client.'"');
                 }else{
                     echo json_encode('failed');

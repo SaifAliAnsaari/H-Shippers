@@ -186,6 +186,8 @@ $(document).ready(function() {
         
         $('.save_consignment_client').attr('disabled', 'disabled');
         $('.save_consignment_client').text('Processing..');
+        
+        var cnno = $('#cnic_client').val();
 
         $('#saveConsignmentFormClient').ajaxSubmit({
             type: "POST",
@@ -232,6 +234,7 @@ $(document).ready(function() {
                     $('#remarks_client').val('');
                     
                 } else {
+                    $('.test_total_price').text("Total Price : " + response);
                     $('.save_consignment_client').removeAttr('disabled');
                     // $('#cancelCustomer').removeAttr('disabled');
                      $('.save_consignment_client').text('Save');
@@ -262,8 +265,8 @@ $(document).ready(function() {
                     $('.supplementary_services_client').prop("checked", false);
                     $('#saveConsignmentFormClient').find("select").val("0").trigger('change');
                     $('#remarks_client').val('');
-                    window.location.replace("/invoice/"+JSON.parse(response));
-                   // window.location.href = "/invoice/"+JSON.parse(response);
+                    //window.location.replace("/invoice/"+JSON.parse(response));
+                    window.open("/invoice/"+cnno, '_blank');
                 }
             },
             error: function(err) {

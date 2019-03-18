@@ -266,7 +266,7 @@
             </div>
 
             <div class="col-md-12 pt-20 text-center" style="margin-bottom:10px;">
-                <button style="margin-left:10px;" type="button" class="btn btn-primary mr-2 print_invoices">Print</button>
+                {{-- <button style="margin-left:10px;" type="button" class="btn btn-primary mr-2 print_invoices">Print</button> --}}
             </div>
         </div>
         

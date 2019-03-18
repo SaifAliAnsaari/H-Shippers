@@ -40,7 +40,7 @@ class HomeController extends ParentController
             parent::VerifyRights();
             if($this->redirectUrl){return redirect($this->redirectUrl);}
             parent::get_notif_data();
-            //echo "<pre>"; print_r($this->notif_data); die;
+           // echo "<pre>"; print_r($this->notif_data); die;
             return view('home', ['check_rights' => $this->check_employee_rights, 'notifications_counts' => $this->notif_counts, 'notif_data' => $this->notif_data, 'all_notif' => $this->all_notification]);
         }else{
             parent::get_client_nofif_data();

@@ -44,6 +44,7 @@ class ParentController extends Controller
 
             //Counts
             $this->notif_counts = DB::table('notifications_list as nl')->selectRaw('Count(*) as counts')->whereRaw('code IN ('.DB::table('subscribed_notifications as sn')->selectRaw('GROUP_CONCAT(notification_code_id) as notifications_codes')->whereRaw('web = 1 AND emp_id = '. Auth::user()->id)->first()->notifications_codes.') AND id NOT IN (Select notif_id from notification_read_status where emp_id = "'.Auth::user()->id.'")')->first();
+            
 
             //Show only four notifications
             $this->notif_data = DB::table('notifications_list as nl')->selectRaw('id, code, message, complain_id, suggestion_id, consignment_id, created_at, (Select username from clients where id = (Select client_id from complaints_suggestions where id = IFNull(nl.complain_id, IfNull(suggestion_id, consignment_id)))) as notif_by, (Select company_pic from clients where id = (Select client_id from complaints_suggestions where id = IFNull(nl.complain_id, IfNull(suggestion_id, consignment_id)))) as picture ')->whereRaw('code IN ('.DB::table('subscribed_notifications as sn')->selectRaw('GROUP_CONCAT(notification_code_id) as notifications_codes')->whereRaw('web = 1 AND emp_id = '. Auth::user()->id)->first()->notifications_codes.') AND id NOT IN (Select notif_id from notification_read_status where emp_id = "'.Auth::user()->id.'")')->orderBy('id','DESC')->take(4)->get();
