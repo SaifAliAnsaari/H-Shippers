@@ -65,7 +65,7 @@
     <script src="/js/dropify.min.js"></script>
     <script src="/js/form-file-upload-data.js"></script>
     <script src="/js/custom.js" ></script>
-    <script src="/js/master.js?v=1.2" ></script>
+    <script src="/js/master.js?v=1.3" ></script>
     <script src="/js/jquery.form.min.js" ></script>
     <script src="/js/bootstrap-datepicker.js"></script>
     {{-- <script src="/js/dropzone-amd-module.js"></script>
@@ -94,11 +94,11 @@
     @elseif($controller == "ComplaintsAndSuggestions")
         <script src="/js/manage_complaints_suggestions/complaints_suggestions.js?v=2.2.1" ></script>
     @elseif($controller == "ConsignmentManagement")
-        <script src="/js/manage_consignment/consignment.js?v=2.2.5" ></script>
+        <script src="/js/manage_consignment/consignment.js?v=2.2.6" ></script>
     @elseif($controller == "AccessRights")
         <script src="/js/access_rights/access_rights.js?v=2.2.1" ></script>
     @elseif($controller == "HomeController")
-        <script src="/js/notif_pref/notif_pref.js?v=2.2.1" ></script>
+        <script src="/js/notif_pref/notif_pref.js?v=2.2.2" ></script>
     @endif
 
     <script type="text/javascript"></script>

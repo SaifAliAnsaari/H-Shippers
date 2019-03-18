@@ -83,6 +83,7 @@ Route::post('/saveAccessRights', 'AccessRights@saveAccessRights');
 Route::post('/SaveConsignmentAdmin', 'ConsignmentManagement@SaveConsignmentAdmin');
 Route::post('/update_user_profile', 'Auth\RegisterController@update_user_profile');
 Route::post('/save_pref_against_emp', 'HomeController@save_pref_against_emp');
+Route::post('/save_pref_against_client', 'HomeController@save_pref_against_client');
 Route::post('/read_notif_four', 'HomeController@read_notif_four');
 Route::post('/UpdateConsignmentClient', 'ConsignmentManagement@UpdateConsignmentClient');
 
@@ -107,6 +108,8 @@ Route::get('/GetStatusList', 'ConsignmentManagement@GetStatusList');
 Route::get('/update_custom_status', 'ConsignmentManagement@update_custom_status');
 Route::get('/get_custom_status_data', 'ConsignmentManagement@get_custom_status_data');
 Route::get('/GetCCData', 'ConsignmentManagement@GetCCData');
+Route::get('/get_client_notif_data', 'HomeController@get_client_notif_data');
+Route::get('/mark_consignment_complete', 'ConsignmentManagement@mark_consignment_complete');
 
 
 //Get data to show on update page

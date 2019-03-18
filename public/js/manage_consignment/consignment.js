@@ -748,6 +748,59 @@ $(document).ready(function() {
 
     });
 
+    //Mark Consignment as Complete  
+    $(document).on('click', '.complete_consignment', function(){
+        var status_code = $(this).parent().parent().find('td:eq(4) .select_status').val();
+        var remarks = $(this).parent().parent().find('td:eq(5) .status_remarks').val();
+        if(status_code == null || status_code == 0 || remarks == ""){
+            $('#notifDiv').fadeIn();
+            $('#notifDiv').css('background', 'red');
+            $('#notifDiv').text('Please select status and write remarks.');
+            setTimeout(() => {
+                $('#notifDiv').fadeOut();
+            }, 3000);
+            return;
+        }
+
+        var opp = $(this).attr('name');
+        var id = $(this).attr('id');
+        var thisRef = $(this);
+        var cnno = thisRef.parent().parent().find('td:eq(0)').text();
+        thisRef.text('Processing');
+        thisRef.attr('disabled', 'disabled');
+        $.ajax({
+            type: 'GET',
+            url: '/mark_consignment_complete',
+            data: {
+                opp: opp,
+                id: id,
+                cnno: cnno,
+                status_code: status_code,
+                remarks: remarks,
+                _token: '{!! csrf_token() !!}'
+           },
+            success: function(response) {
+                if(JSON.parse(response) == 'success'){
+                    $('#notifDiv').fadeIn();
+                    $('#notifDiv').css('background', 'green');
+                    $('#notifDiv').text('Completed successfully.');
+                    setTimeout(() => {
+                        $('#notifDiv').fadeOut();
+                    }, 3000);
+                    thisRef.parent().parent().remove();
+                }else{
+                    $('#notifDiv').fadeIn();
+                    $('#notifDiv').css('background', 'red');
+                    $('#notifDiv').text('Unable to complete at the moment!.');
+                    setTimeout(() => {
+                        $('#notifDiv').fadeOut();
+                    }, 3000);
+                }
+                    
+            }
+        });
+    }); 
+
 
 
 

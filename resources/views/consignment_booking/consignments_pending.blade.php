@@ -39,7 +39,7 @@
     <div class="col-md-3">
         <div class="card cp-stats yr_border">
             <div class="cp-stats-icon"><img src="/images/_ca-consignment.svg" alt=""></div>
-            <h3 class="cp-stats-value">150</h3>
+            <h3 class="cp-stats-value">NA</h3>
             <h5 class="text-muted">Cancel Consignment</h5>
         </div>
 
@@ -59,7 +59,7 @@
 
         <div class="card cp-stats bb_border">
             <div class="cp-stats-icon"><img src="/images/_c-consignment.svg" alt=""></div>
-            <h3 class="cp-stats-value">12540</h3>
+            <h3 class="cp-stats-value">{{ $completed }}</h3>
             <h5 class="text-muted">Complete Consignment</h5>
         </div>
 

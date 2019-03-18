@@ -74,7 +74,7 @@ class ConsignmentManagement extends ParentController
 
     //Client
     public function consignment_booking_client(){
-        //$this->verifySession();
+        parent::get_client_nofif_data();
         $check_session = DB::table('clients')->select('username', 'company_pic')->where('client_login_session', Cookie::get('client_session'))->first();
         if(!$check_session){
             return redirect('/cout');
@@ -90,7 +90,7 @@ class ConsignmentManagement extends ParentController
                 return redirect('/consignment_booking_client');
             }else{
                 if($check){
-                    return view('consignment_booking.consignment_booking_client', ['client_id' => $client_id->id, 'check_rights' => $this->check_employee_rights, 'pickup_city' => $get_city_from_pickup, 'name' => $check_session, 'cnno' => $cnno]);
+                    return view('consignment_booking.consignment_booking_client', ['client_id' => $client_id->id, 'check_rights' => $this->check_employee_rights, 'pickup_city' => $get_city_from_pickup, 'name' => $check_session, 'cnno' => $cnno, 'notifications_counts' => $this->notif_counts_client, 'notif_data' => $this->notif_data_client, 'all_notif' => $this->clients_all_notifications]);
                 }else{
                     return redirect('/');
                 }
@@ -717,12 +717,11 @@ class ConsignmentManagement extends ParentController
         if(!$check_session){
             return redirect('/cout');
         }else{
-            // $Bar = new Picqer\Barcode\BarcodeGeneratorHTML();
-            // $code = $Bar->getBarcode($_POST['sale_token'], $Bar::TYPE_CODE_128);
+            parent::get_client_nofif_data();
 
             $client_consignment = DB::table('consignment_client as cc')->selectRaw('id, booking_date, consignee_ref, consignee_cell, consignee_address, consignee_name, remarks, customer_id, consignment_description, consignment_weight, fragile_cost, consignment_dest_city, consignment_pieces, TIME(created_at) as time, (Select city from clients where id = cc.customer_id) as origin, (Select company_name from clients where id = cc.customer_id) as shipper_name')->where('cnic', $id)->first();
             if($client_consignment){
-                return view('invoices.invoice', ['data' => $client_consignment, 'name' => $check_session]);
+                return view('invoices.invoice', ['data' => $client_consignment, 'name' => $check_session, 'notifications_counts' => $this->notif_counts_client, 'notif_data' => $this->notif_data_client, 'all_notif' => $this->clients_all_notifications]);
             }else{
                 return redirect('/consignment_booking_client');
             } 
@@ -1143,11 +1142,12 @@ class ConsignmentManagement extends ParentController
 
     public function consignment_booked(){
         if(Cookie::get('client_session')){
+            parent::get_client_nofif_data();
             $check_session = DB::table('clients')->select('username', 'company_pic')->where('client_login_session', Cookie::get('client_session'))->first();
             if(!$check_session){
                 return redirect('/cout');
             }else{
-                return view('consignment_booking.consignment_booked', ['check_rights' => $this->check_employee_rights, 'name' => $check_session]);
+                return view('consignment_booking.consignment_booked', ['check_rights' => $this->check_employee_rights, 'name' => $check_session, 'notifications_counts' => $this->notif_counts_client, 'notif_data' => $this->notif_data_client, 'all_notif' => $this->clients_all_notifications]);
             }
         }else{
             parent::get_notif_data();
@@ -1242,12 +1242,13 @@ class ConsignmentManagement extends ParentController
             $counter++;
         }
 
-        $total_consignments = DB::table('consignment_client')->selectRaw('Count(*) as client_count, (Select Count(*) from consignment_admin) as admin_count')->first();
+        $total_consignments = DB::table('consignment_client')->selectRaw('Count(*) as client_count, (Select Count(*) from consignment_admin) as admin_count, (Select Count(*) from consignment_client where status = 2) as completed_client, (Select Count(*) from consignment_admin where status = 2) as completed_admin')->first();
+        $total_completed = $total_consignments->completed_client + $total_consignments->completed_admin;
         $total_consignments = $total_consignments->client_count + $total_consignments->admin_count;
 
         //echo '<pre>'; print_r($total_consignments); die;
 
-        return view('consignment_booking.consignments_pending', ['check_rights' => $this->check_employee_rights, 'notifications_counts' => $this->notif_counts, 'notif_data' => $this->notif_data, 'consignments' => $final_consignments, 'total_consignments' => $total_consignments, 'pending_consignments' => $counter, 'all_notif' => $this->all_notification]);
+        return view('consignment_booking.consignments_pending', ['check_rights' => $this->check_employee_rights, 'notifications_counts' => $this->notif_counts, 'notif_data' => $this->notif_data, 'consignments' => $final_consignments, 'total_consignments' => $total_consignments, 'pending_consignments' => $counter, 'all_notif' => $this->all_notification, 'completed' => $total_completed]);
     }
 
     public function process_this_consignment(Request $request){
@@ -1261,6 +1262,8 @@ class ConsignmentManagement extends ParentController
         }else{
             $update = DB::table('consignment_client')->where('id', $request->id)->update(['status' => 1]);
             if($update){
+                //For Client Notification
+                DB::table('notifications_list')->insert(['code' => "202", 'message' => 'Consignment is proceed.', 'consignment_id' => $request->id]);
                 echo json_encode('success');
             }else{
                 echo json_encode('failed');
@@ -1371,11 +1374,13 @@ class ConsignmentManagement extends ParentController
             $counter++;
         }
 
-        $total_consignments = DB::table('consignment_client')->selectRaw('Count(*) as client_count, (Select Count(*) from consignment_admin) as admin_count')->first();
+        $total_consignments = DB::table('consignment_client')->selectRaw('Count(*) as client_count, (Select Count(*) from consignment_admin) as admin_count, (Select Count(*) from consignment_client where status = 2) as completed_client, (Select Count(*) from consignment_admin where status = 2) as completed_admin')->first();
+        $total_completed = $total_consignments->completed_client + $total_consignments->completed_admin;
         $total_consignments = $total_consignments->client_count + $total_consignments->admin_count;
+        
 
         $statuses = DB::table('custom_status')->get();
-        return view('consignment_booking.confirmed_consignments', ['check_rights' => $this->check_employee_rights, 'notifications_counts' => $this->notif_counts, 'notif_data' => $this->notif_data, 'consignments' => $final_consignments, 'total_consignments' => $total_consignments, 'pending_consignments' => $counter, 'status' => $statuses, 'all_notif' => $this->all_notification]);
+        return view('consignment_booking.confirmed_consignments', ['check_rights' => $this->check_employee_rights, 'notifications_counts' => $this->notif_counts, 'notif_data' => $this->notif_data, 'consignments' => $final_consignments, 'total_consignments' => $total_consignments, 'pending_consignments' => $counter, 'status' => $statuses, 'all_notif' => $this->all_notification, 'completed' => $total_completed]);
     }
 
     public function update_status_log(Request $request){   
@@ -1386,6 +1391,10 @@ class ConsignmentManagement extends ParentController
             'created_by' => Auth::user()->id
         ]);
         if($insert){
+            //For Client Notification
+            if(DB::table('consignment_client')->where("cnic", $request->cnno)->first()){
+                DB::table('notifications_list')->insert(['code' => "202", 'message' => 'Consignment Status Changed to "'.$request->status_code.'" with remarks "'.$request->remarks.'"', 'consignment_id' => DB::raw('(Select id from consignment_client where cnic = "'.$request->cnno.'")')]);
+            }
             echo json_encode('success');
         }else{
             echo json_encode('failed');
@@ -1396,6 +1405,41 @@ class ConsignmentManagement extends ParentController
         echo json_encode(DB::table('custom_status')->get());
     }
 
+
+
+    //Mark Consignment as Complete
+    public function mark_consignment_complete(Request $request){
+        if($request->opp == 'admin'){
+            $complete = DB::table('consignment_admin')->where('id', $request->id)->update([
+                'status' => 2
+            ]);
+            if($complete){
+                echo json_encode('success');
+            }else{
+                echo json_encode('failed');
+            }
+        }else{
+            $complete = DB::table('consignment_client')->where('id', $request->id)->update([
+                'status' => 2
+            ]);
+            if($complete){
+                
+                if(DB::table('consignment_client')->where("cnic", $request->cnno)->first()){
+                    DB::table('notifications_list')->insert(['code' => "202", 'message' => 'Consignmnet Completed', 'consignment_id' => $request->id]);
+
+                    $insert_status = DB::table('status_log')->insert([
+                        'cnno' => $request->cnno,
+                        'status' => $request->status_code,
+                        'remarks' => $request->remarks,
+                        'created_by' => Auth::user()->id
+                    ]);
+                }
+                echo json_encode('success');
+            }else{
+                echo json_encode('failed');
+            }
+        }
+    }
 
 
 

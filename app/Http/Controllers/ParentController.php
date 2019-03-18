@@ -15,6 +15,10 @@ class ParentController extends Controller
     public $notif_data;
     public $all_notification;
 
+    public $clients_all_notifications;
+    public $notif_counts_client = 0;
+    public $notif_data_client;
+
     public function __construct(){
     }
 
@@ -33,7 +37,6 @@ class ParentController extends Controller
     }
 
     public function get_notif_data(){
-        
 
         $check = DB::table('subscribed_notifications as sn')->selectRaw('GROUP_CONCAT(notification_code_id) as notifications_codes')->whereRaw('web = 1 AND emp_id = '. Auth::user()->id)->first();
         //echo $check; die;
@@ -53,11 +56,35 @@ class ParentController extends Controller
             $this->notif_data = [];
             $this->all_notification = [];
         }
+ 
 
-        
+    }
 
+    public function get_client_nofif_data(){
        
+        $check = DB::table('subscribed_notifications as sn')->selectRaw('GROUP_CONCAT(notification_code_id) as notifications_codes')->whereRaw('web = 1 AND client_id = (Select id from clients where client_login_session = "'.Cookie::get('client_session').'")')->first();
+        if($check){
+            //Counts
+            if(DB::table('subscribed_notifications')->whereRaw('client_id = (Select id from clients where client_login_session = "'.Cookie::get('client_session').'")')->first()){
 
+                $this->notif_counts_client = DB::table('notifications_list as nl')->selectRaw('Count(*) as counts')->whereRaw('consignment_id IN ((Select id from consignment_client where customer_id = (Select id from clients where client_login_session = "'.Cookie::get('client_session').'"))) AND code IN ('.DB::table('subscribed_notifications as sn')->selectRaw('GROUP_CONCAT(notification_code_id) as notifications_codes')->whereRaw('web = 1 AND client_id = (Select id from clients where client_login_session = "'.Cookie::get('client_session').'")')->first()->notifications_codes.') AND id NOT IN (Select notif_id from notification_read_status where client_id = (Select id from clients where client_login_session = "'.Cookie::get('client_session').'"))')->first();
+
+                //Show only four notifications
+                $this->notif_data_client = DB::table('notifications_list as nl')->selectRaw('id, code, message, complain_id, suggestion_id, consignment_id, created_at, (Select username from clients where id = (Select client_id from complaints_suggestions where id = IFNull(nl.complain_id, IfNull(suggestion_id, consignment_id)))) as notif_by, (Select company_pic from clients where id = (Select client_id from complaints_suggestions where id = IFNull(nl.complain_id, IfNull(suggestion_id, consignment_id)))) as picture ')->whereRaw('consignment_id IN ((Select id from consignment_client where customer_id = (Select id from clients where client_login_session = "'.Cookie::get('client_session').'"))) AND code IN ('.DB::table('subscribed_notifications as sn')->selectRaw('GROUP_CONCAT(notification_code_id) as notifications_codes')->whereRaw('web = 1 AND client_id = (Select id from clients where client_login_session = "'.Cookie::get('client_session').'")')->first()->notifications_codes.') AND id NOT IN (Select notif_id from notification_read_status where client_id = (Select id from clients where client_login_session = "'.Cookie::get('client_session').'"))')->orderBy('id','DESC')->take(4)->get();
+
+                //Show all notifications
+                $this->clients_all_notifications = DB::table('notifications_list as nl')->selectRaw('id, code, message, complain_id, suggestion_id, consignment_id, created_at, (Select username from clients where id = (Select client_id from complaints_suggestions where id = IFNull(nl.complain_id, IfNull(suggestion_id, consignment_id)))) as notif_by, (Select company_pic from clients where id = (Select client_id from complaints_suggestions where id = IFNull(nl.complain_id, IfNull(suggestion_id, consignment_id)))) as picture')->whereRaw('consignment_id IN ((Select id from consignment_client where customer_id = (Select id from clients where client_login_session = "'.Cookie::get('client_session').'"))) AND code IN ('.DB::table('subscribed_notifications as sn')->selectRaw('GROUP_CONCAT(notification_code_id) as notifications_codes')->whereRaw('web = 1 AND client_id = (Select id from clients where client_login_session = "'.Cookie::get('client_session').'")')->first()->notifications_codes.')')->orderBy('id','DESC')->get();
+            }else{
+                $this->notif_counts_client = "";
+                $this->notif_data_client = [];
+                $this->clients_all_notifications = [];
+            }
+            
+        }else{
+            $this->notif_counts_client = "";
+            $this->notif_data_client = [];
+            $this->clients_all_notifications = [];
+        }
     }
 
     // public function verifySession(){

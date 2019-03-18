@@ -7,12 +7,12 @@ $(document).ready(function() {
     });
 
     var notif_ids = [];
+    //Employees Four Notifications
     $(document).on('click', '#NotiFications', function(){
         $('.notifications_list').each(function (){
             notif_ids.push($(this).attr('id'));
         });
         
-
         $.ajax({
         type: 'POST',
         url: '/read_notif_four',
@@ -22,10 +22,34 @@ $(document).ready(function() {
         },
         success: function (response) {
             var response = JSON.parse(response);
-            console.log(response);
+            //console.log(response);
         }
         });
     });
+
+
+    //Clients Four Notifications
+    $(document).on('click', '#NotiFications_client', function(){
+        $('.notifications_list_client').each(function (){
+            notif_ids.push($(this).attr('id'));
+        });
+        
+        $.ajax({
+        type: 'POST',
+        url: '/read_notif_four',
+        data: {
+            _token: $('input[name="_token"]').val(),
+            notif_ids: notif_ids
+        },
+        success: function (response) {
+            //var response = JSON.parse(response);
+            //console.log(response);
+        }
+        });
+    });
+
+
+
 
     if($('#check_cnno').val() == 1){
        

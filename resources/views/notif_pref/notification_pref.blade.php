@@ -26,6 +26,7 @@
             </div>
             <div class="body">
                 @csrf
+                @if(!Cookie::get('client_session'))
                 <div class="row">
                     <div class="col-md-4">
                         <div class="form-s2">
@@ -43,6 +44,7 @@
                         <button type="button" class="btn btn-primary sm-mt15" id="update_emp_pref">Save</button>
                     </div>
                 </div> 
+                @endif
                 <table class="table table-bordered dt-responsive AssNotification" style="width:100%">
                     <thead>
                         <tr>
@@ -51,10 +53,9 @@
                             <th>Web</th>
                         </tr>
                     </thead>
+                    @if(!Cookie::get('client_session'))
                     <tbody id="table_notif" style="display:none;">
-                        
-
-                        @if(!$notifications_code->isEmpty())
+                        @if(!empty($notifications_code))
                             @foreach($notifications_code as $notif)
                                 <tr>
                                     <td>{{ $notif->name }}</td>
@@ -73,13 +74,35 @@
                                 </tr>
                             @endforeach
                         @endif
-                            
-                        
-
-
-
                     </tbody>
+                    @endif
+                    @if(Cookie::get('client_session'))
+                        <tbody id="table_notif_client">
+                            @if(!empty($notifications_codes))
+                                @foreach($notifications_codes as $codes)
+                                    <tr>
+                                        <td>{{ $codes->name }}</td>
+                                        <td>
+                                            <label class="switch">
+                                                <input type="checkbox" name="notification_permissions_client" value="email" id="{{ $codes->code }}" class="check_box_client {{ $codes->code }}">
+                                                <span class="slider round"></span>
+                                            </label>
+                                        </td>
+                                        <td>
+                                            <label class="switch">
+                                                <input type="checkbox" name="notification_permissions_client" value="web" id="{{ $codes->code }}" class="check_box_client {{ $codes->code }}">
+                                                <span class="slider round"></span>
+                                            </label>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            @endif
+                        </tbody>
+                    @endif
                 </table>
+                @if(Cookie::get('client_session'))
+                    <button type="button" class="btn btn-primary sm-mt15" id="update_client_pref">Save</button>
+                @endif
 
             </div>
 

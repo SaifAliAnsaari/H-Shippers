@@ -10,9 +10,6 @@ $(document).ready(function () {
         $('.notifications_list_all').each(function (){
             notif_ids.push($(this).attr('id'));
         });
-        
-        // console.log(notif_ids);
-        // return;
 
         $.ajax({
         type: 'POST',
@@ -22,11 +19,88 @@ $(document).ready(function () {
             notif_ids: notif_ids
         },
         success: function (response) {
-            var response = JSON.parse(response);
+            //var response = JSON.parse(response);
             //console.log(response);
         }
         });
-    } else {
+    } else if(action == 'notification_prefrences'){
+        //Agr client login hai to us ka dta la aao
+        $('#update_client_pref').text('Please Wait...');
+        $('#update_client_pref').attr('disabled', 'disabled');
+        $.ajax({
+            type: 'GET',
+            url: '/get_client_notif_data',
+            data: {
+                _token: $('input[name="_token"]').val()
+            },
+            success: function (response) {
+                var response = JSON.parse(response);
+                //console.log(response);
+                if(response == "employee"){
+
+                }else{
+                    $('#update_client_pref').text('Save');
+                    $('#update_client_pref').removeAttr('disabled');
+                    notifications = [];
+                    response.forEach(element => {
+                        
+                        $('input[id="' + element['notification_code_id'] + '"]').each(function() {
+                            if ($(this).val() == "email") {
+                                
+                                //debugger;
+                                $(this).prop('checked', (element['email'] == "1" ? true : false));
+                                if (element["email"] == "1") {
+                                    var value = $(this).val();
+                                    if (notifications.find(x => x["code"] == element['notification_code_id'])) {
+                                        notifications.find(x => {
+                                            if (x["code"] == element['notification_code_id']) {
+                                                if (x["properties"].includes(value)) {
+                                                    x["properties"].splice(x["properties"].indexOf(value), 1);
+                                                } else {
+                                                    x["properties"].push(value);
+                                                }
+                                            }
+                                        });
+                                    } else {
+                                        notifications.push({
+                                            code: element['notification_code_id'],
+                                            properties: [$(this).val()]
+                                        });
+                                    }
+                                }
+                            } else {
+                                //debugger;
+                                $(this).prop('checked', (element['web'] == "1" ? true : false));
+                                if (element["web"] == "1") {
+                                    var value = $(this).val();
+                                    if (notifications.find(x => x["code"] == element['notification_code_id'])) {
+                                        notifications.find(x => {
+                                            if (x["code"] == element['notification_code_id']) {
+                                                if (x["properties"].includes(value)) {
+                                                    x["properties"].splice(x["properties"].indexOf(value), 1);
+                                                } else {
+                                                    x["properties"].push(value);
+                                                }
+                                            }
+                                        });
+                                    } else {
+                                        notifications.push({
+                                            code: element['notification_code_id'],
+                                            properties: [$(this).val()]
+                                        });
+                                    }
+                                }
+                            }
+                        });
+                    });
+                }
+            }
+            });
+            // setTimeout(() => {
+            //     console.log(notifications);
+            // }, 2000);
+            
+    }else{
 
     }
 
@@ -77,6 +151,7 @@ $(document).ready(function () {
         });
     });
 
+    //Employee checkboxes
     $(document).on('click', '.check_box', function () {
         var id = $(this).attr('id');
         var value = $(this).val();
@@ -98,7 +173,7 @@ $(document).ready(function () {
         }
     });
 
-
+    //Save Employee notifications
     $(document).on('click', '#update_emp_pref', function () {
 
         if ($('#employee_id').val() == 0 || $('#employee_id').val() == null) {
@@ -172,4 +247,76 @@ $(document).ready(function () {
     });
 
 
+
+    //Client checkboxes
+    $(document).on('click', '.check_box_client', function(){
+        var id = $(this).attr('id');
+        var value = $(this).val();
+        if (notifications.find(x => x["code"] == id)) {
+            notifications.find(x => {
+                if (x["code"] == id) {
+                    if (x["properties"].includes(value)) {
+                        x["properties"].splice(x["properties"].indexOf(value), 1);
+                    } else {
+                        x["properties"].push(value);
+                    }
+                }
+            });
+        } else {
+            notifications.push({
+                code: id,
+                properties: [$(this).val()]
+            });
+        }
+        console.log(notifications);
+    });
+
+    //Save Client notifications
+    $(document).on('click', '#update_client_pref', function(){
+        if (notifications == "") {
+            $('#notifDiv').fadeIn();
+            $('#notifDiv').css('background', 'red');
+            $('#notifDiv').text('Please Check Notification First');
+            setTimeout(() => {
+                $('#notifDiv').fadeOut();
+            }, 3000);
+            return;
+        }
+
+        $('#update_client_pref').text('Processing...');
+        $('#update_client_pref').attr('disabled', 'disabled');
+        $.ajax({
+            type: 'POST',
+            url: '/save_pref_against_client',
+            data: {
+                _token: $('input[name="_token"]').val(),
+                notifications: notifications
+            },
+            success: function (response) {
+                if (JSON.parse(response) == "success") {
+                    $('#update_client_pref').removeAttr('disabled');
+                    $('#update_client_pref').text('Save');
+                    $('#notifDiv').fadeIn();
+                    $('#notifDiv').css('background', 'green');
+                    $('#notifDiv').text('Saved Successfully');
+                    setTimeout(() => {
+                        $('#notifDiv').fadeOut();
+                    }, 3000);
+                } else {
+                    $('#update_client_pref').removeAttr('disabled');
+                    $('#update_client_pref').text('Save');
+                    $('#notifDiv').fadeIn();
+                    $('#notifDiv').css('background', 'red');
+                    $('#notifDiv').text('Unable to save at the moment!');
+                    setTimeout(() => {
+                        $('#notifDiv').fadeOut();
+                    }, 3000);
+                }
+
+            }
+        });
+    });
+
 });
+
+

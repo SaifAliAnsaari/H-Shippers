@@ -30,11 +30,11 @@ class ComplaintsAndSuggestions extends ParentController
      */
 
     public function complaints_suggestions(){
-        parent::VerifyRights();if($this->redirectUrl){return redirect($this->redirectUrl);}
+        parent::get_client_nofif_data();
         if(Cookie::get('client_session')){
             $check_session = DB::table('clients')->select('username', 'id', 'company_pic')->where('client_login_session', Cookie::get('client_session'))->first();
             if($check_session){
-                return view('complaints_suggestions.complaints_suggestion', ["client_id" => $check_session->id, 'check_rights' => $this->check_employee_rights, 'name' => $check_session, 'all_notif' => $this->all_notification]);
+                return view('complaints_suggestions.complaints_suggestion', ["client_id" => $check_session->id, 'name' => $check_session, 'all_notif' => $this->all_notification, 'notifications_counts' => $this->notif_counts_client, 'notif_data' => $this->notif_data_client, 'all_notif' => $this->clients_all_notifications]);
             } 
         }else{
             return redirect('/');
@@ -58,9 +58,10 @@ class ComplaintsAndSuggestions extends ParentController
          parent::VerifyRights();if($this->redirectUrl){return redirect($this->redirectUrl);}
         if(!Auth::user()){
             if(Cookie::get('client_session')){
+                parent::get_client_nofif_data();
                 $check_session = DB::table('clients')->select('username', 'company_pic')->where('client_login_session', Cookie::get('client_session'))->first();
                 if($check_session){
-                   return view('complaints_suggestions.complaints-list-clients', ['check_rights' => $this->check_employee_rights, 'name' => $check_session]);
+                   return view('complaints_suggestions.complaints-list-clients', ['name' => $check_session, 'notifications_counts' => $this->notif_counts_client, 'notif_data' => $this->notif_data_client, 'all_notif' => $this->clients_all_notifications]);
                 } 
             }else{
                 return redirect('/');
@@ -76,9 +77,10 @@ class ComplaintsAndSuggestions extends ParentController
          parent::VerifyRights();if($this->redirectUrl){return redirect($this->redirectUrl);}
          if(!Auth::user()){
             if(Cookie::get('client_session')){
+                parent::get_client_nofif_data();
                 $check_session = DB::table('clients')->select('username', 'company_pic')->where('client_login_session', Cookie::get('client_session'))->first();
                 if($check_session){
-                    return view('complaints_suggestions.suggestions_list_client', ['check_rights' => $this->check_employee_rights, 'name' => $check_session]);
+                    return view('complaints_suggestions.suggestions_list_client', ['name' => $check_session, 'notifications_counts' => $this->notif_counts_client, 'notif_data' => $this->notif_data_client, 'all_notif' => $this->clients_all_notifications]);
                 } 
             }else{
                 return redirect('/');

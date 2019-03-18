@@ -20,7 +20,6 @@
 
 
             <div class="body">
-
                   @if(!empty($all_notif))
                         @foreach($all_notif as $notifications)
                               <div class="alert alert-warning alert-dismissible fade show alert-color _NF-se" role="alert">
