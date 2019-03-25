@@ -57,7 +57,7 @@
                                     </tr>
                                     <tr>
                                         <td> Shipment booking Location</td>
-                                        <td>PIA Socity, Wapda Town</td>
+                                        <td>NA</td>
                                     </tr>
                                     <tr>
                                         <td>Shipper</td>
@@ -76,15 +76,15 @@
                                 <tbody>
                                     <tr>
                                         <td>Current Status</td>
-                                        <td id="shipment_consignment_status">{{ ($consignment != null ? ($consignment->status == 0 ? "Pending" : "Proceed") : "----") }}</td>
+                                        <td id="shipment_consignment_status">{{ ($consignment != null ? ($consignment->current_status != null ? $consignment->current_status : "NA") : "----") }}</td>
                                     </tr>
                                     <tr>
                                         <td>Status Date</td>
-                                        <td>03-07-2019</td>
+                                        <td id="shipment_consignment_status_date">{{ ($consignment != null ? ($consignment->status_date != null ? $consignment->status_date : "NA") : "----") }}</td>
                                     </tr>
                                     <tr>
                                         <td><strong>Received By</strong></td>
-                                        <td><strong>Naeem Khan</strong></td>
+                                        <td><strong>NA</strong></td>
                                     </tr>
 
                                 </tbody>
@@ -103,7 +103,7 @@
                                         <tr>
                                             <th>Date</th>
                                             <th>Status</th>
-                                            <th>Location</th>
+                                            <th>Updated By</th>
                                         </tr>
                                     </thead>
                                     <tbody>

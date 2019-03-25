@@ -66,6 +66,7 @@ Route::get('/confirmed_consignments', 'ConsignmentManagement@confirmed_consignme
 Route::get('/consignment_statuses', 'ConsignmentManagement@consignment_statuses');
 Route::get('/update_consignment_ad/{id}', 'ConsignmentManagement@update_consignment_ad');
 Route::get('/update_consignment_cc/{id}', 'ConsignmentManagement@update_consignment_cc');
+Route::get('/select_customer_BA', 'ClientsForBilling@select_customer_BA');
 
 Route::get('/invoice/{id}', 'ConsignmentManagement@invoice');
 
@@ -110,6 +111,7 @@ Route::get('/get_custom_status_data', 'ConsignmentManagement@get_custom_status_d
 Route::get('/GetCCData', 'ConsignmentManagement@GetCCData');
 Route::get('/get_client_notif_data', 'HomeController@get_client_notif_data');
 Route::get('/mark_consignment_complete', 'ConsignmentManagement@mark_consignment_complete');
+Route::get('/GetCustomersListOfAddedBilling', 'ClientsForBilling@GetCustomersListOfAddedBilling');
 
 
 //Get data to show on update page
@@ -130,6 +132,7 @@ Route::get('/DeleteCompany', 'OrganizationManagement@delete_company_entry');
 Route::get('/DeletepickUp', 'OrganizationManagement@delete_pickUp_entry');
 Route::get('/DeleteClient', 'Clients@delete_client_entry');
 Route::get('/delete_custom_status', 'ConsignmentManagement@delete_custom_status');
+Route::get('/delete_complainOrSuggestion', 'ComplaintsAndSuggestions@delete_complainOrSuggestion');
 
 //Deactive or Active Employee
 Route::get('/activate_employee', 'Employee@activate_employee');

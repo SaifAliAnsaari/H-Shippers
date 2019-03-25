@@ -436,7 +436,7 @@ class ConsignmentManagement extends ParentController
                 }else if($service_criteria == "within province"){
                     $price = DB::table('biling_criteria')->select('zero_five_1KG')->whereRaw('biling_id = (Select id from billing where customer_id = (Select id from clients where client_login_session = "'.Cookie::get('client_session').'")) AND type = "within province" AND criteria = 1')->first();
                     $totalPrice = $price->zero_five_1KG;
-                    $totalPrice = $price->upto_05;
+                    $totalPrice = $price->zero_five_1KG;
                     // $insert = DB::table('consignment_test_table')->insert([
                     //     'total_price' => $totalPrice,
                     //     'type' => 'within province',
@@ -447,7 +447,7 @@ class ConsignmentManagement extends ParentController
                     }
                 }else if($service_criteria == "province to province"){
                     $price = DB::table('biling_criteria')->select('zero_five_1KG')->whereRaw('biling_id = (Select id from billing where customer_id = (Select id from clients where client_login_session = "'.Cookie::get('client_session').'")) AND type = "province to province" AND criteria = 1')->first();
-                    $totalPrice = $price->upto_05;
+                    $totalPrice = $price->zero_five_1KG;
                     // $insert = DB::table('consignment_test_table')->insert([
                     //     'total_price' => $totalPrice,
                     //     'type' => 'province to province',
@@ -1302,7 +1302,9 @@ class ConsignmentManagement extends ParentController
         if($this->redirectUrl){
             return redirect($this->redirectUrl);
         }
-        $cnno_data = DB::table('consignment_client as cc')->selectRaw('id, cnic, consignee_name, booking_date, status, customer_id, consignment_dest_city, (Select company_name from clients where id = cc.customer_id) as company_name, (Select username from clients where id = cc.customer_id) as username, (Select city from clients where id = cc.customer_id) as city')->where('cnic', $id)->first();
+        $cnno_data = DB::table('consignment_client as cc')->selectRaw('id, cnic, consignee_name, booking_date, status, customer_id, consignment_dest_city, (Select company_name from clients where id = cc.customer_id) as company_name, (Select username from clients where id = cc.customer_id) as username, (Select city from clients where id = cc.customer_id) as city, (Select status from status_log where cnno = "'.$id.'" ORDER BY id DESC LIMIT 1) as current_status, (Select Date(created_at) from status_log where cnno = "'.$id.'" ORDER BY id DESC LIMIT 1) as status_date')->where('cnic', $id)->first();
+
+       // echo "<pre>"; print_r($cnno_data); die;
         
         $statuses = DB::table('status_log as sl')->selectRaw('DATE(created_at) as date, status, created_by, (Select name from users where id = sl.created_by) as created_by')->where('cnno', $id)->get();
 
@@ -1318,7 +1320,7 @@ class ConsignmentManagement extends ParentController
     }
 
     public function GetCNNOData(Request $request){
-        $core_data = DB::table('consignment_client as cc')->selectRaw('id, cnic, consignee_name, booking_date, status, customer_id, consignment_dest_city, (Select company_name from clients where id = cc.customer_id) as company_name, (Select username from clients where id = cc.customer_id) as username, (Select city from clients where id = cc.customer_id) as city')->where('cnic', $request->id)->first();
+        $core_data = DB::table('consignment_client as cc')->selectRaw('id, cnic, consignee_name, booking_date, status, customer_id, consignment_dest_city, (Select company_name from clients where id = cc.customer_id) as company_name, (Select username from clients where id = cc.customer_id) as username, (Select city from clients where id = cc.customer_id) as city, (Select status from status_log where cnno = "'.$request->id.'" ORDER BY id DESC LIMIT 1) as current_status, (Select Date(created_at) from status_log where cnno = "'.$request->id.'" ORDER BY id DESC LIMIT 1) as status_date')->where('cnic', $request->id)->first();
         
         $statuses = DB::table('status_log as sl')->selectRaw('DATE(created_at) as date, status, created_by, (Select name from users where id = sl.created_by) as created_by')->where('cnno', $request->id)->get();
         

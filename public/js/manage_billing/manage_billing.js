@@ -845,7 +845,7 @@ function check_billing_addedOrNot() {
                 var myDate = new Date("2019-02-02");
                 var date = myDate.getFullYear() + '-' + ('0' + myDate.getMonth() + 1).slice(-2) + '-' + ('0' + myDate.getDate()).slice(-2);
                 $("#datepicker").val(date);
-                $('.preview_modal_btn').show();
+                //$('.preview_modal_btn').show();
                 $('#operation').val('update');
                 var response = JSON.parse(response);
                 var counter = 0;

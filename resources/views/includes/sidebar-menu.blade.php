@@ -159,6 +159,9 @@
             @if(in_array("/select_customer", $test_array))
             <a class="dropdown-item" href="/select_customer">Create Billing</a>
             @endif
+            @if(in_array("/select_customer_BA", $test_array))
+            <a class="dropdown-item" href="/select_customer_BA">Manage Billing</a>
+            @endif
         </div>
     </li>
     <li class="nav-item dropdown">

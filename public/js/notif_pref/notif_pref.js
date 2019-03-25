@@ -127,20 +127,49 @@ $(document).ready(function () {
                 response.forEach(element => {
                     $('input[id="' + element['notification_code_id'] + '"]').each(function() {
                         if ($(this).val() == "email") {
+                                
+                            //debugger;
                             $(this).prop('checked', (element['email'] == "1" ? true : false));
                             if (element["email"] == "1") {
-                                notifications.push({
-                                    code: element['notification_code_id'],
-                                    properties: ["email"]
-                                });
+                                var value = $(this).val();
+                                if (notifications.find(x => x["code"] == element['notification_code_id'])) {
+                                    notifications.find(x => {
+                                        if (x["code"] == element['notification_code_id']) {
+                                            if (x["properties"].includes(value)) {
+                                                x["properties"].splice(x["properties"].indexOf(value), 1);
+                                            } else {
+                                                x["properties"].push(value);
+                                            }
+                                        }
+                                    });
+                                } else {
+                                    notifications.push({
+                                        code: element['notification_code_id'],
+                                        properties: [$(this).val()]
+                                    });
+                                }
                             }
                         } else {
+                            //debugger;
                             $(this).prop('checked', (element['web'] == "1" ? true : false));
                             if (element["web"] == "1") {
-                                notifications.push({
-                                    code: element['notification_code_id'],
-                                    properties: ["web"]
-                                });
+                                var value = $(this).val();
+                                if (notifications.find(x => x["code"] == element['notification_code_id'])) {
+                                    notifications.find(x => {
+                                        if (x["code"] == element['notification_code_id']) {
+                                            if (x["properties"].includes(value)) {
+                                                x["properties"].splice(x["properties"].indexOf(value), 1);
+                                            } else {
+                                                x["properties"].push(value);
+                                            }
+                                        }
+                                    });
+                                } else {
+                                    notifications.push({
+                                        code: element['notification_code_id'],
+                                        properties: [$(this).val()]
+                                    });
+                                }
                             }
                         }
                     });

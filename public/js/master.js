@@ -105,12 +105,13 @@ $(document).ready(function() {
                                 $('#shipment_consignee_name').text(element.core.consignee_name);
                                 $('#shipment_destination').text(element.core.consignment_dest_city);
                                 $('#shipment_bookin_date').text(element.core.booking_date);
-                                $('#shipment_consignment_status').text((element.core.status == 0 ? "Pending" : "Proceed"));
+                                $('#shipment_consignment_status').text((element.core.current_status != null ? element.core.current_status : "NA"));
+                                $('#shipment_consignment_status_date').text((element.core.status_date != null ? element.core.status_date : "NA"));
                                 $('#shipment_shippername').text((element.core.company_name != null ? element.core.company_name : element.core.username));
                                 $('#shipment_origin').text(element.core.city);
 
                                 $('.table_body').empty();
-                                $('.table_body').append('<table class="table table-hover dt-responsive nowrap" id="statusListTable" style="width:100%;"><thead><tr><th>Date</th><th>Status</th><th>Location</th></tr></thead><tbody></tbody></table>');
+                                $('.table_body').append('<table class="table table-hover dt-responsive nowrap" id="statusListTable" style="width:100%;"><thead><tr><th>Date</th><th>Status</th><th>Updated By</th></tr></thead><tbody></tbody></table>');
                                 $('#statusListTable tbody').empty();
                                 
                                 element.statuses.forEach(element => {

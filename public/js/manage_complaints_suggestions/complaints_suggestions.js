@@ -200,6 +200,57 @@ $(document).ready(function() {
 
         }
     });
+
+    //Delete
+    var complain_id_glob = '';
+    var glob_complain_ref = '';
+    $(document).on('click', '.delete_complain', function(){
+        complain_id_glob = $(this).attr('id');
+        glob_complain_ref = $(this);
+    });
+
+    $(document).on('click', '.delete_suggestion', function(){
+        //Complain and Suggestions ka table aik he hai is lya aik he Modal kam karay ga.
+        complain_id_glob = $(this).attr('id');
+        glob_complain_ref = $(this);
+    });
+
+    $(document).on('click', '#link_delete_complain', function(){
+        glob_complain_ref.text('Processing...');
+        glob_complain_ref.attr('disabled', 'disabled');
+        $.ajax({
+            type: 'GET',
+            url: '/delete_complainOrSuggestion',
+            data: {
+                id: complain_id_glob,
+                _token: '{!! csrf_token() !!}'
+           },
+            success: function(response) {
+                if(JSON.parse(response) == 'success'){
+                    $('#notifDiv').fadeIn();
+                    $('#notifDiv').css('background', 'green');
+                    $('#notifDiv').text('Deleted successfully.');
+                    setTimeout(() => {
+                        $('#notifDiv').fadeOut();
+                    }, 3000);
+                    if(action == "complaints_list_client"){
+                        fetchComplaintsClient();
+                    }else if (action == "suggestions_list_client"){
+                        fetchSuggestionsClient();
+                    }
+                }else{
+                    $('#notifDiv').fadeIn();
+                    $('#notifDiv').css('background', 'red');
+                    $('#notifDiv').text('Unable to delete at the moment!.');
+                    setTimeout(() => {
+                        $('#notifDiv').fadeOut();
+                    }, 3000);
+                }
+                    
+            }
+        });
+    });
+
 });
 
 function fetchComplaintsClient(){
@@ -212,7 +263,7 @@ function fetchComplaintsClient(){
             $('.body').append('<table class="table table-hover dt-responsive nowrap" id="complaintsListClient" style="width:100%;"><thead><tr><th>Date</th><th>Subject</th><th>Tracking No</th><th>Status</th><th>Action</th></tr></thead><tbody></tbody></table>');
             $('#complaintsListClient tbody').empty();
             response["data"].forEach(element => {
-                $('#complaintsListClient tbody').append('<tr><td>' + element['created_at'] + '</td><td>' + element['subject'] + '</td><td>' + element['tracking_num'] + '</td><td>' + element['status'] + '</td><td><button id="' + element['id'] + '" class="btn btn-default">View Detail</button>'+ (response["status"] == "admin" ? '<button id="' + element['id'] + '" class="btn btn-default red-bg">Delete</button>' : '') +'</td></tr>');
+                $('#complaintsListClient tbody').append('<tr><td>' + element['created_at'] + '</td><td>' + element['subject'] + '</td><td>' + element['tracking_num'] + '</td><td>' + element['status'] + '</td><td><button id="' + element['id'] + '" class="btn btn-default">View Detail</button>'+ (response["status"] == "admin" ? '<button id="' + element['id'] + '" class="btn btn-default red-bg delete_complain" data-toggle="modal" data-target="#exampleModal">Delete</button>' : '') +'</td></tr>');
             });
             $('#tblLoader').hide();
             $('.body').fadeIn();
@@ -231,7 +282,7 @@ function fetchSuggestionsClient(){
             $('.body').append('<table class="table table-hover dt-responsive nowrap" id="complaintsListClient" style="width:100%;"><thead><tr><th>Date</th><th>Subject</th><th>City</th><th>Status</th><th>Action</th></tr></thead><tbody></tbody></table>');
             $('#complaintsListClient tbody').empty();
             response["data"].forEach(element => {
-                $('#complaintsListClient tbody').append('<tr><td>' + element['created_at'] + '</td><td>' + element['subject'] + '</td><td>' + element['city'] + '</td><td>' + element['status'] + '</td><td><button id="' + element['id'] + '" class="btn btn-default">View Detail</button>'+ (response["status"] == "admin" ? '<button id="' + element['id'] + '" class="btn btn-default red-bg">Delete</button>' : '') +'</td></tr>');
+                $('#complaintsListClient tbody').append('<tr><td>' + element['created_at'] + '</td><td>' + element['subject'] + '</td><td>' + element['city'] + '</td><td>' + element['status'] + '</td><td><button id="' + element['id'] + '" class="btn btn-default">View Detail</button>'+ (response["status"] == "admin" ? '<button id="' + element['id'] + '" class="btn btn-default red-bg delete_suggestion" data-toggle="modal" data-target="#exampleModal">Delete</button>' : '') +'</td></tr>');
             });
             $('#tblLoader').hide();
             $('.body').fadeIn();

@@ -187,4 +187,14 @@ class ComplaintsAndSuggestions extends ParentController
     }
 
 
+    //Delete
+    public function delete_complainOrSuggestion(Request $request){
+        $delete = DB::table('complaints_suggestions')->where('id', $request->id)->delete();
+        if($delete){
+            echo json_encode('success');
+        }else{
+            echo json_encode('failed');
+        }
+    }
+
 }

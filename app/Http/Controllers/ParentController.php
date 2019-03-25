@@ -33,6 +33,7 @@ class ParentController extends Controller
     }
 
     public function getAccRights(){
+        //echo "here"; die;
         $this->check_employee_rights = DB::table('access_rights')->where('employee_id', Auth::user()->id)->get();
     }
 
