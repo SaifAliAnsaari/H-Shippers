@@ -112,6 +112,7 @@ Route::get('/GetCCData', 'ConsignmentManagement@GetCCData');
 Route::get('/get_client_notif_data', 'HomeController@get_client_notif_data');
 Route::get('/mark_consignment_complete', 'ConsignmentManagement@mark_consignment_complete');
 Route::get('/GetCustomersListOfAddedBilling', 'ClientsForBilling@GetCustomersListOfAddedBilling');
+Route::get('/GetStatusLogForModal', 'ConsignmentManagement@GetStatusLogForModal');
 
 
 //Get data to show on update page

@@ -2,7 +2,8 @@
 @section('data-sidebar')
 
 {{-- Delete Modal --}}
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+{{-- <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content top-borderRed">
             <div class="modal-header">
@@ -18,8 +19,83 @@
 
             </div>
             <div class="modal-footer border-0">
-                <a id="link_delete_consignment"><button type="button" data-dismiss="modal" class="btn btn-primary">Yes</button></a>
+                <a id="link_delete_consignment"><button type="button" data-dismiss="modal"
+                        class="btn btn-primary">Yes</button></a>
                 <button type="submit" class="btn btn-cancel" data-dismiss="modal" aria-label="Close">No</button>
+            </div>
+        </div>
+    </div>
+</div> --}}
+
+
+{{-- Complete Consignment_modal --}}
+<div class="modal fade" id="completeModal" tabindex="-1" role="dialog" aria-labelledby="completeModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content top_border">
+            <div class="modal-header">
+                <h5 class="modal-title" id="completeModalLabel">Process <span> Complete</span></h5>
+                <button type="button" class="close close_complete_modal" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <div class="check_mark">
+                    <div class="sa-icon sa-success animate">
+                        <span class="sa-line sa-tip animateSuccessTip"></span>
+                        <span class="sa-line sa-long animateSuccessLong"></span>
+                        <div class="sa-placeholder"></div>
+                        <div class="sa-fix"></div>
+                    </div>
+                </div>
+
+                <div class="form-wrap p-0">
+                    <h1 class="_head05" align="center"><span>Do you want to </span> Complete Process?</h1>
+
+                    <div class="PT-15 PB-10" align="center">
+                        <button type="submit" class="btn btn-primary font13 m-0 mr-2 mb-2 complete_cn_modal">Yes</button>
+                        <button type="submit"  data-dismiss="modal" class="btn btn-primary btn-outline font13 m-0 mb-2">No</button>
+                    </div>
+
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+{{-- Change Status Modal --}}
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content top_border">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Update <span> Status</span></h5>
+                <button type="button" class="close close_status_modal" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="col-md-12 PT-10">
+                    <div class="form-s2">
+                        <select class="form-control formselect" id="select_status_modal" placeholder="Select Status">
+                            <option value="0" selected="" disabled="">Select Status</option>
+                            
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-md-12 PT-10">
+                    <label class="PT-10 font12">Remarks</label>
+                    <textarea class="shadow-none _BgTextarea" id="remarks_modal" name="description" rows="4"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer border-0">
+                <button type="button" class="btn btn-primary save_status_modal">Save</button>
+                <button type="submit" class="btn btn-cancel" data-dismiss="modal" aria-label="Close">Cancel</button>
             </div>
         </div>
     </div>
@@ -81,8 +157,6 @@
                             <th>Date</th>
                             <th>Sender’s</th>
                             <th>Receiver's</th>
-                            <th>Status</th>
-                            <th>Remarks</th>
                             <th style="width: 153px">Actions</th>
                         </tr>
                     </thead>
@@ -91,31 +165,20 @@
 
                         @if(!empty($consignments))
                         @foreach($consignments as $consignmnet)
-                       
+
                         <tr>
                             <td>{{ $consignmnet['cnno'] }}</td>
                             <td>{{ $consignmnet['date'] }}</td>
                             <td>{{ $consignmnet['sender_name'] }}</td>
                             <td>{{ $consignmnet['reciver_name'] }}</td>
+                            
+                            
                             <td>
-                                <input type="text" id="hidden_cn_status" hidden value="{{ $consignmnet['status_log'] }}" />
-                                <select name="status" class="formselect select_status">
-                                    <option value="0" selected disabled>Select Status</option>
-                                    @if(!empty($status))
-                                        @foreach($status as $stat)
-                                            <option value="{{ $stat->status }}" {{ $consignmnet['status_log'] === $stat->status ? "selected" : null }} >{{ $stat->status }}</option>  
-                                        @endforeach
-                                    @endif
-                                </select>
-                            </td>
-                            <td>
-                                <textarea type="text" class="form-control status_remarks" rows="3">{{ $consignmnet['status_remark'] }}</textarea>
-                            </td>
-                            <td>
-                                <button class="btn btn-default update_cn_status" name="{{ $consignmnet['opp'] }}"
-                                    id="{{ $consignmnet['cnno'] }}">Update Status</button>
+                                <button class="btn btn-default update_cn_status" value="{{ $consignmnet['status_remark']."-".$consignmnet['status_log'] }}" name="{{ $consignmnet['opp'] }}"
+                                    id="{{ $consignmnet['cnno'] }}" data-toggle="modal" data-target="#exampleModal">Update Status</button>
                                 <button class="btn btn-default complete_consignment" name="{{ $consignmnet['opp'] }}"
-                                    id="{{ $consignmnet['consignment_id'] }}">Complete</button>
+                                    id="{{ $consignmnet['consignment_id'] }}" >Complete</button>
+                                <button class="btn btn-default open_complete_modal" hidden data-toggle="modal" data-target="#completeModal">Open Complete Modal</button>
                             </td>
                         </tr>
 
@@ -128,8 +191,8 @@
                 </table>
 
             </div>
-            <button class="btn btn-default red-bg" data-toggle="modal" data-target="#exampleModal" id="delete_customer_modal"
-                hidden>Delete</button>
+            {{-- <button class="btn btn-default red-bg" data-toggle="modal" data-target="#exampleModal"
+                id="delete_customer_modal" hidden>Delete</button> --}}
             {{-- <button type="submit" class="btn btn-primary mr-2" id="open_modal" data-toggle="modal" data-target=".bd-example-modal-lg"
                 style="display:none">Open Modal</button> --}}
 

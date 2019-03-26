@@ -26,6 +26,52 @@
 </div>
 
 
+{{-- Modal Select Rider --}}
+<div class="modal fade" id="processModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content top_border">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Assign <span> Consignment to Rider</span></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="col-md-12 PT-10">
+                    <div class="form-s2">
+                        <select class="form-control formselect" id="select_rider" placeholder="Select Rider">
+                            <option disabled selected value = '0'>Select Rider</option>
+                            @if(!empty($riders))
+                                @foreach($riders as $rider)
+                                    <option value = '{{ $rider->id }}'>{{ $rider->name }}</option>
+                                @endforeach
+                            @endif
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-12 _or">
+                    <span>OR</span>
+                </div>
+                <div class="col-md-12 PT-20">
+                    <div class="custom-control custom-checkbox mr-sm-2">
+                        <input type="checkbox" class="custom-control-input already_assigned" name="right_boxes" value="Already Assigned"
+                            id="/bcs">
+                        <label class="custom-control-label" for="/bcs">Already Assigned</label>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="modal-footer border-0">
+                <button type="button" class="btn btn-primary process_consignment">Save</button>
+                <button type="submit" class="btn btn-cancel cancel_modal" data-dismiss="modal" aria-label="Close">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 
 <div class="row  mb-30 HS_CO">
     <div class="col-md-3">
@@ -109,7 +155,7 @@
                                     <td>
                                         <button class="btn btn-default edit_consignment" name="{{ $consignmnet['opp'] }}" id="{{ $consignmnet['cnno'] }}" title="Edit"><i class="fa fa-pencil-alt"></i></button>
                                         <button class="btn btn-default" id="{{ $consignmnet['consignment_id'] }}" title="Invoice"><i class="fa fa-list"></i></button>
-                                        <button class="btn btn-default process_consignment" name="{{ $consignmnet['opp'] }}" id="{{ $consignmnet['consignment_id'] }}">Process</button>
+                                        <button class="btn btn-default process_hard_btn" data-toggle="modal" data-target="#processModal" name="{{ $consignmnet['opp'] }}" id="{{ $consignmnet['consignment_id'] }}">Process</button>
                                         <button class="btn btn-default red-bg delete_pend_consignment" name="{{ $consignmnet['opp'] }}" id="{{ $consignmnet['consignment_id'] }}" title="Delete">Delete</button>
                                     </td>
                                 </tr>

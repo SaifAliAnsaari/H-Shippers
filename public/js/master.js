@@ -111,11 +111,11 @@ $(document).ready(function() {
                                 $('#shipment_origin').text(element.core.city);
 
                                 $('.table_body').empty();
-                                $('.table_body').append('<table class="table table-hover dt-responsive nowrap" id="statusListTable" style="width:100%;"><thead><tr><th>Date</th><th>Status</th><th>Updated By</th></tr></thead><tbody></tbody></table>');
+                                $('.table_body').append('<table class="table table-hover dt-responsive nowrap" id="statusListTable" style="width:100%;"><thead><tr><th>Date</th><th>Status</th><th>Remarks</th></tr></thead><tbody></tbody></table>');
                                 $('#statusListTable tbody').empty();
                                 
                                 element.statuses.forEach(element => {
-                                    $('#statusListTable tbody').append('<tr><td>' + element['date'] + '</td><td>' + element['status'] + '</td><td>' + element['created_by'] + '</td></tr>');
+                                    $('#statusListTable tbody').append('<tr><td>' + element['date'] + '</td><td>' + element['status'] + '</td><td>' + element['remarks'] + '</td></tr>');
                                 });
                                 $('.table_body').fadeIn();
                                 $('#statusListTable').DataTable();

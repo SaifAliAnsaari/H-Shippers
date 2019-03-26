@@ -103,7 +103,7 @@
                                         <tr>
                                             <th>Date</th>
                                             <th>Status</th>
-                                            <th>Updated By</th>
+                                            <th>Remarks</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -113,7 +113,7 @@
                                                 <tr>
                                                     <td>{{ $status->date }}</td>
                                                     <td>{{ $status->status }}</td>
-                                                    <td>{{ $status->created_by }}</td>
+                                                    <td>{{ $status->remarks }}</td>
                                                 </tr>
                                             @endforeach
                                         @endif

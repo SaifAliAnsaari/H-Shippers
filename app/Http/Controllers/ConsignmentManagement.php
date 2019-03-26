@@ -1214,10 +1214,12 @@ class ConsignmentManagement extends ParentController
         parent::VerifyRights(); if($this->redirectUrl){return redirect($this->redirectUrl);}
         $final_consignments = array();
         $counter = 0;
+        //Designation 5 = Riders
+        $riders = DB::table('users')->where('designation', '5')->get();
         $consignments_client = DB::table('consignment_client as cc')->selectRaw('id, cnic, booking_date, consignment_weight, status, consignment_pieces, consignee_name, (Select username from clients where id = cc.customer_id) as sender_name')->where('status', 0)->get();
-        //echo '<pre>'; print_r($consignments_client); die;
+     
         $consignments_admin = DB::table('consignment_admin')->where('status', 0)->get();
-        //echo '<pre>'; print_r($consignments_admin); die;
+      
         foreach($consignments_client as $client){
             $final_consignments[$counter]['id'] = $counter+1;
             $final_consignments[$counter]['consignment_id'] = $client->id;
@@ -1249,19 +1251,23 @@ class ConsignmentManagement extends ParentController
 
         //echo '<pre>'; print_r($total_consignments); die;
 
-        return view('consignment_booking.consignments_pending', ['check_rights' => $this->check_employee_rights, 'notifications_counts' => $this->notif_counts, 'notif_data' => $this->notif_data, 'consignments' => $final_consignments, 'total_consignments' => $total_consignments, 'pending_consignments' => $counter, 'all_notif' => $this->all_notification, 'completed' => $total_completed]);
+        return view('consignment_booking.consignments_pending', ['check_rights' => $this->check_employee_rights, 'notifications_counts' => $this->notif_counts, 'notif_data' => $this->notif_data, 'consignments' => $final_consignments, 'total_consignments' => $total_consignments, 'pending_consignments' => $counter, 'all_notif' => $this->all_notification, 'completed' => $total_completed, 'riders' => $riders]);
     }
 
     public function process_this_consignment(Request $request){
         if($request->consignment_type == "admin"){
-            $update = DB::table('consignment_admin')->where('id', $request->id)->update(['status' => 1]);
+            $update = DB::table('consignment_admin')->where('id', $request->id)->update([
+                'status' => 1,
+                'rider' => $request->rider]);
             if($update){
                 echo json_encode('success');
             }else{
                 echo json_encode('failed');
             }
         }else{
-            $update = DB::table('consignment_client')->where('id', $request->id)->update(['status' => 1]);
+            $update = DB::table('consignment_client')->where('id', $request->id)->update([
+                'status' => 1,
+                'rider' => $request->rider]);
             if($update){
                 //For Client Notification
                 DB::table('notifications_list')->insert(['code' => "202", 'message' => 'Consignment is proceed.', 'consignment_id' => $request->id]);
@@ -1306,7 +1312,7 @@ class ConsignmentManagement extends ParentController
 
        // echo "<pre>"; print_r($cnno_data); die;
         
-        $statuses = DB::table('status_log as sl')->selectRaw('DATE(created_at) as date, status, created_by, (Select name from users where id = sl.created_by) as created_by')->where('cnno', $id)->get();
+        $statuses = DB::table('status_log as sl')->selectRaw('DATE(created_at) as date, status, remarks, created_by, (Select name from users where id = sl.created_by) as created_by')->where('cnno', $id)->get();
 
         if(!$cnno_data){
             $check = 1;
@@ -1322,7 +1328,7 @@ class ConsignmentManagement extends ParentController
     public function GetCNNOData(Request $request){
         $core_data = DB::table('consignment_client as cc')->selectRaw('id, cnic, consignee_name, booking_date, status, customer_id, consignment_dest_city, (Select company_name from clients where id = cc.customer_id) as company_name, (Select username from clients where id = cc.customer_id) as username, (Select city from clients where id = cc.customer_id) as city, (Select status from status_log where cnno = "'.$request->id.'" ORDER BY id DESC LIMIT 1) as current_status, (Select Date(created_at) from status_log where cnno = "'.$request->id.'" ORDER BY id DESC LIMIT 1) as status_date')->where('cnic', $request->id)->first();
         
-        $statuses = DB::table('status_log as sl')->selectRaw('DATE(created_at) as date, status, created_by, (Select name from users where id = sl.created_by) as created_by')->where('cnno', $request->id)->get();
+        $statuses = DB::table('status_log as sl')->selectRaw('DATE(created_at) as date, status, remarks, created_by, (Select name from users where id = sl.created_by) as created_by')->where('cnno', $request->id)->get();
         
         if($core_data){
             echo json_encode(array(['core' => $core_data, 'statuses' => $statuses]));
@@ -1386,6 +1392,10 @@ class ConsignmentManagement extends ParentController
         return view('consignment_booking.confirmed_consignments', ['check_rights' => $this->check_employee_rights, 'notifications_counts' => $this->notif_counts, 'notif_data' => $this->notif_data, 'consignments' => $final_consignments, 'total_consignments' => $total_consignments, 'pending_consignments' => $counter, 'status' => $statuses, 'all_notif' => $this->all_notification, 'completed' => $total_completed]);
     }
 
+    public function GetStatusLogForModal(){
+        echo json_encode(DB::table('custom_status')->get());
+    }
+
     public function update_status_log(Request $request){   
         $insert = DB::table('status_log')->insert([
             'cnno' => $request->cnno,
@@ -1398,7 +1408,8 @@ class ConsignmentManagement extends ParentController
             if(DB::table('consignment_client')->where("cnic", $request->cnno)->first()){
                 DB::table('notifications_list')->insert(['code' => "202", 'message' => 'Consignment Status Changed to "'.$request->status_code.'" with remarks "'.$request->remarks.'"', 'consignment_id' => DB::raw('(Select id from consignment_client where cnic = "'.$request->cnno.'")')]);
             }
-            echo json_encode('success');
+           
+            echo json_encode(DB::table('status_log')->select('status', 'remarks')->where('cnno', $request->cnno)->orderBy('id','DESC')->first());
         }else{
             echo json_encode('failed');
         }
