@@ -109,7 +109,7 @@
                                         name="consignment_type" id="consignment_type">
                                         <option value="0" selected disabled>Consignment Type*</option>
                                         <option value="Fragile">Fragile</option>
-                                        <option value="Non Fragile">Non Fragile</option>
+                                        <option value="Non Fragile" selected>Non Fragile</option>
                                     </select>
                                 </div>
                             </div>
