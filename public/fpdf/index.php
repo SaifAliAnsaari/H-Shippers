@@ -104,9 +104,9 @@ $pdf->SetFont('Arial','',10);
 $pdf->Cell(12,10,'1',1,0,'L',1);
 $pdf->Cell(60,10,'Over Night Delivery ',1,0,'L',1);
 $pdf->Cell(35,10,($_GET['counts_over_night']),1,0,'L',1);
-$pdf->Cell(35,10,($_GET['weight_over_night']),1,0,'L',1);
+$pdf->Cell(35,10,($_GET['weight_over_night'] != '' ? $_GET['weight_over_night'] : "0"),1,0,'L',1);
 $total = ((float)($_GET['price_over_night']) - ((float)($_GET['counts_over_night']) * (float)($_GET['fuel_charges']))) - ((float)($_GET['price_over_night']) / 100 * (float)($_GET['gst']));
-$pdf->Cell(48,10,'RS :'.$total,1,1,'L',1);
+$pdf->Cell(48,10,'Rs.'.$total,1,1,'L',1);
 $yPos += 10;
 
 $pdf->SetY($yPos);
@@ -116,9 +116,9 @@ $pdf->SetFont('Arial','',10);
 $pdf->Cell(12,10,'2',1,0,'L',1);
 $pdf->Cell(60,10,'Same Day Delivery ',1,0,'L',1);
 $pdf->Cell(35,10,($_GET['counts_same_day']),1,0,'L',1);
-$pdf->Cell(35,10,($_GET['weight_same_day']),1,0,'L',1);
+$pdf->Cell(35,10,($_GET['weight_same_day'] != '' ? $_GET['weight_same_day'] : "0"),1,0,'L',1);
 $total_same_day = ((float)($_GET['price_same_day']) - ((float)($_GET['counts_same_day']) * (float)($_GET['fuel_charges']))) - ((float)($_GET['price_same_day']) / 100 * (float)($_GET['gst']));
-$pdf->Cell(48,10,'RS :'.$total_same_day,1,1,'L',1);
+$pdf->Cell(48,10,'Rs.'.$total_same_day,1,1,'L',1);
 $yPos += 10;
 
 $pdf->SetY($yPos);
@@ -128,9 +128,9 @@ $pdf->SetFont('Arial','',10);
 $pdf->Cell(12,10,'3',1,0,'L',1);
 $pdf->Cell(60,10,'Second Day Delivery ',1,0,'L',1);
 $pdf->Cell(35,10,($_GET['counts_second_day']),1,0,'L',1);
-$pdf->Cell(35,10,($_GET['weight_second_day']),1,0,'L',1);
+$pdf->Cell(35,10,($_GET['weight_second_day'] != "" ? $_GET['weight_second_day'] : "0"),1,0,'L',1);
 $total_second_day = ((float)($_GET['price_second_day']) - ((float)($_GET['counts_second_day']) * (float)($_GET['fuel_charges']))) - ((float)($_GET['price_second_day']) / 100 * (float)($_GET['gst']));
-$pdf->Cell(48,10,'RS :'.$total_second_day,1,1,'L',1);
+$pdf->Cell(48,10,'Rs.'.$total_second_day,1,1,'L',1);
 $yPos += 10;
 
 $pdf->SetY($yPos);
@@ -140,9 +140,9 @@ $pdf->SetFont('Arial','',10);
 $pdf->Cell(12,10,'4',1,0,'L',1);
 $pdf->Cell(60,10,'Over Land Delivery ',1,0,'L',1);
 $pdf->Cell(35,10,($_GET['counts_over_land']),1,0,'L',1);
-$pdf->Cell(35,10,($_GET['weight_over_land']),1,0,'L',1);
+$pdf->Cell(35,10,($_GET['weight_over_land'] != "" ? $_GET['weight_over_land'] : "0"),1,0,'L',1);
 $total_over_land = ((float)($_GET['price_over_land']) - ((float)($_GET['counts_over_land']) * (float)($_GET['fuel_charges']))) - ((float)($_GET['price_over_land']) / 100 * (float)($_GET['gst']));
-$pdf->Cell(48,10,'RS :'.$total_over_land,1,1,'L',1);
+$pdf->Cell(48,10,'Rs.'.$total_over_land,1,1,'L',1);
 $yPos += 10;
 
 $pdf->SetY($yPos);
@@ -153,7 +153,7 @@ $pdf->Cell(12,10,'',0,0,'L',1);
 $pdf->Cell(60,10,'',0,0,'L',1);
 $pdf->Cell(70,10,' Fuel Charges ',1,0,'L',1);
 $fuel = ((float)($_GET['counts_over_land']) + (float)($_GET['counts_over_night']) + (float)($_GET['counts_second_day']) + (float)($_GET['counts_same_day'])) * (float)($_GET['fuel_charges']);
-$pdf->Cell(48,10,'RS :'.$fuel,1,1,'L',1);
+$pdf->Cell(48,10,'Rs.'.$fuel,1,1,'L',1);
 $yPos += 10;
 
 $pdf->SetY($yPos);
@@ -164,7 +164,7 @@ $pdf->Cell(12,10,'',0,0,'L',1);
 $pdf->Cell(60,10,'',0,0,'L',1);
 $pdf->Cell(70,10,' GST ('.($_GET['gst']).'%) ',1,0,'L',1);
 $gst = ((float)($_GET['price_same_day']) + (float)($_GET['price_over_night']) + (float)($_GET['price_second_day']) + (float)($_GET['price_over_land'])) / 100 * (float)($_GET['gst']);
-$pdf->Cell(48,10,' Rs :'.$gst,1,1,'L',1);
+$pdf->Cell(48,10,'Rs.'.$gst,1,1,'L',1);
 $yPos += 10;
 
 $pdf->SetY($yPos);
@@ -176,7 +176,7 @@ $pdf->setFillColor(53,72,122);
 $pdf->SetTextColor(255,255,255);
 $pdf->Cell(70,10,' GRAND TOTAL ',1,0,'L',1);
 $grand_total = (float)($_GET['price_same_day']) + (float)($_GET['price_over_night']) + (float)($_GET['price_second_day']) + (float)($_GET['price_over_land']);
-$pdf->Cell(48,10,' RS :'.$grand_total,1,1,'L',1);
+$pdf->Cell(48,10,'Rs.'.$grand_total,1,1,'L',1);
 $yPos += 10;
 
 /* Ending Total Section */
