@@ -23,7 +23,7 @@
                 <div class="form-group">
                     <div class="input-append date position-relative" id="dp3" TY data-date="{{ date('Y-m-d') }}"
                         data-date-format="yyyy-mm-dd">
-                        <input type="text" value="{{ date('Y-m-d') }}" name="datepicker" readonly 
+                        <input type="text" value="{{ date('Y-m-d') }}" name="datepicker" readonly
                             style="font-size: 13px">
                         <span class="add-on calendar-icon" id="date_calender">
                             <img src="images/calendar-icon.svg" alt="" /> </span>
@@ -96,12 +96,7 @@
                 <h2 class="_head03">Consignment <span></span></h2>
                 <div class="form-wrap pt-0 PB-20">
                     <div class="row">
-                        {{-- <div class="col-md-4">
-                  <div class="form-group">
-                    <label class="control-label mb-10">Region City*</label>
-                    <input type="text" name="consignment_city_client" id="consignment_city_client" class="form-control" placeholder="" style="font-size: 13px">
-                  </div>
-                </div> --}}
+
                         <div class="col-md-4">
                             <div class="form-s2 pt-19">
                                 <div>
@@ -173,6 +168,7 @@
                 <div class="form-wrap pt-0 PB-20">
                     <div class="row">
                         <div class="col-md-12">
+
                             <div class="col-md-12">
                                 <div class="row mb-10">
                                     <div class="custom-control custom-radio col-md-3 col-xs-3">
@@ -247,14 +243,18 @@
                         </div>
                     </div>
                 </div>
-                    
+                <br>
+                <h2 class="_head03">Remarks <span></span></h2>
                 <div class="form-wrap pt-0 PB-20">
-                    <label class="PT-10 font12">Remarks</label>
-                    <div class="form-group">
-                        <textarea name="remarks_client" id="remarks_client" rows="8"
-                            style="font-size: 13px"></textarea>
-                          </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <textarea name="remarks_client" id="remarks_client" rows="8"
+                                    style="font-size: 13px"></textarea>
+                            </div>
                         </div>
+                    </div>
+                </div>
                 <h2 class="_head03 test_total_price">Total Price<span></span></h2>
                 <div class="bottom-btns">
                     <button type="button" class="btn btn-primary mr-2 save_consignment_client">Save</button>

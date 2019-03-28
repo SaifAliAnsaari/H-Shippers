@@ -129,6 +129,7 @@
                             <th>Receiver's</th>
                             <th>Piece</th>
                             <th>Weight</th>
+                            <th>Total Price</th>
                             <th>Status</th>
                             <th style="width: 153px">Actions</th>
                         </tr>
@@ -145,6 +146,7 @@
                                     <td>{{ $consignmnet['reciver_name'] }}</td>
                                     <td>{{ $consignmnet['consignment_pieces'] }}</td>
                                     <td>{{ $consignmnet['weight'] }}</td>
+                                    <td>{{ "RS.".$consignmnet['total_price'] }}</td>
                                     <td>Pending</td>
                                     <td>
                                         <button class="btn btn-default edit_consignment" name="{{ $consignmnet['opp'] }}" id="{{ $consignmnet['cnno'] }}" title="Edit"><i class="fa fa-pencil-alt"></i></button>

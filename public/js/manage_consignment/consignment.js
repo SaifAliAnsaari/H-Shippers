@@ -1,9 +1,9 @@
-$(document).ready(function() { 
-    
+$(document).ready(function () {
+
     // $(document).on('click', '#date_calender', function(){
     //     $('#datepicker').click();
     // });
-   
+
     $('#datepicker').datepicker({
         format: 'yyyy-mm-dd'
     });
@@ -14,92 +14,92 @@ $(document).ready(function() {
 
     var segments = location.href.split('/');
     var action = segments[3];
-    if(action == "consignment_booked"){
+    if (action == "consignment_booked") {
         fetchConsignmentsList();
-    }else if(action == 'consignment_statuses'){
+    } else if (action == 'consignment_statuses') {
         fetchConsignmentStatus();
-    }else if(action == 'update_consignment_cc'){
+    } else if (action == 'update_consignment_cc') {
         fetchccData();
-    }else if(action == 'invoice'){
+    } else if (action == 'invoice') {
         $.ajax({
             type: 'GET',
-            url: '/barcode/generate.php?cnn='+segments[4],
+            url: '/barcode/generate.php?cnn=' + segments[4],
             data: {
                 _token: '{!! csrf_token() !!}'
-        },
-            success: function(response) {
-               $('.barcode_area').html(response);
+            },
+            success: function (response) {
+                $('.barcode_area').html(response);
             }
         });
-    }else if(action == 'confirmed_consignments'){
+    } else if (action == 'confirmed_consignments') {
         //$('.select_status').val($('#hidden_cn_status').val()).trigger('change');
-    }else if(action == 'shipment_tracking'){
+    } else if (action == 'shipment_tracking') {
 
     }
 
     var supplementary_services_admin = [];
     var supplementary_services_client = [];
-    
-    
-    $(document).on('click', '.supplementary_services_client', function(){
-            if(supplementary_services_client.includes($(this).val())){
-                supplementary_services_client.splice(supplementary_services_client.indexOf($(this).val()), 1);
-                $('#updateConsignmentFormClient').find('input[name=hidden_supplementary_services]').val(" ");
-                $('#updateConsignmentFormClient').find("input[name=hidden_supplementary_services]").val(supplementary_services_client);
 
-                $('#saveConsignmentFormClient').find('input[name=hidden_supplementary_services]').val(" ");
-                $('#saveConsignmentFormClient').find("input[name=hidden_supplementary_services]").val(supplementary_services_client);
-            }else{
-                supplementary_services_client.push($(this).val());
-                $('#updateConsignmentFormClient').find('input[name=hidden_supplementary_services]').val("");
-                $('#updateConsignmentFormClient').find("input[name=hidden_supplementary_services]").val(supplementary_services_client);
 
-                $('#saveConsignmentFormClient').find('input[name=hidden_supplementary_services]').val("");
-                $('#saveConsignmentFormClient').find("input[name=hidden_supplementary_services]").val(supplementary_services_client);
-            }
+    $(document).on('click', '.supplementary_services_client', function () {
+        if (supplementary_services_client.includes($(this).val())) {
+            supplementary_services_client.splice(supplementary_services_client.indexOf($(this).val()), 1);
+            $('#updateConsignmentFormClient').find('input[name=hidden_supplementary_services]').val(" ");
+            $('#updateConsignmentFormClient').find("input[name=hidden_supplementary_services]").val(supplementary_services_client);
+
+            $('#saveConsignmentFormClient').find('input[name=hidden_supplementary_services]').val(" ");
+            $('#saveConsignmentFormClient').find("input[name=hidden_supplementary_services]").val(supplementary_services_client);
+        } else {
+            supplementary_services_client.push($(this).val());
+            $('#updateConsignmentFormClient').find('input[name=hidden_supplementary_services]').val("");
+            $('#updateConsignmentFormClient').find("input[name=hidden_supplementary_services]").val(supplementary_services_client);
+
+            $('#saveConsignmentFormClient').find('input[name=hidden_supplementary_services]').val("");
+            $('#saveConsignmentFormClient').find("input[name=hidden_supplementary_services]").val(supplementary_services_client);
+        }
     });
 
-    $(document).on('click', '.insurance_selector', function(){
-        if($(this).val() != "none"){
+    $(document).on('click', '.insurance_selector', function () {
+        if ($(this).val() != "none") {
             $('#insurance_yes').show();
-        }else{
+        } else {
             $('#insurance_yes').hide();
         }
     });
 
-    
-    $(document).on('change', '#consignment_type', function(){
-       // debugger;
-        if(action == 'update_consignment_cc'){
-            if($('#consignment_type').val() == "Non Fragile"){
+
+    $(document).on('change', '#consignment_type', function () {
+        // debugger;
+        if (action == 'update_consignment_cc') {
+            if ($('#consignment_type').val() == "Non Fragile") {
                 $('#fragile_cost_hidden').val('0');
-            }else{
+            } else {
                 $.ajax({
                     type: 'GET',
                     url: '/get_price_if_consignmentTypeFragile',
                     data: {
                         id: $('#update_customer_id_client').val(),
                         _token: '{!! csrf_token() !!}'
-                },
-                    success: function(response) {
-                        if(JSON.parse(response)){
+                    },
+                    success: function (response) {
+                        if (JSON.parse(response)) {
                             var response = JSON.parse(response);
                             $('#loader').hide();
                             $('.update_consignment_client').removeAttr('disabled');
                             $('#fragile_cost_hidden').val(response);
-                        }else{
+                        } else {
                             $('#loader').hide();
                             $('.update_consignment_client').removeAttr('disabled');
                             $('#fragile_cost_hidden').val('0');
                         }
-                            
+
                     }
                 });
             }
-        }else{
-            if($('#consignment_type').val() == "Non Fragile"){
+        } else {
+            if ($('#consignment_type').val() == "Non Fragile") {
                 $('#fragile_cost_hidden').val('0');
-            }else{
+            } else {
                 $('#loader').show();
                 $('.update_consignment_client').attr('disabled', 'disabled');
                 $.ajax({
@@ -107,25 +107,25 @@ $(document).ready(function() {
                     url: '/get_price_if_consignmentTypeFragile',
                     data: {
                         _token: '{!! csrf_token() !!}'
-                   },
-                    success: function(response) {
-                        if(JSON.parse(response)){
+                    },
+                    success: function (response) {
+                        if (JSON.parse(response)) {
                             var response = JSON.parse(response);
                             $('#loader').hide();
                             $('.update_consignment_client').removeAttr('disabled');
                             $('#fragile_cost_hidden').val(response);
-                        }else{
+                        } else {
                             $('#loader').hide();
                             $('.update_consignment_client').removeAttr('disabled');
                             $('#fragile_cost_hidden').val('0');
                         }
-                            
+
                     }
                 });
             }
         }
-        
-        
+
+
 
     });
 
@@ -145,7 +145,7 @@ $(document).ready(function() {
                     $('#notifDiv').fadeOut();
                 }, 3000);
                 return;
-            }else if( $(this).val() == 0 || $(this).val() == null){
+            } else if ($(this).val() == 0 || $(this).val() == null) {
                 $(this).parent().css("border", "1px solid red");
                 verif.push(false);
                 $('#notifDiv').fadeIn();
@@ -159,14 +159,14 @@ $(document).ready(function() {
                 verif.push(true);
             }
         });
-       // debugger;
-        if(verif.includes(false)){
+        // debugger;
+        if (verif.includes(false)) {
             return;
         }
 
-        
 
-        if(!$("input[name=Fragile_Criteria]").is(":checked")){
+
+        if (!$("input[name=Fragile_Criteria]").is(":checked")) {
             $('#notifDiv').fadeIn();
             $('#notifDiv').css('background', 'red');
             $('#notifDiv').text('Please Select Fragile type.');
@@ -176,8 +176,8 @@ $(document).ready(function() {
             return;
         }
 
-        if($("input[name='Fragile_Criteria']:checked").val() != "none"){
-            if($('#product_price').val() == ""){
+        if ($("input[name='Fragile_Criteria']:checked").val() != "none") {
+            if ($('#product_price').val() == "") {
                 $('#notifDiv').fadeIn();
                 $('#notifDiv').css('background', 'red');
                 $('#notifDiv').text('Please Enter Product Price.');
@@ -187,10 +187,10 @@ $(document).ready(function() {
                 return;
             }
         }
-        
+
         $('.save_consignment_client').attr('disabled', 'disabled');
         $('.save_consignment_client').text('Processing..');
-        
+
         var cnno = $('#cnic_client').val();
 
         $('#saveConsignmentFormClient').ajaxSubmit({
@@ -198,7 +198,7 @@ $(document).ready(function() {
             url: "/SaveConsignmentClient",
             data: $('#saveConsignmentFormClient').serialize(),
             cache: false,
-            success: function(response) {
+            success: function (response) {
                 var response = JSON.parse(response);
                 if (response == "failed") {
                     $('.save_consignment_client').removeAttr('disabled');
@@ -231,19 +231,19 @@ $(document).ready(function() {
                     $('.supplementary_services_client').prop("checked", false);
                     $('#saveConsignmentFormClient').find("select").val("0").trigger('change');
                     $('#remarks_client').val('');
-                    
+
                 } else {
                     debugger;
                     $('.test_total_price').text("Total Price : " + response.total_price + " / " + "Sub Total : " + response.sub_price + " / " + "Fuel Charges : " + response.fuel_price + " / " + "GST Charges : " + response.tax_price);
                     $('.save_consignment_client').removeAttr('disabled');
                     // $('#cancelCustomer').removeAttr('disabled');
-                     $('.save_consignment_client').text('Save');
-                     $('#notifDiv').fadeIn();
-                     $('#notifDiv').css('background', 'green');
-                     $('#notifDiv').text('Consignment have been added successfully');
-                     setTimeout(() => {
-                         $('#notifDiv').fadeOut();
-                     }, 3000);
+                    $('.save_consignment_client').text('Save');
+                    $('#notifDiv').fadeIn();
+                    $('#notifDiv').css('background', 'green');
+                    $('#notifDiv').text('Consignment have been added successfully');
+                    setTimeout(() => {
+                        $('#notifDiv').fadeOut();
+                    }, 3000);
                     //$('#cnic_client').val('');
                     // $('#region_client').val('');
                     // $('#consignee_name_client').val('');
@@ -265,12 +265,12 @@ $(document).ready(function() {
                     // $('#saveConsignmentFormClient').find("select").val("0").trigger('change');
                     // $('#remarks_client').val('');
                     //window.location.replace("/invoice/"+JSON.parse(response));
-                    window.open("/invoice/"+cnno, '_blank');
+                    window.open("/invoice/" + cnno, '_blank');
                 }
             },
-            error: function(err) {
+            error: function (err) {
                 if (err.status == 422) {
-                    $.each(err.responseJSON.errors, function(i, error) {
+                    $.each(err.responseJSON.errors, function (i, error) {
                         var el = $(document).find('[name="' + i + '"]');
                         el.after($('<small style="color: red; position: absolute; width:100%; text-align: right; margin-left: -30px">' + error[0] + '</small>'));
                     });
@@ -278,22 +278,22 @@ $(document).ready(function() {
             }
         });
 
-        
+
     });
 
 
 
 
 
-    $(document).on('click', '.supplementary_services_admin', function(){
+    $(document).on('click', '.supplementary_services_admin', function () {
 
 
-       // debugger;
-        if(supplementary_services_admin.includes($(this).val())){
+        // debugger;
+        if (supplementary_services_admin.includes($(this).val())) {
             supplementary_services_admin.splice(supplementary_services_admin.indexOf($(this).val()), 1);
             $('#saveConsignmentForm').find('input[name=hidden_supplementary_services]').val(" ");
             $('#saveConsignmentForm').find("input[name=hidden_supplementary_services]").val(supplementary_services_admin);
-        }else{
+        } else {
             supplementary_services_admin.push($(this).val());
             $('#saveConsignmentForm').find('input[name=hidden_supplementary_services]').val(" ");
             $('#saveConsignmentForm').find("input[name=hidden_supplementary_services]").val(supplementary_services_admin);
@@ -326,7 +326,7 @@ $(document).ready(function() {
                     $('#notifDiv').fadeOut();
                 }, 3000);
                 return;
-            }else if( $(this).val() == 0 || $(this).val() == null){
+            } else if ($(this).val() == 0 || $(this).val() == null) {
                 $(this).parent().css("border", "1px solid red");
                 verif.push(false);
                 $('#notifDiv').fadeIn();
@@ -336,16 +336,16 @@ $(document).ready(function() {
                     $('#notifDiv').fadeOut();
                 }, 3000);
                 return;
-            }else {
+            } else {
                 verif.push(true);
             }
         });
-       // debugger;
-        if(verif.includes(false)){
+        // debugger;
+        if (verif.includes(false)) {
             return;
         }
 
-        if(!$("input[name=inlineRadioOptions]").is(":checked")){
+        if (!$("input[name=inlineRadioOptions]").is(":checked")) {
             $('#notifDiv').fadeIn();
             $('#notifDiv').css('background', 'red');
             $('#notifDiv').text('Please Check Consignment Type.');
@@ -355,82 +355,82 @@ $(document).ready(function() {
             return;
         }
 
-        
+
         $('.save_consignment_admin').attr('disabled', 'disabled');
-         $('.save_consignment_admin').text('Processing..');
- 
-         $('#saveConsignmentForm').ajaxSubmit({
-             type: "POST",
-             url: "/SaveConsignmentAdmin",
-             data: $('#saveConsignmentForm').serialize(),
-             cache: false,
-             success: function(response) {
-                 if (JSON.parse(response) == "success") {
-                     $('.save_consignment_admin').removeAttr('disabled');
-                      $('.save_consignment_admin').text('Save');
-                      $('#notifDiv').fadeIn();
-                      $('#notifDiv').css('background', 'green');
-                      $('#notifDiv').text('Consignment have been added successfully');
-                      setTimeout(() => {
-                          $('#notifDiv').fadeOut();
-                      }, 3000);
+        $('.save_consignment_admin').text('Processing..');
+
+        $('#saveConsignmentForm').ajaxSubmit({
+            type: "POST",
+            url: "/SaveConsignmentAdmin",
+            data: $('#saveConsignmentForm').serialize(),
+            cache: false,
+            success: function (response) {
+                if (JSON.parse(response) == "success") {
+                    $('.save_consignment_admin').removeAttr('disabled');
+                    $('.save_consignment_admin').text('Save');
+                    $('#notifDiv').fadeIn();
+                    $('#notifDiv').css('background', 'green');
+                    $('#notifDiv').text('Consignment have been added successfully');
+                    setTimeout(() => {
+                        $('#notifDiv').fadeOut();
+                    }, 3000);
                     $('#saveConsignmentForm').find('input').val('');
                     $('#saveConsignmentForm').find('select').val('0').trigger('change');
                     $('#saveConsignmentForm').find('textarea').val('');
                     $('#Domestic').prop("checked", false);
                     $('#International').prop("checked", false);
                     $('.supplementary_services_admin').prop("checked", false);
-                 } else {
-                     $('.save_consignment_admin').removeAttr('disabled');
-                     $('.save_consignment_admin').text('Save');
-                     $('#notifDiv').fadeIn();
-                     $('#notifDiv').css('background', 'red');
-                     $('#notifDiv').text('Failed to add consignment at the moment');
-                     setTimeout(() => {
-                         $('#notifDiv').fadeOut();
-                     }, 3000);
-                     $('#saveConsignmentForm').find('input').val('');
-                     $('#saveConsignmentForm').find('select').val('0').trigger('change');
-                     $('#saveConsignmentForm').find('textarea').val('');
-                     $('#Domestic').prop("checked", false);
-                     $('#International').prop("checked", false);
-                     $('.supplementary_services_admin').prop("checked", false);
-                 }
-             },
-             error: function(err) {
-                 if (err.status == 422) {
-                     $.each(err.responseJSON.errors, function(i, error) {
-                         var el = $(document).find('[name="' + i + '"]');
-                         el.after($('<small style="color: red; position: absolute; width:100%; text-align: right; margin-left: -30px">' + error[0] + '</small>'));
-                     });
-                 }
-             }
-         });
-        
+                } else {
+                    $('.save_consignment_admin').removeAttr('disabled');
+                    $('.save_consignment_admin').text('Save');
+                    $('#notifDiv').fadeIn();
+                    $('#notifDiv').css('background', 'red');
+                    $('#notifDiv').text('Failed to add consignment at the moment');
+                    setTimeout(() => {
+                        $('#notifDiv').fadeOut();
+                    }, 3000);
+                    $('#saveConsignmentForm').find('input').val('');
+                    $('#saveConsignmentForm').find('select').val('0').trigger('change');
+                    $('#saveConsignmentForm').find('textarea').val('');
+                    $('#Domestic').prop("checked", false);
+                    $('#International').prop("checked", false);
+                    $('.supplementary_services_admin').prop("checked", false);
+                }
+            },
+            error: function (err) {
+                if (err.status == 422) {
+                    $.each(err.responseJSON.errors, function (i, error) {
+                        var el = $(document).find('[name="' + i + '"]');
+                        el.after($('<small style="color: red; position: absolute; width:100%; text-align: right; margin-left: -30px">' + error[0] + '</small>'));
+                    });
+                }
+            }
+        });
+
     });
 
 
 
-    $(document).on('click', '.already_assigned', function(){
+    $(document).on('click', '.already_assigned', function () {
         $('#select_rider').val('0').trigger('change');
         $('.already_assigned').prop('checked', true);
     });
-    $(document).on('change', '#select_rider', function(){
+    $(document).on('change', '#select_rider', function () {
         $('.already_assigned').prop('checked', false);
     });
     var glob_cn_id = '';
     var glob_cn_ref = '';
     var glob_cn_type = '';
-    $(document).on('click', '.process_hard_btn', function(){
+    $(document).on('click', '.process_hard_btn', function () {
         glob_cn_id = $(this).attr('id');
         glob_cn_ref = $(this);
         glob_cn_type = $(this).attr('name');
     });
-    $(document).on('click', '.process_consignment', function(){
+    $(document).on('click', '.process_consignment', function () {
 
-        if($('#select_rider').val() == '0' || $('#select_rider').val() == null && $('.already_assigned').prop("checked") == false){
+        if ($('#select_rider').val() == '0' || $('#select_rider').val() == null && $('.already_assigned').prop("checked") == false) {
             alert('Please select rider.');
-        }else{
+        } else {
             var consignment_type = glob_cn_type;
             var id = glob_cn_id;
             glob_cn_ref.text('Processing...');
@@ -443,14 +443,14 @@ $(document).ready(function() {
                     rider: $('#select_rider').val(),
                     id: id,
                     _token: '{!! csrf_token() !!}'
-               },
-                success: function(response) {
-                   // console.log(response);
-                   $('.cancel_modal').click();
-                   glob_cn_ref.text('Process');
-                   glob_cn_ref.removeAttr('disabled', 'disabled');
-                    
-                    if(JSON.parse(response) == 'success'){
+                },
+                success: function (response) {
+                    // console.log(response);
+                    $('.cancel_modal').click();
+                    glob_cn_ref.text('Process');
+                    glob_cn_ref.removeAttr('disabled', 'disabled');
+
+                    if (JSON.parse(response) == 'success') {
                         glob_cn_ref.parent().parent().remove();
                         $('#notifDiv').fadeIn();
                         $('#notifDiv').css('background', 'green');
@@ -458,7 +458,7 @@ $(document).ready(function() {
                         setTimeout(() => {
                             $('#notifDiv').fadeOut();
                         }, 3000);
-                    }else{
+                    } else {
                         $('#notifDiv').fadeIn();
                         $('#notifDiv').css('background', 'red');
                         $('#notifDiv').text('Unable to process at the moment!.');
@@ -466,7 +466,7 @@ $(document).ready(function() {
                             $('#notifDiv').fadeOut();
                         }, 3000);
                     }
-                        
+
                 }
             });
         }
@@ -474,7 +474,7 @@ $(document).ready(function() {
 
 
 
-    $(document).on('click', '.delete_pend_consignment', function(){
+    $(document).on('click', '.delete_pend_consignment', function () {
         consignment_delete_id = "";
         consignment_delete_name = "";
         consignment_delete_id = $(this).attr('id');
@@ -483,10 +483,10 @@ $(document).ready(function() {
         consignment_delete_Ref = $(this);
     });
 
-    $(document).on('click', '#link_delete_consignment', function(){
+    $(document).on('click', '#link_delete_consignment', function () {
         var id = consignment_delete_id;
         var consignment_type = consignment_delete_name;
-       
+
         consignment_delete_Ref.text('Processing...');
         consignment_delete_Ref.attr('disabled', 'disabled');
         $.ajax({
@@ -496,12 +496,12 @@ $(document).ready(function() {
                 consignment_type: consignment_type,
                 id: id,
                 _token: '{!! csrf_token() !!}'
-           },
-            success: function(response) {
+            },
+            success: function (response) {
                 console.log(response);
                 //consignment_delete_Ref.parent().parent().remove();
-                
-                if(JSON.parse(response) == 'success'){
+
+                if (JSON.parse(response) == 'success') {
                     consignment_delete_Ref.parent().parent().remove();
                     $('#notifDiv').fadeIn();
                     $('#notifDiv').css('background', 'green');
@@ -509,7 +509,7 @@ $(document).ready(function() {
                     setTimeout(() => {
                         $('#notifDiv').fadeOut();
                     }, 3000);
-                }else{
+                } else {
                     $('#notifDiv').fadeIn();
                     $('#notifDiv').css('background', 'red');
                     $('#notifDiv').text('Unable to delete at the moment!.');
@@ -517,14 +517,14 @@ $(document).ready(function() {
                         $('#notifDiv').fadeOut();
                     }, 3000);
                 }
-                    
+
             }
         });
     });
 
 
     //Open side bar for adding STATUS
-    $(document).on('click', '.openDataSidebarForAddingstatus', function(){
+    $(document).on('click', '.openDataSidebarForAddingstatus', function () {
         $('#product-cl-sec').addClass('active');
         $('.overlay').addClass('active');
         $('.collapse.in').toggleClass('in');
@@ -538,7 +538,7 @@ $(document).ready(function() {
     });
 
     //Open side bar for update STATUS
-    $(document).on('click', '.edit_status', function(){
+    $(document).on('click', '.edit_status', function () {
         $('#product-cl-sec').addClass('active');
         $('.overlay').addClass('active');
         $('.collapse.in').toggleClass('in');
@@ -557,24 +557,24 @@ $(document).ready(function() {
                 status: $('#status').val(),
                 id: $(this).attr('id'),
                 _token: '{!! csrf_token() !!}'
-           },
-            success: function(response) {
+            },
+            success: function (response) {
                 console.log(response);
                 var response = JSON.parse(response);
                 $('#dataSidebarLoader').hide();
                 $('#sidebarLayout').show();
                 $('#status').focus();
                 $('#status').val(response.status);
-                $('#status').blur(); 
-                $('.updatestatus').attr('id', response.id);    
+                $('#status').blur();
+                $('.updatestatus').attr('id', response.id);
             }
         });
 
     });
 
     //Save Custom Status
-    $(document).on('click', '.save_status', function(){
-        if($('#status').val() == ""){
+    $(document).on('click', '.save_status', function () {
+        if ($('#status').val() == "") {
             $('#notifDiv').fadeIn();
             $('#notifDiv').css('background', 'red');
             $('#notifDiv').text('Please Enter Status.');
@@ -592,11 +592,11 @@ $(document).ready(function() {
             data: {
                 status: $('#status').val(),
                 _token: '{!! csrf_token() !!}'
-           },
-            success: function(response) {
+            },
+            success: function (response) {
                 $('.save_status').text('Save');
                 $('.save_status').removeAttr('disabled');
-                if(JSON.parse(response) == 'success'){
+                if (JSON.parse(response) == 'success') {
                     $('#status').val('');
                     $('#notifDiv').fadeIn();
                     $('#notifDiv').css('background', 'green');
@@ -605,14 +605,14 @@ $(document).ready(function() {
                         $('#notifDiv').fadeOut();
                     }, 3000);
                     fetchConsignmentStatus();
-                }else if(JSON.parse(response) == 'already_exist'){
+                } else if (JSON.parse(response) == 'already_exist') {
                     $('#notifDiv').fadeIn();
                     $('#notifDiv').css('background', 'red');
                     $('#notifDiv').text('This status already exist.');
                     setTimeout(() => {
                         $('#notifDiv').fadeOut();
                     }, 3000);
-                }else{
+                } else {
                     $('#notifDiv').fadeIn();
                     $('#notifDiv').css('background', 'red');
                     $('#notifDiv').text('Unable to save at the moment!.');
@@ -620,15 +620,15 @@ $(document).ready(function() {
                         $('#notifDiv').fadeOut();
                     }, 3000);
                 }
-                    
+
             }
         });
 
     });
 
     //Update Custom STatus
-    $(document).on('click', '.updatestatus', function(){
-        if($('#status').val() == ""){
+    $(document).on('click', '.updatestatus', function () {
+        if ($('#status').val() == "") {
             $('#notifDiv').fadeIn();
             $('#notifDiv').css('background', 'red');
             $('#notifDiv').text('Please Enter Status.');
@@ -638,7 +638,7 @@ $(document).ready(function() {
             return;
         }
         var thisRef = $(this);
-        
+
         thisRef.text('Processing...');
         thisRef.attr('disabled', 'disabled');
         $.ajax({
@@ -648,11 +648,11 @@ $(document).ready(function() {
                 status: $('#status').val(),
                 id: $(this).attr('id'),
                 _token: '{!! csrf_token() !!}'
-           },
-            success: function(response) {
+            },
+            success: function (response) {
                 thisRef.text('Update');
                 thisRef.removeAttr('disabled');
-                if(JSON.parse(response) == 'success'){
+                if (JSON.parse(response) == 'success') {
                     $('#notifDiv').fadeIn();
                     $('#notifDiv').css('background', 'green');
                     $('#notifDiv').text('Saved successfully.');
@@ -660,7 +660,7 @@ $(document).ready(function() {
                         $('#notifDiv').fadeOut();
                     }, 3000);
                     fetchConsignmentStatus();
-                }else{
+                } else {
                     $('#notifDiv').fadeIn();
                     $('#notifDiv').css('background', 'red');
                     $('#notifDiv').text('Unable to save at the moment!.');
@@ -668,7 +668,7 @@ $(document).ready(function() {
                         $('#notifDiv').fadeOut();
                     }, 3000);
                 }
-                    
+
             }
         });
 
@@ -677,14 +677,14 @@ $(document).ready(function() {
     var status_id_glob = '';
     var glob_status_ref = '';
     //Delete Custom STATUS
-    $(document).on('click', '.delete_custom_status', function(){
+    $(document).on('click', '.delete_custom_status', function () {
         status_id_glob = $(this).attr('id');
         glob_status_ref = $(this);
         $('#open_modal').click();
     });
 
     //Modal Delete Custom STATUS
-    $(document).on('click', '#link_delete_custom_status', function(){
+    $(document).on('click', '#link_delete_custom_status', function () {
         glob_status_ref.text('Processing...');
         glob_status_ref.attr('disabled', 'disabled');
         $.ajax({
@@ -693,9 +693,9 @@ $(document).ready(function() {
             data: {
                 id: status_id_glob,
                 _token: '{!! csrf_token() !!}'
-           },
-            success: function(response) {
-                if(JSON.parse(response) == 'success'){
+            },
+            success: function (response) {
+                if (JSON.parse(response) == 'success') {
                     $('#notifDiv').fadeIn();
                     $('#notifDiv').css('background', 'green');
                     $('#notifDiv').text('Deleted successfully.');
@@ -703,7 +703,7 @@ $(document).ready(function() {
                         $('#notifDiv').fadeOut();
                     }, 3000);
                     fetchConsignmentStatus();
-                }else{
+                } else {
                     $('#notifDiv').fadeIn();
                     $('#notifDiv').css('background', 'red');
                     $('#notifDiv').text('Unable to delete at the moment!.');
@@ -711,7 +711,7 @@ $(document).ready(function() {
                         $('#notifDiv').fadeOut();
                     }, 3000);
                 }
-                    
+
             }
         });
     });
@@ -722,8 +722,8 @@ $(document).ready(function() {
     var glob_status_id = '';
     var glob_cn_if_for_status = '';
     var glob_update_btn_ref = '';
-    $(document).on('click', '.update_cn_status', function(){
-    //debugger;
+    $(document).on('click', '.update_cn_status', function () {
+        //debugger;
         var data = $(this).attr('value').split('-');
         glob_status_remarks = data[0];
         glob_status_id = data[1];
@@ -735,30 +735,30 @@ $(document).ready(function() {
         $.ajax({
             type: 'GET',
             url: '/GetStatusLogForModal',
-            success: function(response) {
+            success: function (response) {
                 var response = JSON.parse(response);
                 $('#select_status_modal').empty();
                 $('#select_status_modal').append('<option value="0">Select Status</option>');
                 response.forEach(element => {
-                    $('#select_status_modal').append('<option value="'+element.status+'">'+element.status+'</option>');
+                    $('#select_status_modal').append('<option value="' + element.status + '">' + element.status + '</option>');
                 });
                 //setTimeout(() => {
-                    if(glob_status_id == "" || glob_status_id == null){
-                        $('#select_status_modal').val('0').trigger('change');
-                    }else{
-                        $('#select_status_modal').val(glob_status_id).trigger('change');
-                    }
-                    $('#remarks_modal').val(glob_status_remarks);
+                if (glob_status_id == "" || glob_status_id == null) {
+                    $('#select_status_modal').val('0').trigger('change');
+                } else {
+                    $('#select_status_modal').val(glob_status_id).trigger('change');
+                }
+                $('#remarks_modal').val(glob_status_remarks);
                 //}, 300);
             }
         });
     });
 
-    $(document).on('click', '.save_status_modal', function(){
+    $(document).on('click', '.save_status_modal', function () {
         var status_code = $('#select_status_modal').val();
         var remarks = $('#remarks_modal').val();
         var cnno = glob_cn_if_for_status;
-        if(status_code == null || status_code == 0 || remarks == ""){
+        if (status_code == null || status_code == 0 || remarks == "") {
             $('#notifDiv').fadeIn();
             $('#notifDiv').css('background', 'red');
             $('#notifDiv').text('Please select status and write remarks.');
@@ -768,7 +768,7 @@ $(document).ready(function() {
             return;
         }
 
-        
+
         glob_update_btn_ref.text('Processing...');
         glob_update_btn_ref.attr('disabled', 'disabled');
 
@@ -780,30 +780,31 @@ $(document).ready(function() {
                 remarks: remarks,
                 cnno: cnno,
                 _token: '{!! csrf_token() !!}'
-           },
-            success: function(response) {
+            },
+            success: function (response) {
                 glob_update_btn_ref.text('Update Status');
                 glob_update_btn_ref.removeAttr('disabled');
                 $('.close_status_modal').click();
 
-                if(JSON.parse(response) == 'failed'){
+                if (JSON.parse(response) == 'failed') {
                     $('#notifDiv').fadeIn();
                     $('#notifDiv').css('background', 'red');
                     $('#notifDiv').text('Unable to save at the moment!.');
                     setTimeout(() => {
                         $('#notifDiv').fadeOut();
                     }, 3000);
-                    
-                }else{
+
+                } else {
+                    glob_update_btn_ref.parent().parent().find('td:eq(5)').html("<span style='color: #FBD536'>" + status_code + "</span>");
                     $('#notifDiv').fadeIn();
                     $('#notifDiv').css('background', 'green');
                     $('#notifDiv').text('Saved successfully.');
                     setTimeout(() => {
                         $('#notifDiv').fadeOut();
                     }, 3000);
-                    glob_update_btn_ref.attr('value', JSON.parse(response).remarks+"-"+JSON.parse(response).status);
+                    glob_update_btn_ref.attr('value', JSON.parse(response).remarks + "-" + JSON.parse(response).status);
                 }
-                    
+
             }
         });
     });
@@ -815,16 +816,16 @@ $(document).ready(function() {
     var glob_ref_for_complete = '';
     var glob_cnno_for_complete = '';
     var glob_data_for_complete = '';
-    $(document).on('click', '.complete_consignment', function(){
+    $(document).on('click', '.complete_consignment', function () {
         var data = $(this).parent().find('.update_cn_status').attr('value').split('-');
         var status_code = data[1];
         var remarks = data[0];
-        glob_opp_for_complete =  $(this).attr('name');
+        glob_opp_for_complete = $(this).attr('name');
         glob_id_for_complete = $(this).attr('id');
         glob_ref_for_complete = $(this);
         glob_data_for_complete = data;
         glob_cnno_for_complete = $(this).parent().parent().find('td:eq(0)').text();
-        if(status_code == null || status_code == 0 || remarks == ""){
+        if (status_code == null || status_code == 0 || remarks == "") {
             $('#notifDiv').fadeIn();
             $('#notifDiv').css('background', 'red');
             $('#notifDiv').text('Please select status and write remarks.');
@@ -837,8 +838,8 @@ $(document).ready(function() {
 
         $('.open_complete_modal').click();
     });
-    $(document).on('click', '.complete_cn_modal', function(){
-       
+    $(document).on('click', '.complete_cn_modal', function () {
+
         var status_code = glob_data_for_complete[1];
         var remarks = glob_data_for_complete[0];
         //return;
@@ -854,10 +855,10 @@ $(document).ready(function() {
                 status_code: status_code,
                 remarks: remarks,
                 _token: '{!! csrf_token() !!}'
-           },
-            success: function(response) {
+            },
+            success: function (response) {
                 $('.close_complete_modal').click();
-                if(JSON.parse(response) == 'success'){
+                if (JSON.parse(response) == 'success') {
                     $('#notifDiv').fadeIn();
                     $('#notifDiv').css('background', 'green');
                     $('#notifDiv').text('Completed successfully.');
@@ -865,7 +866,7 @@ $(document).ready(function() {
                         $('#notifDiv').fadeOut();
                     }, 3000);
                     glob_ref_for_complete.parent().parent().remove();
-                }else{
+                } else {
                     $('#notifDiv').fadeIn();
                     $('#notifDiv').css('background', 'red');
                     $('#notifDiv').text('Unable to complete at the moment!.');
@@ -873,42 +874,42 @@ $(document).ready(function() {
                         $('#notifDiv').fadeOut();
                     }, 3000);
                 }
-                    
+
             }
         });
     });
-     
+
 
 
 
 
     //Edit Consignment Button Clicked
-    $(document).on('click', '.edit_consignment', function(){
-        if($(this).attr('name') == 'admin'){
+    $(document).on('click', '.edit_consignment', function () {
+        if ($(this).attr('name') == 'admin') {
             //Admin
             alert('Admin Consignment');
             //window.location.href = '/update_consignment_ad/'+$(this).attr('id');
-        }else{
+        } else {
             //Client
-            window.location.href = '/update_consignment_cc/'+$(this).attr('id');
+            window.location.href = '/update_consignment_cc/' + $(this).attr('id');
         }
     });
 
-    $(document).on('click', '#hidden_btn_client', function(){
-       // var supplementary_services_client =[];
+    $(document).on('click', '#hidden_btn_client', function () {
+        // var supplementary_services_client =[];
         $.ajax({
             type: 'GET',
             url: '/GetCCData',
             data: {
                 id: $('#hidden_ccno').val(),
                 _token: '{!! csrf_token() !!}'
-        },
-            success: function(response) {
+            },
+            success: function (response) {
                 //console.log(response);
                 var response = JSON.parse(response);
                 $('#dataLoader').hide();
                 $('#updateConsignmentFormClient').show();
-                
+
                 $('#update_datepicker').val(response.booking_date);
                 $('#update_cnic_client').val(response.cnic);
                 $('#update_customer_id_client').val(response.customer_id);
@@ -958,46 +959,46 @@ $(document).ready(function() {
                 $('.update_consignment_client').attr('id', response.cnic);
                 $('#hiddenconsignment_id').val(response.id);
                 $('.test_total_price').text(response.total_price);
-                
-                if($('#Fragile').val() == response.fragile_criteria){
-                    setTimeout(() => { 
+
+                if ($('#Fragile').val() == response.fragile_criteria) {
+                    setTimeout(() => {
                         $('#Fragile').prop('checked', true);
                         $('#insurance_yes').show();
                     }, 300);
                 }
-                if($('#Non-Fragile').val() == response.fragile_criteria){
-                    setTimeout(() => { 
+                if ($('#Non-Fragile').val() == response.fragile_criteria) {
+                    setTimeout(() => {
                         $('#Non-Fragile').prop('checked', true);
                         $('#insurance_yes').show();
                     }, 300);
                 }
-                if($('#Electronics').val() == response.fragile_criteria){
-                    setTimeout(() => { 
+                if ($('#Electronics').val() == response.fragile_criteria) {
+                    setTimeout(() => {
                         $('#Electronics').prop('checked', true);
                         $('#insurance_yes').show();
                     }, 300);
                 }
-                if($('#none').val() == response.fragile_criteria){
-                    setTimeout(() => { 
+                if ($('#none').val() == response.fragile_criteria) {
+                    setTimeout(() => {
                         $('#none').prop('checked', true);
                         $('#insurance_yes').hide();
                     }, 300);
                 }
 
-                if(response.supplementary_services != null){
+                if (response.supplementary_services != null) {
                     var services = response.supplementary_services.split(',');
-                    $.each(services,function(i,val){
-                        if($('#id001').val() == services[i]) {
+                    $.each(services, function (i, val) {
+                        if ($('#id001').val() == services[i]) {
                             $('#id001').prop('checked', true);
-                        }else if($('#id002').val() == services[i]){
+                        } else if ($('#id002').val() == services[i]) {
                             $('#id002').prop('checked', true);
-                        }else if($('#id003').val() == services[i]){
+                        } else if ($('#id003').val() == services[i]) {
                             $('#id003').prop('checked', true);
-                        }else if($('#id004').val() == services[i]){
+                        } else if ($('#id004').val() == services[i]) {
                             $('#id004').prop('checked', true);
                         }
-                        
-                        setTimeout(() => { 
+
+                        setTimeout(() => {
                             supplementary_services_client.push(services[i]);
                             $('#hidden_supplementary_services').val("");
                             $('#hidden_supplementary_services').val(supplementary_services_client);
@@ -1013,8 +1014,8 @@ $(document).ready(function() {
     });
 
     //Update Client Consignment
-    $(document).on('click', '.update_consignment_client', function(){
-    
+    $(document).on('click', '.update_consignment_client', function () {
+
 
         $('.update_consignment_client').attr('disabled', 'disabled');
         $('.update_consignment_client').text('Processing..');
@@ -1024,8 +1025,8 @@ $(document).ready(function() {
             url: "/UpdateConsignmentClient",
             data: $('#saveConsignmentFormClient').serialize(),
             cache: false,
-            success: function(response) {
-                 console.log(response);
+            success: function (response) {
+                console.log(response);
                 //return;
                 // $('.update_consignment_client').removeAttr('disabled');
                 // $('.update_consignment_client').text('Update');
@@ -1035,14 +1036,14 @@ $(document).ready(function() {
                 if (JSON.parse(response) == "success") {
                     $('.update_consignment_client').removeAttr('disabled');
                     // $('#cancelCustomer').removeAttr('disabled');
-                     $('.update_consignment_client').text('Update');
-                     $('#notifDiv').fadeIn();
-                     $('#notifDiv').css('background', 'green');
-                     $('#notifDiv').text('Consignment have been updated successfully');
-                     setTimeout(() => {
-                         $('#notifDiv').fadeOut();
-                     }, 3000);
-                    
+                    $('.update_consignment_client').text('Update');
+                    $('#notifDiv').fadeIn();
+                    $('#notifDiv').css('background', 'green');
+                    $('#notifDiv').text('Consignment have been updated successfully');
+                    setTimeout(() => {
+                        $('#notifDiv').fadeOut();
+                    }, 3000);
+
                 } else {
                     $('.update_consignment_client').removeAttr('disabled');
                     //$('#cancelCustomer').removeAttr('disabled');
@@ -1053,12 +1054,12 @@ $(document).ready(function() {
                     setTimeout(() => {
                         $('#notifDiv').fadeOut();
                     }, 3000);
-                    
+
                 }
             },
-            error: function(err) {
+            error: function (err) {
                 if (err.status == 422) {
-                    $.each(err.responseJSON.errors, function(i, error) {
+                    $.each(err.responseJSON.errors, function (i, error) {
                         var el = $(document).find('[name="' + i + '"]');
                         el.after($('<small style="color: red; position: absolute; width:100%; text-align: right; margin-left: -30px">' + error[0] + '</small>'));
                     });
@@ -1066,20 +1067,20 @@ $(document).ready(function() {
             }
         });
     });
-    
+
 
     //Print Invoices 
-    $(document).on('click', '.print_invoices', function(){
+    $(document).on('click', '.print_invoices', function () {
         printDiv();
     });
 
 });
 
-function fetchConsignmentsList(){
+function fetchConsignmentsList() {
     $.ajax({
         type: 'GET',
         url: '/GetConsignmentsList',
-        success: function(response) {
+        success: function (response) {
             // console.log(response);
             // return;
             $('.body').empty();
@@ -1096,11 +1097,11 @@ function fetchConsignmentsList(){
     });
 }
 
-function fetchConsignmentStatus(){
+function fetchConsignmentStatus() {
     $.ajax({
         type: 'GET',
         url: '/GetStatusList',
-        success: function(response) {
+        success: function (response) {
             // console.log(response);
             //return;
             $('.body').empty();
@@ -1117,10 +1118,10 @@ function fetchConsignmentStatus(){
     });
 }
 
-function fetchccData(){
-    setTimeout(function(){
+function fetchccData() {
+    setTimeout(function () {
         $('#hidden_btn_client').click();
-    },100);
+    }, 100);
 }
 
 

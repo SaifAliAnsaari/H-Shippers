@@ -75,7 +75,7 @@
                             </tr>
                             <tr>
                                 <td colspan="2">Shipper: {{ $data->shipper_name }}<br>
-                                    {{ $data->origin }} </td>
+                                    {{ $data->shipper_address }} </td>
                                 <td colspan="2">Consignee: {{ $data->consignee_name }} {{ $data->consignee_cell }}<br>
                                     Address: {{ $data->consignee_address }}
                                 </td>
@@ -163,7 +163,7 @@
                             </tr>
                             <tr>
                                 <td colspan="2">Shipper: {{ $data->shipper_name }}<br>
-                                    {{ $data->origin }} </td>
+                                    {{ $data->shipper_address }} </td>
                                 <td colspan="2">Consignee: {{ $data->consignee_name }} {{ $data->consignee_cell }}<br>
                                     Address: {{ $data->consignee_address }}
                                 </td>
@@ -246,7 +246,7 @@
                             </tr>
                             <tr>
                                 <td colspan="2">Shipper: {{ $data->shipper_name }}<br>
-                                    {{ $data->origin }} </td>
+                                    {{ $data->shipper_address }} </td>
                                 <td colspan="2">Consignee: {{ $data->consignee_name }} {{ $data->consignee_cell }}<br>
                                     Address: {{ $data->consignee_address }}
                                 </td>

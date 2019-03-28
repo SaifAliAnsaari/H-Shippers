@@ -25,7 +25,7 @@ body {
 .no-scroll {
 	overflow: hidden      
 }
-.btn, h1, h2, h3, h4, h5, h6, .modal-order-detail .modal-title, .co-name {
+.btn, h1, h2, h3, h4, h5, h6, .modal-order-detail .modal-title, .co-name, ._cname {
 	font-family: 'Montserrat', sans-serif; 
 }
 .nam-title, .con_info, .text-muted, .cp-stats-value, .cp-stats, .nav-tabs .nav-link, .tab-style .tab-pane, .alert-color, .modal-title, .login-right, .login-right h3, .login-left h4, .Log_footer{
@@ -360,8 +360,8 @@ footer.sticky-footer .copyright {
 }
 .btn-cancel:HOVER, .btn-cancel:focus {
 	color: #fff;
-	background: linear-gradient(90deg, #f12300 0%, #ff0000 100%);
-	border: solid 1px #f12300;
+	background: linear-gradient(90deg, #f12300 0%, #ff0000 100%)!important;
+	border: solid 1px #f12300
 }
 .gray-btn {
 	background: linear-gradient(90deg, #8b8b8b 0%, #8b8b8b 100%)
@@ -1425,7 +1425,7 @@ table.dataTable.nowrap td {
 .alert-color {
 	color: #383d41;
 	background-color: #f4f4f4;
-	border-color: #f0f0f1;
+	border-color: #f9f9f9;
 	font-size: 13px;  
 }
 .alert-color:HOVER {
@@ -2196,8 +2196,8 @@ table.dataTable.cell-border tbody tr:first-child th, table.dataTable.cell-border
 
 .custom-radio{font-size: 12px; line-height: 23px;}
 
-.greentext{color:#f12300!important}
-.redtext{color: #4aa23c!important}
+.greentext, .red_t{color:#f12300!important}
+.redtext, .green_t{color: #4aa23c!important}
 .CS-top-sec{
 	padding-bottom: 15px; display: flex
 }
@@ -2275,7 +2275,7 @@ table.dataTable.cell-border tbody tr:first-child th, table.dataTable.cell-border
 	margin-bottom: 0;
 }
 .top_nav .notiF, .Qlinks {
-    width: 280px; 
+    width: 280px; height: 305px; overflow: auto
 }
 .top_nav .notiF strong {
     font-size: 14px; 
@@ -2289,7 +2289,17 @@ table.dataTable.cell-border tbody tr:first-child th, table.dataTable.cell-border
 }
 .top_nav .notiF a:HOVER, .Qlinks a:HOVER{text-decoration: none; background-color:#f7f8fa}
 .top_nav .notiF p {margin:0; color:#6c747c}
-.top_nav .notiF .all-NF{font-size: 13px; font-weight:500; letter-spacing:1px; font-family:'Montserrat', sans-serif; text-align: center}
+.top_nav .notiF .all-NF{font-size: 11px; font-weight:600; letter-spacing:1px; font-family:'Montserrat', sans-serif; 
+    float: right;
+    padding: 4px 7px;
+    color: #6c747c;
+	border: none;
+    background-color: #f1f1f1;
+    margin-top: -1px;  
+}
+.top_nav .notiF .all-NF:HOVER{color: #fff; background-color: #0c397a}
+
+
 ._NF-se{padding-top: 40px}
 ._NF-se{padding: 10px 30px 10px 10px; font-family: 'Source Sans Pro', sans-serif; margin-right: 0px; margin-top: 0px;  margin-bottom:15px}
 ._NF-se .close{position: absolute; top: 3px; right: 5px; border: none; outline: none; font-size: 22px; padding: 5px}
@@ -2298,6 +2308,13 @@ table.dataTable.cell-border tbody tr:first-child th, table.dataTable.cell-border
     width: 32px!important;
     vertical-align: middle;
     border-radius: 50%; margin-left: 5px; 
+    margin-right: 10px; margin-bottom: 10px; float: left
+}
+.NU-icon{
+	height: 30px!important;
+    width: 30px!important;
+    vertical-align: middle;
+    margin-left: 5px; 
     margin-right: 10px; margin-bottom: 10px; float: left
 }
 .Qlinks a{ font-size: 12px;font-family:'Montserrat', sans-serif; font-weight: normal; line-height: 22px;  letter-spacing: 1px; display: block; padding:10px; color: #282828;
@@ -2741,20 +2758,61 @@ table.dataTable.cell-border tbody tr:first-child th, table.dataTable.cell-border
     -webkit-transform: rotate(-405deg);
   }
 }
-
 .btn-outline {
     color: #0c397a;
     border: solid 1px #0c397a;
     background: rgba(255,255,255,0);
     box-shadow: none;
 }
+._client-info{font-size: 13px}
+.row ._client-info .btn-primary{font-size: 12px; padding: 6px 11px; letter-spacing: 1px; margin-left:8px; float: right}
+._cname{font-size:13px; font-weight: 600}
+.inv_cl-list{padding-top: 30px}
+.inv_cl-list .table td, .inv_cl-list .table th{padding:5px; font-size: 13px; border-top: 1px solid #143b79; color: #143b79}
+.inv_cl-list .table-bordered>tbody>tr>td {border-right:1px solid #143b79}
+.inv_cl-list .table th {background-color: #143b79; color: #ffffff; border-bottom: 1px solid #143b79}
 
 
 
 
 
 
+._ord-rightside{
+	position: relative; overflow: hidden;
+}
+._ord-rightside h2{
+    font-size: 14px;
+    margin: 0;
+    font-weight: 600;
+    position: relative;
+    font-family: 'Montserrat', sans-serif;
+    border-bottom: solid 2px #efefef;
+    color: #282828; 
+	padding-top: 10px; 
+	padding-bottom: 15px; margin-bottom: 5px 
+}
+._sidBar {
+  height: 100%;
+  width: 100%;
+  position:relative;
+ font-size: 13px; 
+}
+._sidBar  hr{ margin: 5px 0px} 
+.pay_detail{ line-height: 25px}
+.pay_detail strong{ font-weight: 700} 
 
+ .add-product-line{
+	background-color:#f3f3f3; color: #282828;
+	width: 100%; text-align: center; margin-top:8px; margin-bottom:8px; border-radius: 0;font-family: 'Montserrat', sans-serif; font-size:13px; font-weight: 600; letter-spacing: 1px
+}
+.add-product-line:HOVER{background-color:#0c397a; color: #fff}
+._order-container{max-width: 1240px}
+._totalAM{font-size: 15px; color: #fff; font-weight: 700; background-color: #0c397a; margin:0; padding-top: 5px; margin-bottom: 15px; padding-bottom: 5px}
+._totalAM .col-6{padding-left:10px; padding-right: 10px;}
+
+
+
+.font13{font-size: 13px}
 .mb-5 {
 	margin-bottom:5px!important
 }
@@ -3197,6 +3255,7 @@ body.sidebar-toggled footer.sticky-footer {
 ._pay-lab{padding-top: 0px}
 .acc-right{ width:100%}
 .acc-right ._head04 {margin-right:0px}
+.row ._client-info .btn-primary{float: left; margin-top: 15px; margin-left: 0; margin-right:8px }
 }
 @media (max-width: 480px) {
 .card .header h2, .card ._head03, .modal-title {font-size: 14px}

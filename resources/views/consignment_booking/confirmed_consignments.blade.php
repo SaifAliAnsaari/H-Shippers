@@ -175,7 +175,7 @@
                             <td>{{ $consignmnet['sender_name'] }}</td>
                             <td>{{ $consignmnet['reciver_name'] }}</td>
                             <td>{{ ($consignmnet['rider_name'] != '' || null ? $consignmnet['rider_name'] : "NA") }}</td>
-                            <td>{{ ($consignmnet['status_log'] != '' || null ? $consignmnet['status_log'] : "NA") }}</td>
+                            <td>{!! ($consignmnet['status_log'] != '' || null ? "<span id='test_status' style='color: #FBD536'>".$consignmnet['status_log']."</span>" : "<span style='color:darkgreen' >Processed</span>") !!}</td>
                             <td>{{ $consignmnet['total_price'] }}</td>
                             
                             <td>
