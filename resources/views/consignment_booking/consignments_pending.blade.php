@@ -126,10 +126,7 @@
                             <th>CNNo.</th>
                             <th>Date</th>
                             <th>Sender’s</th>
-                            <th>Area</th>
                             <th>Receiver's</th>
-                            <th>Area</th>
-                            <th>Rider Name</th>
                             <th>Piece</th>
                             <th>Weight</th>
                             <th>Status</th>
@@ -145,10 +142,7 @@
                                     <td>{{ $consignmnet['cnno'] }}</td>
                                     <td>{{ $consignmnet['date'] }}</td>
                                     <td>{{ $consignmnet['sender_name'] }}</td>
-                                    <td>Town Ship Area</td>
                                     <td>{{ $consignmnet['reciver_name'] }}</td>
-                                    <td>PIA Road Wapda town Lahore</td>
-                                    <td>Jamshad Khan</td>
                                     <td>{{ $consignmnet['consignment_pieces'] }}</td>
                                     <td>{{ $consignmnet['weight'] }}</td>
                                     <td>Pending</td>

@@ -107,24 +107,29 @@ class OrganizationManagement extends ParentController
     }
 
     public function add_pickUp(Request $request){
-        
-        $insert_pickup_delivery = DB::table('pickup_delivery')->insertGetId([
-            'city_name' => $request->city_name,
-            'province' => $request->province,
-            'city_short' => $request->city_short_code
-            ]);
-        if($insert_pickup_delivery){
-            $services =  explode(',', $request->location_service);
 
-            foreach ($services as $service) {
-                $insert_location_service = DB::table('locationservice_pickupdelivery')->insert([
-                    'location_service' => $service,
-                    'pick_up_table_id' => $insert_pickup_delivery
-                    ]);
-            }
-            echo json_encode("success");
+        $check = DB::table('pickup_delivery')->where('city_name', $request->city_name)->first();
+        if($check){
+            echo json_encode('already_exist');
         }else{
-            echo json_encode("failed");
+            $insert_pickup_delivery = DB::table('pickup_delivery')->insertGetId([
+                'city_name' => $request->city_name,
+                'province' => $request->province,
+                'city_short' => $request->city_short_code
+                ]);
+            if($insert_pickup_delivery){
+                $services =  explode(',', $request->location_service);
+    
+                foreach ($services as $service) {
+                    $insert_location_service = DB::table('locationservice_pickupdelivery')->insert([
+                        'location_service' => $service,
+                        'pick_up_table_id' => $insert_pickup_delivery
+                        ]);
+                }
+                echo json_encode("success");
+            }else{
+                echo json_encode("failed");
+            }
         }
         
     }

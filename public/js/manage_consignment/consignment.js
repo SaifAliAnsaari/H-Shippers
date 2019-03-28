@@ -1,5 +1,9 @@
 $(document).ready(function() { 
     
+    // $(document).on('click', '#date_calender', function(){
+    //     $('#datepicker').click();
+    // });
+   
     $('#datepicker').datepicker({
         format: 'yyyy-mm-dd'
     });

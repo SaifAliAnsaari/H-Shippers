@@ -186,13 +186,8 @@ $(document).ready(function () {
         $('#cancelClient').attr('disabled', 'disabled');
         $('#saveClient').text('Processing..');
 
-        // $('#saveClientForm').append('<input type="text" name="pick_up_city" value="'+$('select[name="pick_up_city"]').val()+'" hidden />');
-        // $('#saveClientForm').append('<input type="text" name="pick_up_province" value="'+$('select[name="pick_up_province"]').val()+'" hidden />');
-        //debugger;
         var ajaxUrl = "/Client_save";
-        // if ($('#operation').val() !== "add") {
-        //     ajaxUrl = "/Client/" + $('input[name="product_updating_id"]').val();
-        // }
+        
         $('#saveClientForm').ajaxSubmit({
             type: "POST",
             url: ajaxUrl,
@@ -208,10 +203,6 @@ $(document).ready(function () {
                     $('#cancelClient').removeAttr('disabled');
                     $('#saveClient').text('Save');
 
-                    // if ($('#operation').val() !== "update") {
-                    //     $('#saveClientForm').find("input[type=text]").val("");
-                    //     $('.dropify-clear').click();
-                    // }
                     $('#saveClientForm').find("input[type=text]").val("");
                     $('#saveClientForm').find("input[type=number]").val("");
                     $('#saveClientForm').find("select").val("0").trigger('change');
@@ -255,8 +246,6 @@ $(document).ready(function () {
                 myDropzone.removeAllFiles(true);
             },
             error: function (err) {
-                // $('input[name="pick_up_city"]').remove();
-                // $('input[name="pick_up_province"]').remove();
                 if (err.status == 422) {
                     $.each(err.responseJSON.errors, function (i, error) {
                         var el = $(document).find('[name="' + i + '"]');
@@ -485,43 +474,6 @@ $(document).ready(function () {
 
     });
 
-    //Delete
-    // $(document).on('click', '.deleteClient', function(){
-    //     $(this).text('PROCESSING....');
-    //     $(this).attr("disabled", "disabled");
-    //     var id = $(this).attr('id');
-    //     $.ajax({
-    //         type: 'GET',
-    //         url: '/DeleteClient',
-    //         data: {
-    //             _token: '{!! csrf_token() !!}',
-    //             id: id
-    //         },
-    //         success: function(response) {
-    //             if(JSON.parse(response) == "success"){
-    //                 fetchClientsList();
-    //                 // $('#deleteClient').removeAttr('disabled');
-    //                 // $('#deleteClient').text('Delete');
-
-    //                 $('#notifDiv').fadeIn();
-    //                 $('#notifDiv').css('background', 'green');
-    //                 $('#notifDiv').text('Client deleted successfully');
-    //                 setTimeout(() => {
-    //                     $('#notifDiv').fadeOut();
-    //                 }, 3000);
-    //             }else if(JSON.parse(response) == "failed"){
-    //                 $('#notifDiv').fadeIn();
-    //                 $('#notifDiv').css('background', 'red');
-    //                 $('#notifDiv').text('Unable to delete client');
-    //                 setTimeout(() => {
-    //                     $('#notifDiv').fadeOut();
-    //                 }, 3000);
-    //             }
-
-    //         }
-    //     });
-    // });
-
     //Activate Client
     $(document).on('click', '.activate_btn', function () {
         var id = $(this).attr('id');
@@ -695,6 +647,25 @@ $(document).ready(function () {
             });
         }
       
+    });
+
+
+    //When City Change
+    $(document).on('change', '#select_city_pickup', function(){
+       // debugger;
+        //console.log($('#select_city_pickup').val());
+        if($('#select_city_pickup').val() != '0' && $('#select_city_pickup').val() != null){
+            var city_name = $('#select_city_pickup').find('option:selected').val();
+
+            if($('#hidden_province').val() != '' || $('#hidden_province').val() != null){
+               JSON.parse($('#hidden_province').val()).find(x => {
+                    //debugger;
+                    if (x.city_name == city_name) {
+                        $("#select_province_pickup").val(x.province).trigger('change');
+                    }
+                });
+            }
+        }
     });
 
 

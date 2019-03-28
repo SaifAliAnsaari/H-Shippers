@@ -157,6 +157,9 @@
                             <th>Date</th>
                             <th>Sender’s</th>
                             <th>Receiver's</th>
+                            <th>Rider</th>
+                            <th>Status</th>
+                            <th>Total Price</th>
                             <th style="width: 153px">Actions</th>
                         </tr>
                     </thead>
@@ -171,7 +174,9 @@
                             <td>{{ $consignmnet['date'] }}</td>
                             <td>{{ $consignmnet['sender_name'] }}</td>
                             <td>{{ $consignmnet['reciver_name'] }}</td>
-                            
+                            <td>{{ ($consignmnet['rider_name'] != '' || null ? $consignmnet['rider_name'] : "NA") }}</td>
+                            <td>{{ ($consignmnet['status_log'] != '' || null ? $consignmnet['status_log'] : "NA") }}</td>
+                            <td>{{ $consignmnet['total_price'] }}</td>
                             
                             <td>
                                 <button class="btn btn-default update_cn_status" value="{{ $consignmnet['status_remark']."-".$consignmnet['status_log'] }}" name="{{ $consignmnet['opp'] }}"

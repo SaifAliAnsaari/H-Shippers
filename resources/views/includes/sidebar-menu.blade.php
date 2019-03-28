@@ -34,6 +34,16 @@
             <a class="dropdown-item" href="/notification_prefrences">Notification Prefrences</a>
         </div>
     </li>
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navi-17" role="button" data-toggle="dropdown" aria-haspopup="true"
+            aria-expanded="false">
+            <img src="/images/icon-categorie.svg" alt="" />
+            <span>Download Invoice</span>
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navi-l7">
+            <a class="dropdown-item" href="/download_invoice_c">Download</a>
+        </div>
+    </li>
     <?php }else{
         if(!$check_rights->isEmpty()){
             $test_array = array();
@@ -121,9 +131,9 @@
             {{-- @if(in_array("/consignment_booked", $test_array))
             <a class="dropdown-item" href="/consignment_booked">Booked List</a>
             @endif --}}
-            @if(in_array("/shipment_tracking", $test_array))
+            {{-- @if(in_array("/shipment_tracking", $test_array))
             <a class="dropdown-item" href="/shipment_tracking/pg">Shipment Tracking</a>
-            @endif
+            @endif --}}
         </div>
     </li>
 

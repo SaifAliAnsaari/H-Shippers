@@ -6,6 +6,16 @@ $(document).ready(function() {
         $('body').toggleClass('no-scroll')
     });
 
+    $('#dp3').datepicker();
+        var checkout = $('#dpd3').datepicker({
+          onRender: function(date) {
+            return date.valueOf() <= checkin.date.valueOf() ? 'disabled' : '';
+          }
+        }).on('changeDate', function(ev) {
+          checkout.hide();
+        }).data('datepicker');
+		
+
     var notif_ids = [];
     //Employees Four Notifications
     $(document).on('click', '#NotiFications', function(){
@@ -47,8 +57,6 @@ $(document).ready(function() {
         }
         });
     });
-
-
 
 
     if($('#check_cnno').val() == 1){

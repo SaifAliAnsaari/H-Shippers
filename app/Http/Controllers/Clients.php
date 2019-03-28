@@ -35,7 +35,9 @@ class Clients extends ParentController
     public function clients(){
         parent::get_notif_data();
          parent::VerifyRights();if($this->redirectUrl){return redirect($this->redirectUrl);}
-        return view("clients/clients", ['check_rights' => $this->check_employee_rights, 'notifications_counts' => $this->notif_counts, 'notif_data' => $this->notif_data, 'all_notif' => $this->all_notification]);
+         $city_name = DB::table('pickup_delivery')->select('city_name', 'province')->orderBy('city_name','province')->get();
+        // echo '<pre>'; print_r($city_name); die;
+        return view("clients/clients", ['check_rights' => $this->check_employee_rights, 'notifications_counts' => $this->notif_counts, 'notif_data' => $this->notif_data, 'all_notif' => $this->all_notification, 'city' => $city_name]);
     }
 
     //get clients

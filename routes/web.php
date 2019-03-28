@@ -69,6 +69,7 @@ Route::get('/update_consignment_cc/{id}', 'ConsignmentManagement@update_consignm
 Route::get('/select_customer_BA', 'ClientsForBilling@select_customer_BA');
 
 Route::get('/invoice/{id}', 'ConsignmentManagement@invoice');
+Route::get('/download_invoice_c', 'ConsignmentManagement@download_invoice_client');
 
 //Save
 Route::post('/Client_save', 'Clients@save_client');

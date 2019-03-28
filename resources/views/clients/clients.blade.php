@@ -116,15 +116,19 @@
                                                         </div>
                                                     </div>
                                                 </div>
+                                                 <textarea type="text" hidden id="hidden_province">{{ json_encode($city) }}</textarea>
                                                 <div class="col-md-6">
                                                     <div class="form-s2">
                                                         <label class="PT-10 font12">Pick Up City</label>
                                                         <div>
-                                                            <select class="form-control sd-type required" name="pick_up_city">
+                                                           
+                                                            <select class="form-control sd-type required" id="select_city_pickup" name="pick_up_city">
                                                                 <option value="0" selected disabled>Select City</option>
-                                                                <option value="islamabad">Islamabad</option>
-                                                                <option value="rawalpindi">Rawalpindi</option>
-                                                                <option value="lahore">Lahore</option>
+                                                                @if(!empty($city))
+                                                                    @foreach ($city as $data)
+                                                                        <option value="{{ $data->city_name }}">{{ $data->city_name }}</option>
+                                                                    @endforeach
+                                                                @endif
                                                             </select>
                                                         </div>
                                                     </div>
@@ -133,12 +137,13 @@
                                                     <div class="form-s2">
                                                         <label class="PT-10 font12">Pick Up Province</label>
                                                         <div>
-                                                            <select class="form-control sd-type required" name="pick_up_province">
+                                                            <select class="form-control sd-type required" id="select_province_pickup" name="pick_up_province">
                                                                 <option value="0" selected disabled>Select Province</option>
-                                                                <option value="sindh">Sindh</option>
-                                                                <option value="kpk">KPK</option>
-                                                                <option value="punjab">Punjab</option>
-                                                                <option value="balochistan">Balochistan</option>
+                                                                @if(!empty($city))
+                                                                    @foreach ($city as $data)
+                                                                        <option value="{{ $data->province }}">{{ $data->province }}</option>
+                                                                    @endforeach
+                                                                @endif
                                                             </select>
                                                         </div>
                                                     </div>

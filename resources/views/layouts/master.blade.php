@@ -20,6 +20,7 @@
     <link rel="stylesheet" type="text/css" href="/css/style.css?v=1.1.1">
     <link rel="stylesheet" type="text/css" href="/css/dropify.min.css" />
     <link rel="stylesheet" type="text/css" href="/css/dropzone.css" />
+    <link rel="stylesheet" type="text/css" href="/css/datepicker.css" />
     <style>
         #notifDiv{
             display: none;
@@ -65,7 +66,7 @@
     <script src="/js/dropify.min.js"></script>
     <script src="/js/form-file-upload-data.js"></script>
     <script src="/js/custom.js" ></script>
-    <script src="/js/master.js?v=1.1.0" ></script>
+    <script src="/js/master.js?v=1.1.1" ></script>
     <script src="/js/jquery.form.min.js" ></script>
     <script src="/js/bootstrap-datepicker.js"></script>
     {{-- <script src="/js/dropzone-amd-module.js"></script>
@@ -84,9 +85,9 @@
     @elseif($controller == "RegisterController")
         <script src="/js/custom/employee.js?v=2.3.0" ></script>
     @elseif($controller == "Clients")
-        <script src="/js/client/clients.js?v=2.3.0" ></script>
+        <script src="/js/client/clients.js?v=2.3.1" ></script>
     @elseif($controller == "OrganizationManagement")
-        <script src="/js/manage_organization/manage_organization.js?v=2.3.0" ></script>
+        <script src="/js/manage_organization/manage_organization.js?v=2.3.1" ></script>
     @elseif($controller == "ManageBilling")
         <script src="/js/manage_billing/manage_billing.js?v=2.3.0" ></script>
     @elseif($controller == "ClientsForBilling")
@@ -94,7 +95,7 @@
     @elseif($controller == "ComplaintsAndSuggestions")
         <script src="/js/manage_complaints_suggestions/complaints_suggestions.js?v=2.3.0" ></script>
     @elseif($controller == "ConsignmentManagement")
-        <script src="/js/manage_consignment/consignment.js?v=2.3.1" ></script>
+        <script src="/js/manage_consignment/consignment.js?v=2.3.2" ></script>
     @elseif($controller == "AccessRights")
         <script src="/js/access_rights/access_rights.js?v=2.3.0" ></script>
     @elseif($controller == "HomeController")

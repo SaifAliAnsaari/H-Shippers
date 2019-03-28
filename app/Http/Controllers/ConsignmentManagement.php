@@ -1139,6 +1139,43 @@ class ConsignmentManagement extends ParentController
             }
     }
 
+    public function download_invoice_client(){
+        if(Cookie::get('client_session')){
+            $client_id = DB::table('clients')->where('client_login_session', Cookie::get('client_session'))->first();
+            if($client_id){
+                $invoice_num = $this->generateRandomNumber();
+                if(DB::table('invoice_data')->where('invoice_num', $invoice_num)->first()){
+                    return redirect('/download_invoice_c');
+                }else{
+                    $save_invoice_num = DB::table('invoice_data')->insert(['invoice_num' => $invoice_num, 'client_id' => $client_id->id]);
+
+                    $reports = DB::table('clients')->selectRaw('ntn, strn, username, company_name, poc_name, address, (Select Count(*) from consignment_client where customer_id = "'.$client_id->id.'" AND consignment_service_type = 1) as counts_same_day, (Select SUM(consignment_weight) from consignment_client where customer_id = "'.$client_id->id.'" AND consignment_service_type = 1) as weight_same_day, (Select Sum(total_price) from consignment_client where customer_id = "'.$client_id->id.'" AND consignment_service_type = 1) as price_same_day, (Select Count(*) from consignment_client where customer_id = "'.$client_id->id.'" AND consignment_service_type = 2) as counts_over_night, (Select SUM(consignment_weight) from consignment_client where customer_id = "'.$client_id->id.'" AND consignment_service_type = 2) as weight_over_night, (Select Sum(total_price) from consignment_client where customer_id = "'.$client_id->id.'" AND consignment_service_type = 2) as price_over_night, (Select Count(*) from consignment_client where customer_id = "'.$client_id->id.'" AND consignment_service_type = 3) as counts_second_day, (Select SUM(consignment_weight) from consignment_client where customer_id = "'.$client_id->id.'" AND consignment_service_type = 3) as weight_second_day, (Select Sum(total_price) from consignment_client where customer_id = "'.$client_id->id.'" AND consignment_service_type = 3) as price_second_day, (Select Count(*) from consignment_client where customer_id = "'.$client_id->id.'" AND consignment_service_type = 4) as counts_over_land, (Select SUM(consignment_weight) from consignment_client where customer_id = "'.$client_id->id.'" AND consignment_service_type = 4) as weight_over_land, (Select Sum(total_price) from consignment_client where customer_id = "'.$client_id->id.'" AND consignment_service_type = 4) as price_over_land, (Select fuel_charges from billing where customer_id = "'.$client_id->id.'") as fuel_charges, (Select tax from billing where customer_id = "'.$client_id->id.'") as gst, (Select id from billing where customer_id = "'.$client_id->id.'") as account_id, (SELECT Date(created_ad) FROM `clients` WHERE id = "'.$client_id->id.'") as date, (Select invoice_num from invoice_data where client_id = "'.$client_id->id.'" AND invoice_num = "'.$invoice_num.'") as invoice_num')->where('id', $client_id->id)->first();
+
+
+                    if($reports){
+                        $url = '/fpdf?'.http_build_query(json_decode(json_encode($reports), true));
+                        //echo(file_get_contents($url));die;
+                        if($url){
+                            return redirect($url);
+                        }
+                    }else{
+                        //Yani is client k against koi data nae hai
+                        return redirect('/home');
+                    }
+
+                    //http://h-shippers.debug
+                    // echo ($reports->counts_same_day * $reports->fuel_charges)-$reports->price_same_day; die;
+                   
+                }
+            }else{
+                return redirect('/home');
+            }
+        } else{
+            return redirect('/home');
+        }
+    }
+
+
 
 
     public function consignment_booked(){
@@ -1350,9 +1387,9 @@ class ConsignmentManagement extends ParentController
 
         $final_consignments = array();
         $counter = 0;
-        $consignments_client = DB::table('consignment_client as cc')->selectRaw('id, booking_date, cnic, consignment_weight, status, total_price, consignee_name, (Select username from clients where id = cc.customer_id) as shipper_name, (Select status from status_log where cnno = cc.cnic order by id desc LIMIT 1) as status_log, (Select remarks from status_log where cnno = cc.cnic order by id desc LIMIT 1) as status_remark')->where('status', 1)->get();
+        $consignments_client = DB::table('consignment_client as cc')->selectRaw('id, booking_date, rider, total_price, cnic, consignment_weight, status, total_price, consignee_name, (Select username from clients where id = cc.customer_id) as shipper_name, (Select status from status_log where cnno = cc.cnic order by id desc LIMIT 1) as status_log, (Select remarks from status_log where cnno = cc.cnic order by id desc LIMIT 1) as status_remark, (Select name from users where id = cc.rider) as rider_name')->where('status', 1)->get();
         //echo '<pre>'; print_r($consignments_client); die;
-        $consignments_admin = DB::table('consignment_admin as ca')->SelectRaw('id, booking_date, cnic, consignment_weight, status, total_price, consignee_name, shipper_name, (Select status from status_log where cnno = ca.cnic order by id desc LIMIT 1) as status_log, (Select remarks from status_log where cnno = ca.cnic order by id desc LIMIT 1) as status_remark')->where('status', 1)->get();
+        $consignments_admin = DB::table('consignment_admin as ca')->SelectRaw('id, booking_date, total_price, rider, cnic, consignment_weight, status, total_price, consignee_name, shipper_name, (Select status from status_log where cnno = ca.cnic order by id desc LIMIT 1) as status_log, (Select remarks from status_log where cnno = ca.cnic order by id desc LIMIT 1) as status_remark, (Select name from users where id = ca.rider) as rider_name')->where('status', 1)->get();
         //echo '<pre>'; print_r($consignments_admin); die;
         foreach($consignments_client as $client){
             $final_consignments[$counter]['id'] = $counter+1;
@@ -1365,6 +1402,8 @@ class ConsignmentManagement extends ParentController
             $final_consignments[$counter]['cnno'] = $client->cnic;
             $final_consignments[$counter]['status_log'] = $client->status_log;
             $final_consignments[$counter]['status_remark'] = $client->status_remark;
+            $final_consignments[$counter]['rider_name'] = $client->rider_name;
+            $final_consignments[$counter]['total_price'] = $client->total_price;
             $final_consignments[$counter]['opp'] = 'client';
             $counter++;
         }
@@ -1379,6 +1418,8 @@ class ConsignmentManagement extends ParentController
             $final_consignments[$counter]['status_log'] = $admin->status_log;
             $final_consignments[$counter]['status_remark'] = $admin->status_remark;
             $final_consignments[$counter]['reciver_name'] = $admin->consignee_name;
+            $final_consignments[$counter]['total_price'] = $admin->total_price;
+            $final_consignments[$counter]['rider_name'] = $admin->rider_name;
             $final_consignments[$counter]['opp'] = 'admin';
             $counter++;
         }

@@ -360,7 +360,17 @@ $(document).ready(function () {
                     setTimeout(() => {
                         $('#notifDiv').fadeOut();
                     }, 3000);
-                } else {
+                } else if(JSON.parse(response) == 'already_exist'){
+                    $('#savePickUp').removeAttr('disabled');
+                    $('#cancelsavePickUp').removeAttr('disabled');
+                    $('#savePickUp').text('Save');
+                    $('#notifDiv').fadeIn();
+                    $('#notifDiv').css('background', 'red');
+                    $('#notifDiv').text('City name Already exist');
+                    setTimeout(() => {
+                        $('#notifDiv').fadeOut();
+                    }, 3000);
+                }else {
                     $('#savePickUp').removeAttr('disabled');
                     $('#cancelsavePickUp').removeAttr('disabled');
                     $('#savePickUp').text('Save');
