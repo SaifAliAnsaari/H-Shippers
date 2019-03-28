@@ -199,13 +199,8 @@ $(document).ready(function() {
             data: $('#saveConsignmentFormClient').serialize(),
             cache: false,
             success: function(response) {
-                 //console.log(response);
-                // $('.save_consignment_client').removeAttr('disabled');
-                // $('.save_consignment_client').text('Save');
-                // $('.test_total_price').text("Total Price : " + response);
-                // return;
-
-                if (JSON.parse(response) == "failed") {
+                var response = JSON.parse(response);
+                if (response == "failed") {
                     $('.save_consignment_client').removeAttr('disabled');
                     //$('#cancelCustomer').removeAttr('disabled');
                     $('.save_consignment_client').text('Save');
@@ -238,7 +233,8 @@ $(document).ready(function() {
                     $('#remarks_client').val('');
                     
                 } else {
-                    $('.test_total_price').text("Total Price : " + response);
+                    debugger;
+                    $('.test_total_price').text("Total Price : " + response.total_price + " / " + "Sub Total : " + response.sub_price + " / " + "Fuel Charges : " + response.fuel_price + " / " + "GST Charges : " + response.tax_price);
                     $('.save_consignment_client').removeAttr('disabled');
                     // $('#cancelCustomer').removeAttr('disabled');
                      $('.save_consignment_client').text('Save');

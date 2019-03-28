@@ -111,11 +111,7 @@ class ConsignmentManagement extends ParentController
     }
 
     public function SaveConsignmentClient(Request $request){
-        // $check_CNNo = DB::table('consignment_client')->where('cnic', $request->cnic_client)->first();
-        // if($check_CNNo){
-        //     echo json_encode('CNNo already exist');
-        //     die;
-        // }
+      
         $service_type = $request->consignment_service_type_client;
         $chargesCriteria = "";
         $service_criteria = "";
@@ -130,32 +126,7 @@ class ConsignmentManagement extends ParentController
             $insurance = DB::table('billing')->select('insurance_for_electronics')->whereRaw('customer_id = (Select id from clients where client_login_session = "'.Cookie::get('client_session').'")')->first();
         }
 
-        //Fragile Types Yeh Har return pa check hon gay yani echo json_encode($totalPrice) ki jagha ye checks lagain gay
-        // if($request->product_price != ""){
-        //     if($request->Fragile_Criteria == "For Fragile"){
-        //         $totalPrice + (($insurance->insurance_for_fragile / 100) * $request->product_price);
-        //     }else if($request->Fragile_Criteria == "For Non Fragile"){
-        //         $totalPrice + (($insurance->insurance_for_non_fragile / 100) * $request->product_price);
-        //     }else if($request->Fragile_Criteria == "For Electronics"){
-        //         $totalPrice + (($insurance->insurance_for_electronics / 100) * $request->product_price);
-        //     }
-        // }
-
-        //Supplementary Services 
-        // if($request->hidden_supplementary_services != ""){
-        //     $suplementary_services =  explode(',', $request->hidden_supplementary_services);
-        //     foreach ($suplementary_services as $services) {
-        //         if($services == "Holiday"){
-        //             $supplementary_values = DB::table('billing')->select('holiday')->whereRaw('customer_id = (Select id from clients where client_login_session = "'.Cookie::get('client_session').'")')->first();
-        //         }else if($services == "Special Handling"){
-        //             $supplementary_values = DB::table('billing')->select('special_handling')->whereRaw('customer_id = (Select id from clients where client_login_session = "'.Cookie::get('client_session').'")')->first();
-        //         }else if($services == "Time Specified"){
-        //             $supplementary_values = DB::table('billing')->select('time_specified')->whereRaw('customer_id = (Select id from clients where client_login_session = "'.Cookie::get('client_session').'")')->first();
-        //         }else{
-        //             $supplementary_values = DB::table('billing')->select('passport')->whereRaw('customer_id = (Select id from clients where client_login_session = "'.Cookie::get('client_session').'")')->first();
-        //         }
-        //     }
-        // }
+       
 
         //yani service type (Second Day) aur (Over Land) nae hai
         if($request->consignment_service_type_client != 3 || $request->consignment_service_type_client != 4){
@@ -198,33 +169,21 @@ class ConsignmentManagement extends ParentController
                 if($service_criteria == "within city"){
                     $price = DB::table('biling_criteria')->select('upto_025')->whereRaw('biling_id = (Select id from billing where customer_id = (Select id from clients where client_login_session = "'.Cookie::get('client_session').'")) AND type = "within city" AND criteria = 0')->first();
                     $totalPrice = $price->upto_025;
-                    // $insert = DB::table('consignment_test_table')->insert([
-                    //     'total_price' => $totalPrice,
-                    //     'type' => 'within city',
-                    //     'criteria' => 0
-                    // ]);
+                   
                     if($request->fragile_cost_hidden !== ""){
                         $totalPrice = $totalPrice + $request->fragile_cost_hidden;
                     }
                 }else if($service_criteria == "within province"){
                     $price = DB::table('biling_criteria')->select('upto_025')->whereRaw('biling_id = (Select id from billing where customer_id = (Select id from clients where client_login_session = "'.Cookie::get('client_session').'")) AND type = "within province" AND criteria = 0')->first();
                     $totalPrice = $price->upto_025;
-                    // $insert = DB::table('consignment_test_table')->insert([
-                    //     'total_price' => $totalPrice,
-                    //     'type' => 'within province',
-                    //     'criteria' => 0
-                    // ]);
+                    
                     if($request->fragile_cost_hidden !== ""){
                         $totalPrice = $totalPrice + $request->fragile_cost_hidden;
                     }
                 }else if($service_criteria == "province to province"){
                     $price = DB::table('biling_criteria')->select('upto_025')->whereRaw('biling_id = (Select id from billing where customer_id = (Select id from clients where client_login_session = "'.Cookie::get('client_session').'")) AND type = "province to province" AND criteria = 0')->first();
                     $totalPrice = $price->upto_025;
-                    // $insert = DB::table('consignment_test_table')->insert([
-                    //     'total_price' => $totalPrice,
-                    //     'type' => 'province to province',
-                    //     'criteria' => 0
-                    // ]);
+                    
                     if($request->fragile_cost_hidden !== ""){
                         $totalPrice = $totalPrice + $request->fragile_cost_hidden;
                     }
@@ -233,33 +192,21 @@ class ConsignmentManagement extends ParentController
                 if($service_criteria == "within city"){
                     $price = DB::table('biling_criteria')->select('upto_05')->whereRaw('biling_id = (Select id from billing where customer_id = (Select id from clients where client_login_session = "'.Cookie::get('client_session').'")) AND type = "within city" AND criteria = 0')->first();
                     $totalPrice = $price->upto_05;
-                    // $insert = DB::table('consignment_test_table')->insert([
-                    //     'total_price' => $totalPrice,
-                    //     'type' => 'within city',
-                    //     'criteria' => 0
-                    // ]);
+                    
                     if($request->fragile_cost_hidden !== ""){
                         $totalPrice = $totalPrice + $request->fragile_cost_hidden;
                     }
                 }else if($service_criteria == "within province"){
                     $price = DB::table('biling_criteria')->select('upto_05')->whereRaw('biling_id = (Select id from billing where customer_id = (Select id from clients where client_login_session = "'.Cookie::get('client_session').'")) AND type = "within province" AND criteria = 0')->first();
                     $totalPrice = $price->upto_05;
-                    // $insert = DB::table('consignment_test_table')->insert([
-                    //     'total_price' => $totalPrice,
-                    //     'type' => 'within province',
-                    //     'criteria' => 0
-                    // ]);
+                   
                     if($request->fragile_cost_hidden !== ""){
                         $totalPrice = $totalPrice + $request->fragile_cost_hidden;
                     }
                 }else if($service_criteria == "province to province"){
                     $price = DB::table('biling_criteria')->select('upto_05')->whereRaw('biling_id = (Select id from billing where customer_id = (Select id from clients where client_login_session = "'.Cookie::get('client_session').'")) AND type = "province to province" AND criteria = 0')->first();
                     $totalPrice = $price->upto_05;
-                    // $insert = DB::table('consignment_test_table')->insert([
-                    //     'total_price' => $totalPrice,
-                    //     'type' => 'province to province',
-                    //     'criteria' => 0
-                    // ]);
+                   
                     if($request->fragile_cost_hidden !== ""){
                         $totalPrice = $totalPrice + $request->fragile_cost_hidden;
                     }
@@ -268,33 +215,21 @@ class ConsignmentManagement extends ParentController
                 if($service_criteria == "within city"){
                     $price = DB::table('biling_criteria')->select('zero_five_1KG')->whereRaw('biling_id = (Select id from billing where customer_id = (Select id from clients where client_login_session = "'.Cookie::get('client_session').'")) AND type = "within city" AND criteria = 0')->first();
                     $totalPrice = $price->zero_five_1KG;
-                    // $insert = DB::table('consignment_test_table')->insert([
-                    //     'total_price' => $totalPrice,
-                    //     'type' => 'within city',
-                    //     'criteria' => 0
-                    // ]);
+                   
                     if($request->fragile_cost_hidden !== ""){
                         $totalPrice = $totalPrice + $request->fragile_cost_hidden;
                     }
                 }else if($service_criteria == "within province"){
                     $price = DB::table('biling_criteria')->select('zero_five_1KG')->whereRaw('biling_id = (Select id from billing where customer_id = (Select id from clients where client_login_session = "'.Cookie::get('client_session').'")) AND type = "within province" AND criteria = 0')->first();
                     $totalPrice = $price->zero_five_1KG;
-                    // $insert = DB::table('consignment_test_table')->insert([
-                    //     'total_price' => $totalPrice,
-                    //     'type' => 'within province',
-                    //     'criteria' => 0
-                    // ]);
+                   
                     if($request->fragile_cost_hidden !== ""){
                         $totalPrice = $totalPrice + $request->fragile_cost_hidden;
                     }
                 }else if($service_criteria == "province to province"){
                     $price = DB::table('biling_criteria')->select('zero_five_1KG')->whereRaw('biling_id = (Select id from billing where customer_id = (Select id from clients where client_login_session = "'.Cookie::get('client_session').'")) AND type = "province to province" AND criteria = 0')->first();
                     $totalPrice = $price->zero_five_1KG;
-                    // $insert = DB::table('consignment_test_table')->insert([
-                    //     'total_price' => $totalPrice,
-                    //     'type' => 'province to province',
-                    //     'criteria' => 0
-                    // ]);
+                   
                     if($request->fragile_cost_hidden !== ""){
                         $totalPrice = $totalPrice + $request->fragile_cost_hidden;
                     }
@@ -307,11 +242,7 @@ class ConsignmentManagement extends ParentController
                     $price = $chunks * $eachAdditionalPrice->additionals_05;
                     $maxKgPrice = DB::table('biling_criteria')->select('zero_five_1KG')->whereRaw('biling_id = (Select id from billing where customer_id = (Select id from clients where client_login_session = "'.Cookie::get('client_session').'")) AND type = "within city" AND criteria = 0')->first();
                     $totalPrice = $maxKgPrice->zero_five_1KG + $price;
-                    // $insert = DB::table('consignment_test_table')->insert([
-                    //     'total_price' => $totalPrice,
-                    //     'type' => 'within city',
-                    //     'criteria' => 0
-                    // ]);
+                   
                     if($request->fragile_cost_hidden !== ""){
                         $totalPrice = $totalPrice + $request->fragile_cost_hidden;
                     }
@@ -321,11 +252,7 @@ class ConsignmentManagement extends ParentController
                     $price = $chunks * $eachAdditionalPrice->additionals_05;
                     $maxKgPrice = DB::table('biling_criteria')->select('zero_five_1KG')->whereRaw('biling_id = (Select id from billing where customer_id = (Select id from clients where client_login_session = "'.Cookie::get('client_session').'")) AND type = "within province" AND criteria = 0')->first();
                     $totalPrice = $maxKgPrice->zero_five_1KG + $price;
-                    // $insert = DB::table('consignment_test_table')->insert([
-                    //     'total_price' => $totalPrice,
-                    //     'type' => 'within province',
-                    //     'criteria' => 0
-                    // ]);
+                   
                     if($request->fragile_cost_hidden !== ""){
                         $totalPrice = $totalPrice + $request->fragile_cost_hidden;
                     }
@@ -340,11 +267,7 @@ class ConsignmentManagement extends ParentController
                     if($request->fragile_cost_hidden !== ""){
                         $totalPrice = $totalPrice + $request->fragile_cost_hidden;
                     }
-                    // $insert = DB::table('consignment_test_table')->insert([
-                    //     'total_price' => $totalPrice,
-                    //     'type' => 'province to province',
-                    //     'criteria' => 0
-                    // ]);
+                   
                 }
                 
                 
@@ -355,33 +278,21 @@ class ConsignmentManagement extends ParentController
                 if($service_criteria == "within city"){
                     $price = DB::table('biling_criteria')->select('upto_025')->whereRaw('biling_id = (Select id from billing where customer_id = (Select id from clients where client_login_session = "'.Cookie::get('client_session').'")) AND type = "within city" AND criteria = 1')->first();
                     $totalPrice = $price->upto_025;
-                    // $insert = DB::table('consignment_test_table')->insert([
-                    //     'total_price' => $totalPrice,
-                    //     'type' => 'within city',
-                    //     'criteria' => 1
-                    // ]);
+                   
                     if($request->fragile_cost_hidden !== ""){
                         $totalPrice = $totalPrice + $request->fragile_cost_hidden;
                     }
                 }else if($service_criteria == "within province"){
                     $price = DB::table('biling_criteria')->select('upto_025')->whereRaw('biling_id = (Select id from billing where customer_id = (Select id from clients where client_login_session = "'.Cookie::get('client_session').'")) AND type = "within province" AND criteria = 1')->first();
                     $totalPrice = $price->upto_025;
-                    // $insert = DB::table('consignment_test_table')->insert([
-                    //     'total_price' => $totalPrice,
-                    //     'type' => 'within province',
-                    //     'criteria' => 1
-                    // ]);
+                    
                     if($request->fragile_cost_hidden !== ""){
                         $totalPrice = $totalPrice + $request->fragile_cost_hidden;
                     }
                 }else if($service_criteria == "province to province"){
                     $price = DB::table('biling_criteria')->select('upto_025')->whereRaw('biling_id = (Select id from billing where customer_id = (Select id from clients where client_login_session = "'.Cookie::get('client_session').'")) AND type = "province to province" AND criteria = 1')->first();
                     $totalPrice = $price->upto_025;
-                    // $insert = DB::table('consignment_test_table')->insert([
-                    //     'total_price' => $totalPrice,
-                    //     'type' => 'province to province',
-                    //     'criteria' => 1
-                    // ]);
+                   
                     if($request->fragile_cost_hidden !== ""){
                         $totalPrice = $totalPrice + $request->fragile_cost_hidden;
                     }
@@ -390,33 +301,21 @@ class ConsignmentManagement extends ParentController
                 if($service_criteria == "within city"){
                     $price = DB::table('biling_criteria')->select('upto_05')->whereRaw('biling_id = (Select id from billing where customer_id = (Select id from clients where client_login_session = "'.Cookie::get('client_session').'")) AND type = "within city" AND criteria = 1')->first();
                     $totalPrice = $price->upto_05;
-                    // $insert = DB::table('consignment_test_table')->insert([
-                    //     'total_price' => $totalPrice,
-                    //     'type' => 'within city',
-                    //     'criteria' => 1
-                    // ]);
+                   
                     if($request->fragile_cost_hidden !== ""){
                         $totalPrice = $totalPrice + $request->fragile_cost_hidden;
                     }
                 }else if($service_criteria == "within province"){
                     $price = DB::table('biling_criteria')->select('upto_05')->whereRaw('biling_id = (Select id from billing where customer_id = (Select id from clients where client_login_session = "'.Cookie::get('client_session').'")) AND type = "within province" AND criteria = 1')->first();
                     $totalPrice = $price->upto_05;
-                    // $insert = DB::table('consignment_test_table')->insert([
-                    //     'total_price' => $totalPrice,
-                    //     'type' => 'within province',
-                    //     'criteria' => 1
-                    // ]);
+                   
                     if($request->fragile_cost_hidden !== ""){
                         $totalPrice = $totalPrice + $request->fragile_cost_hidden;
                     }
                 }else if($service_criteria == "province to province"){
                     $price = DB::table('biling_criteria')->select('upto_05')->whereRaw('biling_id = (Select id from billing where customer_id = (Select id from clients where client_login_session = "'.Cookie::get('client_session').'")) AND type = "province to province" AND criteria = 1')->first();
                     $totalPrice = $price->upto_05;
-                    // $insert = DB::table('consignment_test_table')->insert([
-                    //     'total_price' => $totalPrice,
-                    //     'type' => 'province to province',
-                    //     'criteria' => 1
-                    // ]);
+                   
                     if($request->fragile_cost_hidden !== ""){
                         $totalPrice = $totalPrice + $request->fragile_cost_hidden;
                     }
@@ -425,11 +324,7 @@ class ConsignmentManagement extends ParentController
                 if($service_criteria == "within city"){
                     $price = DB::table('biling_criteria')->select('zero_five_1KG')->whereRaw('biling_id = (Select id from billing where customer_id = (Select id from clients where client_login_session = "'.Cookie::get('client_session').'")) AND type = "within city" AND criteria = 1')->first();
                     $totalPrice = $price->zero_five_1KG;
-                    // $insert = DB::table('consignment_test_table')->insert([
-                    //     'total_price' => $totalPrice,
-                    //     'type' => 'within city',
-                    //     'criteria' => 1
-                    // ]);
+                   
                     if($request->fragile_cost_hidden !== ""){
                         $totalPrice = $totalPrice + $request->fragile_cost_hidden;
                     }
@@ -437,22 +332,14 @@ class ConsignmentManagement extends ParentController
                     $price = DB::table('biling_criteria')->select('zero_five_1KG')->whereRaw('biling_id = (Select id from billing where customer_id = (Select id from clients where client_login_session = "'.Cookie::get('client_session').'")) AND type = "within province" AND criteria = 1')->first();
                     $totalPrice = $price->zero_five_1KG;
                     $totalPrice = $price->zero_five_1KG;
-                    // $insert = DB::table('consignment_test_table')->insert([
-                    //     'total_price' => $totalPrice,
-                    //     'type' => 'within province',
-                    //     'criteria' => 1
-                    // ]);
+                   
                     if($request->fragile_cost_hidden !== ""){
                         $totalPrice = $totalPrice + $request->fragile_cost_hidden;
                     }
                 }else if($service_criteria == "province to province"){
                     $price = DB::table('biling_criteria')->select('zero_five_1KG')->whereRaw('biling_id = (Select id from billing where customer_id = (Select id from clients where client_login_session = "'.Cookie::get('client_session').'")) AND type = "province to province" AND criteria = 1')->first();
                     $totalPrice = $price->zero_five_1KG;
-                    // $insert = DB::table('consignment_test_table')->insert([
-                    //     'total_price' => $totalPrice,
-                    //     'type' => 'province to province',
-                    //     'criteria' => 1
-                    // ]);
+                   
                     if($request->fragile_cost_hidden !== ""){
                         $totalPrice = $totalPrice + $request->fragile_cost_hidden;
                     }
@@ -465,11 +352,7 @@ class ConsignmentManagement extends ParentController
                     $price = $chunks * $eachAdditionalPrice->additionals_05;
                     $maxKgPrice = DB::table('biling_criteria')->select('zero_five_1KG')->whereRaw('biling_id = (Select id from billing where customer_id = (Select id from clients where client_login_session = "'.Cookie::get('client_session').'")) AND type = "within city" AND criteria = 1')->first();
                     $totalPrice = $maxKgPrice->zero_five_1KG + $price;
-                    // $insert = DB::table('consignment_test_table')->insert([
-                    //     'total_price' => $totalPrice,
-                    //     'type' => 'within city',
-                    //     'criteria' => 1
-                    // ]);
+                   
                     if($request->fragile_cost_hidden !== ""){
                         $totalPrice = $totalPrice + $request->fragile_cost_hidden;
                     }
@@ -479,11 +362,7 @@ class ConsignmentManagement extends ParentController
                     $price = $chunks * $eachAdditionalPrice->additionals_05;
                     $maxKgPrice = DB::table('biling_criteria')->select('zero_five_1KG')->whereRaw('biling_id = (Select id from billing where customer_id = (Select id from clients where client_login_session = "'.Cookie::get('client_session').'")) AND type = "within province" AND criteria = 1')->first();
                     $totalPrice = $maxKgPrice->zero_five_1KG + $price;
-                    // $insert = DB::table('consignment_test_table')->insert([
-                    //     'total_price' => $totalPrice,
-                    //     'type' => 'within province',
-                    //     'criteria' => 1
-                    // ]);
+                   
                     if($request->fragile_cost_hidden !== ""){
                         $totalPrice = $totalPrice + $request->fragile_cost_hidden;
                     }
@@ -493,11 +372,7 @@ class ConsignmentManagement extends ParentController
                     $price = $chunks * $eachAdditionalPrice->additionals_05;
                     $maxKgPrice = DB::table('biling_criteria')->select('zero_five_1KG')->whereRaw('biling_id = (Select id from billing where customer_id = (Select id from clients where client_login_session = "'.Cookie::get('client_session').'")) AND type = "province to province" AND criteria = 1')->first();
                     $totalPrice = $maxKgPrice->zero_five_1KG + $price;
-                    // $insert = DB::table('consignment_test_table')->insert([
-                    //     'total_price' => $totalPrice,
-                    //     'type' => 'province to province',
-                    //     'criteria' => 1
-                    // ]);
+                    
                     if($request->fragile_cost_hidden !== ""){
                         $totalPrice = $totalPrice + $request->fragile_cost_hidden;
                     }
@@ -510,22 +385,14 @@ class ConsignmentManagement extends ParentController
                 if($service_criteria == "within province"){
                     $price = DB::table('biling_criteria')->select('upto_3KG')->whereRaw('biling_id = (Select id from billing where customer_id = (Select id from clients where client_login_session = "'.Cookie::get('client_session').'")) AND type = "within province" AND criteria = 2')->first();
                     $totalPrice = $price->upto_3KG;
-                    // $insert = DB::table('consignment_test_table')->insert([
-                    //     'total_price' => $totalPrice,
-                    //     'type' => 'within province',
-                    //     'criteria' => 2
-                    // ]);
+                   
                     if($request->fragile_cost_hidden !== ""){
                         $totalPrice = $totalPrice + $request->fragile_cost_hidden;
                     }
                 }else if($service_criteria == "province to province"){
                     $price = DB::table('biling_criteria')->select('upto_3KG')->whereRaw('biling_id = (Select id from billing where customer_id = (Select id from clients where client_login_session = "'.Cookie::get('client_session').'")) AND type = "province to province" AND criteria = 2')->first();
                     $totalPrice = $price->upto_3KG;
-                    // $insert = DB::table('consignment_test_table')->insert([
-                    //     'total_price' => $totalPrice,
-                    //     'type' => 'province to province',
-                    //     'criteria' => 2
-                    // ]);
+                   
                     if($request->fragile_cost_hidden !== ""){
                         $totalPrice = $totalPrice + $request->fragile_cost_hidden;
                     }
@@ -537,11 +404,7 @@ class ConsignmentManagement extends ParentController
                     $price = $chunks * $eachAdditionalPrice->additional_1KG;
                     $maxKgPrice = DB::table('biling_criteria')->select('upto_3KG')->whereRaw('biling_id = (Select id from billing where customer_id = (Select id from clients where client_login_session = "'.Cookie::get('client_session').'")) AND type = "within province" AND criteria = 2')->first();
                     $totalPrice = $maxKgPrice->upto_3KG + $price;
-                    // $insert = DB::table('consignment_test_table')->insert([
-                    //     'total_price' => $totalPrice,
-                    //     'type' => 'within province',
-                    //     'criteria' => 2
-                    // ]);
+                   
                     if($request->fragile_cost_hidden !== ""){
                         $totalPrice = $totalPrice + $request->fragile_cost_hidden;
                     }
@@ -551,11 +414,7 @@ class ConsignmentManagement extends ParentController
                     $price = $chunks * $eachAdditionalPrice->additional_1KG;
                     $maxKgPrice = DB::table('biling_criteria')->select('upto_3KG')->whereRaw('biling_id = (Select id from billing where customer_id = (Select id from clients where client_login_session = "'.Cookie::get('client_session').'")) AND type = "province to province" AND criteria = 2')->first();
                     $totalPrice = $maxKgPrice->upto_3KG + $price;
-                    // $insert = DB::table('consignment_test_table')->insert([
-                    //     'total_price' => $totalPrice,
-                    //     'type' => 'province to province',
-                    //     'criteria' => 2
-                    // ]);
+                   
                     if($request->fragile_cost_hidden !== ""){
                         $totalPrice = $totalPrice + $request->fragile_cost_hidden;
                     }
@@ -566,22 +425,14 @@ class ConsignmentManagement extends ParentController
                 if($service_criteria == "within province"){
                     $price = DB::table('biling_criteria')->select('upto_10KG')->whereRaw('biling_id = (Select id from billing where customer_id = (Select id from clients where client_login_session = "'.Cookie::get('client_session').'")) AND type = "within province" AND criteria = 3')->first();
                     $totalPrice = $price->upto_10KG;
-                    // $insert = DB::table('consignment_test_table')->insert([
-                    //     'total_price' => $totalPrice,
-                    //     'type' => 'within province',
-                    //     'criteria' => 3
-                    // ]);
+                   
                     if($request->fragile_cost_hidden !== ""){
                         $totalPrice = $totalPrice + $request->fragile_cost_hidden;
                     }
                 }else if($service_criteria == "province to province"){
                     $price = DB::table('biling_criteria')->select('upto_10KG')->whereRaw('biling_id = (Select id from billing where customer_id = (Select id from clients where client_login_session = "'.Cookie::get('client_session').'")) AND type = "province to province" AND criteria = 3')->first();
                     $totalPrice = $price->upto_10KG;
-                    // $insert = DB::table('consignment_test_table')->insert([
-                    //     'total_price' => $totalPrice,
-                    //     'type' => 'province to province',
-                    //     'criteria' => 3
-                    // ]);
+                   
                     if($request->fragile_cost_hidden !== ""){
                         $totalPrice = $totalPrice + $request->fragile_cost_hidden;
                     }
@@ -593,11 +444,7 @@ class ConsignmentManagement extends ParentController
                     $price = $chunks * $eachAdditionalPrice->additional_1KG;
                     $maxKgPrice = DB::table('biling_criteria')->select('upto_3KG')->whereRaw('biling_id = (Select id from billing where customer_id = (Select id from clients where client_login_session = "'.Cookie::get('client_session').'")) AND type = "within province" AND criteria = 3')->first();
                     $totalPrice = $maxKgPrice->upto_3KG + $price;
-                    // $insert = DB::table('consignment_test_table')->insert([
-                    //     'total_price' => $totalPrice,
-                    //     'type' => 'within province',
-                    //     'criteria' => 3
-                    // ]);
+                   
                     if($request->fragile_cost_hidden !== ""){
                         $totalPrice = $totalPrice + $request->fragile_cost_hidden;
                     }
@@ -607,11 +454,7 @@ class ConsignmentManagement extends ParentController
                     $price = $chunks * $eachAdditionalPrice->additionals_05;
                     $maxKgPrice = DB::table('biling_criteria')->select('upto_3KG')->whereRaw('biling_id = (Select id from billing where customer_id = (Select id from clients where client_login_session = "'.Cookie::get('client_session').'")) AND type = "province to province" AND criteria = 3')->first();
                     $totalPrice = $maxKgPrice->upto_3KG + $price;
-                    // $insert = DB::table('consignment_test_table')->insert([
-                    //     'total_price' => $totalPrice,
-                    //     'type' => 'province to province',
-                    //     'criteria' => 3
-                    // ]);
+                   
                     if($request->fragile_cost_hidden !== ""){
                         $totalPrice = $totalPrice + $request->fragile_cost_hidden;
                     }
@@ -652,9 +495,14 @@ class ConsignmentManagement extends ParentController
         }
 
         $gst_fuel = DB::table('billing')->select('tax', 'fuel_charges')->whereRaw('customer_id = (Select id from clients where client_login_session = "'.Cookie::get('client_session').'")')->first();
+        $sub_total = $totalPrice;
+
         if($gst_fuel->tax != "" || $gst_fuel->fuel_charges != ""){
-            $totalPrice = $totalPrice + (($gst_fuel->tax / 100) * $totalPrice);
-            $totalPrice = $totalPrice + (($gst_fuel->fuel_charges / 100) * $totalPrice);
+            $totalPrice = $totalPrice + (($gst_fuel->tax / 100) * $sub_total);
+            $totalPrice = $totalPrice + (($gst_fuel->fuel_charges / 100) * $sub_total);
+
+            $price_for_fuel = ($gst_fuel->fuel_charges / 100) * $sub_total;
+            $price_for_tax = ($gst_fuel->tax / 100) * $sub_total;
         }
         // echo json_encode(round($totalPrice));
         
@@ -682,6 +530,9 @@ class ConsignmentManagement extends ParentController
             'consignment_dest_city' => $request->consignment_dest_city_client,
             'remarks' => $request->remarks_client,
             'supplementary_services' => $request->hidden_supplementary_services,
+            'sub_total' => $sub_total,
+            'fuel_charge' => $price_for_fuel,
+            'gst_charge' => $price_for_tax,
             'total_price' => $totalPrice
             ]);
             if($save_consignment_client){
@@ -703,7 +554,8 @@ class ConsignmentManagement extends ParentController
 
                 if($insert_notification){
                     //echo json_encode($request->cnic_client);
-                    echo json_encode(round($totalPrice));
+
+                    echo json_encode(array('total_price'=> ROUND($totalPrice, 2), 'sub_price' => ROUND($sub_total, 2), 'fuel_price' => $price_for_fuel, 'tax_price' => $price_for_tax));
                     //return redirect('/invoice/"'.$request->cnic_client.'"');
                 }else{
                     echo json_encode('failed');
@@ -714,15 +566,34 @@ class ConsignmentManagement extends ParentController
     }
 
     public function invoice($id){
-        $check_session = DB::table('clients')->select('username', 'company_pic')->where('client_login_session', Cookie::get('client_session'))->first();
+        $check_session = DB::table('clients')->select('id', 'username', 'company_pic')->where('client_login_session', Cookie::get('client_session'))->first();
         if(!$check_session){
             return redirect('/cout');
         }else{
             parent::get_client_nofif_data();
 
-            $client_consignment = DB::table('consignment_client as cc')->selectRaw('id, booking_date, consignee_ref, consignee_cell, consignee_address, consignee_name, remarks, customer_id, consignment_description, consignment_weight, fragile_cost, consignment_dest_city, consignment_pieces, TIME(created_at) as time, (Select city from clients where id = cc.customer_id) as origin, (Select company_name from clients where id = cc.customer_id) as shipper_name')->where('cnic', $id)->first();
+            $client_consignment = DB::table('consignment_client as cc')->selectRaw('id, booking_date, cnic, consignee_ref, consignee_cell, consignee_address, consignee_name, remarks, customer_id, consignment_description, consignment_weight, fragile_cost, consignment_dest_city, consignment_pieces, supplementary_services, TIME(created_at) as time, (Select city from clients where id = cc.customer_id) as origin, (Select company_name from clients where id = cc.customer_id) as shipper_name')->where('cnic', $id)->first();
             if($client_consignment){
-                return view('invoices.invoice', ['data' => $client_consignment, 'name' => $check_session, 'notifications_counts' => $this->notif_counts_client, 'notif_data' => $this->notif_data_client, 'all_notif' => $this->clients_all_notifications]);
+               // $suplementary_services = $client_consignment->supplementary_services;
+               if($client_consignment->supplementary_services == null || $client_consignment->supplementary_services == ''){
+                    $supplementary_charges = 0;
+               }else{
+                    $suplementary_services = explode(',', $client_consignment->supplementary_services);
+                    $supplementary_charges = 0;
+                    $billing = DB::table('billing')->where('customer_id', $check_session->id)->first();
+                    foreach($suplementary_services as $services){
+                        if($services == 'Special Handling'){
+                            $supplementary_charges += $billing->special_handling;
+                        }else if($services == 'Holiday'){
+                            $supplementary_charges += $billing->holiday;
+                        }else if($services == 'Time Specified'){
+                            $supplementary_charges += $billing->time_specified;
+                        }else{
+                            $supplementary_charges += $billing->passport;
+                        }
+                    }
+               }
+                return view('invoices.invoice', ['data' => $client_consignment, 'name' => $check_session, 'notifications_counts' => $this->notif_counts_client, 'notif_data' => $this->notif_data_client, 'all_notif' => $this->clients_all_notifications, 'supplementary_charges' => $supplementary_charges]);
             }else{
                 return redirect('/consignment_booking_client');
             } 
@@ -1139,6 +1010,7 @@ class ConsignmentManagement extends ParentController
             }
     }
 
+    //Download Invoice
     public function download_invoice_client(){
         if(Cookie::get('client_session')){
             $client_id = DB::table('clients')->where('client_login_session', Cookie::get('client_session'))->first();
@@ -1149,9 +1021,10 @@ class ConsignmentManagement extends ParentController
                 }else{
                     $save_invoice_num = DB::table('invoice_data')->insert(['invoice_num' => $invoice_num, 'client_id' => $client_id->id]);
 
-                    $reports = DB::table('clients')->selectRaw('ntn, strn, username, company_name, poc_name, address, (Select Count(*) from consignment_client where customer_id = "'.$client_id->id.'" AND consignment_service_type = 1) as counts_same_day, (Select SUM(consignment_weight) from consignment_client where customer_id = "'.$client_id->id.'" AND consignment_service_type = 1) as weight_same_day, (Select Sum(total_price) from consignment_client where customer_id = "'.$client_id->id.'" AND consignment_service_type = 1) as price_same_day, (Select Count(*) from consignment_client where customer_id = "'.$client_id->id.'" AND consignment_service_type = 2) as counts_over_night, (Select SUM(consignment_weight) from consignment_client where customer_id = "'.$client_id->id.'" AND consignment_service_type = 2) as weight_over_night, (Select Sum(total_price) from consignment_client where customer_id = "'.$client_id->id.'" AND consignment_service_type = 2) as price_over_night, (Select Count(*) from consignment_client where customer_id = "'.$client_id->id.'" AND consignment_service_type = 3) as counts_second_day, (Select SUM(consignment_weight) from consignment_client where customer_id = "'.$client_id->id.'" AND consignment_service_type = 3) as weight_second_day, (Select Sum(total_price) from consignment_client where customer_id = "'.$client_id->id.'" AND consignment_service_type = 3) as price_second_day, (Select Count(*) from consignment_client where customer_id = "'.$client_id->id.'" AND consignment_service_type = 4) as counts_over_land, (Select SUM(consignment_weight) from consignment_client where customer_id = "'.$client_id->id.'" AND consignment_service_type = 4) as weight_over_land, (Select Sum(total_price) from consignment_client where customer_id = "'.$client_id->id.'" AND consignment_service_type = 4) as price_over_land, (Select fuel_charges from billing where customer_id = "'.$client_id->id.'") as fuel_charges, (Select tax from billing where customer_id = "'.$client_id->id.'") as gst, (Select id from billing where customer_id = "'.$client_id->id.'") as account_id, (SELECT Date(created_ad) FROM `clients` WHERE id = "'.$client_id->id.'") as date, (Select invoice_num from invoice_data where client_id = "'.$client_id->id.'" AND invoice_num = "'.$invoice_num.'") as invoice_num')->where('id', $client_id->id)->first();
+                    $reports = DB::table('clients')->selectRaw('ntn, strn, username, company_name, poc_name, address, (Select Count(*) from consignment_client where customer_id = "'.$client_id->id.'" AND consignment_service_type = 1) as counts_same_day, (Select SUM(consignment_weight) from consignment_client where customer_id = "'.$client_id->id.'" AND consignment_service_type = 1) as weight_same_day, (Select Sum(sub_total) from consignment_client where customer_id = "'.$client_id->id.'" AND consignment_service_type = 1) as sub_price_same_day, (Select Sum(total_price) from consignment_client where customer_id = "'.$client_id->id.'" AND consignment_service_type = 1) as price_same_day, (Select Count(*) from consignment_client where customer_id = "'.$client_id->id.'" AND consignment_service_type = 2) as counts_over_night, (Select SUM(consignment_weight) from consignment_client where customer_id = "'.$client_id->id.'" AND consignment_service_type = 2) as weight_over_night, (Select Sum(sub_total) from consignment_client where customer_id = "'.$client_id->id.'" AND consignment_service_type = 2) as sub_price_over_nigth, (Select Sum(total_price) from consignment_client where customer_id = "'.$client_id->id.'" AND consignment_service_type = 2) as price_over_night, (Select Count(*) from consignment_client where customer_id = "'.$client_id->id.'" AND consignment_service_type = 3) as counts_second_day, (Select SUM(consignment_weight) from consignment_client where customer_id = "'.$client_id->id.'" AND consignment_service_type = 3) as weight_second_day, (Select Sum(sub_total) from consignment_client where customer_id = "'.$client_id->id.'" AND consignment_service_type = 3) as sub_price_second_day, (Select Sum(total_price) from consignment_client where customer_id = "'.$client_id->id.'" AND consignment_service_type = 3) as price_second_day,(Select Count(*) from consignment_client where customer_id = "'.$client_id->id.'" AND consignment_service_type = 4) as counts_over_land, (Select SUM(consignment_weight) from consignment_client where customer_id = "'.$client_id->id.'" AND consignment_service_type = 4) as weight_over_land, (Select Sum(sub_total) from consignment_client where customer_id = "'.$client_id->id.'" AND consignment_service_type = 4) as sub_price_over_land, (Select Sum(total_price) from consignment_client where customer_id = "'.$client_id->id.'" AND consignment_service_type = 4) as price_over_land, (Select SUM(fuel_charge) from consignment_client where customer_id = "'.$client_id->id.'") as fuel_charges, (Select SUM(gst_charge) from consignment_client where customer_id = "'.$client_id->id.'") as total_tax, (Select tax from billing where customer_id = "'.$client_id->id.'") as gst, (Select id from billing where customer_id = "'.$client_id->id.'") as account_id, (SELECT Date(created_ad) FROM `clients` WHERE id = "'.$client_id->id.'") as date, (Select invoice_num from invoice_data where client_id = "'.$client_id->id.'" AND invoice_num = "'.$invoice_num.'") as invoice_num')->where('id', $client_id->id)->first();
 
 
+                    //echo '<pre>'; print_r($reports); die;
                     if($reports){
                         $url = '/fpdf?'.http_build_query(json_decode(json_encode($reports), true));
                         //echo(file_get_contents($url));die;

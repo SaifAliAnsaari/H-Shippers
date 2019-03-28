@@ -29,6 +29,8 @@
                                     <div class="_barcode">
                                         <span class="barcode_area" style="display: inline-block; margin: 10px 0 0; padding: 5px 10px"
                                             style="display: inline-block; margin: 10px 0 0; padding: 5px 10px"></span>
+
+                                         <span style="text-align: center; letter-spacing: 10px;">{{ $data->cnic }}</span>    
                                         <h2>CONSIGNEE COPY</h2>
                                     </div>
 
@@ -62,7 +64,7 @@
                                                 <td>{{ $data->consignment_dest_city }}</td>
                                             </tr>
                                             <tr>
-                                                <td colspan="2">COD Amount PKR NA</td>
+                                                <td colspan="2">COD Amount PKR {{ $supplementary_charges }}</td>
                                                 <td colspan="2">Decld. Ins. Value Rs, NA/-</td>
                                             </tr>
                                         </tbody>
@@ -116,6 +118,7 @@
                                     <div class="inv_logo"><img src="/images/h-shippers.svg" alt="" /></div>
                                     <div class="_barcode">
                                         <span class="barcode_area" style="margin-top:20px;" style="display: inline-block; margin: 10px 0 0; padding: 5px 10px"></span>
+                                        <span style="text-align: center; letter-spacing: 10px;">{{ $data->cnic }}</span>    
                                         <h2>Account's Copy</h2>
                                     </div>
 
@@ -198,6 +201,7 @@
                                     <div class="inv_logo"><img src="/images/h-shippers.svg" alt="" /></div>
                                     <div class="_barcode">
                                         <span class="barcode_area" style="margin-top:20px;" style="display: inline-block; margin: 10px 0 0; padding: 5px 10px"></span>
+                                        <span style="text-align: center; letter-spacing: 10px;">{{ $data->cnic }}</span>    
                                         <h2>Shipper's Copy</h2>
                                     </div>
 
