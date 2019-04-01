@@ -17,7 +17,7 @@
     <link rel="stylesheet" type="text/css" href="/css/datatables.min.css"/>
     <link rel="stylesheet" type="text/css" href="/css/select2.min.css">
     <link rel="stylesheet" type="text/css" href="/css/select2-bootstrap4.css">
-    <link rel="stylesheet" type="text/css" href="/css/style.css?v=1.1.1">
+    <link rel="stylesheet" type="text/css" href="/css/style.css?v=1.1.2">
     <link rel="stylesheet" type="text/css" href="/css/dropify.min.css" />
     <link rel="stylesheet" type="text/css" href="/css/dropzone.css" />
     <link rel="stylesheet" type="text/css" href="/css/datepicker.css" />
@@ -85,13 +85,13 @@
     @elseif($controller == "RegisterController")
         <script src="/js/custom/employee.js?v=2.3.0" ></script>
     @elseif($controller == "Clients")
-        <script src="/js/client/clients.js?v=2.3.1" ></script>
+        <script src="/js/client/clients.js?v=2.3.2" ></script>
     @elseif($controller == "OrganizationManagement")
         <script src="/js/manage_organization/manage_organization.js?v=2.3.1" ></script>
     @elseif($controller == "ManageBilling")
         <script src="/js/manage_billing/manage_billing.js?v=2.3.0" ></script>
     @elseif($controller == "ClientsForBilling")
-        <script src="/js/manage_billing/customers_for_biling.js?v=2.3.0" ></script>
+        <script src="/js/manage_billing/customers_for_biling.js?v=2.3.1" ></script>
     @elseif($controller == "ComplaintsAndSuggestions")
         <script src="/js/manage_complaints_suggestions/complaints_suggestions.js?v=2.3.0" ></script>
     @elseif($controller == "ConsignmentManagement")

@@ -62,7 +62,8 @@ class ConsignmentManagement extends ParentController
             'consignment_destination' => $request->inlineRadioOptions,
             'consignment_dest_city' => $request->consignment_dest_city,
             'consignment_remarks' => $request->description,
-            'supplementary_services' => $request->hidden_supplementary_services
+            'supplementary_services' => $request->hidden_supplementary_services,
+            'created_at' => date('Y-m-d H:i:s')
         ]);
         if($insert){
             echo json_encode('success');
@@ -499,10 +500,13 @@ class ConsignmentManagement extends ParentController
 
         if($gst_fuel->tax != "" || $gst_fuel->fuel_charges != ""){
             $totalPrice = $totalPrice + (($gst_fuel->tax / 100) * $sub_total);
-            $totalPrice = $totalPrice + (($gst_fuel->fuel_charges / 100) * $sub_total);
 
             $price_for_fuel = ($gst_fuel->fuel_charges / 100) * $sub_total;
-            $price_for_tax = ($gst_fuel->tax / 100) * $sub_total;
+            $price_for_tax = ($gst_fuel->tax / 100) * ($sub_total + $price_for_fuel);
+
+            $totalPrice = $totalPrice + (($gst_fuel->fuel_charges / 100) * $totalPrice);
+
+            
         }
         // echo json_encode(round($totalPrice));
         
@@ -533,14 +537,16 @@ class ConsignmentManagement extends ParentController
             'sub_total' => $sub_total,
             'fuel_charge' => $price_for_fuel,
             'gst_charge' => $price_for_tax,
-            'total_price' => $totalPrice
+            'total_price' => $totalPrice,
+            'created_at' => date('Y-m-d H:i:s')
             ]);
             if($save_consignment_client){
                 //echo json_encode(round($totalPrice));
                 $insert_notification = DB::table('notifications_list')->insert([
                     'code' => 101,
                     'message' => 'New consignment added',
-                    'consignment_id' => $save_consignment_client
+                    'consignment_id' => $save_consignment_client,
+                    'created_at' => date('Y-m-d H:i:s')
                 ]);
                 
                 // $get_email_addresses = DB::table('users')->select('email')->whereRaw('id IN (Select emp_id from subscribed_notifications WHERE email = 1 AND notification_code_id = 101)')->get();
@@ -982,14 +988,16 @@ class ConsignmentManagement extends ParentController
             'consignment_dest_city' => $request->consignment_dest_city_client,
             'remarks' => $request->remarks_client,
             'supplementary_services' => $request->hidden_supplementary_services,
-            'total_price' => $totalPrice
+            'total_price' => $totalPrice,
+            'updated_at' => date('Y-m-d H:i:s')
             ]);
             if($save_consignment_client){
                 //echo json_encode(round($totalPrice));
                 $insert_notification = DB::table('notifications_list')->insert([
                     'code' => 101,
                     'message' => 'consignment updated',
-                    'consignment_id' => $request->hiddenconsignment_id
+                    'consignment_id' => $request->hiddenconsignment_id,
+                    'created_at' => date('Y-m-d H:i:s')
                 ]);
                 
                 // $get_email_addresses = DB::table('users')->select('email')->whereRaw('id IN (Select emp_id from subscribed_notifications WHERE email = 1 AND notification_code_id = 101)')->get();
@@ -1020,7 +1028,11 @@ class ConsignmentManagement extends ParentController
                 if(DB::table('invoice_data')->where('invoice_num', $invoice_num)->first()){
                     return redirect('/download_invoice_c');
                 }else{
-                    $save_invoice_num = DB::table('invoice_data')->insert(['invoice_num' => $invoice_num, 'client_id' => $client_id->id]);
+                    $save_invoice_num = DB::table('invoice_data')->insert([
+                        'invoice_num' => $invoice_num, 
+                        'client_id' => $client_id->id,
+                        'created_at' => date('Y-m-d H:i:s')
+                        ]);
 
                     $reports = DB::table('clients')->selectRaw('ntn, strn, username, company_name, poc_name, address, (Select Count(*) from consignment_client where customer_id = "'.$client_id->id.'" AND consignment_service_type = 1) as counts_same_day, (Select SUM(consignment_weight) from consignment_client where customer_id = "'.$client_id->id.'" AND consignment_service_type = 1) as weight_same_day, (Select Sum(sub_total) from consignment_client where customer_id = "'.$client_id->id.'" AND consignment_service_type = 1) as sub_price_same_day, (Select Sum(total_price) from consignment_client where customer_id = "'.$client_id->id.'" AND consignment_service_type = 1) as price_same_day, (Select Count(*) from consignment_client where customer_id = "'.$client_id->id.'" AND consignment_service_type = 2) as counts_over_night, (Select SUM(consignment_weight) from consignment_client where customer_id = "'.$client_id->id.'" AND consignment_service_type = 2) as weight_over_night, (Select Sum(sub_total) from consignment_client where customer_id = "'.$client_id->id.'" AND consignment_service_type = 2) as sub_price_over_nigth, (Select Sum(total_price) from consignment_client where customer_id = "'.$client_id->id.'" AND consignment_service_type = 2) as price_over_night, (Select Count(*) from consignment_client where customer_id = "'.$client_id->id.'" AND consignment_service_type = 3) as counts_second_day, (Select SUM(consignment_weight) from consignment_client where customer_id = "'.$client_id->id.'" AND consignment_service_type = 3) as weight_second_day, (Select Sum(sub_total) from consignment_client where customer_id = "'.$client_id->id.'" AND consignment_service_type = 3) as sub_price_second_day, (Select Sum(total_price) from consignment_client where customer_id = "'.$client_id->id.'" AND consignment_service_type = 3) as price_second_day,(Select Count(*) from consignment_client where customer_id = "'.$client_id->id.'" AND consignment_service_type = 4) as counts_over_land, (Select SUM(consignment_weight) from consignment_client where customer_id = "'.$client_id->id.'" AND consignment_service_type = 4) as weight_over_land, (Select Sum(sub_total) from consignment_client where customer_id = "'.$client_id->id.'" AND consignment_service_type = 4) as sub_price_over_land, (Select Sum(total_price) from consignment_client where customer_id = "'.$client_id->id.'" AND consignment_service_type = 4) as price_over_land, (Select SUM(fuel_charge) from consignment_client where customer_id = "'.$client_id->id.'") as fuel_charges, (Select SUM(gst_charge) from consignment_client where customer_id = "'.$client_id->id.'") as total_tax, (Select tax from billing where customer_id = "'.$client_id->id.'") as gst, (Select id from billing where customer_id = "'.$client_id->id.'") as account_id, (SELECT Date(created_ad) FROM `clients` WHERE id = "'.$client_id->id.'") as date, (Select invoice_num from invoice_data where client_id = "'.$client_id->id.'" AND invoice_num = "'.$invoice_num.'") as invoice_num')->where('id', $client_id->id)->first();
 
@@ -1186,7 +1198,12 @@ class ConsignmentManagement extends ParentController
                 'rider' => $request->rider]);
             if($update){
                 //For Client Notification
-                DB::table('notifications_list')->insert(['code' => "202", 'message' => 'Consignment is proceed.', 'consignment_id' => $request->id]);
+                DB::table('notifications_list')->insert([
+                    'code' => "202", 
+                    'message' => 'Consignment is proceed.', 
+                    'consignment_id' => $request->id, 
+                    'created_at' => date('Y-m-d H:i:s')
+                    ]);
                 echo json_encode('success');
             }else{
                 echo json_encode('failed');
@@ -1321,12 +1338,18 @@ class ConsignmentManagement extends ParentController
             'cnno' => $request->cnno,
             'status' => $request->status_code,
             'remarks' => $request->remarks,
-            'created_by' => Auth::user()->id
+            'created_by' => Auth::user()->id,
+            'created_at' => date('Y-m-d H:i:s')
         ]);
         if($insert){
             //For Client Notification
             if(DB::table('consignment_client')->where("cnic", $request->cnno)->first()){
-                DB::table('notifications_list')->insert(['code' => "202", 'message' => 'Consignment Status Changed to "'.$request->status_code.'" with remarks "'.$request->remarks.'"', 'consignment_id' => DB::raw('(Select id from consignment_client where cnic = "'.$request->cnno.'")')]);
+                DB::table('notifications_list')->insert([
+                    'code' => "202", 
+                    'message' => 'Consignment Status Changed to "'.$request->status_code.'" with remarks "'.$request->remarks.'"', 
+                    'consignment_id' => DB::raw('(Select id from consignment_client where cnic = "'.$request->cnno.'")'),
+                    'created_at' => date('Y-m-d H:i:s')
+                    ]);
             }
            
             echo json_encode(DB::table('status_log')->select('status', 'remarks')->where('cnno', $request->cnno)->orderBy('id','DESC')->first());
@@ -1359,13 +1382,19 @@ class ConsignmentManagement extends ParentController
             if($complete){
                 
                 if(DB::table('consignment_client')->where("cnic", $request->cnno)->first()){
-                    DB::table('notifications_list')->insert(['code' => "202", 'message' => 'Consignmnet Completed', 'consignment_id' => $request->id]);
+                    DB::table('notifications_list')->insert([
+                        'code' => "202", 
+                        'message' => 'Consignmnet Completed', 
+                        'consignment_id' => $request->id,
+                        'created_at' => date('Y-m-d H:i:s')
+                        ]);
 
                     $insert_status = DB::table('status_log')->insert([
                         'cnno' => $request->cnno,
                         'status' => $request->status_code,
                         'remarks' => $request->remarks,
-                        'created_by' => Auth::user()->id
+                        'created_by' => Auth::user()->id,
+                        'created_at' => date('Y-m-d H:i:s')
                     ]);
                 }
                 echo json_encode('success');
@@ -1393,7 +1422,8 @@ class ConsignmentManagement extends ParentController
             echo json_encode('already_exist');
         }else{
             $insert = DB::table('custom_status')->insert([
-                'status' => $request->status
+                'status' => $request->status,
+                'created_at' => date('Y-m-d H:i:s')
             ]);
             if($insert){
                 echo json_encode('success');

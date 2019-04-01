@@ -70,6 +70,7 @@ Route::get('/select_customer_BA', 'ClientsForBilling@select_customer_BA');
 
 Route::get('/invoice/{id}', 'ConsignmentManagement@invoice');
 Route::get('/download_invoice_c', 'ConsignmentManagement@download_invoice_client');
+Route::get('/client_invoice/{id}', 'Clients@client_invoice');
 
 //Save
 Route::post('/Client_save', 'Clients@save_client');
@@ -88,6 +89,7 @@ Route::post('/save_pref_against_emp', 'HomeController@save_pref_against_emp');
 Route::post('/save_pref_against_client', 'HomeController@save_pref_against_client');
 Route::post('/read_notif_four', 'HomeController@read_notif_four');
 Route::post('/UpdateConsignmentClient', 'ConsignmentManagement@UpdateConsignmentClient');
+Route::get('/save_payment', 'Clients@save_payment');
 
 //Get Data to display on page
 Route::get('/GetCompaniesList', 'OrganizationManagement@companies_list');
@@ -114,6 +116,7 @@ Route::get('/get_client_notif_data', 'HomeController@get_client_notif_data');
 Route::get('/mark_consignment_complete', 'ConsignmentManagement@mark_consignment_complete');
 Route::get('/GetCustomersListOfAddedBilling', 'ClientsForBilling@GetCustomersListOfAddedBilling');
 Route::get('/GetStatusLogForModal', 'ConsignmentManagement@GetStatusLogForModal');
+Route::get('/GetPaymentData', 'Clients@GetPaymentData');
 
 
 //Get data to show on update page

@@ -41,6 +41,7 @@ class Employee extends Controller
         $employee->home_num = $request->home_phone;
         $employee->ice_num = $request->ice_num;
         $employee->username = $request->username;
+        $employee->updated_at = date('Y-m-d H:i:s');
         if($request->password){
             //$employee->password = Hash::make($request->name);
             $password = bcrypt($request->password);

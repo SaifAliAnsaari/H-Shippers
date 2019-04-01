@@ -67,7 +67,7 @@ $pdf->SetFont('Arial','B',12);
 $pdf->Cell(0,0,'Invoice #',0,0);
 $pdf->SetXY(160,53);
 $pdf->SetFont('Arial','',12);
-$pdf->Cell(0,0,($_GET['invoice_num']),0,0);
+$pdf->Cell(0,0,"NA",0,0);
 
 $pdf->SetXY(125,61);
 $pdf->SetFont('Arial','B',12);
@@ -108,6 +108,8 @@ $pdf->Cell(12,10,$sNo++,1,0,'L',1);
 $pdf->Cell(60,10,'Over Night Delivery ',1,0,'L',1);
 $pdf->Cell(35,10,($_GET['counts_over_night']),1,0,'L',1);
 $pdf->Cell(35,10,($_GET['weight_over_night'] != '' ? $_GET['weight_over_night'] : "0"),1,0,'L',1);
+
+
 $pdf->Cell(48,10,'Rs.'.ROUND($_GET['sub_price_over_nigth'], 2),1,1,'L',1);
 $yPos += 10;
 $grandTotalPrice += $_GET['price_over_night'];
@@ -122,6 +124,8 @@ $pdf->Cell(12,10,$sNo++,1,0,'L',1);
 $pdf->Cell(60,10,'Same Day Delivery ',1,0,'L',1);
 $pdf->Cell(35,10,($_GET['counts_same_day']),1,0,'L',1);
 $pdf->Cell(35,10,($_GET['weight_same_day'] != '' ? $_GET['weight_same_day'] : "0"),1,0,'L',1);
+
+
 $pdf->Cell(48,10,'Rs.'.ROUND($_GET['sub_price_same_day'], 2),1,1,'L',1);
 $yPos += 10;
 $grandTotalPrice += $_GET['price_same_day'];
@@ -136,6 +140,8 @@ $pdf->Cell(12,10,$sNo++,1,0,'L',1);
 $pdf->Cell(60,10,'Second Day Delivery ',1,0,'L',1);
 $pdf->Cell(35,10,($_GET['counts_second_day']),1,0,'L',1);
 $pdf->Cell(35,10,($_GET['weight_second_day'] != "" ? $_GET['weight_second_day'] : "0"),1,0,'L',1);
+
+
 $pdf->Cell(48,10,'Rs.'.ROUND($_GET['sub_price_second_day'], 2),1,1,'L',1);
 $yPos += 10;
 $grandTotalPrice += $_GET['price_second_day'];
@@ -150,6 +156,8 @@ $pdf->Cell(12,10,$sNo++,1,0,'L',1);
 $pdf->Cell(60,10,'Over Land Delivery ',1,0,'L',1);
 $pdf->Cell(35,10,($_GET['counts_over_land']),1,0,'L',1);
 $pdf->Cell(35,10,($_GET['weight_over_land'] != "" ? $_GET['weight_over_land'] : "0"),1,0,'L',1);
+
+
 $pdf->Cell(48,10,'Rs.'.ROUND($_GET['sub_price_over_land'], 2),1,1,'L',1);
 $yPos += 10;
 $grandTotalPrice += $_GET['price_over_land'];
@@ -172,6 +180,7 @@ $pdf->SetFont('Arial','',10);
 $pdf->Cell(12,10,'',0,0,'L',1);
 $pdf->Cell(60,10,'',0,0,'L',1);
 $pdf->Cell(70,10,' GST ('.($_GET['gst']).'%) ',1,0,'L',1);
+
 $pdf->Cell(48,10,'Rs.'.ROUND($_GET['total_tax'], 2),1,1,'L',1);
 $yPos += 10;
 

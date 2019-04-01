@@ -99,7 +99,8 @@ class HomeController extends ParentController
                             'notification_code_id' => $notifications['code'],
                             'web' => $webProp,
                             'email' => $emailProp,
-                            'emp_id' => $request->emp_id
+                            'emp_id' => $request->emp_id,
+                            'subscribed_at' => date('Y-m-d H:i:s')
                         ]);
                     }
                 }
@@ -122,7 +123,8 @@ class HomeController extends ParentController
                     'notification_code_id' => $notifications['code'],
                     'web' => $webProp,
                     'email' => $emailProp,
-                    'emp_id' => $request->emp_id
+                    'emp_id' => $request->emp_id,
+                    'subscribed_at' => date('Y-m-d H:i:s')
                 ]);
             }
             echo json_encode('success');
@@ -162,7 +164,8 @@ class HomeController extends ParentController
                     DB::table('notification_read_status')->whereRaw('notif_id = "'.$notifications.'" AND client_id = (Select id from clients where client_login_session = "'.Cookie::get('client_session').'")')->delete();
                     DB::table('notification_read_status')->insert([
                         'notif_id' => $notifications,
-                        'client_id' => DB::raw('(Select id from clients where client_login_session = "'.Cookie::get('client_session').'")')
+                        'client_id' => DB::raw('(Select id from clients where client_login_session = "'.Cookie::get('client_session').'")'),
+                        'read_at' => date('Y-m-d H:i:s')
                     ]);
                 }
             }
@@ -172,7 +175,8 @@ class HomeController extends ParentController
                     DB::table('notification_read_status')->whereRaw('notif_id = "'.$notifications.'" AND emp_id = '.Auth::user()->id)->delete();
                     DB::table('notification_read_status')->insert([
                         'notif_id' => $notifications,
-                        'emp_id' => Auth::user()->id
+                        'emp_id' => Auth::user()->id,
+                        'read_at' => date('Y-m-d H:i:s')
                     ]);
                 }
             }
@@ -214,7 +218,8 @@ class HomeController extends ParentController
                                 'notification_code_id' => $notifications['code'],
                                 'web' => $webProp,
                                 'email' => $emailProp,
-                                'client_id' => $check->id
+                                'client_id' => $check->id,
+                                'subscribed_at' => date('Y-m-d H:i:s')
                             ]);
                         }
                     }
@@ -237,7 +242,8 @@ class HomeController extends ParentController
                         'notification_code_id' => $notifications['code'],
                         'web' => $webProp,
                         'email' => $emailProp,
-                        'client_id' => $check->id
+                        'client_id' => $check->id,
+                        'subscribed_at' => date('Y-m-d H:i:s')
                     ]);
                 }
                 echo json_encode('success');

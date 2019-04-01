@@ -103,13 +103,15 @@ class ComplaintsAndSuggestions extends ParentController
             "tracking_num" => $request->tracking_no_complaint,
             "description" => $request->description,
             "status" => "pending",
-            "client_id" => $request->client_id
+            "client_id" => $request->client_id,
+            'created_at' => date('Y-m-d H:i:s')
         ]);
         if($insert_complaint){
             $insert_notification = DB::table('notifications_list')->insert([
                 'code' => 102,
                 'message' => 'New complain added',
-                'complain_id' => $insert_complaint
+                'complain_id' => $insert_complaint,
+                'created_at' => date('Y-m-d H:i:s')
             ]);
 
             // $get_email_addresses = DB::table('users')->select('email')->whereRaw('id IN (Select emp_id from subscribed_notifications WHERE email = 1 AND notification_code_id = 102)')->get();
@@ -142,13 +144,15 @@ class ComplaintsAndSuggestions extends ParentController
             "city" => $request->city_suggestions,
             "description" => $request->description,
             "status" => "pending",
-            "client_id" => $request->client_id
+            "client_id" => $request->client_id,
+            'created_at' => date('Y-m-d H:i:s')
         ]);
         if($insert_suggestion){
             $insert_notification = DB::table('notifications_list')->insert([
                 'code' => 103,
                 'message' => 'New suggestion added',
-                'suggestion_id' => $insert_suggestion
+                'suggestion_id' => $insert_suggestion,
+                'created_at' => date('Y-m-d H:i:s')
             ]);
             
             // $get_email_addresses = DB::table('users')->select('email')->whereRaw('id IN (Select emp_id from subscribed_notifications WHERE email = 1 AND notification_code_id = 103)')->get();

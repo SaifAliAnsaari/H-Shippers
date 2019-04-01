@@ -47,40 +47,7 @@ class Clients extends ParentController
 
     //add client
     public function save_client(Request $request){
-        //echo json_encode($request->client_name);
-        
-        // if(DB::table('clients')->select('id')->where("email", $request->email)->first()){
-        //     echo json_encode('already exist');
-        // }else{
-
-            // $insert_client_data = DB::table('clients')->insertGetId(
-            //     ['username' => $request->username, 
-            //     'password' => bcrypt($request->password), 
-            //     'company_name' => $request->company_name,
-            //     'poc_name' => $request->poc, 
-            //     'phone' => $request->phone_number,
-            //     'office_num' => $request->office_number,
-            //     'website' => $request->website,
-            //     // 'city' => $request->city,
-            //     'address' => $request->address,
-            //     'ntn' => $request->ntn,
-            //     'strn' => $request->strn,
-            //     'customer_type' => $request->customer_type,
-            //     'pick_up_city' => $request->pick_up_city,
-            //     'pick_up_province' => $request->pick_up_province,
-            //     'company_pic' => $compPic,
-            //     'client_key' => $request->client_key
-            //     ]);
-
-            //     if($insert_client_data){
-            //         echo json_encode('success');
-            //     }else{
-            //         echo json_encode('failed');
-            //     }
-
-            //     die;
-
-
+       
                 if($request->hasFile('compPicture')){
                     $completeFileName = $request->file('compPicture')->getClientOriginalName();
                     $fileNameOnly = pathinfo($completeFileName, PATHINFO_FILENAME);
@@ -104,7 +71,8 @@ class Clients extends ParentController
                         'pick_up_city' => $request->pick_up_city,
                         'pick_up_province' => $request->pick_up_province,
                         'company_pic' => $compPic,
-                        'client_key' => $request->client_key
+                        'client_key' => $request->client_key,
+                        'created_at' => date('Y-m-d H:i:s')
                         ]);
                     if($insert_client_data){
                         echo json_encode('success');
@@ -127,7 +95,8 @@ class Clients extends ParentController
                         'customer_type' => $request->customer_type,
                         'pick_up_city' => $request->pick_up_city,
                         'pick_up_province' => $request->pick_up_province,
-                        'client_key' => $request->client_key
+                        'client_key' => $request->client_key,
+                        'created_at' => date('Y-m-d H:i:s')
                         ]);
                         if($insert_client_data){
                             echo json_encode('success');
@@ -217,7 +186,8 @@ class Clients extends ParentController
                         'customer_type' => $request->customer_type,
                         'pick_up_city' => $request->pick_up_city,
                         'pick_up_province' => $request->pick_up_province,
-                        'company_pic' => $compPic
+                        'company_pic' => $compPic,
+                        'updated_at' => date('Y-m-d H:i:s')
                         ]);
                     if($update_client_data){
                     
@@ -239,7 +209,8 @@ class Clients extends ParentController
                         'strn' => $request->strn,
                         'customer_type' => $request->customer_type,
                         'pick_up_city' => $request->pick_up_city,
-                        'pick_up_province' => $request->pick_up_province
+                        'pick_up_province' => $request->pick_up_province,
+                        'updated_at' => date('Y-m-d H:i:s')
                         ]);
                     if($update_client_data){
                     
@@ -370,6 +341,8 @@ class Clients extends ParentController
     }
 
 
+
+
     //Client profile from admin portal
     public function ClientProfile($id){
         parent::get_notif_data();
@@ -407,6 +380,64 @@ class Clients extends ParentController
         }else{
             echo json_encode('failed');
         }
+    }
+
+
+
+    //Invoice Page
+    public function client_invoice($id){
+        parent::get_notif_data();
+        parent::VerifyRights();if($this->redirectUrl){return redirect($this->redirectUrl);}
+
+        $reports = DB::table('clients')->selectRaw('ntn, strn, username, company_name, poc_name, address, IFNULL((Select Count(*) from consignment_client where MONTH(created_at) = "'.date('m').'" and customer_id = "'.$id.'" AND consignment_service_type = 1), 0) as counts_same_day, (Select SUM(consignment_weight) from consignment_client where MONTH(created_at) = "'.date('m').'" and customer_id = "'.$id.'" AND consignment_service_type = 1) as weight_same_day, (Select Sum(sub_total) from consignment_client where MONTH(created_at) = "'.date('m').'" and customer_id = "'.$id.'" AND consignment_service_type = 1) as sub_price_same_day, (Select Sum(total_price) from consignment_client where MONTH(created_at) = "'.date('m').'" and customer_id = "'.$id.'" AND consignment_service_type = 1) as price_same_day, IFNULL((Select Count(*) from consignment_client where MONTH(created_at) = "'.date('m').'" and customer_id = "'.$id.'" AND consignment_service_type = 2), 0) as counts_over_night, (Select SUM(consignment_weight) from consignment_client where MONTH(created_at) = "'.date('m').'" and customer_id = "'.$id.'" AND consignment_service_type = 2) as weight_over_night, (Select Sum(sub_total) from consignment_client where MONTH(created_at) = "'.date('m').'" and customer_id = "'.$id.'" AND consignment_service_type = 2) as sub_price_over_nigth, (Select Sum(total_price) from consignment_client where MONTH(created_at) = "'.date('m').'" and customer_id = "'.$id.'" AND consignment_service_type = 2) as price_over_night, (Select Count(*) from consignment_client where MONTH(created_at) = "'.date('m').'" and customer_id = "'.$id.'" AND consignment_service_type = 3) as counts_second_day, (Select SUM(consignment_weight) from consignment_client where MONTH(created_at) = "'.date('m').'" and customer_id = "'.$id.'" AND consignment_service_type = 3) as weight_second_day, (Select Sum(sub_total) from consignment_client where MONTH(created_at) = "'.date('m').'" and customer_id = "'.$id.'" AND consignment_service_type = 3) as sub_price_second_day, (Select Sum(total_price) from consignment_client where MONTH(created_at) = "'.date('m').'" and customer_id = "'.$id.'" AND consignment_service_type = 3) as price_second_day,(Select Count(*) from consignment_client where MONTH(created_at) = "'.date('m').'" and customer_id = "'.$id.'" AND consignment_service_type = 4) as counts_over_land, (Select SUM(consignment_weight) from consignment_client where MONTH(created_at) = "'.date('m').'" and customer_id = "'.$id.'" AND consignment_service_type = 4) as weight_over_land, (Select Sum(sub_total) from consignment_client where MONTH(created_at) = "'.date('m').'" and customer_id = "'.$id.'" AND consignment_service_type = 4) as sub_price_over_land, (Select Sum(total_price) from consignment_client where MONTH(created_at) = "'.date('m').'" and customer_id = "'.$id.'" AND consignment_service_type = 4) as price_over_land, (Select SUM(gst_charge) from consignment_client where MONTH(created_at) = "'.date('m').'" and customer_id = "'.$id.'") as total_tax, (Select tax from billing where customer_id = "'.$id.'") as gst, (Select id from billing where customer_id = "'.$id.'") as account_id, (SELECT Date(created_ad) FROM `clients` WHERE id = "'.$id.'") as date, (Select SUM(fuel_charge) from consignment_client where MONTH(created_at) = "'.date('m').'" and customer_id = "'.$id.'") as fuel_charges, (Select invoice_num from invoice_data where client_id = "'.$id.'" and MONTH(created_at) = "'.date('m').'" order by id desc limit 1) as invoice_num, (Select pending_amount from payment where client_id = "'.$id.'" order by id desc limit 1) as pending_amount, (Select SUM(amount) from payment where client_id = "'.$id.'" and MONTH(created_at) = "'.date('m').'") as paid_amount')->where('id', $id)->first();
+
+        // echo '<pre>'; print_r($reports); die;
+
+        if($reports->gst){
+            return view('clients.client_invoice', ['notifications_counts' => $this->notif_counts, 'notif_data' => $this->notif_data, 'all_notif' => $this->all_notification, 'check_rights' => $this->check_employee_rights, "report" => $reports]);
+        }else{
+            return redirect('/clients');
+        } 
+    }
+
+
+
+    //Save Payment
+    public function save_payment(Request $request){
+        if($request->bank_name){
+            $insert = DB::table('payment')->insert([
+                'payment_type' => 'Cheque',
+                'bank_name' => $request->bank_name,
+                'cheque_date' => $request->cheque_date,
+                'cheque_no' => $request->cheque_num,
+                'amount' => $request->cash_amount,
+                'pending_amount' => $request->pending_amount,
+                'client_id' => $request->id,
+                'created_at' => date('Y-m-d H:i:s')
+            ]);
+            if($insert){
+                echo json_encode('success');
+            }else{
+                echo json_encode('failed');
+            }
+        }else{
+            $insert = DB::table('payment')->insert([
+                'payment_type' => 'Cash',
+                'amount' => $request->cash_amount,
+                'client_id' => $request->id,
+                'pending_amount' => $request->pending_amount,
+                'created_at' => date('Y-m-d H:i:s')
+            ]);
+            if($insert){
+                echo json_encode('success');
+            }else{
+                echo json_encode('failed');
+            }
+        }
+    }
+
+    public function GetPaymentData(Request $request){
+        echo json_encode(DB::table('payment')->selectRaw('id, Date(created_at) as date, amount, payment_type, pending_amount')->where('client_id', $request->id)->get());
     }
 
 }

@@ -122,7 +122,8 @@ class RegisterController extends ParentController
                 'hiring' => $data['hiring'],
                 'designation' => $data['designation'],
                 'reporting_to' => $data['reporting'],
-                'picture' => $userPicture  
+                'picture' => $userPicture,
+                'created_at' => date('Y-m-d H:i:s')
             ]);
             if($status){
                 // $save_notif = DB::table('notifications')->insert([

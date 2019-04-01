@@ -68,7 +68,7 @@ $(document).ready(function () {
                     var date = myDate.getFullYear() + '-' + ('0' + myDate.getMonth() + 1).slice(-2) + '-' + ('0' + myDate.getDate()).slice(-2);
                     var response = JSON.parse(response);
                     var counter = 0;
-                   // console.log(response['docs']);
+                    //console.log(response);
                     response['billing'].forEach(element => {
                         $('#modal_start_date_div').text('Start Date: ' + element['start_date']);
                         $('#modal_fragile_cost').text(element['fragile_cost']);
@@ -80,7 +80,7 @@ $(document).ready(function () {
                         $('#modal_supplementary_time_specified').text(element['time_specified']);
                         $('#modal_supplementary_passport').text(element['passport']);
                         $('#modal_fuel').text(element['fuel_charges'] + "%");
-                        $('#modal_tax').text(element['fuel_charges'] + "%");
+                        $('#modal_tax').text(element['tax'] + "%");
                     });
     
                     response['criteria'].forEach(element => {

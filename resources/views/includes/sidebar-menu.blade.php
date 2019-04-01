@@ -45,7 +45,7 @@
         </div>
     </li>
     <?php }else{
-        if(!$check_rights->isEmpty()){
+        if(!empty($check_rights)){
             $test_array = array();
             $counter = 0;
             foreach($check_rights as $rights){

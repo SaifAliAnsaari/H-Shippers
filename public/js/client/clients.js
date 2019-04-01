@@ -61,6 +61,8 @@ if (action == 'clients'){
             }
         }
     }); 
+}else if(action == 'client_invoice'){
+    payment_data();
 }
 
 
@@ -78,6 +80,10 @@ $(document).ready(function () {
     }else{
 
     }
+
+    $('#datepicker').datepicker({
+        format: 'yyyy-mm-dd'
+    });
     
     var lastOp = "add";
     var client_id = "";
@@ -669,6 +675,143 @@ $(document).ready(function () {
     });
 
 
+
+    //Select Payment Type
+    $(document).on('change', '#select_payment_type', function(){
+        if($('#select_payment_type').val() == "cash"){
+            $('.cheque_div').hide();
+            $('.cash_div').show();
+        }else if($('#select_payment_type').val() == "cheque"){
+            $('.cheque_div').show();
+            $('.cash_div').show();
+        }
+    });
+
+    //Add payment
+    $(document).on('click', '.add_payment', function(){
+        var payment_type = '';
+        if($('#select_payment_type').val() == "cash"){
+            $('#bank_name').val("");
+            $('#cheque_num').val("");
+            $('#datepicker').val("");
+            payment_type = 'cash';
+            var cash_amount = $('#cash_amount').val();
+            var pending_amount = $('#pending_amount').attr('name');
+            if(cash_amount == ""){
+                $('#notifDiv').fadeIn();
+                $('#notifDiv').css('background', 'red');
+                $('#notifDiv').text('Please Enter Amount');
+                setTimeout(() => {
+                    $('#notifDiv').fadeOut();
+                }, 3000);
+                return;
+            }
+            pending_amount = parseInt($('#pending_amount').attr('name')) - parseInt($('#cash_amount').val());
+            $('.add_payment').text('PROCESSING....');
+            $('.add_payment').attr("disabled", "disabled");
+            $.ajax({
+                type: 'GET',
+                url: '/save_payment',
+                data: {
+                    _token: '{!! csrf_token() !!}',
+                    cash_amount: cash_amount,
+                   id: segments[4],
+                   pending_amount: pending_amount
+               },
+                success: function(response) {
+                    if(JSON.parse(response) == "success"){
+                        $('#pending_amount').text(pending_amount);
+                        $('#pending_amount').attr('name', pending_amount);
+                        $('.paid_amount_div').text('Rs.'+(parseInt($('#total_paid_amount').val()) + parseInt(cash_amount)));
+                        $('#total_paid_amount').val(parseInt($('#total_paid_amount').val()) + parseInt(cash_amount));
+                        $('.add_payment').removeAttr('disabled');
+                        $('.add_payment').text('Add');
+                        $('#cash_amount').val('');
+                        payment_data();
+    
+                        $('#notifDiv').fadeIn();
+                        $('#notifDiv').css('background', 'green');
+                        $('#notifDiv').text('Payment Added successfully');
+                        setTimeout(() => {
+                            $('#notifDiv').fadeOut();
+                        }, 3000);
+                    }else if(JSON.parse(response) == "failed"){
+                        $('#notifDiv').fadeIn();
+                        $('#notifDiv').css('background', 'red');
+                        $('#notifDiv').text('Unable to add payment');
+                        setTimeout(() => {
+                            $('#notifDiv').fadeOut();
+                        }, 3000);
+                    }    
+                }
+            });
+        }else if($('#select_payment_type').val() == "cheque"){
+            //$('#cash_amount').val('');
+           payment_type = 'cheque';
+           var bank_name = $('#bank_name').val();
+           var cheque_num = $('#cheque_num').val();
+           var cheque_date = $('#datepicker').val();
+           var cash_amount = $('#cash_amount').val();
+           var pending_amount = $('#pending_amount').attr('name');
+            if(bank_name == "" || cheque_num == "" || cheque_date == "" || cash_amount == ""){
+                $('#notifDiv').fadeIn();
+                $('#notifDiv').css('background', 'red');
+                $('#notifDiv').text('Please fill all required fields');
+                setTimeout(() => {
+                    $('#notifDiv').fadeOut();
+                }, 3000);
+                return;
+            }
+            $('.add_payment').text('PROCESSING....');
+            $('.add_payment').attr("disabled", "disabled");
+            pending_amount = parseInt($('#pending_amount').attr('name')) - parseInt($('#cash_amount').val());
+            $.ajax({
+                type: 'GET',
+                url: '/save_payment',
+                data: {
+                    _token: '{!! csrf_token() !!}',
+                    bank_name: bank_name,
+                    cheque_date: cheque_date,
+                    cheque_num: cheque_num,
+                    cash_amount: cash_amount,
+                    pending_amount: pending_amount,
+                    id: segments[4]
+               },
+                success: function(response) {
+                    if(JSON.parse(response) == "success"){
+                        $('#pending_amount').text(pending_amount);
+                        $('#pending_amount').attr('name', pending_amount);
+                        $('.paid_amount_div').text('Rs.'+(parseInt($('#total_paid_amount').val()) + parseInt(cash_amount)));
+                        $('#total_paid_amount').val(parseInt($('#total_paid_amount').val()) + parseInt(cash_amount));
+                        $('.add_payment').removeAttr('disabled');
+                        $('.add_payment').text('Add');
+                        $('#bank_name').val('');
+                        $('#cheque_num').val('');
+                        $('#datepicker').val('');
+                        $('#cash_amount').val('');
+                        payment_data();
+    
+                        $('#notifDiv').fadeIn();
+                        $('#notifDiv').css('background', 'green');
+                        $('#notifDiv').text('Payment added successfully');
+                        setTimeout(() => {
+                            $('#notifDiv').fadeOut();
+                        }, 3000);
+                    }else if(JSON.parse(response) == "failed"){
+                        $('#notifDiv').fadeIn();
+                        $('#notifDiv').css('background', 'red');
+                        $('#notifDiv').text('Unable to add payment');
+                        setTimeout(() => {
+                            $('#notifDiv').fadeOut();
+                        }, 3000);
+                    }    
+                }
+            });
+        }
+
+    });
+
+
 });
 
 function fetchClientsList() {
@@ -682,7 +825,7 @@ function fetchClientsList() {
             $('#clientsListTable tbody').empty();
             var response = JSON.parse(response);
             response.forEach(element => {
-                $('#clientsListTable tbody').append('<tr><td>' + element['id'] + '</td><td>' + element['company_name'] + '</td><td>' + element['poc_name'] + '</td><td>' + element['username'] + '</td><td>' + element['phone'] + '</td><td>' + element['customer_type'] + '</td><td><button id="' + element['id'] + '" class="btn btn-default btn-line openDataSidebarForUpdateCustomer openDataSidebarForUpdate">Edit</button><a href="/ClientProfile/' + element['id'] + '" id="' + element['id'] + '" class="btn btn-default">Profile</a>' + (element["is_active"] == 1 ? '<button id="' + element['id'] + '" class="btn btn-default red-bg  deactivate_btn" title="View Detail">Deactivate</button>' : '<button id="' + element['id'] + '" class="btn btn-default activate_btn">Activate</button>') + '</td></tr>');
+                $('#clientsListTable tbody').append('<tr><td>' + element['id'] + '</td><td>' + element['company_name'] + '</td><td>' + element['poc_name'] + '</td><td>' + element['username'] + '</td><td>' + element['phone'] + '</td><td>' + element['customer_type'] + '</td><td><button id="' + element['id'] + '" class="btn btn-default btn-line openDataSidebarForUpdateCustomer openDataSidebarForUpdate">Edit</button><a href="/ClientProfile/' + element['id'] + '" id="' + element['id'] + '" class="btn btn-default">Profile</a><a href="/client_invoice/' + element['id'] + '" id="' + element['id'] + '" class="btn btn-default">Invoice</a>' + (element["is_active"] == 1 ? '<button id="' + element['id'] + '" class="btn btn-default red-bg  deactivate_btn" title="View Detail">Deactivate</button>' : '<button id="' + element['id'] + '" class="btn btn-default activate_btn">Activate</button>') + '</td></tr>');
             });
             $('#tblLoader').hide();
             $('.body').fadeIn();
@@ -699,4 +842,24 @@ function makeid() {
         text += possible.charAt(Math.floor(Math.random() * possible.length));
 
     return text;
+}
+
+function payment_data(){
+    var segments = location.href.split('/');
+    $.ajax({
+        type: 'GET',
+        url: '/GetPaymentData',
+        data: {
+            _token: '{!! csrf_token() !!}',
+           id: segments[4]
+       },
+        success: function(response) {
+            var response = JSON.parse(response);
+            $('.payment_details').empty();
+            $('.payment_details').append('<div class="row"><div class="col-3"><strong>Date</strong></div><div class="col"><strong>Paid Amount</strong></div><div class="col text-right"><strong>Pending Amount</strong></div></div><hr>');
+            response.forEach(element => {
+                $('.payment_details').append('<div class="row"><div class="col-3">'+ element['date'] +'</div><div class="col">Rs.'+ element['amount'] +' <span class="float-right green_t">'+ element['payment_type'] +'</span></div><div class="col text-right">Rs.'+ element['pending_amount'] +'</div></div><hr>');
+            });
+        }
+    });
 }

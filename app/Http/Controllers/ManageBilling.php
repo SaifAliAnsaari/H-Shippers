@@ -60,7 +60,8 @@ class ManageBilling extends ParentController
                 'passport' => $request->supplementary_services_passport,
                 'fuel_charges' => $request->fuel_charges,
                 'tax' => $request->gst_tax,
-                'customer_id' => $request->customer_id
+                'customer_id' => $request->customer_id,
+                'created_at' => date('Y-m-d H:i:s')
                 ]);
                 DB::table('clients')->where('id', $request->customer_id)->update(['billing_added' => 1]);
     
@@ -178,7 +179,8 @@ class ManageBilling extends ParentController
                 'passport' => $request->supplementary_services_passport,
                 'fuel_charges' => $request->fuel_charges,
                 'tax' => $request->gst_tax,
-                'customer_id' => $request->customer_id
+                'customer_id' => $request->customer_id,
+                'updated_at' => date('Y-m-d H:i:s')
                 ]);
             // DB::table('clients')->where('id', $request->customer_id)->update(['billing_added' => 1]);
                     $insert_same_day_data_within_city = DB::table('biling_criteria')->whereRaw('biling_id = "'.$request->billing_id_hidden.'" AND type = "within city" AND criteria = 0')->update(
