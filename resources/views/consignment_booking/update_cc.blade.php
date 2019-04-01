@@ -55,8 +55,19 @@
             </div>
             <div class="_new-consign-top mr-0">
                 <label class="control-label label4">Region:</label>
-                <input type="text" name="region_client" id="update_region_client" class="form-control required"
-                    placeholder="Lahore" style="font-size: 13px">
+                <div class="form-s2 ">
+                    <div>
+                        <select class="form-control formselect required" placeholder="Consignment Type"
+                            name="update_region_client" id="update_region_client">
+                            <option value="0" selected disabled>Consignment Region*</option>
+                            @if(!empty($pickup_city))
+                                @foreach($pickup_city as $region)
+                                    <option value="{{ $region->city_name }}">{{ $region->city_name }}</option>
+                                @endforeach
+                            @endif
+                        </select> 
+                        </div>
+                    </div>
             </div>
         </div>
     </div>

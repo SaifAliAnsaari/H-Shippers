@@ -89,7 +89,7 @@
                     <div class="row">
                         <div class="col-md-6 font13">
                             <div class="invlist_logo">
-                                <img class="float-L" src="images/h-shippers.svg" alt="">
+                                <img class="float-L" src="/images/h-shippers.svg" alt="">
                             </div>
                             <span class="co-name pt-0">Billed To</span>
                             <p class="mb-0">{{ $report->company_name }}</p>
@@ -182,7 +182,7 @@
 
                         </table>
 
-                        <img src="images/signature.jpg" alt="" />
+                        <img src="/images/signature.jpg" alt="" />
                     </div>
 
                     <div class="inv-footer">

@@ -233,7 +233,7 @@ $(document).ready(function () {
                     $('#remarks_client').val('');
 
                 } else {
-                    debugger;
+                    //debugger;
                     $('.test_total_price').text("Total Price : " + response.total_price + " / " + "Sub Total : " + response.sub_price + " / " + "Fuel Charges : " + response.fuel_price + " / " + "GST Charges : " + response.tax_price);
                     $('.save_consignment_client').removeAttr('disabled');
                     // $('#cancelCustomer').removeAttr('disabled');
@@ -905,7 +905,7 @@ $(document).ready(function () {
                 _token: '{!! csrf_token() !!}'
             },
             success: function (response) {
-                //console.log(response);
+                console.log(response);
                 var response = JSON.parse(response);
                 $('#dataLoader').hide();
                 $('#updateConsignmentFormClient').show();
@@ -913,7 +913,7 @@ $(document).ready(function () {
                 $('#update_datepicker').val(response.booking_date);
                 $('#update_cnic_client').val(response.cnic);
                 $('#update_customer_id_client').val(response.customer_id);
-                $('#update_region_client').val(response.region);
+                $('#update_region_client').val(response.region).trigger('change');
                 $('#consignee_name_client').val(response.consignee_name);
                 $('#consignee_name_client').focus();
                 $('#consignee_name_client').blur();

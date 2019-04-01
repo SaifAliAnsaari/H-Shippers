@@ -34,7 +34,8 @@ class ConsignmentManagement extends ParentController
          parent::VerifyRights(); if($this->redirectUrl){return redirect($this->redirectUrl);}
          $get_city_from_pickup = DB::table('pickup_delivery')->get();
          $cnno = "313".$this->generateRandomNumber();
-        return view('consignment_booking.consignment_booking', ['check_rights' => $this->check_employee_rights, 'pickup_city' => $get_city_from_pickup, 'notifications_counts' => $this->notif_counts, 'notif_data' => $this->notif_data, 'all_notif' => $this->all_notification, 'cnno' => $cnno]);
+         $city_name = DB::table('pickup_delivery')->select('city_name', 'province')->orderBy('city_name','province')->get();
+        return view('consignment_booking.consignment_booking', ['check_rights' => $this->check_employee_rights, 'pickup_city' => $get_city_from_pickup, 'notifications_counts' => $this->notif_counts, 'notif_data' => $this->notif_data, 'all_notif' => $this->all_notification, 'cnno' => $cnno, 'city' => $city_name]);
     }
 
     public function SaveConsignmentAdmin(Request $request){
@@ -86,12 +87,13 @@ class ConsignmentManagement extends ParentController
             $client_id = DB::table('clients')->select('id')->whereRaw('client_login_session = "'.Cookie::get('client_session').'"')->first();
             $check = DB::table('billing')->select('id')->whereRaw('customer_id = (Select id from clients where client_login_session = "'.Cookie::get('client_session').'")')->first();
             $get_city_from_pickup = DB::table('pickup_delivery')->get();
+            $city_name = DB::table('pickup_delivery')->select('city_name', 'province')->orderBy('city_name','province')->get();
             $check_cnno = DB::table('consignment_client')->selectRaw('id, (Select id from consignment_admin where cnic = "'.$cnno.'")')->where('cnic', $cnno)->first();
             if($check_cnno){
                 return redirect('/consignment_booking_client');
             }else{
                 if($check){
-                    return view('consignment_booking.consignment_booking_client', ['client_id' => $client_id->id, 'check_rights' => $this->check_employee_rights, 'pickup_city' => $get_city_from_pickup, 'name' => $check_session, 'cnno' => $cnno, 'notifications_counts' => $this->notif_counts_client, 'notif_data' => $this->notif_data_client, 'all_notif' => $this->clients_all_notifications]);
+                    return view('consignment_booking.consignment_booking_client', ['client_id' => $client_id->id, 'check_rights' => $this->check_employee_rights, 'pickup_city' => $get_city_from_pickup, 'name' => $check_session, 'cnno' => $cnno, 'notifications_counts' => $this->notif_counts_client, 'notif_data' => $this->notif_data_client, 'all_notif' => $this->clients_all_notifications, 'city' => $city_name]);
                 }else{
                     return redirect('/');
                 }
