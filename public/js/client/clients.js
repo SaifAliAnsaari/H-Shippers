@@ -706,7 +706,19 @@ $(document).ready(function () {
                 }, 3000);
                 return;
             }
-            pending_amount = parseInt($('#pending_amount').attr('name')) - parseInt($('#cash_amount').val());
+            //alert($('#pending_amount').attr('name') - 1); return;
+            if(parseFloat($('#pending_amount').attr('name')) < parseFloat($('#cash_amount').val())){
+                $('#notifDiv').fadeIn();
+                $('#notifDiv').css('background', 'red');
+                $('#notifDiv').text('Entered amount is greater than pending amount.');
+                setTimeout(() => {
+                    $('#notifDiv').fadeOut();
+                }, 3000);
+                return;
+            }
+
+            pending_amount = parseFloat($('#pending_amount').attr('name')) - parseFloat($('#cash_amount').val());
+            //alert(pending_amount); return;
             $('.add_payment').text('PROCESSING....');
             $('.add_payment').attr("disabled", "disabled");
             $.ajax({
@@ -722,8 +734,8 @@ $(document).ready(function () {
                     if(JSON.parse(response) == "success"){
                         $('#pending_amount').text(pending_amount);
                         $('#pending_amount').attr('name', pending_amount);
-                        $('.paid_amount_div').text('Rs.'+(parseInt($('#total_paid_amount').val()) + parseInt(cash_amount)));
-                        $('#total_paid_amount').val(parseInt($('#total_paid_amount').val()) + parseInt(cash_amount));
+                        $('.paid_amount_div').text('Rs.'+(parseFloat($('#total_paid_amount').val()) + parseFloat(cash_amount)));
+                        $('#total_paid_amount').val(parseFloat($('#total_paid_amount').val()) + parseFloat(cash_amount));
                         $('.add_payment').removeAttr('disabled');
                         $('.add_payment').text('Add');
                         $('#cash_amount').val('');
@@ -762,9 +774,18 @@ $(document).ready(function () {
                 }, 3000);
                 return;
             }
+            if(parseFloat($('#pending_amount').attr('name')) < parseFloat($('#cash_amount').val())){
+                $('#notifDiv').fadeIn();
+                $('#notifDiv').css('background', 'red');
+                $('#notifDiv').text('Entered amount is greater than pending amount.');
+                setTimeout(() => {
+                    $('#notifDiv').fadeOut();
+                }, 3000);
+                return;
+            }
             $('.add_payment').text('PROCESSING....');
             $('.add_payment').attr("disabled", "disabled");
-            pending_amount = parseInt($('#pending_amount').attr('name')) - parseInt($('#cash_amount').val());
+            pending_amount = parseFloat($('#pending_amount').attr('name')) - parseFloat($('#cash_amount').val());
             $.ajax({
                 type: 'GET',
                 url: '/save_payment',
@@ -781,8 +802,8 @@ $(document).ready(function () {
                     if(JSON.parse(response) == "success"){
                         $('#pending_amount').text(pending_amount);
                         $('#pending_amount').attr('name', pending_amount);
-                        $('.paid_amount_div').text('Rs.'+(parseInt($('#total_paid_amount').val()) + parseInt(cash_amount)));
-                        $('#total_paid_amount').val(parseInt($('#total_paid_amount').val()) + parseInt(cash_amount));
+                        $('.paid_amount_div').text('Rs.'+(parseFloat($('#total_paid_amount').val()) + parseFloat(cash_amount)));
+                        $('#total_paid_amount').val(parseFloat($('#total_paid_amount').val()) + parseFloat(cash_amount));
                         $('.add_payment').removeAttr('disabled');
                         $('.add_payment').text('Add');
                         $('#bank_name').val('');

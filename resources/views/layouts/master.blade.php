@@ -85,7 +85,7 @@
     @elseif($controller == "RegisterController")
         <script src="/js/custom/employee.js?v=2.3.0" ></script>
     @elseif($controller == "Clients")
-        <script src="/js/client/clients.js?v=2.3.2" ></script>
+        <script src="/js/client/clients.js?v=2.3.3" ></script>
     @elseif($controller == "OrganizationManagement")
         <script src="/js/manage_organization/manage_organization.js?v=2.3.1" ></script>
     @elseif($controller == "ManageBilling")

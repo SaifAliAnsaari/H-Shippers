@@ -104,7 +104,7 @@
                                 <span class="inv-pr">Account # </span> {{ $report->account_id }}<br>
                                 <span class="inv-pr">Invoice # </span> {{ $report->invoice_num }}<br>
                                 <span class="inv-pr">Invoice Date </span> {{ date('y/m/d') }}<br>
-                                <span class="inv-pr">Time Period </span>{{ date('y/m/d', strtotime($report->date))." - ".date('y/m/d') }}<br>
+                                <span class="inv-pr">Time Period </span>{{ date('y/m/01')." - ".date('y/m/d') }}<br>
                             </div>
                         </div>
                     </div>
@@ -218,7 +218,7 @@
                 <div class="row red_t">
                     <div class="col-6">Pending Amount</div>
                     <?php $pend_amount = ($report->price_over_night + $report->price_same_day + $report->price_second_day + $report->price_over_land) - $report->paid_amount ?>
-                    <div class="col-6 text-right">Rs.<span id="pending_amount" name="{{ $pend_amount }}">{{ number_format ($pend_amount) }}</span></div>
+                    <div class="col-6 text-right">Rs.<span id="pending_amount" name="{{ ROUND($pend_amount, 2) }}">{{ ROUND($pend_amount, 2) }}</span></div>
                 </div>
                 <a href="#" class="btn add-product-line" data-toggle="modal" data-target="#exampleModal"><i
                         class="fa fa-plus"> </i> Add Payment</a>
