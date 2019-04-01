@@ -28,9 +28,9 @@
             <div class="_new-consign-top">
                 <label class="control-label label1">Booking Date:</label>
                 <div class="form-group">
-                    <div class="input-append date position-relative" id="dp3" data-date="12-02-2012"
-                        data-date-format="dd-mm-yyyy">
-                        <input type="text" value="12-02-2012" readonly name="datepicker" id="update_datepicker"
+                    <div class="input-append date position-relative" id="dp3" TY data-date="{{ date('Y-m-d') }}"
+                        data-date-format="yyyy-mm-dd">
+                        <input type="text" value="{{ date('Y-m-d') }}" id="update_datepicker" name="datepicker" readonly
                             style="font-size: 13px">
                         <span class="add-on calendar-icon">
                             <img src="/images/calendar-icon.svg" alt="" /> </span>
