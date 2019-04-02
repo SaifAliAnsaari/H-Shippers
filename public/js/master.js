@@ -14,6 +14,11 @@ $(document).ready(function() {
         }).on('changeDate', function(ev) {
           checkout.hide();
         }).data('datepicker');
+
+    var segments = location.href.split('/');
+    if(segments[3] == 'dashboard'){
+        $('.container').addClass('container-1240 _dashboard');
+    }
 		
 
     var notif_ids = [];
@@ -66,11 +71,7 @@ $(document).ready(function() {
     }
     $(document).on('click', '#search_shipment_button', function(){
          var segments = location.href.split('/');
-        // if(segments[3] == 'shipment_tracking'){
-        //     //Shipment wala page he hai
-        // }else{
-        //     //yaha shipment walat page pay redirect kra do 
-        // }
+       
         if($('.search_shipment_field').val() != ""){
             var id = $('.search_shipment_field').val();
             $('#loader').show();

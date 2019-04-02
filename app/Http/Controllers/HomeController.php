@@ -253,4 +253,23 @@ class HomeController extends ParentController
             echo json_encode('failed');
         }
     }
+
+
+
+
+
+    //Admin Dashboard
+    public function dashboard(){
+        parent::VerifyRights();
+        if($this->redirectUrl){return redirect($this->redirectUrl);}
+        parent::get_notif_data();
+        $life_time_data = DB::table('consignment_client')->selectRaw('(Select created_at order by id LIMIT 1 ) as first_order_date, (Select Count(*) from consignment_client) as life_time_consignments, (Select Sum(consignment_weight) from consignment_client) as total_weight')->first();
+        $life_time_rev = DB::table('consignment_client')->selectRaw('SUM(total_price) as life_time_revenus')->first();
+
+        //$newData = [ 'first_order_date' => $life_time_data->first_order_date, 'life_time_revenus' => $life_time_rev->life_time_revenus ];
+
+        $reporting_this_month = DB::table('consignment_client')->selectRaw('(Select SUM(total_price)) as total_revenue, (Select Count(*)) as total_bookings, (Select Count(*) from clients where is_active = 1) as active_custs, (Select SUM(amount) from payment) as amount_recieved ')->whereRaw('Month(created_at) = "'.date('m').'"')->first();
+        //echo "<pre>"; print_r($life_time_data); die;
+        return view('dashboard.admin_dashboard', ['check_rights' => $this->check_employee_rights, 'notifications_counts' => $this->notif_counts, 'notif_data' => $this->notif_data, 'all_notif' => $this->all_notification, 'data' => $reporting_this_month, 'life_time_data' => $life_time_data, 'life_time_rev' => $life_time_rev]);
+    }
 }

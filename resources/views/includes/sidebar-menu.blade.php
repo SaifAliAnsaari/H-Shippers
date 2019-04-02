@@ -1,6 +1,7 @@
 <ul class="sidebar navbar-nav toggled">
     <?php
    if(Cookie::get('client_session')){ ?>
+   
     <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navi-l1" role="button" data-toggle="dropdown" aria-haspopup="true"
             aria-expanded="false">
@@ -8,7 +9,7 @@
             <span>Consignment & Booking</span>
         </a>
         <div class="dropdown-menu" aria-labelledby="navi-l1">
-            <a class="dropdown-item" href="/consignment_booking_client">Consignment & Booking client</a>
+            <a class="dropdown-item" href="/consignment_booking_client">New Consignment</a>
             <a class="dropdown-item" href="/consignment_booked">Booked List</a>
         </div>
     </li>
@@ -55,7 +56,7 @@
 
     @if(Auth::check())
     <li class="nav-item">
-        <a class="nav-link" href="/">
+        <a class="nav-link" href="/dashboard">
             <img src="/images/icon-dash-board.svg" alt="" />
             <span>Dashboard</span>
         </a>
