@@ -106,6 +106,8 @@
         <script src="/js/access_rights/access_rights.js?v=2.3.0" ></script>
     @elseif($controller == "HomeController")
         <script src="/js/notif_pref/notif_pref.js?v=2.3.0" ></script>
+    @elseif($controller == "InvoiceManagment")
+        <script src="/js/invoice/invoice.js?v=2.3.0" ></script>
     @endif
 
     <script type="text/javascript"></script>

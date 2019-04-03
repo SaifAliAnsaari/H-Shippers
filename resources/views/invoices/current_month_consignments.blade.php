@@ -23,20 +23,20 @@
                                                     <img class="float-L" src="/images/h-shippers.svg" alt="">
                                                 </div>
                                                 <span class="co-name pt-0">Billed To</span>
-                                                <p class="mb-0">Indus Motors Corporation</p>
-                                                <p class="mb-0">Plot No N,W-Z/1,P-1 North Western Industrial Area Zone
+                                                <p class="mb-0" id="billed_to_modal"></p>
+                                                <p class="mb-0" id="address_modal">
                                                 </p>
-                                                <p class="mb-0">NTN # 0676546-7</p>
-                                                <p class="mb-0">STRN # 02-04-8703001-55</p>
+                                                <p class="mb-0" id="ntn_modal">NTN # </p>
+                                                <p class="mb-0" id="strn_modal">STRN # </p>
                                             </div>
 
                                             <div class="col-md-6">
                                                 <div class="inv-title">
                                                     <h3>e-Invoice</h3>
-                                                    <span class="inv-pr">Account # </span> K12842<br>
-                                                    <span class="inv-pr">Invoice # </span> 0001<br>
-                                                    <span class="inv-pr">Invoice Date </span> 03/02/2019<br>
-                                                    <span class="inv-pr">Time Period </span>01/01/19 – 31/01/19<br>
+                                                    <span class="inv-pr">Account # </span><span id="account_id_modal"></span> <br>
+                                                    <span class="inv-pr">Invoice # </span><span id="invoice_num_modal">NA</span> <br>
+                                                    <span class="inv-pr">Invoice Date </span><span >{{ date('d/m/y') }}</span> <br>
+                                                    <span class="inv-pr">Time Period </span><span >{{ date('1/m/y') }} – {{ date('d/m/y') }}</span><br>
                                                 </div>
                                             </div>
                                         </div>
@@ -58,7 +58,7 @@
                                                     <tr>
                                                         <th class="bg-transparent border-0" colspan="4"></th>
                                                         <th>GRAND TOTAL RS.</th>
-                                                        <th>180,203.93</th>
+                                                        <th id="grand_total_modal"></th>
                                                     </tr>
                                                 </tfoot>
 
@@ -66,46 +66,46 @@
                                                 <tbody>
                                                     <tr>
                                                         <td>1</td>
-                                                        <td>SERVICE</td>
-                                                        <td>QUANTITY</td>
-                                                        <td>WEIGHT</td>
-                                                        <td>RATE</td>
-                                                        <td>TOTAL</td>
+                                                        <td id="service_typeone_modal">Same Day</td>
+                                                        <td id="quantity_one"></td>
+                                                        <td id="weight_one"></td>
+                                                        <td id="rate_one"></td>
+                                                        <td id="total_one"></td>
                                                     </tr>
                                                     <tr>
                                                         <td>1</td>
-                                                        <td>SERVICE</td>
-                                                        <td>QUANTITY</td>
-                                                        <td>WEIGHT</td>
-                                                        <td>RATE</td>
-                                                        <td>TOTAL</td>
+                                                        <td id="service_typetwo_modal">Over Night</td>
+                                                        <td id="quantity_two"></td>
+                                                        <td id="weight_two"></td>
+                                                        <td id="rate_two"></td>
+                                                        <td id="total_two"></td>
                                                     </tr>
                                                     <tr>
                                                         <td>1</td>
-                                                        <td>SERVICE</td>
-                                                        <td>QUANTITY</td>
-                                                        <td>WEIGHT</td>
-                                                        <td>RATE</td>
-                                                        <td>TOTAL</td>
+                                                        <td id="service_typethree_modal">Second Day</td>
+                                                        <td id="quantity_three"></td>
+                                                        <td id="weight_three"></td>
+                                                        <td id="rate_three"></td>
+                                                        <td id="total_three"></td>
                                                     </tr>
                                                     <tr>
                                                         <td>1</td>
-                                                        <td>SERVICE</td>
-                                                        <td>QUANTITY</td>
-                                                        <td>WEIGHT</td>
-                                                        <td>RATE</td>
-                                                        <td>TOTAL</td>
+                                                        <td id="service_typefour_modal">Over Land</td>
+                                                        <td id="quantity_four"></td>
+                                                        <td id="weight_four"></td>
+                                                        <td id="rate_four"></td>
+                                                        <td id="total_four"></td>
                                                     </tr>
                                                     <tr>
                                                         <td colspan="2" rowspan="2" style="border: none"></td>
                                                         <td rowspan="2" class="border-0"></td>
                                                         <td rowspan="2" class="border-0"></td>
                                                         <td>Fuel Charges</td>
-                                                        <td>RS.14497 </td>
+                                                        <td id="fuel_modal"> </td>
                                                     </tr>
                                                     <tr>
-                                                        <td>GST (13%)</td>
-                                                        <td>Rs.20731.42 </td>
+                                                        <td id="gst_heading"></td>
+                                                        <td id="gst_modal"> </td>
                                                     </tr>
                                                 </tbody>
 
@@ -208,7 +208,7 @@
                                 <td>{{ $item->total_consignments }}</td>
                                 <td>{{ number_format($item->total_amount) }}</td>
                                 <td>
-                                    <a href="#" data-toggle="modal" data-target="#exampleModal" class="btn btn-default">View
+                                    <a href="" data-toggle="modal" data-target="#exampleModal" id="{{ $item->customer_id }}" class="btn btn-default view_detail_current_month">View
                                         Invoice</a>
                                     <a href="shipment-list.html" class="btn btn-default">View Shipment</a>
                                 </td>

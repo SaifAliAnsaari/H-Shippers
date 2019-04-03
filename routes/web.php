@@ -122,6 +122,7 @@ Route::get('/GetCustomersListOfAddedBilling', 'ClientsForBilling@GetCustomersLis
 Route::get('/GetStatusLogForModal', 'ConsignmentManagement@GetStatusLogForModal');
 Route::get('/GetPaymentData', 'Clients@GetPaymentData');
 Route::get('/get_graph_reports', 'HomeController@get_graph_reports');
+Route::get('/get_current_month_data_for_invoice', 'InvoiceManagment@get_current_month_data_for_invoice');
 
 
 //Get data to show on update page
