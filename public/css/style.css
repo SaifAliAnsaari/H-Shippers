@@ -76,7 +76,7 @@ body {
 	display: none
 }
 .TM_icon{margin-right:30px; position: relative; margin-top:10px}
-.TM_icon img{width: auto; height:20px;}
+.TM_icon img{width: auto; height:22px;}
 
 .hamburger, .hamburger:HOVER {
 	padding: 10px;
@@ -119,8 +119,8 @@ body.fixed-nav.sidebar-toggled #content-wrapper {
 	border: 1px solid #fff;
 	vertical-align: middle;
 	border-radius: 50%;
-	box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.2);
 	margin-right: 5px;
+	border: solid 2px #fbd536;
 }
 .top_nav .dropdown-menu {
 	border-radius: 2px;
@@ -2272,7 +2272,7 @@ table.dataTable.cell-border tbody tr:first-child th, table.dataTable.cell-border
     font-weight: 500;
     padding:15px;
     text-align: left;
-	margin-bottom: 0;
+	margin-bottom: 0;  
 }
 .top_nav .notiF, .Qlinks {
     width: 280px; height: 305px; overflow: auto
@@ -2326,7 +2326,7 @@ table.dataTable.cell-border tbody tr:first-child th, table.dataTable.cell-border
 }
 ._left-filter{margin-top: 15px}
 
-.AssNotification{font-size: 13px; margin-top: 20px}
+.AssNotification{font-size: 13px; margin-bottom: 0}
 .AssNotification thead th{
 	background: linear-gradient(0deg, #f8f8f8 0%, #ffffff 100%); border-bottom: none
 }
@@ -2882,7 +2882,9 @@ table.dataTable.cell-border tbody tr:first-child th, table.dataTable.cell-border
 }
 .e_chart{height: 300px}
 .line-chart{height: 395px; padding-top: 30px}
-
+._dash-select{
+width: 150px; float: right
+}
 
 
 
@@ -2965,7 +2967,9 @@ table.dataTable.cell-border tbody tr:first-child th, table.dataTable.cell-border
 	padding-bottom: 15px!important
 }
 .PB-20{padding-bottom: 20px!important}
-
+.PT-50 {
+	padding-top: 50px!important
+}
 
 @media (max-width: 1440px) {
 .Inv_g-sec img {
@@ -3359,7 +3363,9 @@ body.sidebar-toggled footer.sticky-footer {
 .M_search {
     width: 309px;
 }
-.acc-right{ padding-left: 0px; padding-right:0px }
+.acc-right{ padding-left: 0px; padding-right:0px}
+._dash-select{width: 100%}
+
 }
 
 @media (max-width: 425px) {
@@ -3433,4 +3439,5 @@ body.sidebar-toggled footer.sticky-footer {
     padding: 5px 20px!important;
 }
 .M_search {width: 232px;}
+.TM_icon img{width: auto; height:20px;}
 }

@@ -351,7 +351,12 @@ class Clients extends ParentController
             return redirect($this->redirectUrl);
         }
         $clients_data = DB::table('clients')->where('id', $id)->first();
-       return view("clients.client_profile", ['check_rights' => $this->check_employee_rights, 'notifications_counts' => $this->notif_counts, 'notif_data' => $this->notif_data, 'client_data' => $clients_data, "client_id" => $id, 'all_notif' => $this->all_notification]);
+        $reports_data = DB::table('consignment_client')->selectRaw('(Select booking_date from consignment_client where customer_id = "'.$id.'" order by id LIMIT 1 ) as first_order_date, (Select Count(*) from consignment_client where customer_id = "'.$id.'") as life_time_consignments, (Select Sum(consignment_weight) from consignment_client where customer_id = "'.$id.'") as total_weight, (Select SUM(sub_total) from consignment_client where customer_id = "'.$id.'") as life_time_revenue, (Select SUM(consignment_weight) from consignment_client where customer_id = "'.$id.'") as total_weight')->where('customer_id', $id)->first();
+
+        $month_consignments = DB::table('consignment_client as cc')->selectRaw('count(*) as total_consignments, SUM(total_price) as amount, ROUND(SUM(consignment_weight), 2) as total_weight, Monthname(booking_date) as month_name')->where('customer_id', $id)->groupBy(DB::raw('Monthname(booking_date)'))->get();
+        
+        // echo '<pre>'; print_r($month_consignments); die;
+       return view("clients.client_profile", ['check_rights' => $this->check_employee_rights, 'notifications_counts' => $this->notif_counts, 'notif_data' => $this->notif_data, 'client_data' => $clients_data, "client_id" => $id, 'all_notif' => $this->all_notification, 'reports_data' => $reports_data, "month_consignments" => $month_consignments]);
     }
 
     public function updateClientProfile(Request $request){

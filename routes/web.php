@@ -92,6 +92,8 @@ Route::post('/read_notif_four', 'HomeController@read_notif_four');
 Route::post('/UpdateConsignmentClient', 'ConsignmentManagement@UpdateConsignmentClient');
 Route::get('/save_payment', 'Clients@save_payment');
 
+Route::post('/upload_excel', 'ConsignmentManagement@bulkAction');
+
 //Get Data to display on page
 Route::get('/GetCompaniesList', 'OrganizationManagement@companies_list');
 Route::get('/GetPickUpList', 'OrganizationManagement@pickUp_list');
@@ -118,6 +120,7 @@ Route::get('/mark_consignment_complete', 'ConsignmentManagement@mark_consignment
 Route::get('/GetCustomersListOfAddedBilling', 'ClientsForBilling@GetCustomersListOfAddedBilling');
 Route::get('/GetStatusLogForModal', 'ConsignmentManagement@GetStatusLogForModal');
 Route::get('/GetPaymentData', 'Clients@GetPaymentData');
+Route::get('/get_graph_reports', 'HomeController@get_graph_reports');
 
 
 //Get data to show on update page

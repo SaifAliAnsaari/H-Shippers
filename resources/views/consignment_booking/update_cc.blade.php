@@ -63,6 +63,7 @@
                             @if(!empty($pickup_city))
                                 @foreach($pickup_city as $region)
                                     <option value="{{ $region->city_name }}">{{ $region->city_name }}</option>
+                                    <option value="{{ $region->city_name }}" {{ $name->city == $region->city_name ? "selected" : null }} >{{ $region->city_name }}</option>
                                 @endforeach
                             @endif
                         </select> 
@@ -273,9 +274,10 @@
                         </div>
                     </div>
                 </div>
+                <h2 class="_head03 update_total_price">Total Price<span></span></h2>
             </div>
         </div>
-        {{-- <h2 class="_head03 test_total_price">Total Price<span></span></h2> --}}
+        
         <div class="bottom-btns">
             <button type="button" class="btn btn-primary mr-2 update_consignment_client">Update</button>
             <button type="button" class="btn btn-cancel" id="cancel_btn">Cancel</button>

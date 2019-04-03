@@ -4,7 +4,6 @@
 
     
     <ul class="navbar-nav ml-auto top_nav">
-        @if(Auth::user())
             <li class="nav-item TM_icon dropdown no-arrow">
                     {{-- <a hidden href="" id="hidden_link_to_shipment"> </a> --}}
                 <a class="nav-link dropdown-toggle" href="#" id="track-id" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="/images/search-icon.svg" alt=""/></a>
@@ -13,8 +12,8 @@
                     <input type="number" class="M_search search_shipment_field" placeholder="Enter Tracking No" style="font-size: 13px">			
                 </div>
             </li>
-
-        
+        @if(Auth::user())
+           
             <li class="nav-item TM_icon dropdown no-arrow">
                 <a class="nav-link dropdown-toggle" href="#" id="Qlinks" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="{{ URL::to('/images/q-link-icon.svg') }}" alt=""/></a>
                 <div class="dropdown-menu dropdown-menu-right Qlinks" aria-labelledby="Qlinks">
@@ -62,6 +61,13 @@
         
         @if(Cookie::get('client_session'))
             @csrf
+            
+            <li class="nav-item TM_icon dropdown no-arrow">
+                <a class="nav-link" href="/consignment_booking_client" id="" role="button"><img src="/images/add-consignment.svg" alt=""/></a>
+            </li>
+            <li class="nav-item TM_icon dropdown no-arrow">
+                <a class="nav-link" href="/client_settings" id="" role="button"><img src="/images/settings-icon.svg" alt=""/></a>
+            </li>
             <li class="nav-item TM_icon dropdown no-arrow"> 
                 <a class="nav-link dropdown-toggle" href="#" id="NotiFications_client" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <span class="badge">
                     @if($notifications_counts != "")
@@ -95,7 +101,13 @@
         <li class="nav-item dropdown no-arrow">
             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
                 aria-haspopup="true" aria-expanded="false">
-                <img src="{{ Auth::check() ? URL::to(Auth::user()->picture) : URL::to('/storage/clients/'.$name->company_pic) }}" class="user_log" alt="" />
+                @if(Auth::check())
+                    <img src="{{ (Auth::user()->picture ? URL::to(Auth::user()->picture) : '/images/profile.jpeg') }}" class="user_log" alt="" />
+                @endif
+                @if(Cookie::get('client_session'))
+                    <img src="{{  ($name->company_pic ? URL::to('/storage/clients/'.$name->company_pic) : '/images/profile.jpeg') }}" class="user_log" alt="" />
+                @endif
+                
                 <span>{{ Auth::check() ? Auth::user()->name : $name->username }}</span>
             </a>
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">

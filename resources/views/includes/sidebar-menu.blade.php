@@ -65,11 +65,17 @@
         <a class="nav-link dropdown-toggle" href="#" id="navi-l1" role="button" data-toggle="dropdown" aria-haspopup="true"
             aria-expanded="false">
             <img src="/images/icon-organization.svg" alt="" />
-            <span>Organization Management</span>
+            <span>Organization</span>
         </a>
         <div class="dropdown-menu" aria-labelledby="navi-l1">
             @if(in_array("/pick_up_and_delivery", $test_array))
             <a class="dropdown-item" href="/pick_up_and_delivery">Pick Up & Delivery Locations</a>
+            @endif
+            @if(in_array("/register", $test_array))
+            <a class="dropdown-item" href="/register">Employees List</a>
+            @endif
+            @if(in_array("/select_employee", $test_array))
+            <a class="dropdown-item" href="/select_employee">Access Rights</a>
             @endif
         </div>
     </li>
@@ -78,29 +84,12 @@
         <a class="nav-link dropdown-toggle" href="#" id="navi-l1" role="button" data-toggle="dropdown" aria-haspopup="true"
             aria-expanded="false">
             <img src="/images/users-group.svg" alt="" />
-            <span>Client Management</span>
+            <span>Client</span>
         </a>
         <div class="dropdown-menu" aria-labelledby="navi-l1">
             @if(in_array("/clients", $test_array))
             <a class="dropdown-item" href="/clients">Clients List</a>
             @endif
-        </div>
-    </li>
-    <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navi-l1" role="button" data-toggle="dropdown" aria-haspopup="true"
-            aria-expanded="false">
-            <img src="/images/icon-organization.svg" alt="" />
-            <span>Employees Management</span>
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navi-l1">
-            @if(in_array("/register", $test_array))
-            <a class="dropdown-item" href="/register">Employees List</a>
-            @endif
-            @if(in_array("/select_employee", $test_array))
-            <a class="dropdown-item" href="/select_employee">Access Rights</a>
-            @endif
-
-
         </div>
     </li>
     @endif
@@ -109,7 +98,7 @@
         <a class="nav-link dropdown-toggle" href="#" id="navi-l1" role="button" data-toggle="dropdown" aria-haspopup="true"
             aria-expanded="false">
             <img src="/images/package-delivery.svg" alt="" />
-            <span>Consignment & Booking</span>
+            <span>Consignments</span>
         </a>
         <div class="dropdown-menu" aria-labelledby="navi-l1">
             @if(Auth::check())
@@ -164,14 +153,14 @@
         <a class="nav-link dropdown-toggle" href="#" id="navi-17" role="button" data-toggle="dropdown" aria-haspopup="true"
             aria-expanded="false">
             <img src="/images/icon-categorie.svg" alt="" />
-            <span>Billing</span>
+            <span>Billing Accounts</span>
         </a>
         <div class="dropdown-menu" aria-labelledby="navi-l7">
             @if(in_array("/select_customer", $test_array))
-            <a class="dropdown-item" href="/select_customer">Create Billing</a>
+            <a class="dropdown-item" href="/select_customer">Create Account</a>
             @endif
             @if(in_array("/select_customer_BA", $test_array))
-            <a class="dropdown-item" href="/select_customer_BA">Manage Billing</a>
+            <a class="dropdown-item" href="/select_customer_BA">Manage Accounts</a>
             @endif
         </div>
     </li>
@@ -185,6 +174,19 @@
             @if(in_array("/notification_prefrences", $test_array))
             <a class="dropdown-item" href="/notification_prefrences">Notification Prefrences</a>
             @endif
+        </div>
+    </li>
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navi-17" role="button" data-toggle="dropdown" aria-haspopup="true"
+            aria-expanded="false">
+            <img src="/images/icon-categorie.svg" alt="" />
+            <span>Invoices And Payment</span>
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navi-l7">
+            <a class="dropdown-item" href="/">Current month</a>
+            <a class="dropdown-item" href="/">Generate Invoices</a>
+            <a class="dropdown-item" href="/">Pending Payments</a>
+            <a class="dropdown-item" href="/">Paid Invoices</a>
         </div>
     </li>
     @endif

@@ -17,7 +17,7 @@
     <link rel="stylesheet" type="text/css" href="/css/datatables.min.css"/>
     <link rel="stylesheet" type="text/css" href="/css/select2.min.css">
     <link rel="stylesheet" type="text/css" href="/css/select2-bootstrap4.css">
-    <link rel="stylesheet" type="text/css" href="/css/style.css?v=1.1.3">
+    <link rel="stylesheet" type="text/css" href="/css/style.css?v=1.1.4">
     <link rel="stylesheet" type="text/css" href="/css/dropify.min.css" />
     <link rel="stylesheet" type="text/css" href="/css/dropzone.css" />
     <link rel="stylesheet" type="text/css" href="/css/datepicker.css" />
@@ -66,7 +66,7 @@
     <script src="/js/dropify.min.js"></script>
     <script src="/js/form-file-upload-data.js"></script>
     <script src="/js/custom.js" ></script>
-    <script src="/js/master.js?v=1.1.2" ></script>
+    <script src="/js/master.js?v=1.1.3" ></script>
     <script src="/js/jquery.form.min.js" ></script>
     <script src="/js/bootstrap-datepicker.js"></script>
     <script src="/js/chart.bundle.min.js"></script>
@@ -74,7 +74,7 @@
 
     <script src="/js/echarts-en.min.js"></script>
     <script src="/js/echarts-liquidfill.min.js"></script>
-    <script src="/js/dashboard-data.js"></script>
+    <script src="/js/dashboard-data.js?v=1.2"></script>
     {{-- <script src="/js/dropzone-amd-module.js"></script>
     <script src="/js/dropzone-data.js"></script> --}}
     <script src="/js/dropzone.js"></script>
@@ -101,7 +101,7 @@
     @elseif($controller == "ComplaintsAndSuggestions")
         <script src="/js/manage_complaints_suggestions/complaints_suggestions.js?v=2.3.0" ></script>
     @elseif($controller == "ConsignmentManagement")
-        <script src="/js/manage_consignment/consignment.js?v=2.3.6" ></script>
+        <script src="/js/manage_consignment/consignment.js?v=2.3.8" ></script>
     @elseif($controller == "AccessRights")
         <script src="/js/access_rights/access_rights.js?v=2.3.0" ></script>
     @elseif($controller == "HomeController")

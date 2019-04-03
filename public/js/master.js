@@ -14,7 +14,7 @@ $(document).ready(function() {
         }).on('changeDate', function(ev) {
           checkout.hide();
         }).data('datepicker');
-
+        
     var segments = location.href.split('/');
     if(segments[3] == 'dashboard'){
         $('.container').addClass('container-1240 _dashboard');

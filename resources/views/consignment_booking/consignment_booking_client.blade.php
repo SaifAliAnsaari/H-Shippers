@@ -11,6 +11,16 @@
         </ol>
     </div>
 </div>
+{{-- <form action="/upload_excel" method="POST" enctype="multipart/form-data">
+    @csrf
+    <input type="file" name="excel_data"/>
+    <br>
+    <br>
+    <a href="/excel_format/consignment.xlsx" target="_blank" type="button" class="btn btn-primary">Sample</a>
+    &nbsp;
+    <button type="submit" class="btn btn-primary">Upload</button>
+</form>
+<hr> --}}
 <form id="saveConsignmentFormClient">
     {!! Form::hidden('tokenForAjaxReq', csrf_token()) !!}
     @csrf
@@ -42,18 +52,18 @@
                     class="form-control" placeholder="Lhr02154" style="font-size: 13px">
             </div>
             <div class="_new-consign-top mr-0">
-                <label class="control-label label4">Region:</label> 
-                    <div class="form-s2 ">
-                <div>
-                    <select class="form-control formselect required" placeholder="Consignment Type"
-                        name="region_client" id="region_client">
-                        <option value="0" selected disabled>Consignment Region*</option>
-                        @if(!empty($city))
+                <label class="control-label label4">Pickup City:</label>
+                <div class="form-s2">
+                    <div>
+                        <select class="form-control formselect required" placeholder="Consignment Type" name="region_client"
+                            id="region_client" style="width: 100%; display: block;">
+                            <option value="0" selected disabled>Pickup City*</option>
+                            @if(!empty($city))
                             @foreach($city as $region)
-                                <option value="{{ $region->city_name }}">{{ $region->city_name }}</option>
+                            <option value="{{ $region->city_name }}" {{ $name->city == $region->city_name ? "selected" : null }} >{{ $region->city_name }}</option>
                             @endforeach
-                        @endif
-                    </select> 
+                            @endif
+                        </select>
                     </div>
                 </div>
             </div>

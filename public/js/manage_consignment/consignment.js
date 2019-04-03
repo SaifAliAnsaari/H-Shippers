@@ -4,9 +4,9 @@ $(document).ready(function () {
     //     $('#datepicker').click();
     // });
 
-    $('#datepicker').datepicker({
-        format: 'yyyy-mm-dd'
-    });
+    // $('#datepicker').datepicker({
+    //     format: 'yyyy-mm-dd'
+    // });
 
     var consignment_delete_Ref;
     var consignment_delete_id;
@@ -905,15 +905,20 @@ $(document).ready(function () {
                 _token: '{!! csrf_token() !!}'
             },
             success: function (response) {
-                console.log(response);
+                //console.log(response);
                 var response = JSON.parse(response);
                 $('#dataLoader').hide();
                 $('#updateConsignmentFormClient').show();
 
-                $('#update_datepicker').val(response.booking_date);
+                $('#dp3').data({
+                    date: response.booking_date
+                });
+                $('#dp3').datepicker('update');
+                $('#dp3').datepicker().children('input').val(response.booking_date);
+
                 $('#update_cnic_client').val(response.cnic);
                 $('#update_customer_id_client').val(response.customer_id);
-                $('#update_region_client').val(response.region).trigger('change');
+                $('#update_region_client').val(response.origin_city).trigger('change');
                 $('#consignee_name_client').val(response.consignee_name);
                 $('#consignee_name_client').focus();
                 $('#consignee_name_client').blur();
@@ -1027,24 +1032,21 @@ $(document).ready(function () {
             cache: false,
             success: function (response) {
                 console.log(response);
-                //return;
-                // $('.update_consignment_client').removeAttr('disabled');
-                // $('.update_consignment_client').text('Update');
-                // $('.test_total_price').text("Total Price : " + response);
-                // return;
 
-                if (JSON.parse(response) == "success") {
-                    $('.update_consignment_client').removeAttr('disabled');
-                    // $('#cancelCustomer').removeAttr('disabled');
-                    $('.update_consignment_client').text('Update');
-                    $('#notifDiv').fadeIn();
-                    $('#notifDiv').css('background', 'green');
-                    $('#notifDiv').text('Consignment have been updated successfully');
-                    setTimeout(() => {
-                        $('#notifDiv').fadeOut();
-                    }, 3000);
 
-                } else {
+                // if (JSON.parse(response) == "success") {
+                //     $('.update_consignment_client').removeAttr('disabled');
+                //     // $('#cancelCustomer').removeAttr('disabled');
+                //     $('.update_consignment_client').text('Update');
+                //     $('#notifDiv').fadeIn();
+                //     $('#notifDiv').css('background', 'green');
+                //     $('#notifDiv').text('Consignment have been updated successfully');
+                //     setTimeout(() => {
+                //         $('#notifDiv').fadeOut();
+                //     }, 3000);
+
+                // } 
+                if (JSON.parse(response) == "failed") {
                     $('.update_consignment_client').removeAttr('disabled');
                     //$('#cancelCustomer').removeAttr('disabled');
                     $('.update_consignment_client').text('Update');
@@ -1055,6 +1057,17 @@ $(document).ready(function () {
                         $('#notifDiv').fadeOut();
                     }, 3000);
 
+                } else {
+                    $('.update_consignment_client').removeAttr('disabled');
+                    // $('#cancelCustomer').removeAttr('disabled');
+                    $('.update_consignment_client').text('Update');
+                    $('#notifDiv').fadeIn();
+                    $('#notifDiv').css('background', 'green');
+                    $('#notifDiv').text('Consignment have been updated successfully');
+                    setTimeout(() => {
+                        $('#notifDiv').fadeOut();
+                    }, 3000);
+                    $('.update_total_price').text('Total Price :' + JSON.parse(response))
                 }
             },
             error: function (err) {

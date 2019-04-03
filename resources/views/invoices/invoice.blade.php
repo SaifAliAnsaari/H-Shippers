@@ -47,7 +47,7 @@
                                             <tr>
                                                 <td>Service</td>
                                                 <td>NA</td>
-                                                <td>Weigth</td>
+                                                <td>Weight</td>
                                                 <td>{{ $data->consignment_weight }}</td>
                                             </tr>
                                             <tr>
@@ -218,7 +218,7 @@
                                             <tr>
                                                 <td>Service</td>
                                                 <td>NA</td>
-                                                <td>Weigth</td>
+                                                <td>Weight</td>
                                                 <td>{{ $data->consignment_weight }}</td>
                                             </tr>
                                             <tr>

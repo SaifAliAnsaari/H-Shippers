@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use Cookie;
 use DB;
 use Auth;
+use Excel;
+use DateTime;
+use App\Http\Controllers\Import_excel\Consignments;
 
 class ConsignmentManagement extends ParentController
 {
@@ -77,7 +80,7 @@ class ConsignmentManagement extends ParentController
     //Client
     public function consignment_booking_client(){
         parent::get_client_nofif_data();
-        $check_session = DB::table('clients')->select('username', 'company_pic')->where('client_login_session', Cookie::get('client_session'))->first();
+        $check_session = DB::table('clients')->select('username', 'company_pic', 'pick_up_city')->where('client_login_session', Cookie::get('client_session'))->first();
         if(!$check_session){
             return redirect('/cout');
         }else{
@@ -119,8 +122,7 @@ class ConsignmentManagement extends ParentController
         $chargesCriteria = "";
         $service_criteria = "";
         $test = Cookie::get('client_session');
-        $client_city = DB::table('clients')->select('pick_up_city')->whereRaw('client_login_session = "'.Cookie::get('client_session').'"')->first();
-       
+        $client_city = $request->region_client;
         if($request->Fragile_Criteria == "For Fragile"){
             $insurance = DB::table('billing')->select('insurance_for_fragile')->whereRaw('customer_id = (Select id from clients where client_login_session = "'.Cookie::get('client_session').'")')->first();
         }else if($request->Fragile_Criteria == "For Non Fragile"){
@@ -133,7 +135,7 @@ class ConsignmentManagement extends ParentController
 
         //yani service type (Second Day) aur (Over Land) nae hai
         if($request->consignment_service_type_client != 3 || $request->consignment_service_type_client != 4){
-            if(strtolower($client_city->pick_up_city) == strtolower($request->consignment_dest_city_client)){
+            if(strtolower($client_city) == strtolower($request->consignment_dest_city_client)){
                 //within city
                 $service_criteria = "within city";
             }else{
@@ -518,7 +520,7 @@ class ConsignmentManagement extends ParentController
             ['booking_date' => $request->datepicker, 
             'cnic' => $request->cnic_client, 
             'customer_id' => $request->customer_id_client,
-            'region' => $request->region_client, 
+            'origin_city' => $request->region_client, 
             'consignee_name' => $request->consignee_name_client,
             'consignee_ref' => $request->consignee_ref_client,
             'consignee_cell' => $request->consignee_cell_client,
@@ -563,7 +565,7 @@ class ConsignmentManagement extends ParentController
                 if($insert_notification){
                     //echo json_encode($request->cnic_client);
 
-                    echo json_encode(array('total_price'=> ROUND($totalPrice, 2), 'sub_price' => ROUND($sub_total, 2), 'fuel_price' => $price_for_fuel, 'tax_price' => $price_for_tax));
+                    echo json_encode(array('total_price'=> ROUND($totalPrice, 2), 'sub_price' => ROUND($sub_total, 2), 'fuel_price' => Round($price_for_fuel,2), 'tax_price' => ROUND($price_for_tax, 2)));
                     //return redirect('/invoice/"'.$request->cnic_client.'"');
                 }else{
                     echo json_encode('failed');
@@ -614,8 +616,9 @@ class ConsignmentManagement extends ParentController
         $service_type = $request->consignment_service_type_client;
         $chargesCriteria = "";
         $service_criteria = "";
-        $client_city = DB::table('clients')->select('pick_up_city')->whereRaw('id = "'.$request->customer_id_client.'"')->first();
-       
+
+        $client_city = $request->update_region_client;
+
         if($request->Fragile_Criteria == "For Fragile"){
             $insurance = DB::table('billing')->select('insurance_for_fragile')->whereRaw('customer_id = (Select id from clients where id = "'.$request->customer_id_client.'")')->first();
         }else if($request->Fragile_Criteria == "For Non Fragile"){
@@ -626,7 +629,7 @@ class ConsignmentManagement extends ParentController
 
         //yani service type (Second Day) aur (Over Land) nae hai
         if($request->consignment_service_type_client != 3 || $request->consignment_service_type_client != 4){
-            if(strtolower($client_city->pick_up_city) == strtolower($request->consignment_dest_city_client)){
+            if(strtolower($client_city) == strtolower($request->consignment_dest_city_client)){
                 //within city
                 $service_criteria = "within city";
             }else{
@@ -808,13 +811,12 @@ class ConsignmentManagement extends ParentController
                 }else if($service_criteria == "within province"){
                     $price = DB::table('biling_criteria')->select('zero_five_1KG')->whereRaw('biling_id = (Select id from billing where customer_id = (Select id from clients where id = "'.$request->customer_id_client.'")) AND type = "within province" AND criteria = 1')->first();
                     $totalPrice = $price->zero_five_1KG;
-                    $totalPrice = $price->upto_05;
                     if($request->fragile_cost_hidden !== ""){
                         $totalPrice = $totalPrice + $request->fragile_cost_hidden;
                     }
                 }else if($service_criteria == "province to province"){
                     $price = DB::table('biling_criteria')->select('zero_five_1KG')->whereRaw('biling_id = (Select id from billing where customer_id = (Select id from clients where id = "'.$request->customer_id_client.'")) AND type = "province to province" AND criteria = 1')->first();
-                    $totalPrice = $price->upto_05;
+                    $totalPrice = $price->zero_five_1KG;
                     if($request->fragile_cost_hidden !== ""){
                         $totalPrice = $totalPrice + $request->fragile_cost_hidden;
                     }
@@ -960,8 +962,16 @@ class ConsignmentManagement extends ParentController
         }
 
         $gst_fuel = DB::table('billing')->select('tax', 'fuel_charges')->whereRaw('customer_id = (Select id from clients where id = "'.$request->customer_id_client.'")')->first();
+
+        $sub_total = $totalPrice;
+
         if($gst_fuel->tax != "" || $gst_fuel->fuel_charges != ""){
             $totalPrice = $totalPrice + (($gst_fuel->tax / 100) * $totalPrice);
+
+            $price_for_fuel = ($gst_fuel->fuel_charges / 100) * $sub_total;
+            $price_for_tax = ($gst_fuel->tax / 100) * ($sub_total + $price_for_fuel);
+
+
             $totalPrice = $totalPrice + (($gst_fuel->fuel_charges / 100) * $totalPrice);
         }
         // echo json_encode(round($totalPrice));
@@ -972,7 +982,7 @@ class ConsignmentManagement extends ParentController
             ['booking_date' => $request->datepicker, 
             'cnic' => $request->cnic_client, 
             'customer_id' => $request->customer_id_client,
-            'region' => $request->region_client, 
+            'origin_city' => $request->update_region_client, 
             'consignee_name' => $request->consignee_name_client,
             'consignee_ref' => $request->consignee_ref_client,
             'consignee_cell' => $request->consignee_cell_client,
@@ -990,6 +1000,9 @@ class ConsignmentManagement extends ParentController
             'consignment_dest_city' => $request->consignment_dest_city_client,
             'remarks' => $request->remarks_client,
             'supplementary_services' => $request->hidden_supplementary_services,
+            'sub_total' => $sub_total,
+            'fuel_charge' => $price_for_fuel,
+            'gst_charge' => $price_for_tax,
             'total_price' => $totalPrice,
             'updated_at' => date('Y-m-d H:i:s')
             ]);
@@ -1012,7 +1025,8 @@ class ConsignmentManagement extends ParentController
                 // }
 
                 if($insert_notification){
-                    echo json_encode('success');
+                    //echo json_encode('success');
+                    echo json_encode(ROUND($totalPrice, 2));
                 }else{
                     echo json_encode('failed');
                 }
@@ -1238,39 +1252,79 @@ class ConsignmentManagement extends ParentController
 
     //Shipment Tracking
     public function shipment_tracking($id){
-        parent::get_notif_data();
-        parent::VerifyRights(); 
-        if($this->redirectUrl){
-            return redirect($this->redirectUrl);
-        }
-        $cnno_data = DB::table('consignment_client as cc')->selectRaw('id, cnic, consignee_name, booking_date, status, customer_id, consignment_dest_city, (Select company_name from clients where id = cc.customer_id) as company_name, (Select username from clients where id = cc.customer_id) as username, (Select city from clients where id = cc.customer_id) as city, (Select status from status_log where cnno = "'.$id.'" ORDER BY id DESC LIMIT 1) as current_status, (Select Date(created_at) from status_log where cnno = "'.$id.'" ORDER BY id DESC LIMIT 1) as status_date')->where('cnic', $id)->first();
-
-       // echo "<pre>"; print_r($cnno_data); die;
+        if(Cookie::get('client_session')){
+            $check_session = DB::table('clients')->select('username', 'company_pic')->where('client_login_session', Cookie::get('client_session'))->first();
+            if(!$check_session){
+                return redirect('/cout');
+            }else{
+                parent::get_client_nofif_data();
+                $cnno_data = DB::table('consignment_client as cc')->selectRaw('id, cnic, consignee_name, booking_date, status, customer_id, consignment_dest_city, (Select company_name from clients where id = cc.customer_id) as company_name, (Select username from clients where id = cc.customer_id) as username, (Select city from clients where id = cc.customer_id) as city, (Select status from status_log where cnno = "'.$id.'" ORDER BY id DESC LIMIT 1) as current_status, (Select Date(created_at) from status_log where cnno = "'.$id.'" ORDER BY id DESC LIMIT 1) as status_date')->where('cnic', $id)->first();
         
-        $statuses = DB::table('status_log as sl')->selectRaw('DATE(created_at) as date, status, remarks, created_by, (Select name from users where id = sl.created_by) as created_by')->where('cnno', $id)->get();
-
-        if(!$cnno_data){
-            $check = 1;
-            return view('consignment_booking.shippment_tracking', ['check_rights' => $this->check_employee_rights, 'notifications_counts' => $this->notif_counts, 'notif_data' => $this->notif_data, 'data'=> $check, 'consignment' => null, 'all_notif' => $this->all_notification, 'statuses' => $statuses]);
+            // echo "<pre>"; print_r($cnno_data); die;
+                
+                $statuses = DB::table('status_log as sl')->selectRaw('DATE(created_at) as date, status, remarks, created_by, (Select name from users where id = sl.created_by) as created_by')->where('cnno', $id)->get();
+        
+                if(!$cnno_data){
+                    $check = 1;
+                    echo 'here'; die;
+                    return view('consignment_booking.shippment_tracking', ['data'=> $check, 'consignment' => null, 'statuses' => $statuses, 'notifications_counts' => $this->notif_counts_client, 'notif_data' => $this->notif_data_client, 'all_notif' => $this->clients_all_notifications, 'name' => $check_session]);
+                }else{
+                    $check = 2;
+                    return view('consignment_booking.shippment_tracking', ['data'=> $check, 'consignment' => $cnno_data, 'statuses' => $statuses, 'notifications_counts' => $this->notif_counts_client, 'notif_data' => $this->notif_data_client, 'all_notif' => $this->clients_all_notifications, 'name' => $check_session]);
+                }
+            }
         }else{
-            $check = 2;
-            return view('consignment_booking.shippment_tracking', ['check_rights' => $this->check_employee_rights, 'notifications_counts' => $this->notif_counts, 'notif_data' => $this->notif_data, 'data'=> $check, 'consignment' => $cnno_data, 'all_notif' => $this->all_notification, 'statuses' => $statuses]);
-        }
-        
-       
+            parent::get_notif_data();
+            parent::VerifyRights(); 
+            if($this->redirectUrl){
+                return redirect($this->redirectUrl);
+            }
+            $cnno_data = DB::table('consignment_client as cc')->selectRaw('id, cnic, consignee_name, booking_date, status, customer_id, consignment_dest_city, (Select company_name from clients where id = cc.customer_id) as company_name, (Select username from clients where id = cc.customer_id) as username, (Select city from clients where id = cc.customer_id) as city, (Select status from status_log where cnno = "'.$id.'" ORDER BY id DESC LIMIT 1) as current_status, (Select Date(created_at) from status_log where cnno = "'.$id.'" ORDER BY id DESC LIMIT 1) as status_date')->where('cnic', $id)->first();
+    
+           // echo "<pre>"; print_r($cnno_data); die;
+            
+            $statuses = DB::table('status_log as sl')->selectRaw('DATE(created_at) as date, status, remarks, created_by, (Select name from users where id = sl.created_by) as created_by')->where('cnno', $id)->get();
+    
+            if(!$cnno_data){
+                $check = 1;
+                return view('consignment_booking.shippment_tracking', ['check_rights' => $this->check_employee_rights, 'notifications_counts' => $this->notif_counts, 'notif_data' => $this->notif_data, 'data'=> $check, 'consignment' => null, 'all_notif' => $this->all_notification, 'statuses' => $statuses]);
+            }else{
+                $check = 2;
+                return view('consignment_booking.shippment_tracking', ['check_rights' => $this->check_employee_rights, 'notifications_counts' => $this->notif_counts, 'notif_data' => $this->notif_data, 'data'=> $check, 'consignment' => $cnno_data, 'all_notif' => $this->all_notification, 'statuses' => $statuses]);
+            }
+        }  
     }
 
     public function GetCNNOData(Request $request){
-        $core_data = DB::table('consignment_client as cc')->selectRaw('id, cnic, consignee_name, booking_date, status, customer_id, consignment_dest_city, (Select company_name from clients where id = cc.customer_id) as company_name, (Select username from clients where id = cc.customer_id) as username, (Select city from clients where id = cc.customer_id) as city, (Select status from status_log where cnno = "'.$request->id.'" ORDER BY id DESC LIMIT 1) as current_status, (Select Date(created_at) from status_log where cnno = "'.$request->id.'" ORDER BY id DESC LIMIT 1) as status_date')->where('cnic', $request->id)->first();
+        if(Cookie::get('client_session')){
+
+            if(DB::table('consignment_client')->whereRaw('cnic = "'.$request->id.'" AND customer_id = (Select id from clients where client_login_session = "'.Cookie::get('client_session').'")')->first()){
+
+                $core_data = DB::table('consignment_client as cc')->selectRaw('id, cnic, consignee_name, booking_date, status, customer_id, consignment_dest_city, (Select company_name from clients where id = cc.customer_id) as company_name, (Select username from clients where id = cc.customer_id) as username, (Select city from clients where id = cc.customer_id) as city, (Select status from status_log where cnno = "'.$request->id.'" ORDER BY id DESC LIMIT 1) as current_status, (Select Date(created_at) from status_log where cnno = "'.$request->id.'" ORDER BY id DESC LIMIT 1) as status_date')->where('cnic', $request->id)->first();
         
-        $statuses = DB::table('status_log as sl')->selectRaw('DATE(created_at) as date, status, remarks, created_by, (Select name from users where id = sl.created_by) as created_by')->where('cnno', $request->id)->get();
-        
-        if($core_data){
-            echo json_encode(array(['core' => $core_data, 'statuses' => $statuses]));
+                $statuses = DB::table('status_log as sl')->selectRaw('DATE(created_at) as date, status, remarks, created_by, (Select name from users where id = sl.created_by) as created_by')->where('cnno', $request->id)->get();
+
+                if($core_data){
+                    echo json_encode(array(['core' => $core_data, 'statuses' => $statuses]));
+                }else{
+                    echo json_encode('error');
+                }
+
+            }else{
+                echo json_encode('error');
+            }
+            
         }else{
-            echo json_encode('error');
-        }
+            $core_data = DB::table('consignment_client as cc')->selectRaw('id, cnic, consignee_name, booking_date, status, customer_id, consignment_dest_city, (Select company_name from clients where id = cc.customer_id) as company_name, (Select username from clients where id = cc.customer_id) as username, (Select city from clients where id = cc.customer_id) as city, (Select status from status_log where cnno = "'.$request->id.'" ORDER BY id DESC LIMIT 1) as current_status, (Select Date(created_at) from status_log where cnno = "'.$request->id.'" ORDER BY id DESC LIMIT 1) as status_date')->where('cnic', $request->id)->first();
         
+            $statuses = DB::table('status_log as sl')->selectRaw('DATE(created_at) as date, status, remarks, created_by, (Select name from users where id = sl.created_by) as created_by')->where('cnno', $request->id)->get();
+            
+            if($core_data){
+                echo json_encode(array(['core' => $core_data, 'statuses' => $statuses]));
+            }else{
+                echo json_encode('error');
+            }
+        } 
     }
 
 
@@ -1360,7 +1414,7 @@ class ConsignmentManagement extends ParentController
         }
     }
 
-    public function GetStatusList(Request $request){
+    public function GetStatusList(Request $requessaveCont){
         echo json_encode(DB::table('custom_status')->get());
     }
 
@@ -1399,6 +1453,13 @@ class ConsignmentManagement extends ParentController
                         'created_at' => date('Y-m-d H:i:s')
                     ]);
                 }
+                //$get_start_time = DB::table('consignment_client')->select('created_at')->where('cnic', $request->cnno)->first();
+                // $datetime1 = new DateTime(date('Y-m-d H:i:s'));
+                // $datetime2 = new DateTime($get_start_time->created_at);
+                // //$interval = $datetime1- $datetime2;
+                // $interval = date_diff($datetime1, $datetime2);
+                // $interval = $interval->format('%R%a days');
+                // DB::table('consignment_client')->where('cnic', $request->cnno)->update(['avg_delivery_time' => $interval->format('%s')]);
                 echo json_encode('success');
             }else{
                 echo json_encode('failed');
@@ -1489,10 +1550,6 @@ class ConsignmentManagement extends ParentController
         echo json_encode(DB::table('consignment_client')->where('cnic', $request->id)->first());
     }
 
-
-
-
-
     function generateRandomNumber($length = 8) {
         $number = '1234567890';
         $numberLength = strlen($number);
@@ -1502,4 +1559,10 @@ class ConsignmentManagement extends ParentController
         }
         return $randomNumber;
     }
+
+    public function bulkAction(Request $request){
+        Excel::import(new Consignments(["test" => 123]), request()->file('excel_data'));
+        echo "success";
+    }
+    
 }
