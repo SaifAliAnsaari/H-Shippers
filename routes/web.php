@@ -68,6 +68,7 @@ Route::get('/update_consignment_ad/{id}', 'ConsignmentManagement@update_consignm
 Route::get('/update_consignment_cc/{id}', 'ConsignmentManagement@update_consignment_cc');
 Route::get('/select_customer_BA', 'ClientsForBilling@select_customer_BA');
 Route::get('/dashboard', 'HomeController@dashboard');
+Route::get('/current_month_consignments', 'InvoiceManagment@current_month_consignments');
 
 Route::get('/invoice/{id}', 'ConsignmentManagement@invoice');
 Route::get('/download_invoice_c', 'ConsignmentManagement@download_invoice_client');

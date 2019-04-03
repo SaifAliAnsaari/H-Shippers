@@ -183,7 +183,9 @@
             <span>Invoices And Payment</span>
         </a>
         <div class="dropdown-menu" aria-labelledby="navi-l7">
-            <a class="dropdown-item" href="/">Current month</a>
+            @if(in_array("/current_month_consignments", $test_array))
+                <a class="dropdown-item" href="/current_month_consignments">Current month</a>
+            @endif
             <a class="dropdown-item" href="/">Generate Invoices</a>
             <a class="dropdown-item" href="/">Pending Payments</a>
             <a class="dropdown-item" href="/">Paid Invoices</a>
