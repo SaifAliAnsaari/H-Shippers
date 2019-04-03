@@ -72,7 +72,7 @@
                 <div class="card cp-stats">
                     <div class="cp-stats-icon"> <i class="fa fa-chart-line"></i> </div>
                     <h5 class="text-muted">Total Revenue</h5>
-                    <h3 class="cp-stats-value">Rs.{{ ($reports_data ? $reports_data->life_time_revenue : 0) }}</h3>
+                    <h3 class="cp-stats-value">Rs.{{ ($reports_data ? number_format($reports_data->life_time_revenue) : 0) }}</h3>
                 </div>
 
             </div>

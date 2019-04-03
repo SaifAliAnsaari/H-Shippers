@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Cookie;
 use DB;
 use Auth;
-use Excel;
+//use Excel;
 use DateTime;
 use App\Http\Controllers\Import_excel\Consignments;
 
@@ -139,7 +139,7 @@ class ConsignmentManagement extends ParentController
                 //within city
                 $service_criteria = "within city";
             }else{
-                $clientProvince = DB::table('pickup_delivery')->select('province')->whereRaw('city_name = (Select pick_up_city from clients where client_login_session = "'.Cookie::get('client_session').'")')->first();
+                $clientProvince = DB::table('pickup_delivery')->select('province')->whereRaw('city_name = "'.$request->region_client.'"')->first();
                 $destinationProvince = DB::table('pickup_delivery')->select('province')->where('city_name', $request->consignment_dest_city_client)->first();
 
                 // echo json_encode(['client'=> $clientProvince, 'dest' => $destinationProvince]);
@@ -582,7 +582,7 @@ class ConsignmentManagement extends ParentController
         }else{
             parent::get_client_nofif_data();
 
-            $client_consignment = DB::table('consignment_client as cc')->selectRaw('id, booking_date, cnic, consignee_ref, consignee_cell, consignee_address, consignee_name, remarks, customer_id, consignment_description, consignment_weight, fragile_cost, consignment_dest_city, consignment_pieces, supplementary_services, TIME(created_at) as time, (Select pick_up_city from clients where id = cc.customer_id) as origin, (Select company_name from clients where id = cc.customer_id) as shipper_name, (Select address from clients where id = cc.customer_id) as shipper_address')->where('cnic', $id)->first();
+            $client_consignment = DB::table('consignment_client as cc')->selectRaw('id, origin_city, booking_date, cnic, consignee_ref, consignee_cell, consignee_address, consignee_name, remarks, customer_id, consignment_description, consignment_weight, fragile_cost, consignment_dest_city, consignment_service_type, consignment_pieces, supplementary_services, TIME(created_at) as time, (Select company_name from clients where id = cc.customer_id) as shipper_name, (Select address from clients where id = cc.customer_id) as shipper_address')->where('cnic', $id)->first();
             if($client_consignment){
                // $suplementary_services = $client_consignment->supplementary_services;
                if($client_consignment->supplementary_services == null || $client_consignment->supplementary_services == ''){
@@ -633,7 +633,7 @@ class ConsignmentManagement extends ParentController
                 //within city
                 $service_criteria = "within city";
             }else{
-                $clientProvince = DB::table('pickup_delivery')->select('province')->whereRaw('city_name = (Select pick_up_city from clients where id = "'.$request->customer_id_client.'")')->first();
+                $clientProvince = DB::table('pickup_delivery')->select('province')->whereRaw('city_name = "'.$request->update_region_client.'"')->first();
                 $destinationProvince = DB::table('pickup_delivery')->select('province')->where('city_name', $request->consignment_dest_city_client)->first();
 
                 // echo json_encode(['client'=> $clientProvince, 'dest' => $destinationProvince]);
@@ -1026,7 +1026,8 @@ class ConsignmentManagement extends ParentController
 
                 if($insert_notification){
                     //echo json_encode('success');
-                    echo json_encode(ROUND($totalPrice, 2));
+                    //echo json_encode(ROUND($totalPrice, 2));
+                    echo json_encode(array('total_price'=> ROUND($totalPrice, 2), 'sub_price' => ROUND($sub_total, 2), 'fuel_price' => Round($price_for_fuel,2), 'tax_price' => ROUND($price_for_tax, 2)));
                 }else{
                     echo json_encode('failed');
                 }
@@ -1560,9 +1561,9 @@ class ConsignmentManagement extends ParentController
         return $randomNumber;
     }
 
-    public function bulkAction(Request $request){
-        Excel::import(new Consignments(["test" => 123]), request()->file('excel_data'));
-        echo "success";
-    }
+    // public function bulkAction(Request $request){
+    //     Excel::import(new Consignments(["test" => 123]), request()->file('excel_data'));
+    //     echo "success";
+    // }
     
 }

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Cookie;
 use DB;
 use Auth;
+use DateTime;
 
 class HomeController extends ParentController
 {
@@ -257,6 +258,20 @@ class HomeController extends ParentController
 
 
 
+    function unique_multidim_array($array, $key) { 
+        $temp_array = array(); 
+        $i = 0; 
+        $key_array = array(); 
+        
+        foreach($array as $val) { 
+            if (!in_array($val[$key], $key_array)) { 
+                $key_array[$i] = $val[$key]; 
+                $temp_array[$i] = $val; 
+            } 
+            $i++; 
+        } 
+        return $temp_array; 
+    } 
 
     //Admin Dashboard
     public function dashboard(){
@@ -264,6 +279,11 @@ class HomeController extends ParentController
         if($this->redirectUrl){return redirect($this->redirectUrl);}
         parent::get_notif_data();
         $life_time_data = DB::table('consignment_client')->selectRaw('(Select booking_date order by id LIMIT 1 ) as first_order_date, (Select Count(*) from consignment_client) as life_time_consignments, (Select Sum(consignment_weight) from consignment_client) as total_weight')->first();
+
+        $results = json_decode(json_encode(DB::table('consignment_client')->select('booking_date')->get()), true);
+
+        $totalDays = sizeof(array_column($this->unique_multidim_array($results, "booking_date"), "booking_date"));
+
         $life_time_rev = DB::table('consignment_client')->selectRaw('SUM(sub_total) as life_time_revenus')->first();
 
         $consignments_by_days = DB::table('consignment_client')->selectRaw('DAYNAME(booking_date) as day, Count(*) as quantity, SUM(consignment_weight) as weight, SUM(sub_total) as rate')->groupBy(DB::raw('DAYNAME(booking_date)'))->orderby(DB::raw('Count(*)'), 'desc')->get();
@@ -272,7 +292,7 @@ class HomeController extends ParentController
        
         $reporting_this_month = DB::table('consignment_client')->selectRaw('(Select SUM(sub_total)) as total_revenue, (Select Count(*) from consignment_client) as total_bookings, (Select Count(*) from clients where is_active = 1) as active_custs, (Select SUM(amount) from payment) as amount_recieved ')->first();
         //echo "<pre>"; print_r($consignments_by_destinations); die;
-        return view('dashboard.admin_dashboard', ['check_rights' => $this->check_employee_rights, 'notifications_counts' => $this->notif_counts, 'notif_data' => $this->notif_data, 'all_notif' => $this->all_notification, 'data' => $reporting_this_month, 'life_time_data' => $life_time_data, 'life_time_rev' => $life_time_rev, 'consignments_by_days' => $consignments_by_days, 'consignments_by_destinations' => $consignments_by_destinations]);
+        return view('dashboard.admin_dashboard', [ 'totalDays' => $totalDays, 'check_rights' => $this->check_employee_rights, 'notifications_counts' => $this->notif_counts, 'notif_data' => $this->notif_data, 'all_notif' => $this->all_notification, 'data' => $reporting_this_month, 'life_time_data' => $life_time_data, 'life_time_rev' => $life_time_rev, 'consignments_by_days' => $consignments_by_days, 'consignments_by_destinations' => $consignments_by_destinations]);
     }
 
     //Graph Reports

@@ -1058,6 +1058,7 @@ $(document).ready(function () {
                     }, 3000);
 
                 } else {
+                    var response = JSON.parse(response);
                     $('.update_consignment_client').removeAttr('disabled');
                     // $('#cancelCustomer').removeAttr('disabled');
                     $('.update_consignment_client').text('Update');
@@ -1067,7 +1068,8 @@ $(document).ready(function () {
                     setTimeout(() => {
                         $('#notifDiv').fadeOut();
                     }, 3000);
-                    $('.update_total_price').text('Total Price :' + JSON.parse(response))
+                    $('.update_total_price').text("Total Price : " + response.total_price + " / " + "Sub Total : " + response.sub_price + " / " + "Fuel Charges : " + response.fuel_price + " / " + "GST Charges : " + response.tax_price);
+                    
                 }
             },
             error: function (err) {

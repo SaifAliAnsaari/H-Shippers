@@ -121,14 +121,8 @@
                 <div class="card cp-stats">
                     <div class="cp-stats-icon"><img src="/images/avg-revenue.svg" alt="" /></div>
                     <h3 class="cp-stats-value">
-                        <?php 
-                        $datetime1 = new DateTime(date('Y-m-d H:i:s'));
-                        $datetime2 = new DateTime($life_time_data->first_order_date);
-                        $interval = $datetime1->diff($datetime2)->format('%d');
-                        $avg_rev = $life_time_rev->life_time_revenus/$interval;
-                        echo "Rs.".number_format(Round($avg_rev, 2));
-                        //echo $interval;
-                    ?></h3>
+                        Rs.{{ number_format($life_time_rev->life_time_revenus/$totalDays) }}
+                    </h3>
                     <h5 class="text-muted">AVG Revenue Per Day</h5>
                 </div>
             </div>
@@ -147,13 +141,7 @@
             <div class="col-12">
                 <div class="card cp-stats">
                     <div class="cp-stats-icon"><img src="/images/avg-shipment-day.svg" alt="" /></div>
-                    <h3 class="cp-stats-value"><?php 
-                        $datetime1 = new DateTime(date('Y-m-d H:i:s'));//start time
-                        $datetime2 = new DateTime($life_time_data->first_order_date);//end time
-                        $interval = $datetime1->diff($datetime2)->format('%d');
-                        $avg_con_per_day = $life_time_data->life_time_consignments / $interval;
-                        echo number_format(Round($avg_con_per_day, 2));
-                    ?></h3>
+                    <h3 class="cp-stats-value"> {{ number_format($life_time_data->life_time_consignments/$totalDays) }} </h3>
                     <h5 class="text-muted">AVG Shipments Per Day</h5>
                 </div>
             </div>

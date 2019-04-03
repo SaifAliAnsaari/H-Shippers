@@ -46,7 +46,7 @@
                                             </tr>
                                             <tr>
                                                 <td>Service</td>
-                                                <td>NA</td>
+                                                <td>{{ ($data->consignment_service_type == 1 ? "Same Day" : ($data->consignment_service_type == 2 ? "Over Night" : ($data->consignment_service_type == 3 ? "Second Day" : "Over Land"))) }}</td>
                                                 <td>Weight</td>
                                                 <td>{{ $data->consignment_weight }}</td>
                                             </tr>
@@ -59,12 +59,12 @@
                                             </tr>
                                             <tr>
                                                 <td>Origin</td>
-                                                <td>{{ $data->origin }}</td>
+                                                <td>{{ $data->origin_city }}</td>
                                                 <td>Desitination</td>
                                                 <td>{{ $data->consignment_dest_city }}</td>
                                             </tr>
                                             <tr>
-                                                <td colspan="2">COD Amount PKR {{ $supplementary_charges }}</td>
+                                                <td colspan="2">{{ ($data->supplementary_services != "" ? $data->supplementary_services : "NA") }}</td>
                                                 <td colspan="2">Decld. Ins. Value Rs, NA/-</td>
                                             </tr>
                                         </tbody>
@@ -134,7 +134,7 @@
                                             </tr>
                                             <tr>
                                                 <td>Service</td>
-                                                <td>NA</td>
+                                                <td>{{ ($data->consignment_service_type == 1 ? "Same Day" : ($data->consignment_service_type == 2 ? "Over Night" : ($data->consignment_service_type == 3 ? "Second Day" : "Over Land"))) }}</td>
                                                 <td>Weight</td>
                                                 <td>{{ $data->consignment_weight }}</td>
                                             </tr>
@@ -147,12 +147,12 @@
                                             </tr>
                                             <tr>
                                                 <td>Origin</td>
-                                                <td>{{ $data->origin }}</td>
+                                                <td>{{ $data->origin_city }}</td>
                                                 <td>Desitination</td>
                                                 <td>{{ $data->consignment_dest_city }}</td>
                                             </tr>
                                             <tr>
-                                                <td colspan="2">COD Amount PKR NA</td>
+                                                <td colspan="2">{{ ($data->supplementary_services != "" ? $data->supplementary_services : "NA") }}</td>
                                                 <td colspan="2">Decld. Ins. Value Rs, NA/-</td>
                                             </tr>
                                         </tbody>
@@ -217,7 +217,7 @@
                                             </tr>
                                             <tr>
                                                 <td>Service</td>
-                                                <td>NA</td>
+                                                <td>{{ ($data->consignment_service_type == 1 ? "Same Day" : ($data->consignment_service_type == 2 ? "Over Night" : ($data->consignment_service_type == 3 ? "Second Day" : "Over Land"))) }}</td>
                                                 <td>Weight</td>
                                                 <td>{{ $data->consignment_weight }}</td>
                                             </tr>
@@ -230,12 +230,12 @@
                                             </tr>
                                             <tr>
                                                 <td>Origin</td>
-                                                <td>{{ $data->origin }}</td>
+                                                <td>{{ $data->origin_city }}</td>
                                                 <td>Desitination</td>
                                                 <td>{{ $data->consignment_dest_city }}</td>
                                             </tr>
                                             <tr>
-                                                <td colspan="2">COD Amount PKR NA</td>
+                                                <td colspan="2">{{ ($data->supplementary_services != "" ? $data->supplementary_services : "NA") }}</td>
                                                 <td colspan="2">Decld. Ins. Value Rs, NA/-</td>
                                             </tr>
                                         </tbody>

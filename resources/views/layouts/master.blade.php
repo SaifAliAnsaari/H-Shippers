@@ -101,7 +101,7 @@
     @elseif($controller == "ComplaintsAndSuggestions")
         <script src="/js/manage_complaints_suggestions/complaints_suggestions.js?v=2.3.0" ></script>
     @elseif($controller == "ConsignmentManagement")
-        <script src="/js/manage_consignment/consignment.js?v=2.3.8" ></script>
+        <script src="/js/manage_consignment/consignment.js?v=2.3.9" ></script>
     @elseif($controller == "AccessRights")
         <script src="/js/access_rights/access_rights.js?v=2.3.0" ></script>
     @elseif($controller == "HomeController")

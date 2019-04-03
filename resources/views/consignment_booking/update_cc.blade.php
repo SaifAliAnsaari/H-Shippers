@@ -63,7 +63,7 @@
                             @if(!empty($pickup_city))
                                 @foreach($pickup_city as $region)
                                     <option value="{{ $region->city_name }}">{{ $region->city_name }}</option>
-                                    <option value="{{ $region->city_name }}" {{ $name->city == $region->city_name ? "selected" : null }} >{{ $region->city_name }}</option>
+                                    <option value="{{ $region->city_name }}" >{{ $region->city_name }}</option>
                                 @endforeach
                             @endif
                         </select> 
@@ -162,9 +162,9 @@
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label class="control-label mb-10">Description (Product/Item)*</label>
+                                <label class="control-label mb-10">Description (Product/Item)</label>
                                 <input type="text" name="consignment_description_client"
-                                    id="consignment_description_client" class="form-control required" placeholder=""
+                                    id="consignment_description_client" class="form-control" placeholder=""
                                     style="font-size: 13px">
                             </div>
                         </div>
