@@ -1,8 +1,11 @@
 $(document).ready(function () {
     var segments = location.href.split('/');
     var action = segments[3];
+    var consignment_delete_Ref;
+    var consignment_delete_id;
+    var consignment_delete_name;
 
-    $(document).on('click', '.view_detail_current_month', function(){
+    $(document).on('click', '.view_detail_current_month', function () {
         var id = $(this).attr('id');
         $('#billed_to_modal').text('');
         $('#address_modal').text('');
@@ -42,7 +45,7 @@ $(document).ready(function () {
             },
             success: function (response) {
                 //console.log(response);
-               var response = JSON.parse(response);
+                var response = JSON.parse(response);
                 $('#billed_to_modal').text(response.company_name);
                 $('#address_modal').text(response.address);
                 $('#ntn_modal').text("NTN # " + response.ntn);
@@ -70,7 +73,7 @@ $(document).ready(function () {
                 $('#total_four').text(Math.round(response.price_over_land));
 
                 $('#fuel_modal').text("Rs." + Math.round(response.fuel_charges));
-                $('#gst_heading').text('GST('+ response.gst +'%)');
+                $('#gst_heading').text('GST(' + response.gst + '%)');
                 $('#gst_modal').text("Rs." + Math.round(response.total_tax));
                 //debugger;
                 var grandtotal = response.price_same_day + response.price_over_night + response.price_second_day + response.price_over_land;
@@ -78,11 +81,85 @@ $(document).ready(function () {
             }
         });
     });
-    
+
+    $(document).on('click', '.generateInvBtn', function () {
+        var data = $(this).parent().find('#invStat').val();
+        var thisRef = $(this);
+        thisRef.text('Generating..');
+        thisRef.attr('disabled', 'disabled');
+        $.ajax({
+            type: 'POST',
+            url: '/GenerateInvoice',
+            data: {
+                postData: data,
+                _token: $('meta[name="csrf_token"]').attr('content')
+            },
+            success: function (response) {
+                if (response == "true") {
+                    thisRef.parent().parent().remove();
+                } else {
+                    console.log(response);
+                    thisRef.text('Generate Invoice');
+                    thisRef.removeAttr('disabled');
+                }
+            }
+        });
+    });
+
+
+    //Delete Consignmnet from generated invoice detail page
+    $(document).on('click', '.delete_cn_modal', function(){
+        consignment_delete_id = "";
+        consignment_delete_name = "";
+        consignment_delete_id = $(this).attr('id');
+        consignment_delete_name = $(this).attr('name');
+        //$('#delete_customer_modal').click();
+        consignment_delete_Ref = $(this);
+    });
+
+    $(document).on('click', '#link_delete_consignment_modal', function(){
+       // alert('here');return;
+        var id = consignment_delete_id;
+        var consignment_type = consignment_delete_name;
+
+        consignment_delete_Ref.text('Processing...');
+        consignment_delete_Ref.attr('disabled', 'disabled');
+        $.ajax({
+            type: 'GET',
+            url: '/delete_pending_consignment',
+            data: {
+                consignment_type: consignment_type,
+                id: id,
+                _token: '{!! csrf_token() !!}'
+            },
+            success: function (response) {
+                console.log(response);
+                //consignment_delete_Ref.parent().parent().remove();
+
+                if (JSON.parse(response) == 'success') {
+                    consignment_delete_Ref.parent().parent().remove();
+                    $('#notifDiv').fadeIn();
+                    $('#notifDiv').css('background', 'green');
+                    $('#notifDiv').text('Deleted successfully.');
+                    setTimeout(() => {
+                        $('#notifDiv').fadeOut();
+                    }, 3000);
+                } else {
+                    $('#notifDiv').fadeIn();
+                    $('#notifDiv').css('background', 'red');
+                    $('#notifDiv').text('Unable to delete at the moment!.');
+                    setTimeout(() => {
+                        $('#notifDiv').fadeOut();
+                    }, 3000);
+                }
+
+            }
+        });
+    });
+
 });
 
-function addCommas(nStr)
-{
+function addCommas(nStr) {
     nStr += '';
     x = nStr.split('.');
     x1 = x[0];
@@ -93,4 +170,3 @@ function addCommas(nStr)
     }
     return x1 + x2;
 }
-

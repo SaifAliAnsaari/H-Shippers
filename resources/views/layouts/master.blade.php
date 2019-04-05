@@ -7,6 +7,7 @@
     {{-- <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"> --}}
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="csrf_token" content="{{ csrf_token() }}" />
     <meta name="author" content="">
 
     <title>Hashmi Shippers</title>
@@ -17,7 +18,7 @@
     <link rel="stylesheet" type="text/css" href="/css/datatables.min.css"/>
     <link rel="stylesheet" type="text/css" href="/css/select2.min.css">
     <link rel="stylesheet" type="text/css" href="/css/select2-bootstrap4.css">
-    <link rel="stylesheet" type="text/css" href="/css/style.css?v=1.1.4">
+    <link rel="stylesheet" type="text/css" href="/css/style.css?v=1.1.5">
     <link rel="stylesheet" type="text/css" href="/css/dropify.min.css" />
     <link rel="stylesheet" type="text/css" href="/css/dropzone.css" />
     <link rel="stylesheet" type="text/css" href="/css/datepicker.css" />
@@ -78,10 +79,6 @@
     {{-- <script src="/js/dropzone-amd-module.js"></script>
     <script src="/js/dropzone-data.js"></script> --}}
     <script src="/js/dropzone.js"></script>
-
-    {{-- <form action="/test-upload" class="dropzone" id="dropzonewidget" method="POST" enctype="multipart/form-data">
-        @csrf
-    </form>  --}}
     
 
     @if($controller == "Customer")
@@ -91,7 +88,7 @@
     @elseif($controller == "RegisterController")
         <script src="/js/custom/employee.js?v=2.3.0" ></script>
     @elseif($controller == "Clients")
-        <script src="/js/client/clients.js?v=2.3.3" ></script>
+        <script src="/js/client/clients.js?v=2.3.4" ></script>
     @elseif($controller == "OrganizationManagement")
         <script src="/js/manage_organization/manage_organization.js?v=2.3.1" ></script>
     @elseif($controller == "ManageBilling")
@@ -107,11 +104,8 @@
     @elseif($controller == "HomeController")
         <script src="/js/notif_pref/notif_pref.js?v=2.3.0" ></script>
     @elseif($controller == "InvoiceManagment")
-        <script src="/js/invoice/invoice.js?v=2.3.0" ></script>
+        <script src="/js/invoice/invoice.js?v=2.3.1" ></script>
     @endif
-
-    <script type="text/javascript"></script>
-
 </body>
 
 </html>

@@ -33,10 +33,14 @@
                                             <div class="col-md-6">
                                                 <div class="inv-title">
                                                     <h3>e-Invoice</h3>
-                                                    <span class="inv-pr">Account # </span><span id="account_id_modal"></span> <br>
-                                                    <span class="inv-pr">Invoice # </span><span id="invoice_num_modal">NA</span> <br>
-                                                    <span class="inv-pr">Invoice Date </span><span >{{ date('d/m/y') }}</span> <br>
-                                                    <span class="inv-pr">Time Period </span><span >{{ date('1/m/y') }} – {{ date('d/m/y') }}</span><br>
+                                                    <span class="inv-pr">Account # </span><span
+                                                        id="account_id_modal"></span> <br>
+                                                    <span class="inv-pr">Invoice # </span><span
+                                                        id="invoice_num_modal">NA</span> <br>
+                                                    <span class="inv-pr">Invoice Date
+                                                    </span><span>{{ date('d/m/y') }}</span> <br>
+                                                    <span class="inv-pr">Time Period </span><span>{{ date('1/m/y') }} –
+                                                        {{ date('d/m/y') }}</span><br>
                                                 </div>
                                             </div>
                                         </div>
@@ -97,8 +101,8 @@
                                                         <td id="total_four"></td>
                                                     </tr>
                                                     <tr>
-                                                        <td colspan="2" rowspan="2" style="border: none"></td>
-                                                        <td rowspan="2" class="border-0"></td>
+                                                        <td colspan="2" rowspan="2" class="bg-transparent border-0"></td>
+                                                        <td rowspan="2" class="bg-transparent border-0"></td>
                                                         <td rowspan="2" class="border-0"></td>
                                                         <td>Fuel Charges</td>
                                                         <td id="fuel_modal"> </td>
@@ -144,88 +148,90 @@
 
 <div class="row mb-30 HS_CO">
 
-        <div class="col-md-3">
+    <div class="col-md-3">
 
-            <div class="card cp-stats yb_border">
-                <div class="cp-stats-icon"><img src="/images/_p-consignment.svg" alt=""></div>
-                <h3 class="cp-stats-value">{{ $data["total_booked"] }}</h3>
-                <h5 class="text-muted">Total Booked Consignment</h5>
-            </div>
-
+        <div class="card cp-stats yb_border">
+            <div class="cp-stats-icon"><img src="/images/_p-consignment.svg" alt=""></div>
+            <h3 class="cp-stats-value">{{ $data["total_booked"] }}</h3>
+            <h5 class="text-muted">Total Booked Consignment</h5>
         </div>
 
-        <div class="col-md-3">
-            <div class="card cp-stats  lb_border">
-                <div class="cp-stats-icon"><img src="/images/_c-consignment.svg" alt=""></div>
-                <h3 class="cp-stats-value">{{ $data["total_delivered"] }}</h3>
-                <h5 class="text-muted">Total Delivered Consignment</h5>
-            </div>
+    </div>
 
+    <div class="col-md-3">
+        <div class="card cp-stats  lb_border">
+            <div class="cp-stats-icon"><img src="/images/_c-consignment.svg" alt=""></div>
+            <h3 class="cp-stats-value">{{ $data["total_delivered"] }}</h3>
+            <h5 class="text-muted">Total Delivered Consignment</h5>
         </div>
 
-        <div class="col-md-3">
+    </div>
 
-            <div class="card cp-stats yr_border">
-                <div class="cp-stats-icon"><img src="/images/_t-consignment.svg" alt=""></div>
-                <h3 class="cp-stats-value">{{ $data["in_transit"] }}</h3>
-                <h5 class="text-muted">In-Transit Consignment</h5>
-            </div>
+    <div class="col-md-3">
 
+        <div class="card cp-stats yr_border">
+            <div class="cp-stats-icon"><img src="/images/_t-consignment.svg" alt=""></div>
+            <h3 class="cp-stats-value">{{ $data["in_transit"] }}</h3>
+            <h5 class="text-muted">In-Transit Consignment</h5>
         </div>
 
-        <div class="col-md-3">
+    </div>
 
-            <div class="card cp-stats bb_border">
-                <div class="cp-stats-icon"><img src="/images/_am-consignment.svg" alt=""></div>
-                <h3 class="cp-stats-value">{{ $data["total_amount"] }}</h3>
-                <h5 class="text-muted">Total Amount</h5>
+    <div class="col-md-3">
+
+        <div class="card cp-stats bb_border">
+            <div class="cp-stats-icon"><img src="/images/_am-consignment.svg" alt=""></div>
+            <h3 class="cp-stats-value">{{ ($data["total_amount"] ? $data["total_amount"] : "0") }}</h3>
+            <h5 class="text-muted">Total Amount</h5>
+        </div>
+
+    </div>
+
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="header">
+                <h2>Invoice <span>Current Month</span></h2>
             </div>
+            <div class="body">
+                <table class="table table-hover dt-responsive nowrap" id="example" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th>Client Name</th>
+                            <th>Total Shipments</th>
+                            <th>Total Amount</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($data["consignments"] as $item)
+                        <tr>
+                            <td>{{ $item->client_name }}</td>
+                            <td>{{ $item->total_consignments }}</td>
+                            <td>{{ number_format($item->total_amount) }}</td>
+                            <td>
+                                <a href="" data-toggle="modal" data-target="#exampleModal" id="{{ $item->customer_id }}"
+                                    class="btn btn-default view_detail_current_month">View
+                                    Invoice</a>
+                                <a href="/shipment_list/{{ $item->customer_id }}" class="btn btn-default">View
+                                    Shipment</a>
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+
+            </div>
+
+
 
         </div>
 
     </div>
 
-    <div class="row">
-        <div class="col-md-12">
-            <div class="card">
-                <div class="header">
-                    <h2>Invoice <span>Current Month</span></h2>
-                </div>
-                <div class="body">
-                    <table class="table table-hover dt-responsive nowrap" id="example" style="width:100%">
-                        <thead>
-                            <tr>
-                                <th>Client Name</th>
-                                <th>Total Shipments</th>
-                                <th>Total Amount</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($data["consignments"] as $item)
-                            <tr>
-                                <td>{{ $item->client_name }}</td>
-                                <td>{{ $item->total_consignments }}</td>
-                                <td>{{ number_format($item->total_amount) }}</td>
-                                <td>
-                                    <a href="" data-toggle="modal" data-target="#exampleModal" id="{{ $item->customer_id }}" class="btn btn-default view_detail_current_month">View
-                                        Invoice</a>
-                                    <a href="shipment-list.html" class="btn btn-default">View Shipment</a>
-                                </td>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
 
-                </div>
-
-
-
-            </div>
-
-        </div>
-
-
-    </div>
+</div>
 
 @endsection

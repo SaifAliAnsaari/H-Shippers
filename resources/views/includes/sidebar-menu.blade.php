@@ -186,9 +186,18 @@
             @if(in_array("/current_month_consignments", $test_array))
                 <a class="dropdown-item" href="/current_month_consignments">Current month</a>
             @endif
-            <a class="dropdown-item" href="/">Generate Invoices</a>
-            <a class="dropdown-item" href="/">Pending Payments</a>
-            <a class="dropdown-item" href="/">Paid Invoices</a>
+            @if(in_array("/invoices_generate", $test_array))
+            <a class="dropdown-item" href="/invoices_generate">Invoices Generate</a>
+            @endif
+            {{-- @if(in_array("/invoices_generate_detail", $test_array))
+            <a class="dropdown-item" href="/invoices_generate_detail">Invoices Generate Detail</a>
+            @endif --}}
+            @if(in_array("/received_payments", $test_array))
+            <a class="dropdown-item" href="/received_payments">Recieved Payments</a>
+            @endif
+            @if(in_array("/paid_invoices", $test_array))
+            <a class="dropdown-item" href="/paid_invoices">Paid Invoices</a>
+            @endif
         </div>
     </li>
     @endif

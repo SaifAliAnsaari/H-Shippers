@@ -69,10 +69,17 @@ Route::get('/update_consignment_cc/{id}', 'ConsignmentManagement@update_consignm
 Route::get('/select_customer_BA', 'ClientsForBilling@select_customer_BA');
 Route::get('/dashboard', 'HomeController@dashboard');
 Route::get('/current_month_consignments', 'InvoiceManagment@current_month_consignments');
+Route::get('/invoices_generate', 'InvoiceManagment@invoices_generate');
+Route::get('/invoices_generate_detail/{cId}/{month}', 'InvoiceManagment@invoices_generate_detail');
+Route::get('/received_payments', 'InvoiceManagment@received_payments');
+Route::get('/paid_invoices', 'InvoiceManagment@paid_invoices');
+Route::get('/shipment_list/{id}', 'InvoiceManagment@shipment_list');
 
 Route::get('/invoice/{id}', 'ConsignmentManagement@invoice');
 Route::get('/download_invoice_c', 'ConsignmentManagement@download_invoice_client');
-Route::get('/client_invoice/{id}', 'Clients@client_invoice');
+Route::get('/client_invoice/{id}/{month}', 'Clients@client_invoice');
+//Monthly Client Invoice
+Route::get('/MCI/{id}/', 'InvoiceManagment@MCI');
 
 //Save
 Route::post('/Client_save', 'Clients@save_client');
@@ -159,3 +166,4 @@ Route::get('/testingRoute/{test}', 'ManageBilling@testUnlink');
 
 Route::post('/client_docs', 'Clients@upload_docs');
 Route::get('/remove_client_docs/{test}', 'Clients@remove_docs');
+Route::post('/GenerateInvoice', 'InvoiceManagment@GenerateInvoice');

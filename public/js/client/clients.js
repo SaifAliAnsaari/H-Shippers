@@ -4,10 +4,11 @@ var acceptedFileTypes = "image/*"; //dropzone requires this param be a comma sep
 var fileList = new Array;
 var i = 0;
 var callForDzReset = false;
+var totalPaymentOnStart;
 
 var segments = location.href.split('/');
 var action = segments[3];
-if (action == 'clients'){
+if (action == 'clients') {
     var myDropzone = new Dropzone("#dropzonewidgetclient", {
         url: "/client_docs",
         addRemoveLinks: true,
@@ -60,8 +61,8 @@ if (action == 'clients'){
                 return (_ref = file.previewElement) != null ? _ref.parentNode.removeChild(file.previewElement) : void 0;
             }
         }
-    }); 
-}else if(action == 'client_invoice'){
+    });
+} else if (action == 'client_invoice') {
     payment_data();
 }
 
@@ -72,19 +73,20 @@ if (action == 'clients'){
 
 
 $(document).ready(function () {
+    totalPaymentOnStart = $('#pending_amount').text();
     $('#example,#poclist').DataTable();
     var segments = location.href.split('/');
     var action = segments[3];
-    if (action == 'clients'){
+    if (action == 'clients') {
         fetchClientsList();
-    }else{
+    } else {
 
     }
 
     $('#datepicker').datepicker({
         format: 'yyyy-mm-dd'
     });
-    
+
     var lastOp = "add";
     var client_id = "";
     $(document).on('click', '.openDataSidebarForAddingClient', function () {
@@ -193,7 +195,7 @@ $(document).ready(function () {
         $('#saveClient').text('Processing..');
 
         var ajaxUrl = "/Client_save";
-        
+
         $('#saveClientForm').ajaxSubmit({
             type: "POST",
             url: ajaxUrl,
@@ -351,17 +353,17 @@ $(document).ready(function () {
                 $('.client_key_docs').val(response.info.client_key);
                 $('.operation_docs').val('update');
 
-                if(response.info.company_pic != null){
+                if (response.info.company_pic != null) {
                     var imgUrl = response.base_url + response.info.company_pic;
                     $("#compPicture").attr("data-height", '100px');
                     $("#compPicture").attr("data-default-file", imgUrl);
                     $('#compPicture').dropify();
-                }else{
+                } else {
                     $("#compPicture").attr("data-height", '100px');
-                    $("#compPicture").attr("data-default-file", response.base_url+"profile-img--.jpg");
+                    $("#compPicture").attr("data-default-file", response.base_url + "profile-img--.jpg");
                     $('#compPicture').dropify();
                 }
-                
+
 
                 // debugger;
                 var mockFile = "";
@@ -433,7 +435,7 @@ $(document).ready(function () {
         if (verif.includes(false)) {
             return;
         }
-        
+
         lastOp = "update";
         $('#updateClient').attr('disabled', 'disabled');
         $('#updateClient').text('Processing..');
@@ -444,7 +446,7 @@ $(document).ready(function () {
             data: $('#updateClientForm').serialize(),
             cache: false,
             success: function (response) {
-                 console.log(response);
+                console.log(response);
                 if (JSON.parse(response) == "success") {
                     fetchClientsList();
                     $('#updateClient').removeAttr('disabled');
@@ -565,15 +567,15 @@ $(document).ready(function () {
 
     //Edit Client Profile
     var count_click_edit = 0;
-    $(document).on('click', '.edit_profile_btn', function(){
+    $(document).on('click', '.edit_profile_btn', function () {
         var thisRef = $(this);
         var currentcompany_name = $('#company_name').text();
         var currentpoc = $('#poc_name').text();
         var currentphone = $('#phone_num').text();
         var currentaddress = $('#address').text();
-        if(count_click_edit == 0){
+        if (count_click_edit == 0) {
             thisRef.text('Save');
-            count_click_edit ++;
+            count_click_edit++;
             $('#image_div').empty();
             $('#image_div').append('<div class="form-wrap pt-19" id="dropifyImgDiv" style=""> <input type="file" name="client_pic" id="client_pic" /></div>');
             var imgUrl = $('#hidden_img_url').val();
@@ -581,25 +583,31 @@ $(document).ready(function () {
             $('#client_pic').dropify();
 
             setTimeout(function () {
-                $('.dropify-wrapper').css({"display": "block", "margin": "0 auto"});
-                $('.dropify-render').find('img').css({"display": "block", "margin-top": "45px"});
+                $('.dropify-wrapper').css({
+                    "display": "block",
+                    "margin": "0 auto"
+                });
+                $('.dropify-render').find('img').css({
+                    "display": "block",
+                    "margin-top": "45px"
+                });
             }, 300);
-            
 
-             $('#company_name').empty();
-             $('#poc_name').empty();
-             $('#phone_num').empty();
-             $('#address').empty();
-            
-            $('#company_name').append('<div class="form-group" ><input style="max-height: 30px; font-size:12px !important;" type="text" value="'+ currentcompany_name +'" id="profile_page_company_page" name="profile_page_company_page" class="form-control required_one"></div>');
 
-            $('#poc_name').append('<div class="form-group" ><input style="max-height: 30px; font-size:12px !important;" type="text" value="'+ currentpoc +'" id="profile_page_poc" name="profile_page_poc" class="form-control required_one"></div>');
+            $('#company_name').empty();
+            $('#poc_name').empty();
+            $('#phone_num').empty();
+            $('#address').empty();
 
-            $('#phone_num').append('<div class="form-group" ><input style="max-height: 30px; font-size:12px !important;" type="text" value="'+ currentphone +'" id="profile_page_phone" name="profile_page_phone" class="form-control required_one"></div>');
+            $('#company_name').append('<div class="form-group" ><input style="max-height: 30px; font-size:12px !important;" type="text" value="' + currentcompany_name + '" id="profile_page_company_page" name="profile_page_company_page" class="form-control required_one"></div>');
 
-            $('#address').append('<div class="form-group" ><input style="max-height: 30px; font-size:12px !important;" type="text" value="'+ currentaddress +'" id="profile_page_address" name="profile_page_address" class="form-control required_one"></div>');
+            $('#poc_name').append('<div class="form-group" ><input style="max-height: 30px; font-size:12px !important;" type="text" value="' + currentpoc + '" id="profile_page_poc" name="profile_page_poc" class="form-control required_one"></div>');
 
-        }else{
+            $('#phone_num').append('<div class="form-group" ><input style="max-height: 30px; font-size:12px !important;" type="text" value="' + currentphone + '" id="profile_page_phone" name="profile_page_phone" class="form-control required_one"></div>');
+
+            $('#address').append('<div class="form-group" ><input style="max-height: 30px; font-size:12px !important;" type="text" value="' + currentaddress + '" id="profile_page_address" name="profile_page_address" class="form-control required_one"></div>');
+
+        } else {
             var id = segments[4];
             thisRef.text('PROCESSING....');
             thisRef.attr("disabled", "disabled");
@@ -631,20 +639,20 @@ $(document).ready(function () {
                 url: '/updateClientProfile',
                 data: $('#update_client_profile').serialize(),
                 cache: false,
-                success: function(response) {
+                success: function (response) {
                     //debugger;
                     console.log(response);
-                    
+
                     if (JSON.parse(response) == "success") {
                         location.reload();
                     } else {
                         location.reload();
                     }
                 },
-                error: function(err) {
+                error: function (err) {
                     //location.reload();
                     if (err.status == 422) {
-                        $.each(err.responseJSON.errors, function(i, error) {
+                        $.each(err.responseJSON.errors, function (i, error) {
                             var el = $(document).find('[name="' + i + '"]');
                             el.after($('<small class = "validation_errors" style="color: red; position: absolute; width:100%; text-align: right; margin-left: -30px">' + error[0] + '</small>'));
                         });
@@ -652,19 +660,19 @@ $(document).ready(function () {
                 }
             });
         }
-      
+
     });
 
 
     //When City Change
-    $(document).on('change', '#select_city_pickup', function(){
-       // debugger;
+    $(document).on('change', '#select_city_pickup', function () {
+        // debugger;
         //console.log($('#select_city_pickup').val());
-        if($('#select_city_pickup').val() != '0' && $('#select_city_pickup').val() != null){
+        if ($('#select_city_pickup').val() != '0' && $('#select_city_pickup').val() != null) {
             var city_name = $('#select_city_pickup').find('option:selected').val();
 
-            if($('#hidden_province').val() != '' || $('#hidden_province').val() != null){
-               JSON.parse($('#hidden_province').val()).find(x => {
+            if ($('#hidden_province').val() != '' || $('#hidden_province').val() != null) {
+                JSON.parse($('#hidden_province').val()).find(x => {
                     //debugger;
                     if (x.city_name == city_name) {
                         $("#select_province_pickup").val(x.province).trigger('change');
@@ -677,27 +685,30 @@ $(document).ready(function () {
 
 
     //Select Payment Type
-    $(document).on('change', '#select_payment_type', function(){
-        if($('#select_payment_type').val() == "cash"){
+    $(document).on('change', '#select_payment_type', function () {
+        if ($('#select_payment_type').val() == "cash") {
             $('.cheque_div').hide();
             $('.cash_div').show();
-        }else if($('#select_payment_type').val() == "cheque"){
+        } else if ($('#select_payment_type').val() == "cheque") {
             $('.cheque_div').show();
             $('.cash_div').show();
         }
     });
 
     //Add payment
-    $(document).on('click', '.add_payment', function(){
+    $(document).on('click', '.add_payment', function () {
         var payment_type = '';
-        if($('#select_payment_type').val() == "cash"){
+        var invoice_num = $('#client_invoice_num').text();
+        var paid = 0;
+        // alert(invoice_num); return;
+        if ($('#select_payment_type').val() == "cash") {
             $('#bank_name').val("");
             $('#cheque_num').val("");
             $('#datepicker').val("");
             payment_type = 'cash';
             var cash_amount = $('#cash_amount').val();
             var pending_amount = $('#pending_amount').attr('name');
-            if(cash_amount == ""){
+            if (cash_amount == "") {
                 $('#notifDiv').fadeIn();
                 $('#notifDiv').css('background', 'red');
                 $('#notifDiv').text('Please Enter Amount');
@@ -707,7 +718,7 @@ $(document).ready(function () {
                 return;
             }
             //alert($('#pending_amount').attr('name') - 1); return;
-            if(parseFloat($('#pending_amount').attr('name')) < parseFloat($('#cash_amount').val())){
+            if (parseFloat($('#pending_amount').attr('name')) < parseFloat($('#cash_amount').val())) {
                 $('#notifDiv').fadeIn();
                 $('#notifDiv').css('background', 'red');
                 $('#notifDiv').text('Entered amount is greater than pending amount.');
@@ -715,6 +726,9 @@ $(document).ready(function () {
                     $('#notifDiv').fadeOut();
                 }, 3000);
                 return;
+            }
+            if (parseFloat($('#pending_amount').attr('name')) == parseFloat($('#cash_amount').val())) {
+                paid = 1;
             }
 
             pending_amount = parseFloat($('#pending_amount').attr('name')) - parseFloat($('#cash_amount').val());
@@ -727,45 +741,43 @@ $(document).ready(function () {
                 data: {
                     _token: '{!! csrf_token() !!}',
                     cash_amount: cash_amount,
-                   id: segments[4],
-                   pending_amount: pending_amount
-               },
-                success: function(response) {
-                    if(JSON.parse(response) == "success"){
-                        $('#pending_amount').text(pending_amount);
-                        $('#pending_amount').attr('name', pending_amount);
-                        $('.paid_amount_div').text('Rs.'+(parseFloat($('#total_paid_amount').val()) + parseFloat(cash_amount)));
-                        $('#total_paid_amount').val(parseFloat($('#total_paid_amount').val()) + parseFloat(cash_amount));
+                    id: segments[4],
+                    pending_amount: pending_amount,
+                    invoice_num: invoice_num,
+                    paid: paid
+                },
+                success: function (response) {
+                    if (JSON.parse(response) == "success") {
                         $('.add_payment').removeAttr('disabled');
                         $('.add_payment').text('Add');
                         $('#cash_amount').val('');
                         payment_data();
-    
+
                         $('#notifDiv').fadeIn();
                         $('#notifDiv').css('background', 'green');
                         $('#notifDiv').text('Payment Added successfully');
                         setTimeout(() => {
                             $('#notifDiv').fadeOut();
                         }, 3000);
-                    }else if(JSON.parse(response) == "failed"){
+                    } else if (JSON.parse(response) == "failed") {
                         $('#notifDiv').fadeIn();
                         $('#notifDiv').css('background', 'red');
                         $('#notifDiv').text('Unable to add payment');
                         setTimeout(() => {
                             $('#notifDiv').fadeOut();
                         }, 3000);
-                    }    
+                    }
                 }
             });
-        }else if($('#select_payment_type').val() == "cheque"){
+        } else if ($('#select_payment_type').val() == "cheque") {
             //$('#cash_amount').val('');
-           payment_type = 'cheque';
-           var bank_name = $('#bank_name').val();
-           var cheque_num = $('#cheque_num').val();
-           var cheque_date = $('#datepicker').val();
-           var cash_amount = $('#cash_amount').val();
-           var pending_amount = $('#pending_amount').attr('name');
-            if(bank_name == "" || cheque_num == "" || cheque_date == "" || cash_amount == ""){
+            payment_type = 'cheque';
+            var bank_name = $('#bank_name').val();
+            var cheque_num = $('#cheque_num').val();
+            var cheque_date = $('#datepicker').val();
+            var cash_amount = $('#cash_amount').val();
+            var pending_amount = $('#pending_amount').attr('name');
+            if (bank_name == "" || cheque_num == "" || cheque_date == "" || cash_amount == "") {
                 $('#notifDiv').fadeIn();
                 $('#notifDiv').css('background', 'red');
                 $('#notifDiv').text('Please fill all required fields');
@@ -774,7 +786,7 @@ $(document).ready(function () {
                 }, 3000);
                 return;
             }
-            if(parseFloat($('#pending_amount').attr('name')) < parseFloat($('#cash_amount').val())){
+            if (parseFloat($('#pending_amount').attr('name')) < parseFloat($('#cash_amount').val())) {
                 $('#notifDiv').fadeIn();
                 $('#notifDiv').css('background', 'red');
                 $('#notifDiv').text('Entered amount is greater than pending amount.');
@@ -782,6 +794,9 @@ $(document).ready(function () {
                     $('#notifDiv').fadeOut();
                 }, 3000);
                 return;
+            }
+            if (parseFloat($('#pending_amount').attr('name')) == parseFloat($('#cash_amount').val())) {
+                paid = 1;
             }
             $('.add_payment').text('PROCESSING....');
             $('.add_payment').attr("disabled", "disabled");
@@ -796,14 +811,12 @@ $(document).ready(function () {
                     cheque_num: cheque_num,
                     cash_amount: cash_amount,
                     pending_amount: pending_amount,
+                    invoice_num: invoice_num,
+                    paid: paid,
                     id: segments[4]
-               },
-                success: function(response) {
-                    if(JSON.parse(response) == "success"){
-                        $('#pending_amount').text(pending_amount);
-                        $('#pending_amount').attr('name', pending_amount);
-                        $('.paid_amount_div').text('Rs.'+(parseFloat($('#total_paid_amount').val()) + parseFloat(cash_amount)));
-                        $('#total_paid_amount').val(parseFloat($('#total_paid_amount').val()) + parseFloat(cash_amount));
+                },
+                success: function (response) {
+                    if (JSON.parse(response) == "success") {
                         $('.add_payment').removeAttr('disabled');
                         $('.add_payment').text('Add');
                         $('#bank_name').val('');
@@ -811,21 +824,21 @@ $(document).ready(function () {
                         $('#datepicker').val('');
                         $('#cash_amount').val('');
                         payment_data();
-    
+
                         $('#notifDiv').fadeIn();
                         $('#notifDiv').css('background', 'green');
                         $('#notifDiv').text('Payment added successfully');
                         setTimeout(() => {
                             $('#notifDiv').fadeOut();
                         }, 3000);
-                    }else if(JSON.parse(response) == "failed"){
+                    } else if (JSON.parse(response) == "failed") {
                         $('#notifDiv').fadeIn();
                         $('#notifDiv').css('background', 'red');
                         $('#notifDiv').text('Unable to add payment');
                         setTimeout(() => {
                             $('#notifDiv').fadeOut();
                         }, 3000);
-                    }    
+                    }
                 }
             });
         }
@@ -846,7 +859,7 @@ function fetchClientsList() {
             $('#clientsListTable tbody').empty();
             var response = JSON.parse(response);
             response.forEach(element => {
-                $('#clientsListTable tbody').append('<tr><td>' + element['id'] + '</td><td>' + element['company_name'] + '</td><td>' + element['poc_name'] + '</td><td>' + element['username'] + '</td><td>' + element['phone'] + '</td><td>' + element['customer_type'] + '</td><td><button id="' + element['id'] + '" class="btn btn-default btn-line openDataSidebarForUpdateCustomer openDataSidebarForUpdate">Edit</button><a href="/ClientProfile/' + element['id'] + '" id="' + element['id'] + '" class="btn btn-default">Profile</a><a href="/client_invoice/' + element['id'] + '" id="' + element['id'] + '" class="btn btn-default">Invoice</a>' + (element["is_active"] == 1 ? '<button id="' + element['id'] + '" class="btn btn-default red-bg  deactivate_btn" title="View Detail">Deactivate</button>' : '<button id="' + element['id'] + '" class="btn btn-default activate_btn">Activate</button>') + '</td></tr>');
+                $('#clientsListTable tbody').append('<tr><td>' + element['id'] + '</td><td>' + element['company_name'] + '</td><td>' + element['poc_name'] + '</td><td>' + element['username'] + '</td><td>' + element['phone'] + '</td><td>' + element['customer_type'] + '</td><td><button id="' + element['id'] + '" class="btn btn-default btn-line openDataSidebarForUpdateCustomer openDataSidebarForUpdate">Edit</button><a href="/ClientProfile/' + element['id'] + '" id="' + element['id'] + '" class="btn btn-default">Profile</a>' + (element["is_active"] == 1 ? '<button id="' + element['id'] + '" class="btn btn-default red-bg  deactivate_btn" title="View Detail">Deactivate</button>' : '<button id="' + element['id'] + '" class="btn btn-default activate_btn">Activate</button>') + '</td></tr>');
             });
             $('#tblLoader').hide();
             $('.body').fadeIn();
@@ -865,22 +878,33 @@ function makeid() {
     return text;
 }
 
-function payment_data(){
+function payment_data() {
     var segments = location.href.split('/');
     $.ajax({
         type: 'GET',
         url: '/GetPaymentData',
         data: {
             _token: '{!! csrf_token() !!}',
-           id: segments[4]
-       },
-        success: function(response) {
+            id: segments[4],
+            month: segments[5]
+        },
+        success: function (response) {
             var response = JSON.parse(response);
+
             $('.payment_details').empty();
             $('.payment_details').append('<div class="row"><div class="col-3"><strong>Date</strong></div><div class="col"><strong>Paid Amount</strong></div><div class="col text-right"><strong>Pending Amount</strong></div></div><hr>');
+            let totalPaid = 0;
+            let totalPend = 0;
             response.forEach(element => {
-                $('.payment_details').append('<div class="row"><div class="col-3">'+ element['date'] +'</div><div class="col">Rs.'+ element['amount'] +' <span class="float-right green_t">'+ element['payment_type'] +'</span></div><div class="col text-right">Rs.'+ element['pending_amount'] +'</div></div><hr>');
+                $('.payment_details').append('<div class="row"><div class="col-3">' + element['date'] + '</div><div class="col">Rs.' + element['amount'] + ' <span class="float-right green_t">' + element['payment_type'] + '</span></div><div class="col text-right">Rs.' + element['pending_amount'] + '</div></div><hr>');
+                totalPaid += element['amount'];
+                totalPend = element['pending_amount'];
             });
+            // var pendingAm = Math.round(pending_amount);
+            totalPend = (totalPaid == 0 ? totalPaymentOnStart : totalPend);
+            $('#pending_amount').text(totalPend);
+            $('#pending_amount').attr('name', totalPend.toFixed(2));
+            $('.paid_amount_div').text('Rs.' + totalPaid.toFixed(2));
         }
     });
 }

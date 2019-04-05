@@ -353,7 +353,7 @@ class Clients extends ParentController
         $clients_data = DB::table('clients')->where('id', $id)->first();
         $reports_data = DB::table('consignment_client')->selectRaw('(Select booking_date from consignment_client where customer_id = "'.$id.'" order by id LIMIT 1 ) as first_order_date, (Select Count(*) from consignment_client where customer_id = "'.$id.'") as life_time_consignments, (Select Sum(consignment_weight) from consignment_client where customer_id = "'.$id.'") as total_weight, (Select SUM(sub_total) from consignment_client where customer_id = "'.$id.'") as life_time_revenue, (Select SUM(consignment_weight) from consignment_client where customer_id = "'.$id.'") as total_weight')->where('customer_id', $id)->first();
 
-        $month_consignments = DB::table('consignment_client as cc')->selectRaw('count(*) as total_consignments, SUM(total_price) as amount, ROUND(SUM(consignment_weight), 2) as total_weight, Monthname(booking_date) as month_name')->where('customer_id', $id)->groupBy(DB::raw('Monthname(booking_date)'))->get();
+        $month_consignments = DB::table('consignment_client as cc')->selectRaw('count(*) as total_consignments, SUM(total_price) as amount, CEIL(SUM(consignment_weight)) as total_weight, Monthname(booking_date) as month_name')->where('customer_id', $id)->groupBy(DB::raw('Monthname(booking_date)'))->get();
         
         // echo '<pre>'; print_r($month_consignments); die;
        return view("clients.client_profile", ['check_rights' => $this->check_employee_rights, 'notifications_counts' => $this->notif_counts, 'notif_data' => $this->notif_data, 'client_data' => $clients_data, "client_id" => $id, 'all_notif' => $this->all_notification, 'reports_data' => $reports_data, "month_consignments" => $month_consignments]);
@@ -390,11 +390,12 @@ class Clients extends ParentController
 
 
     //Invoice Page
-    public function client_invoice($id){
+    public function client_invoice($id, $month){
+       // echo date('Y'); die;
         parent::get_notif_data();
         parent::VerifyRights();if($this->redirectUrl){return redirect($this->redirectUrl);}
 
-        $reports = DB::table('clients')->selectRaw('ntn, strn, username, company_name, poc_name, address, IFNULL((Select Count(*) from consignment_client where MONTH(created_at) = "'.date('m').'" and customer_id = "'.$id.'" AND consignment_service_type = 1), 0) as counts_same_day, (Select SUM(consignment_weight) from consignment_client where MONTH(created_at) = "'.date('m').'" and customer_id = "'.$id.'" AND consignment_service_type = 1) as weight_same_day, (Select Sum(sub_total) from consignment_client where MONTH(created_at) = "'.date('m').'" and customer_id = "'.$id.'" AND consignment_service_type = 1) as sub_price_same_day, (Select Sum(total_price) from consignment_client where MONTH(created_at) = "'.date('m').'" and customer_id = "'.$id.'" AND consignment_service_type = 1) as price_same_day, IFNULL((Select Count(*) from consignment_client where MONTH(created_at) = "'.date('m').'" and customer_id = "'.$id.'" AND consignment_service_type = 2), 0) as counts_over_night, (Select SUM(consignment_weight) from consignment_client where MONTH(created_at) = "'.date('m').'" and customer_id = "'.$id.'" AND consignment_service_type = 2) as weight_over_night, (Select Sum(sub_total) from consignment_client where MONTH(created_at) = "'.date('m').'" and customer_id = "'.$id.'" AND consignment_service_type = 2) as sub_price_over_nigth, (Select Sum(total_price) from consignment_client where MONTH(created_at) = "'.date('m').'" and customer_id = "'.$id.'" AND consignment_service_type = 2) as price_over_night, (Select Count(*) from consignment_client where MONTH(created_at) = "'.date('m').'" and customer_id = "'.$id.'" AND consignment_service_type = 3) as counts_second_day, (Select SUM(consignment_weight) from consignment_client where MONTH(created_at) = "'.date('m').'" and customer_id = "'.$id.'" AND consignment_service_type = 3) as weight_second_day, (Select Sum(sub_total) from consignment_client where MONTH(created_at) = "'.date('m').'" and customer_id = "'.$id.'" AND consignment_service_type = 3) as sub_price_second_day, (Select Sum(total_price) from consignment_client where MONTH(created_at) = "'.date('m').'" and customer_id = "'.$id.'" AND consignment_service_type = 3) as price_second_day,(Select Count(*) from consignment_client where MONTH(created_at) = "'.date('m').'" and customer_id = "'.$id.'" AND consignment_service_type = 4) as counts_over_land, (Select SUM(consignment_weight) from consignment_client where MONTH(created_at) = "'.date('m').'" and customer_id = "'.$id.'" AND consignment_service_type = 4) as weight_over_land, (Select Sum(sub_total) from consignment_client where MONTH(created_at) = "'.date('m').'" and customer_id = "'.$id.'" AND consignment_service_type = 4) as sub_price_over_land, (Select Sum(total_price) from consignment_client where MONTH(created_at) = "'.date('m').'" and customer_id = "'.$id.'" AND consignment_service_type = 4) as price_over_land, (Select SUM(gst_charge) from consignment_client where MONTH(created_at) = "'.date('m').'" and customer_id = "'.$id.'") as total_tax, (Select tax from billing where customer_id = "'.$id.'") as gst, (Select id from billing where customer_id = "'.$id.'") as account_id, (SELECT Date(created_at) FROM `clients` WHERE id = "'.$id.'") as date, (Select SUM(fuel_charge) from consignment_client where MONTH(created_at) = "'.date('m').'" and customer_id = "'.$id.'") as fuel_charges, (Select invoice_num from invoice_data where client_id = "'.$id.'" and MONTH(created_at) = "'.date('m').'" order by id desc limit 1) as invoice_num, (Select pending_amount from payment where client_id = "'.$id.'" order by id desc limit 1) as pending_amount, (Select SUM(amount) from payment where client_id = "'.$id.'" and MONTH(created_at) = "'.date('m').'") as paid_amount')->where('id', $id)->first();
+        $reports = DB::table('clients')->selectRaw('ntn, strn, username, company_name, poc_name, address, IFNULL((Select Count(*) from consignment_client where MONTH(booking_date) = "'.$month.'" and Year(booking_date) = "'.date('Y').'" and Year(booking_date) = "'.date('Y').'" and customer_id = "'.$id.'" AND consignment_service_type = 1), 0) as counts_same_day, (Select SUM(consignment_weight) from consignment_client where MONTH(booking_date) = "'.$month.'" and Year(booking_date) = "'.date('Y').'" and customer_id = "'.$id.'" AND consignment_service_type = 1) as weight_same_day, (Select Sum(sub_total) from consignment_client where MONTH(booking_date) = "'.$month.'" and Year(booking_date) = "'.date('Y').'" and customer_id = "'.$id.'" AND consignment_service_type = 1) as sub_price_same_day, (Select Sum(total_price) from consignment_client where MONTH(booking_date) = "'.$month.'" and Year(booking_date) = "'.date('Y').'" and customer_id = "'.$id.'" AND consignment_service_type = 1) as price_same_day, IFNULL((Select Count(*) from consignment_client where MONTH(booking_date) = "'.$month.'" and Year(booking_date) = "'.date('Y').'" and customer_id = "'.$id.'" AND consignment_service_type = 2), 0) as counts_over_night, (Select SUM(consignment_weight) from consignment_client where MONTH(booking_date) = "'.$month.'" and Year(booking_date) = "'.date('Y').'" and customer_id = "'.$id.'" AND consignment_service_type = 2) as weight_over_night, (Select Sum(sub_total) from consignment_client where MONTH(booking_date) = "'.$month.'" and Year(booking_date) = "'.date('Y').'" and customer_id = "'.$id.'" AND consignment_service_type = 2) as sub_price_over_nigth, (Select Sum(total_price) from consignment_client where MONTH(booking_date) = "'.$month.'" and Year(booking_date) = "'.date('Y').'" and customer_id = "'.$id.'" AND consignment_service_type = 2) as price_over_night, (Select Count(*) from consignment_client where MONTH(booking_date) = "'.$month.'" and Year(booking_date) = "'.date('Y').'" and customer_id = "'.$id.'" AND consignment_service_type = 3) as counts_second_day, (Select SUM(consignment_weight) from consignment_client where MONTH(booking_date) = "'.$month.'" and Year(booking_date) = "'.date('Y').'" and customer_id = "'.$id.'" AND consignment_service_type = 3) as weight_second_day, (Select Sum(sub_total) from consignment_client where MONTH(booking_date) = "'.$month.'" and Year(booking_date) = "'.date('Y').'" and customer_id = "'.$id.'" AND consignment_service_type = 3) as sub_price_second_day, (Select Sum(total_price) from consignment_client where MONTH(booking_date) = "'.$month.'" and Year(booking_date) = "'.date('Y').'" and customer_id = "'.$id.'" AND consignment_service_type = 3) as price_second_day,(Select Count(*) from consignment_client where MONTH(booking_date) = "'.$month.'" and Year(booking_date) = "'.date('Y').'" and customer_id = "'.$id.'" AND consignment_service_type = 4) as counts_over_land, (Select SUM(consignment_weight) from consignment_client where MONTH(booking_date) = "'.$month.'" and Year(booking_date) = "'.date('Y').'" and customer_id = "'.$id.'" AND consignment_service_type = 4) as weight_over_land, (Select Sum(sub_total) from consignment_client where MONTH(booking_date) = "'.$month.'" and Year(booking_date) = "'.date('Y').'" and customer_id = "'.$id.'" AND consignment_service_type = 4) as sub_price_over_land, (Select Sum(total_price) from consignment_client where MONTH(booking_date) = "'.$month.'" and Year(booking_date) = "'.date('Y').'" and customer_id = "'.$id.'" AND consignment_service_type = 4) as price_over_land, (Select SUM(gst_charge) from consignment_client where MONTH(booking_date) = "'.$month.'" and Year(booking_date) = "'.date('Y').'" and customer_id = "'.$id.'") as total_tax, (Select tax from billing where customer_id = "'.$id.'") as gst, (Select id from billing where customer_id = "'.$id.'") as account_id, (SELECT Date(created_at) FROM `clients` WHERE id = "'.$id.'") as date, (Select SUM(fuel_charge) from consignment_client where MONTH(booking_date) = "'.$month.'" and Year(booking_date) = "'.date('Y').'" and customer_id = "'.$id.'") as fuel_charges, (Select invoice_num from invoices_generated where client_id = "'.$id.'" and month = "'.$month.'") as invoice_num, (Select pending_amount from payment where client_id = "'.$id.'" AND invoice_num = (Select invoice_num from invoices_generated where client_id = "'.$id.'" and month = "'.$month.'") order by id desc limit 1) as pending_amount, (Select SUM(amount) from payment where client_id = "'.$id.'" AND invoice_num = (Select invoice_num from invoices_generated where client_id = "'.$id.'" and month = "'.$month.'")) as paid_amount, (Select Date(created_at) from invoices_generated where client_id = "'.$id.'" and month = "'.$month.'") as invoice_month, (SELECT Date(booking_date) from consignment_client where customer_id = "'.$id.'" and MONTH(booking_date) = (SELECT month from invoices_generated where invoice_num = (Select invoice_num from invoices_generated where client_id = "'.$id.'" and month = "'.$month.'")) AND Year(booking_date) = "'.date('Y').'" order by booking_date desc limit 1) as consignmnet_date')->where('id', $id)->first();
 
          //echo '<pre>'; print_r($reports); die;
 
@@ -409,18 +410,23 @@ class Clients extends ParentController
 
     //Save Payment
     public function save_payment(Request $request){
+
         if($request->bank_name){
             $insert = DB::table('payment')->insert([
                 'payment_type' => 'Cheque',
                 'bank_name' => $request->bank_name,
                 'cheque_date' => $request->cheque_date,
                 'cheque_no' => $request->cheque_num,
-                'amount' => $request->cash_amount,
-                'pending_amount' => $request->pending_amount,
+                'amount' => ROUND($request->cash_amount, 2),
+                'pending_amount' => ROUND($request->pending_amount, 2),
                 'client_id' => $request->id,
+                'invoice_num' => $request->invoice_num,
                 'created_at' => date('Y-m-d H:i:s')
             ]);
             if($insert){
+                if($request->paid == 1){
+                    DB::table('invoices_generated')->where('invoice_num', $request->invoice_num)->update(['paid' => 1]);
+                }
                 echo json_encode('success');
             }else{
                 echo json_encode('failed');
@@ -428,12 +434,16 @@ class Clients extends ParentController
         }else{
             $insert = DB::table('payment')->insert([
                 'payment_type' => 'Cash',
-                'amount' => $request->cash_amount,
+                'amount' => ROUND($request->cash_amount, 2),
                 'client_id' => $request->id,
-                'pending_amount' => $request->pending_amount,
+                'invoice_num' => $request->invoice_num,
+                'pending_amount' => ROUND($request->pending_amount, 2),
                 'created_at' => date('Y-m-d H:i:s')
             ]);
             if($insert){
+                if($request->paid == 1){
+                    DB::table('invoices_generated')->where('invoice_num', $request->invoice_num)->update(['paid' => 1]);
+                }
                 echo json_encode('success');
             }else{
                 echo json_encode('failed');
@@ -442,7 +452,7 @@ class Clients extends ParentController
     }
 
     public function GetPaymentData(Request $request){
-        echo json_encode(DB::table('payment')->selectRaw('id, Date(created_at) as date, amount, payment_type, pending_amount')->where('client_id', $request->id)->get());
+        echo json_encode(DB::table('payment')->selectRaw('id, Date(created_at) as date, amount, payment_type, pending_amount')->whereRaw('client_id = "'.$request->id.'" AND invoice_num = (Select invoice_num from invoices_generated where client_id = "'.$request->id.'" and month = "'.$request->month.'")')->get());
     }
 
 }

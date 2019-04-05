@@ -538,10 +538,10 @@ class ConsignmentManagement extends ParentController
             'consignment_dest_city' => $request->consignment_dest_city_client,
             'remarks' => $request->remarks_client,
             'supplementary_services' => $request->hidden_supplementary_services,
-            'sub_total' => $sub_total,
-            'fuel_charge' => $price_for_fuel,
-            'gst_charge' => $price_for_tax,
-            'total_price' => $totalPrice,
+            'sub_total' => ROUND($sub_total, 2),
+            'fuel_charge' => ROUND($price_for_fuel, 2),
+            'gst_charge' => ROUND($price_for_tax, 2),
+            'total_price' => CEIL($totalPrice),
             'created_at' => date('Y-m-d H:i:s')
             ]);
             if($save_consignment_client){
@@ -1000,10 +1000,10 @@ class ConsignmentManagement extends ParentController
             'consignment_dest_city' => $request->consignment_dest_city_client,
             'remarks' => $request->remarks_client,
             'supplementary_services' => $request->hidden_supplementary_services,
-            'sub_total' => $sub_total,
-            'fuel_charge' => $price_for_fuel,
-            'gst_charge' => $price_for_tax,
-            'total_price' => $totalPrice,
+            'sub_total' => ROUND($sub_total, 2),
+            'fuel_charge' => ROUND($price_for_fuel, 2),
+            'gst_charge' => ROUND($price_for_tax, 2),
+            'total_price' => CEIL($totalPrice),
             'updated_at' => date('Y-m-d H:i:s')
             ]);
             if($save_consignment_client){

@@ -51,7 +51,7 @@
                 <div class="col-md-12 PT-20 cash_div" style="display:none">
                     <div class="form-group">
                         <label class="control-label mb-10">Add Payment*</label>
-                        <input type="text" class="form-control" id="cash_amount" style="font-size: 13px">
+                        <input type="number" class="form-control" id="cash_amount" style="font-size: 13px">
                     </div>
                 </div>
 
@@ -102,9 +102,9 @@
                             <div class="inv-title">
                                 <h3>e-Invoice</h3>
                                 <span class="inv-pr">Account # </span> {{ $report->account_id }}<br>
-                                <span class="inv-pr">Invoice # </span> {{ $report->invoice_num }}<br>
-                                <span class="inv-pr">Invoice Date </span> {{ date('y/m/d') }}<br>
-                                <span class="inv-pr">Time Period </span>{{ date('y/m/01')." - ".date('y/m/d') }}<br>
+                                <span class="inv-pr">Invoice # </span> <span style="font-weight:normal; margin-left:0px; !important" id="client_invoice_num">{{ $report->invoice_num }}</span><br>
+                                <span class="inv-pr">Invoice Date </span> {{ $report->invoice_month }}<br>
+                                <span class="inv-pr">Time Period </span>{{ date('Y-m-01')." - ".$report->consignmnet_date }}<br>
                             </div>
                         </div>
                     </div>
@@ -126,7 +126,7 @@
                                 <tr>
                                     <th class="bg-transparent border-0" colspan="3"></th>
                                     <th>GRAND TOTAL RS.</th>
-                                    <th>{{ number_format ($report->price_over_night + $report->price_same_day + $report->price_second_day + $report->price_over_land) }}</th>
+                                    <th>{{ ($report->price_over_night + $report->price_same_day + $report->price_second_day + $report->price_over_land) }}</th>
                                 </tr>
                             </tfoot>
 
@@ -138,7 +138,7 @@
                                     <td>Over Night Delivery</td>
                                     <td>{{ $report->counts_over_night }}</td>
                                     <td>{{ $report->weight_over_night }}</td>
-                                    <td>RS.{{ number_format ($report->sub_price_over_nigth) }}</td>
+                                    <td>RS.{{  ($report->sub_price_over_nigth) }}</td>
                                 </tr>
                                 @endif
                                 @if($report->counts_same_day)
@@ -147,7 +147,7 @@
                                     <td>Same Day Delivery</td>
                                     <td>{{ $report->counts_same_day }}</td>
                                     <td>{{ $report->weight_same_day }}</td>
-                                    <td>RS.{{ number_format ($report->sub_price_same_day) }}</td>
+                                    <td>RS.{{  ($report->sub_price_same_day) }}</td>
                                 </tr>
                                 @endif
                                 
@@ -157,7 +157,7 @@
                                     <td>Second Day Delivery</td>
                                     <td>{{ $report->counts_second_day }}</td>
                                     <td>{{ $report->weight_second_day }}</td>
-                                    <td>RS.{{ number_format ($report->sub_price_second_day) }}</td>
+                                    <td>RS.{{  ($report->sub_price_second_day) }}</td>
                                 </tr>
                                 @endif
                                 @if($report->counts_over_land != '')
@@ -166,17 +166,17 @@
                                     <td>Over Land Delivery</td>
                                     <td>{{ $report->counts_over_land }}</td>
                                     <td>{{ $report->weight_over_land }}</td>
-                                    <td>RS.{{ number_format ($report->sub_price_over_land) }}</td>
+                                    <td>RS.{{  ($report->sub_price_over_land) }}</td>
                                 </tr>
                                 @endif
                                 <tr>
                                     <td colspan="3" rowspan="2" style="border: 0px !important"></td>
                                     <td>Fuel Charges</td>
-                                    <td>RS.{{ number_format ($report->fuel_charges) }} </td>
+                                    <td>RS.{{  ($report->fuel_charges) }} </td>
                                 </tr>
                                 <tr>
                                     <td>GST ({{ $report->gst }}%)</td>
-                                    <td>Rs.{{ number_format ($report->total_tax) }} </td>
+                                    <td>Rs.{{  ($report->total_tax) }} </td>
                                 </tr>
                             </tbody>
 
@@ -203,26 +203,42 @@
     <div class="col-md-4 _ord-rightside">
         <h2 class="">Payment</h2>
         <div class="_sidBar">
-            <div class="pay_detail">
-                <div class="row _totalAM">
-                    <div class="col-6">Invoice Amount</div>
-                    <div class="col-6 text-right"><strong>Rs.<span>{{ number_format ($report->price_over_night + $report->price_same_day + $report->price_second_day + $report->price_over_land) }}</strong></div>
+            <?php 
+            $total_pend_am = number_format(($report->price_over_night + $report->price_same_day + $report->price_second_day + $report->price_over_land) - $report->paid_amount);  
+//echo $total_pend_am;
+            ?>
+            @if($total_pend_am <= 0)
+                <div class="pay_detail">
+                    <div class="row _totalAM">
+                        <div class="col-6">Paid Amount</div>
+                        <div class="col-6 text-right"><strong>Rs.<span>{{ Round ($report->price_over_night + $report->price_same_day + $report->price_second_day + $report->price_over_land, 2) }}</strong></div>
+                    </div>
                 </div>
+            @endif()
 
-                <div class="row">
-                    <div class="col-6">Paid Amount</div>
-                    <input hidden id="total_paid_amount" value="{{ ($report->paid_amount != '' || null ? $report->paid_amount : 0) }}"/>
-                    <div class="col-6 text-right paid_amount_div">Rs.{{ ($report->paid_amount != '' || null ? $report->paid_amount : 0) }}</div>
+            @if($total_pend_am > 0)
+                <div class="pay_detail">
+                    <div class="row _totalAM">
+                        <div class="col-6">Invoice Amount</div>
+                        <div class="col-6 text-right"><strong>Rs.<span>{{ Round ($report->price_over_night + $report->price_same_day + $report->price_second_day + $report->price_over_land, 2) }}</strong></div>
+                    </div>
+    
+                    <div class="row">
+                        <div class="col-6">Paid Amount</div>
+                        <input hidden id="total_paid_amount" value="{{ ($report->paid_amount != '' || null ? $report->paid_amount : 0) }}"/>
+                        <div class="col-6 text-right paid_amount_div">Rs.{{ ($report->paid_amount != '' || null ? $report->paid_amount : 0) }}</div>
+                    </div>
+                    <hr>
+                    <div class="row red_t">
+                        <div class="col-6">Pending Amount</div>
+                        <?php $pend_amount = ($report->price_over_night + $report->price_same_day + $report->price_second_day + $report->price_over_land) - $report->paid_amount ?>
+                        <div class="col-6 text-right">Rs.<span id="pending_amount" name="{{ ROUND($pend_amount, 2) }}">{{ ROUND($pend_amount, 2) }}</span></div>
+                    </div>
+                    <a href="#" class="btn add-product-line" data-toggle="modal" data-target="#exampleModal"><i
+                            class="fa fa-plus"> </i> Add Payment</a>
                 </div>
-                <hr>
-                <div class="row red_t">
-                    <div class="col-6">Pending Amount</div>
-                    <?php $pend_amount = ($report->price_over_night + $report->price_same_day + $report->price_second_day + $report->price_over_land) - $report->paid_amount ?>
-                    <div class="col-6 text-right">Rs.<span id="pending_amount" name="{{ ROUND($pend_amount, 2) }}">{{ ROUND($pend_amount, 2) }}</span></div>
-                </div>
-                <a href="#" class="btn add-product-line" data-toggle="modal" data-target="#exampleModal"><i
-                        class="fa fa-plus"> </i> Add Payment</a>
-            </div>
+            @endif
+            
 
             <h2 class="">Payment History</h2>
 
