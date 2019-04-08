@@ -5,6 +5,8 @@ var fileList = new Array;
 var i = 0;
 var callForDzReset = false;
 var totalPaymentOnStart;
+var notifications = [];
+    var notif_ids = [];
 
 var segments = location.href.split('/');
 var action = segments[3];
@@ -64,6 +66,79 @@ if (action == 'clients') {
     });
 } else if (action == 'client_invoice') {
     payment_data();
+}else if(action == 'client_settings'){
+   // debugger;
+    $('#update_client_pref').text('Please Wait...');
+    $('#update_client_pref').attr('disabled', 'disabled');
+    $.ajax({
+        type: 'GET',
+        url: '/get_client_notif_data',
+        data: {
+            _token: $('input[name="_token"]').val()
+        },
+        success: function (response) {
+            var response = JSON.parse(response);
+            console.log(response);
+            if(response == "employee"){
+
+            }else{
+                $('#update_client_pref').text('Save');
+                $('#update_client_pref').removeAttr('disabled');
+                notifications = [];
+                response.forEach(element => {
+                    
+                    $('input[id="' + element['notification_code_id'] + '"]').each(function() {
+                        if ($(this).val() == "email") {
+                            
+                            //debugger;
+                            $(this).prop('checked', (element['email'] == "1" ? true : false));
+                            if (element["email"] == "1") {
+                                var value = $(this).val();
+                                if (notifications.find(x => x["code"] == element['notification_code_id'])) {
+                                    notifications.find(x => {
+                                        if (x["code"] == element['notification_code_id']) {
+                                            if (x["properties"].includes(value)) {
+                                                x["properties"].splice(x["properties"].indexOf(value), 1);
+                                            } else {
+                                                x["properties"].push(value);
+                                            }
+                                        }
+                                    });
+                                } else {
+                                    notifications.push({
+                                        code: element['notification_code_id'],
+                                        properties: [$(this).val()]
+                                    });
+                                }
+                            }
+                        } else {
+                            //debugger;
+                            $(this).prop('checked', (element['web'] == "1" ? true : false));
+                            if (element["web"] == "1") {
+                                var value = $(this).val();
+                                if (notifications.find(x => x["code"] == element['notification_code_id'])) {
+                                    notifications.find(x => {
+                                        if (x["code"] == element['notification_code_id']) {
+                                            if (x["properties"].includes(value)) {
+                                                x["properties"].splice(x["properties"].indexOf(value), 1);
+                                            } else {
+                                                x["properties"].push(value);
+                                            }
+                                        }
+                                    });
+                                } else {
+                                    notifications.push({
+                                        code: element['notification_code_id'],
+                                        properties: [$(this).val()]
+                                    });
+                                }
+                            }
+                        }
+                    });
+                });
+            }
+        }
+        });
 }
 
 
@@ -843,6 +918,97 @@ $(document).ready(function () {
             });
         }
 
+    });
+
+
+
+    //Change Client Password from client Portal
+    $(document).on('click', '.change_client_password', function(){
+        var verif = [];
+        $('.required').css('border', '');
+        $('.required').parent().css('border', '');
+
+        $('.required').each(function () {
+            if ($(this).val() == "") {
+                $(this).css("border", "1px solid red");
+                verif.push(false);
+                $('#notifDiv').fadeIn();
+                $('#notifDiv').css('background', 'red');
+                $('#notifDiv').text('Please provide all the required information (*)');
+                setTimeout(() => {
+                    $('#notifDiv').fadeOut();
+                }, 3000);
+                return;
+            } else {
+                verif.push(true);
+            }
+        });
+
+        if (verif.includes(false)) {
+            return;
+        }
+
+        if($('#new_pass_client').val() != $('#confirm_pass_client').val()){
+            $('#notifDiv').fadeIn();
+            $('#notifDiv').css('background', 'red');
+            $('#notifDiv').text('New Password and Confirm Password does not match.');
+            setTimeout(() => {
+                $('#notifDiv').fadeOut();
+            }, 3000);
+            return;
+        }
+
+        if($('#new_pass_client').val().length < 6){
+            $('#notifDiv').fadeIn();
+            $('#notifDiv').css('background', 'red');
+            $('#notifDiv').text('Enter minimum 6 characters.');
+            setTimeout(() => {
+                $('#notifDiv').fadeOut();
+            }, 3000);
+            return;
+        }
+       
+        var thisRef = $(this);
+        thisRef.attr('disabled', 'disabled');
+        thisRef.text('Processing...');
+
+        $.ajax({
+            type: 'GET',
+            url: '/change_pass_client',
+            data: {
+                _token: '{!! csrf_token() !!}',
+                current_pass: $('#current_pass_client').val(),
+                new_pass: $('#confirm_pass_client').val()
+            },
+            success: function (response) {
+                thisRef.removeAttr('disabled')
+                thisRef.text('Change Password');
+                if (JSON.parse(response) == "success") {
+                    $('#notifDiv').fadeIn();
+                    $('#notifDiv').css('background', 'green');
+                    $('#notifDiv').text('Password Changed successfully');
+                    setTimeout(() => {
+                        $('#notifDiv').fadeOut();
+                    }, 3000);
+                } else if (JSON.parse(response) == "failed") {
+                    $('#notifDiv').fadeIn();
+                    $('#notifDiv').css('background', 'red');
+                    $('#notifDiv').text('Unable to change passord at the moment');
+                    setTimeout(() => {
+                        $('#notifDiv').fadeOut();
+                    }, 3000);
+                }else if(JSON.parse(response) == 'invalid'){
+                    $('#notifDiv').fadeIn();
+                    $('#notifDiv').css('background', 'red');
+                    $('#notifDiv').text('Current password is not correct.');
+                    setTimeout(() => {
+                        $('#notifDiv').fadeOut();
+                    }, 3000);
+                }
+            }
+        });
+
+        
     });
 
 

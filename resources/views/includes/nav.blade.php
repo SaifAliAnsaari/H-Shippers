@@ -39,7 +39,10 @@
                     @endif
                 </span> <img src="{{ URL::to('/images/bell-icon.svg') }}" alt=""/></a>
                 <div class="dropdown-menu dropdown-menu-right notiF" aria-labelledby="NotiFications">
-                <h4 class="notiF-title">Notification </h4>
+                <h4 class="notiF-title">Notification 
+                        <a href="/notifications" class="all-NF">View All ( {{ sizeof($all_notif) }} )</a>
+                </h4>
+                
                     @if(!empty($notif_data))
                     @foreach($notif_data as $notifications)
                     <a href="#"><img src="{{ (!$notifications->message ? '' : ($notifications->message == 'New consignment added' || $notifications->message == 'consignment updated' ? '/images/_not-con.svg' : ($notifications->message == 'New suggestion added' ? '/images/_not-suggestions.svg' : ($notifications->message == 'New complain added' ? '/images/_not-complains.svg' : ($notifications->message == 'Consignmnet Completed' ? '/images/_not-process.svg' : '/images/_not-rider.svg' ))))) }} " class="NU-img" alt=""><strong class="notifications_list" id="{{$notifications->id}}">{{$notifications->message}} </strong><p>
@@ -52,7 +55,6 @@
                     </p></a>
                     @endforeach     
                     @endif
-                    <a href="/notifications" class="all-NF">View All ( {{ sizeof($all_notif) }} )</a>
                 </div> 
             </li>
         @endif

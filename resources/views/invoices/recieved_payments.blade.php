@@ -75,9 +75,9 @@
                                 <td>{{ $item->name }}</td>
                                 <td>{{ $item->invoice_num }}</td>
                                 <td>{{ $item->consignments }}</td>
-                                <td>{{ $item->total }}</td>
+                                <td>{{ $item->invoice_total_price }}</td>
                                 <td>{{ $item->amount_received }} </td>
-                                <td> {{ number_format($item->total - $item->amount_received) }} </td>
+                                <td> {{ number_format($item->invoice_total_price - $item->amount_received) }} </td>
                                 <td>
                                     <a href='/client_invoice/{{$item->customer_id}}/{{$outerItem["month"]}}' class="btn btn-default">Add Payment</a>
                                 </td>

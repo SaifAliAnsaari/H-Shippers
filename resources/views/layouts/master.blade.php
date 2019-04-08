@@ -67,7 +67,7 @@
     <script src="/js/dropify.min.js"></script>
     <script src="/js/form-file-upload-data.js"></script>
     <script src="/js/custom.js" ></script>
-    <script src="/js/master.js?v=1.1.3" ></script>
+    <script src="/js/master.js?v=1.1.4" ></script>
     <script src="/js/jquery.form.min.js" ></script>
     <script src="/js/bootstrap-datepicker.js"></script>
     <script src="/js/chart.bundle.min.js"></script>
@@ -75,7 +75,7 @@
 
     <script src="/js/echarts-en.min.js"></script>
     <script src="/js/echarts-liquidfill.min.js"></script>
-    <script src="/js/dashboard-data.js?v=1.2"></script>
+    <script src="/js/dashboard-data.js?v=1.3"></script>
     {{-- <script src="/js/dropzone-amd-module.js"></script>
     <script src="/js/dropzone-data.js"></script> --}}
     <script src="/js/dropzone.js"></script>
@@ -88,7 +88,7 @@
     @elseif($controller == "RegisterController")
         <script src="/js/custom/employee.js?v=2.3.0" ></script>
     @elseif($controller == "Clients")
-        <script src="/js/client/clients.js?v=2.3.4" ></script>
+        <script src="/js/client/clients.js?v=2.3.5" ></script>
     @elseif($controller == "OrganizationManagement")
         <script src="/js/manage_organization/manage_organization.js?v=2.3.1" ></script>
     @elseif($controller == "ManageBilling")
@@ -98,13 +98,13 @@
     @elseif($controller == "ComplaintsAndSuggestions")
         <script src="/js/manage_complaints_suggestions/complaints_suggestions.js?v=2.3.0" ></script>
     @elseif($controller == "ConsignmentManagement")
-        <script src="/js/manage_consignment/consignment.js?v=2.3.9" ></script>
+        <script src="/js/manage_consignment/consignment.js?v=2.4.0" ></script>
     @elseif($controller == "AccessRights")
         <script src="/js/access_rights/access_rights.js?v=2.3.0" ></script>
     @elseif($controller == "HomeController")
-        <script src="/js/notif_pref/notif_pref.js?v=2.3.0" ></script>
+        <script src="/js/notif_pref/notif_pref.js?v=2.3.1" ></script>
     @elseif($controller == "InvoiceManagment")
-        <script src="/js/invoice/invoice.js?v=2.3.1" ></script>
+        <script src="/js/invoice/invoice.js?v=2.3.3" ></script>
     @endif
 </body>
 

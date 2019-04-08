@@ -24,7 +24,6 @@ $(document).ready(function () {
         }
         });
     } else if(action == 'notification_prefrences'){
-        //Agr client login hai to us ka dta la aao
         $('#update_client_pref').text('Please Wait...');
         $('#update_client_pref').attr('disabled', 'disabled');
         $.ajax({
@@ -96,10 +95,8 @@ $(document).ready(function () {
                 }
             }
             });
-            // setTimeout(() => {
-            //     console.log(notifications);
-            // }, 2000);
-            
+    }else if(action == 'dashboard'){
+
     }else{
 
     }
@@ -345,6 +342,12 @@ $(document).ready(function () {
             }
         });
     });
+
+
+
+
+
+   
 
 });
 

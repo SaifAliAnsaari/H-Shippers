@@ -106,19 +106,37 @@ class InvoiceManagment extends ParentController
         }
 
         $consignmentsDataNew = array_map(function($item) use(&$alreadyGentdInvoices){
-            $clientFoundInd = array_search($item["customer_id"], array_column($alreadyGentdInvoices, "client_id"));
-            if($clientFoundInd !== false && $clientFoundInd >= 0){
-                $monthFound = ($alreadyGentdInvoices[$clientFoundInd]["month"] == $item["month"] ? true : false);
-                if(!$monthFound){
-                    return $item;
-                }else{
-                    unset($alreadyGentdInvoices[$clientFoundInd]);
-                    $alreadyGentdInvoices = array_values($alreadyGentdInvoices);
-                }
-            }else{
+            if(!DB::select('SELECT invoice_num from invoices_generated where month = '.$item["month"].' and client_id = '.$item["customer_id"])){
                 return $item;
             }
+            // $clientFoundInd = array_search($item["customer_id"], array_column($alreadyGentdInvoices, "client_id"));
+            // if($clientFoundInd !== false && $clientFoundInd >= 0){
+            //     $monthFound = ($alreadyGentdInvoices[$clientFoundInd]["month"] == $item["month"] ? true : false);
+            //     if(!$monthFound){   
+            //         return $item;
+            //     }else{
+            //         unset($alreadyGentdInvoices[$clientFoundInd]);
+            //         $alreadyGentdInvoices = array_values($alreadyGentdInvoices);
+            //     }
+            // }else{
+            //     return $item;
+            // }
         }, $consignmentsData);
+        //Junaid na call pa khatam kraya hai
+        // $consignmentsDataNew = array_map(function($item) use(&$alreadyGentdInvoices){
+        //     $clientFoundInd = array_search($item["customer_id"], array_column($alreadyGentdInvoices, "client_id"));
+        //     if($clientFoundInd !== false && $clientFoundInd >= 0){
+        //         $monthFound = ($alreadyGentdInvoices[$clientFoundInd]["month"] == $item["month"] ? true : false);
+        //         if(!$monthFound){
+        //             return $item;
+        //         }else{
+        //             unset($alreadyGentdInvoices[$clientFoundInd]);
+        //             $alreadyGentdInvoices = array_values($alreadyGentdInvoices);
+        //         }
+        //     }else{
+        //         return $item;
+        //     }
+        // }, $consignmentsData);
 
         // return $consignmentsDataNew;
 
@@ -163,9 +181,18 @@ class InvoiceManagment extends ParentController
         return view('invoices.invoice_generate_detail', ['top_data' => $top_data, 'data' => $data, 'check_rights' => $this->check_employee_rights, 'notifications_counts' => $this->notif_counts, 'notif_data' => $this->notif_data, 'all_notif' => $this->all_notification]);
     }
 
+    // public function GenerateInvoice(Request $req){
+    //     $data = json_decode($req->postData);
+    //     $status = DB::table('invoices_generated')->insert([ 'client_id' => $data->customer_id, 'month' => $data->month, 'invoice_num' => $this->generateRandomNumber(), 'created_at' => date('Y-m-d H:i:s') ]);
+    //     if($status){
+    //         echo "true";
+    //         die;
+    //     }
+    //     echo $status;
+    // }
     public function GenerateInvoice(Request $req){
         $data = json_decode($req->postData);
-        $status = DB::table('invoices_generated')->insert([ 'client_id' => $data->customer_id, 'month' => $data->month, 'invoice_num' => $this->generateRandomNumber(), 'created_at' => date('Y-m-d H:i:s') ]);
+        $status = DB::table('invoices_generated')->insert([ 'client_id' => $data->customer_id, 'month' => $data->month, 'invoice_num' => $this->generateRandomNumber(), 'invoice_total' => CEIL(DB::table('consignment_client as cc')->selectRaw('SUM(total_price) as tp')->whereRaw('customer_id = '.$data->customer_id.' and MONTH(booking_date) = '.$data->month)->first()->tp), 'created_at' => date('Y-m-d H:i:s') ]);
         if($status){
             echo "true";
             die;
@@ -173,6 +200,38 @@ class InvoiceManagment extends ParentController
         echo $status;
     }
 
+    // public function received_payments(){
+    //     parent::VerifyRights();
+    //     if($this->redirectUrl){return redirect($this->redirectUrl);}
+    //     parent::get_notif_data();
+
+    //     $invoices_data = DB::table('invoices_generated')->where('paid', 0)->get();
+    //     $top_data = [];
+    //     $counter = 0;
+    //     foreach($invoices_data as $data){
+    //         $top_data[$counter] = DB::table('consignment_client')->selectRaw('(Select Count(*) from consignment_client where Month(booking_date) = "'.$data->month.'" AND customer_id = "'.$data->client_id.'") as total_consignments, (Select Count(*) from consignment_client where Month(booking_date) = "'.$data->month.'" AND customer_id = "'.$data->client_id.'" AND status = 1) as totaltransit, (Select Count(*) from consignment_client where Month(booking_date) = "'.$data->month.'" AND customer_id = "'.$data->client_id.'" AND status = 2) as total_complete, (Select SUM(total_price) from consignment_client where Month(booking_date) = "'.$data->month.'" AND customer_id = "'.$data->client_id.'") as total_amount')->first();
+    //         $counter ++;
+    //     }
+
+    //     //echo "<pre>"; print_r($top_data); die;
+
+    //     $totalMonths = DB::table('consignment_client')->selectRaw('MONTH(booking_date) as month')->groupBy('booking_date')->get();
+    //     $totalMonths = json_decode(json_encode($totalMonths), true);
+    //     $uniqMonths = array_unique(array_column($totalMonths, "month"));
+
+    //     $data = [];
+    //     $counter = 0;
+    //     foreach ($uniqMonths as $key => $value) {
+    //         $data[$counter]["month"] = $value; 
+    //         $data[$counter]["month_name"] = date("F", mktime(null, null, null, $value, 1));
+    //         $data[$counter]["consignments"] = DB::table('consignment_client as cc')->selectRaw('customer_id, ROUND(SUM(total_price), 2) as total, count(*) as consignments, (SELECT company_name from clients where id = cc.customer_id) as name, (SELECT invoice_num from invoices_generated where client_id = cc.customer_id and month = '.$value.') as invoice_num, (SELECT SUM(amount) from payment where invoice_num = (SELECT invoice_num from invoices_generated where client_id = cc.customer_id and month = '.$value.')) as amount_received, (SELECT ROUND(SUM(total_price)) from consignment_client where customer_id = cc.customer_id and MONTH(booking_date) = '.$value.' ) as total_price')->whereRaw('MONTH(booking_date) = '.$value)->groupBy('customer_id')->get();
+    //         $counter++; 
+    //     }
+
+    //     //dd($data);
+
+    //     return view('invoices.recieved_payments', ['data' => $data, 'top_data' => $top_data, 'check_rights' => $this->check_employee_rights, 'notifications_counts' => $this->notif_counts, 'notif_data' => $this->notif_data, 'all_notif' => $this->all_notification]);
+    // }
     public function received_payments(){
         parent::VerifyRights();
         if($this->redirectUrl){return redirect($this->redirectUrl);}
@@ -197,14 +256,15 @@ class InvoiceManagment extends ParentController
         foreach ($uniqMonths as $key => $value) {
             $data[$counter]["month"] = $value; 
             $data[$counter]["month_name"] = date("F", mktime(null, null, null, $value, 1));
-            $data[$counter]["consignments"] = DB::table('consignment_client as cc')->selectRaw('customer_id, ROUND(SUM(total_price), 2) as total, count(*) as consignments, (SELECT company_name from clients where id = cc.customer_id) as name, (SELECT invoice_num from invoices_generated where client_id = cc.customer_id and month = '.$value.') as invoice_num, (SELECT SUM(amount) from payment where invoice_num = (SELECT invoice_num from invoices_generated where client_id = cc.customer_id and month = '.$value.')) as amount_received, (SELECT ROUND(SUM(total_price)) from consignment_client where customer_id = cc.customer_id and MONTH(booking_date) = '.$value.' ) as total_price')->whereRaw('MONTH(booking_date) = '.$value)->groupBy('customer_id')->get();
+            $data[$counter]["consignments"] = DB::table('consignment_client as cc')->selectRaw('customer_id, ROUND(SUM(total_price), 2) as total, count(*) as consignments, (SELECT company_name from clients where id = cc.customer_id) as name, (SELECT invoice_num from invoices_generated where client_id = cc.customer_id and month = '.$value.') as invoice_num, (SELECT SUM(amount) from payment where invoice_num = (SELECT invoice_num from invoices_generated where client_id = cc.customer_id and month = '.$value.')) as amount_received, (SELECT ROUND(SUM(total_price)) from consignment_client where customer_id = cc.customer_id and MONTH(booking_date) = '.$value.' ) as total_price, (SELECT invoice_total from invoices_generated where client_id = cc.customer_id and month = '.$value.') as invoice_total_price')->whereRaw('MONTH(booking_date) = '.$value)->groupBy('customer_id')->get();
             $counter++; 
         }
 
-        //dd($data);
+        // dd($data);
 
         return view('invoices.recieved_payments', ['data' => $data, 'top_data' => $top_data, 'check_rights' => $this->check_employee_rights, 'notifications_counts' => $this->notif_counts, 'notif_data' => $this->notif_data, 'all_notif' => $this->all_notification]);
     }
+
 
     public function paid_invoices(){
         parent::VerifyRights();

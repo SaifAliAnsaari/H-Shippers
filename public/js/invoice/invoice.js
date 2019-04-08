@@ -51,26 +51,68 @@ $(document).ready(function () {
                 $('#ntn_modal').text("NTN # " + response.ntn);
                 $('#strn_modal').text("STRN # " + response.strn);
                 $('#account_id_modal').text(response.account_id);
+  
 
-                $('#quantity_one').text(response.counts_same_day);
-                $('#quantity_two').text(response.counts_over_night);
-                $('#quantity_three').text(response.counts_second_day);
-                $('#quantity_four').text(response.counts_over_land);
+                if(!response.counts_same_day == 0){
+                    $('#quantity_one').text(response.counts_same_day);
+                    $('#weight_one').text(response.weight_same_day);
+                    $('#rate_one').text(Math.round(response.sub_price_same_day));
+                    $('#total_one').text(Math.round(response.price_same_day));
+                }else{
+                    $('#serial_no1').hide();
+                    $('#service_typeone_modal').hide();
+                    $('#quantity_one').hide();
+                    $('#weight_one').hide();
+                    $('#rate_one').hide();
+                    $('#total_one').hide();
+                }
 
-                $('#weight_one').text(response.weight_same_day);
-                $('#weight_two').text(response.weight_over_night);
-                $('#weight_three').text(response.weight_second_day);
-                $('#weight_four').text(response.weight_over_land);
+                if(!response.counts_over_night == 0){
+                    $('#quantity_two').text(response.counts_over_night);
+                    $('#weight_two').text(response.weight_over_night);
+                    $('#rate_two').text(Math.round(response.sub_price_over_nigth));
+                    $('#total_two').text(Math.round(response.price_over_night));
+                }else{
+                    $('#serial_no2').hide();
+                    $('#service_typetwo_modal').hide();
+                    $('#quantity_two').hide();
+                    $('#weight_two').hide();
+                    $('#rate_two').hide();
+                    $('#total_two').hide();
+                }
 
-                $('#rate_one').text(Math.round(response.sub_price_same_day));
-                $('#rate_two').text(Math.round(response.sub_price_over_nigth));
-                $('#rate_three').text(Math.round(response.sub_price_second_day));
-                $('#rate_four').text(Math.round(response.sub_price_over_land));
+                if(!response.counts_second_day == 0){
+                    $('#quantity_three').text(response.counts_second_day);
+                    $('#weight_three').text(response.weight_second_day);
+                    $('#rate_three').text(Math.round(response.sub_price_second_day));
+                    $('#total_three').text(Math.round(response.price_second_day));
+                }else{
+                    $('#serial_no3').hide();
+                    $('#service_typethree_modal').hide();
+                    $('#quantity_three').hide();
+                    $('#weight_three').hide();
+                    $('#rate_three').hide();
+                    $('#total_three').hide();
+                }
 
-                $('#total_one').text(Math.round(response.price_same_day));
-                $('#total_two').text(Math.round(response.price_over_night));
-                $('#total_three').text(Math.round(response.price_second_day));
-                $('#total_four').text(Math.round(response.price_over_land));
+                if(!response.counts_over_land == 0){
+                    $('#quantity_four').text(response.counts_over_land);
+                    $('#weight_four').text(response.weight_over_land);
+                    $('#rate_four').text(Math.round(response.sub_price_over_land));
+                    $('#total_four').text(Math.round(response.price_over_land));
+                }else{
+                    $('#serial_no4').hide();
+                    $('#service_typefour_modal').hide();
+                    $('#quantity_four').hide();
+                    $('#weight_four').hide();
+                    $('#rate_four').hide();
+                    $('#total_four').hide();
+                }
+
+               
+
+                
+                
 
                 $('#fuel_modal').text("Rs." + Math.round(response.fuel_charges));
                 $('#gst_heading').text('GST(' + response.gst + '%)');

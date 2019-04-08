@@ -104,7 +104,7 @@
                                 <span class="inv-pr">Account # </span> {{ $report->account_id }}<br>
                                 <span class="inv-pr">Invoice # </span> <span style="font-weight:normal; margin-left:0px; !important" id="client_invoice_num">{{ $report->invoice_num }}</span><br>
                                 <span class="inv-pr">Invoice Date </span> {{ $report->invoice_month }}<br>
-                                <span class="inv-pr">Time Period </span>{{ date('Y-m-01')." - ".$report->consignmnet_date }}<br>
+                                <span class="inv-pr">Time Period </span>{{ date('01/m/y')." - ".date('d/m/y', strtotime($report->consignmnet_date)) }}<br>
                             </div>
                         </div>
                     </div>
@@ -126,7 +126,7 @@
                                 <tr>
                                     <th class="bg-transparent border-0" colspan="3"></th>
                                     <th>GRAND TOTAL RS.</th>
-                                    <th>{{ ($report->price_over_night + $report->price_same_day + $report->price_second_day + $report->price_over_land) }}</th>
+                                    <th>{{ number_format($report->invoice_total) }}</th>
                                 </tr>
                             </tfoot>
 
@@ -220,7 +220,8 @@
                 <div class="pay_detail">
                     <div class="row _totalAM">
                         <div class="col-6">Invoice Amount</div>
-                        <div class="col-6 text-right"><strong>Rs.<span>{{ Round ($report->price_over_night + $report->price_same_day + $report->price_second_day + $report->price_over_land, 2) }}</strong></div>
+                        {{-- Round ($report->price_over_night + $report->price_same_day + $report->price_second_day + $report->price_over_land, 2) --}}
+                        <div class="col-6 text-right"><strong>Rs.<span>{{ number_format($report->invoice_total) }}</strong></div>
                     </div>
     
                     <div class="row">

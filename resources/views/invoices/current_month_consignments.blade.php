@@ -69,7 +69,7 @@
 
                                                 <tbody>
                                                     <tr>
-                                                        <td>1</td>
+                                                        <td id="serial_no1">1</td>
                                                         <td id="service_typeone_modal">Same Day</td>
                                                         <td id="quantity_one"></td>
                                                         <td id="weight_one"></td>
@@ -77,7 +77,7 @@
                                                         <td id="total_one"></td>
                                                     </tr>
                                                     <tr>
-                                                        <td>1</td>
+                                                        <td id="serial_no2">2</td>
                                                         <td id="service_typetwo_modal">Over Night</td>
                                                         <td id="quantity_two"></td>
                                                         <td id="weight_two"></td>
@@ -85,7 +85,7 @@
                                                         <td id="total_two"></td>
                                                     </tr>
                                                     <tr>
-                                                        <td>1</td>
+                                                        <td id="serial_no3">3</td>
                                                         <td id="service_typethree_modal">Second Day</td>
                                                         <td id="quantity_three"></td>
                                                         <td id="weight_three"></td>
@@ -93,7 +93,7 @@
                                                         <td id="total_three"></td>
                                                     </tr>
                                                     <tr>
-                                                        <td>1</td>
+                                                        <td id="serial_no4">4</td>
                                                         <td id="service_typefour_modal">Over Land</td>
                                                         <td id="quantity_four"></td>
                                                         <td id="weight_four"></td>

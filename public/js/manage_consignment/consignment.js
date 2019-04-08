@@ -21,16 +21,7 @@ $(document).ready(function () {
     } else if (action == 'update_consignment_cc') {
         fetchccData();
     } else if (action == 'invoice') {
-        $.ajax({
-            type: 'GET',
-            url: '/barcode/generate.php?cnn=' + segments[4],
-            data: {
-                _token: '{!! csrf_token() !!}'
-            },
-            success: function (response) {
-                $('.barcode_area').html(response);
-            }
-        });
+        
     } else if (action == 'confirmed_consignments') {
         //$('.select_status').val($('#hidden_cn_status').val()).trigger('change');
     } else if (action == 'shipment_tracking') {
@@ -234,7 +225,7 @@ $(document).ready(function () {
 
                 } else {
                     //debugger;
-                    $('.test_total_price').text("Total Price : " + response.total_price + " / " + "Sub Total : " + response.sub_price + " / " + "Fuel Charges : " + response.fuel_price + " / " + "GST Charges : " + response.tax_price);
+                    //$('.test_total_price').text("Total Price : " + response.total_price + " / " + "Sub Total : " + response.sub_price + " / " + "Fuel Charges : " + response.fuel_price + " / " + "GST Charges : " + response.tax_price);
                     $('.save_consignment_client').removeAttr('disabled');
                     // $('#cancelCustomer').removeAttr('disabled');
                     $('.save_consignment_client').text('Save');
@@ -244,28 +235,28 @@ $(document).ready(function () {
                     setTimeout(() => {
                         $('#notifDiv').fadeOut();
                     }, 3000);
-                    //$('#cnic_client').val('');
-                    // $('#region_client').val('');
-                    // $('#consignee_name_client').val('');
-                    // $('#consignee_ref_client').val('');
-                    // $('#consignee_cell_client').val('');
-                    // $('#consignee_email_client').val('');
-                    // $('#consignee_address_client').val('');
-                    // $('#consignment_city_client').val('');
-                    // $('#consignment_pieces_client').val('');
-                    // $('#consignment_weight_client').val('');
-                    // $('#consignment_description_client').val('');
-                    // $('#Yes').prop("checked", false);
-                    // $('#No').prop("checked", false);
-                    // $('#Fragile').prop("checked", false);
-                    // $('#Non-Fragile').prop("checked", false);
-                    // $('#Electronics').prop("checked", false);
-                    // $('#none').prop("checked", false);
-                    // $('.supplementary_services_client').prop("checked", false);
-                    // $('#saveConsignmentFormClient').find("select").val("0").trigger('change');
-                    // $('#remarks_client').val('');
-                    //window.location.replace("/invoice/"+JSON.parse(response));
-                    window.open("/invoice/" + cnno, '_blank');
+                    $('#cnic_client').val('');
+                    $('#region_client').val('');
+                    $('#consignee_name_client').val('');
+                    $('#consignee_ref_client').val('');
+                    $('#consignee_cell_client').val('');
+                    $('#consignee_email_client').val('');
+                    $('#consignee_address_client').val('');
+                    $('#consignment_city_client').val('');
+                    $('#consignment_pieces_client').val('');
+                    $('#consignment_weight_client').val('');
+                    $('#consignment_description_client').val('');
+                    $('#Yes').prop("checked", false);
+                    $('#No').prop("checked", false);
+                    $('#Fragile').prop("checked", false);
+                    $('#Non-Fragile').prop("checked", false);
+                    $('#Electronics').prop("checked", false);
+                    $('#none').prop("checked", false);
+                    $('.supplementary_services_client').prop("checked", false);
+                    $('#saveConsignmentFormClient').find("select").val("0").trigger('change');
+                    $('#remarks_client').val('');
+                    window.location.replace("/invoice/"+JSON.parse(response));
+                    //window.open("/invoice/" + cnno, '_blank');
                 }
             },
             error: function (err) {
@@ -1089,6 +1080,10 @@ $(document).ready(function () {
         printDiv();
     });
 
+
+
+    
+
 });
 
 function fetchConsignmentsList() {
@@ -1149,3 +1144,5 @@ function printDiv() {
     window.print();
     document.body.innerHTML = originalContents;
 }
+
+

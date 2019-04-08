@@ -541,7 +541,7 @@ class ConsignmentManagement extends ParentController
             'sub_total' => ROUND($sub_total, 2),
             'fuel_charge' => ROUND($price_for_fuel, 2),
             'gst_charge' => ROUND($price_for_tax, 2),
-            'total_price' => CEIL($totalPrice),
+            'total_price' => ROUND($totalPrice, 2),
             'created_at' => date('Y-m-d H:i:s')
             ]);
             if($save_consignment_client){
@@ -563,9 +563,9 @@ class ConsignmentManagement extends ParentController
                 // }
 
                 if($insert_notification){
-                    //echo json_encode($request->cnic_client);
+                    echo json_encode($request->cnic_client);
 
-                    echo json_encode(array('total_price'=> ROUND($totalPrice, 2), 'sub_price' => ROUND($sub_total, 2), 'fuel_price' => Round($price_for_fuel,2), 'tax_price' => ROUND($price_for_tax, 2)));
+                    ///echo json_encode(array('total_price'=> ROUND($totalPrice, 2), 'sub_price' => ROUND($sub_total, 2), 'fuel_price' => Round($price_for_fuel,2), 'tax_price' => ROUND($price_for_tax, 2)));
                     //return redirect('/invoice/"'.$request->cnic_client.'"');
                 }else{
                     echo json_encode('failed');
@@ -1003,7 +1003,7 @@ class ConsignmentManagement extends ParentController
             'sub_total' => ROUND($sub_total, 2),
             'fuel_charge' => ROUND($price_for_fuel, 2),
             'gst_charge' => ROUND($price_for_tax, 2),
-            'total_price' => CEIL($totalPrice),
+            'total_price' => ROUND($totalPrice, 2),
             'updated_at' => date('Y-m-d H:i:s')
             ]);
             if($save_consignment_client){

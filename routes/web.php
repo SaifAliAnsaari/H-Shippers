@@ -74,6 +74,7 @@ Route::get('/invoices_generate_detail/{cId}/{month}', 'InvoiceManagment@invoices
 Route::get('/received_payments', 'InvoiceManagment@received_payments');
 Route::get('/paid_invoices', 'InvoiceManagment@paid_invoices');
 Route::get('/shipment_list/{id}', 'InvoiceManagment@shipment_list');
+Route::get('/client_settings', 'Clients@client_settings');
 
 Route::get('/invoice/{id}', 'ConsignmentManagement@invoice');
 Route::get('/download_invoice_c', 'ConsignmentManagement@download_invoice_client');
@@ -130,6 +131,8 @@ Route::get('/GetStatusLogForModal', 'ConsignmentManagement@GetStatusLogForModal'
 Route::get('/GetPaymentData', 'Clients@GetPaymentData');
 Route::get('/get_graph_reports', 'HomeController@get_graph_reports');
 Route::get('/get_current_month_data_for_invoice', 'InvoiceManagment@get_current_month_data_for_invoice');
+Route::get('/change_pass_client', 'Clients@change_pass_client');
+Route::get('/get_dashboard_reports', 'HomeController@get_dashboard_reports');
 
 
 //Get data to show on update page
