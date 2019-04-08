@@ -9,7 +9,7 @@
     <div class="col-lg-4 col-md-4 col-sm-12">
         <div class="_dash-select">
             <select class="custom-select custom-select-sm select_report_time_period">
-                <option selected disabled>Please Select Time Period</option>
+                <option selected disabled>Please Select Month</option>
             <option value="1">Current Month</option>
             <option value="2">Last Month</option>
             <option value="3" selected>Overall</option>

@@ -204,19 +204,21 @@
         <h2 class="">Payment</h2>
         <div class="_sidBar">
             <?php 
-            $total_pend_am = number_format(($report->price_over_night + $report->price_same_day + $report->price_second_day + $report->price_over_land) - $report->paid_amount);  
+            $pend_amount = $report->invoice_total - ($report->pending_amount == null ? 0 : $report->pending_amount)
+            
+            // $total_pend_am = number_format(($report->price_over_night + $report->price_same_day + $report->price_second_day + $report->price_over_land) - $report->paid_amount);  
 //echo $total_pend_am;
             ?>
-            @if($total_pend_am <= 0)
+            @if($report->paid_amount == $report->invoice_total)
                 <div class="pay_detail">
                     <div class="row _totalAM">
                         <div class="col-6">Paid Amount</div>
-                        <div class="col-6 text-right"><strong>Rs.<span>{{ Round ($report->price_over_night + $report->price_same_day + $report->price_second_day + $report->price_over_land, 2) }}</strong></div>
+                        <div class="col-6 text-right"><strong>Rs.<span>{{ Round ($report->paid_amount) }}</strong></div>
                     </div>
                 </div>
             @endif()
 
-            @if($total_pend_am > 0)
+            @if($report->paid_amount != $report->invoice_total)
                 <div class="pay_detail">
                     <div class="row _totalAM">
                         <div class="col-6">Invoice Amount</div>
@@ -230,9 +232,10 @@
                         <div class="col-6 text-right paid_amount_div">Rs.{{ ($report->paid_amount != '' || null ? $report->paid_amount : 0) }}</div>
                     </div>
                     <hr>
+                    
                     <div class="row red_t">
                         <div class="col-6">Pending Amount</div>
-                        <?php $pend_amount = ($report->price_over_night + $report->price_same_day + $report->price_second_day + $report->price_over_land) - $report->paid_amount ?>
+                        <?php $pend_amount = $report->invoice_total - ($report->pending_amount == null ? 0 : $report->pending_amount) ?>
                         <div class="col-6 text-right">Rs.<span id="pending_amount" name="{{ ROUND($pend_amount, 2) }}">{{ ROUND($pend_amount, 2) }}</span></div>
                     </div>
                     <a href="#" class="btn add-product-line" data-toggle="modal" data-target="#exampleModal"><i

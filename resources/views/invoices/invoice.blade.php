@@ -46,6 +46,11 @@
 
     <div id="notifDiv">
     </div>
+
+    <div class="container" style="margin-top:10px; text-align:right">
+        <button class="btn btn-primary print_consignment_invoice">Print</button>
+    </div>
+
     <div id="print_consignment_invoice_div">
     <div id="wrapper">
         
@@ -378,10 +383,6 @@
             </div>
         </div>
 
-    </div>
-
-    <div class="container" style="margin-bottom:10px;">
-        <button class="btn btn-primary print_consignment_invoice">Print</button>
     </div>
 
     <script src="/js/jquery-3.3.1.slim.min.js"></script>
