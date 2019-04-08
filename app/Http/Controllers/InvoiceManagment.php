@@ -76,7 +76,8 @@ class InvoiceManagment extends ParentController
 
         $totalCustomers = json_decode(json_encode(DB::table('clients')->get()), true);
 
-        $totalConsignments = json_decode(DB::table('consignment_client as cc')->selectRaw('id, MONTHNAME(booking_date) as month, MONTH(booking_date) as month_id, customer_id, booking_date, (SELECT company_name from clients where id = cc.customer_id) as name, (SELECT count(*) from consignment_client where customer_id = cc.customer_id and booking_date = cc.booking_date ) as total_consignments_on_date,total_price, (Select Count(*) from consignment_client where status = 2) as total_delivered')->get(), true);
+        $month = date('m');
+        $totalConsignments = json_decode(DB::table('consignment_client as cc')->selectRaw('id, MONTHNAME(booking_date) as month, MONTH(booking_date) as month_id, customer_id, booking_date, (SELECT company_name from clients where id = cc.customer_id) as name, (SELECT count(*) from consignment_client where customer_id = cc.customer_id and booking_date = cc.booking_date ) as total_consignments_on_date,total_price, (Select Count(*) from consignment_client where status = 2) as total_delivered')->whereRaw('Month(booking_date) < '.$month)->get(), true);
         $alreadyGentdInvoices = json_decode(DB::table('invoices_generated')->get(), true);
 
         // dd(array_column($this->unique_multidim_array($totalConsignments, "booking_date"), "booking_date"));

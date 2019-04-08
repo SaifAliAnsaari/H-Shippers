@@ -291,7 +291,7 @@ class HomeController extends ParentController
 
         $consignments_by_destinations = DB::table('consignment_client')->selectRaw('consignment_dest_city, Count(*) as quantity, (Select Count(*) from consignment_client) as total_counts')->groupBy('consignment_dest_city')->orderby(DB::raw('Count(*)'), 'desc')->get();
        
-        $reporting_this_month = DB::table('consignment_client')->selectRaw('(Select SUM(sub_total)) as total_revenue, (Select Count(*) from consignment_client) as total_bookings, (Select Count(*) from clients where is_active = 1) as active_custs, (Select SUM(amount) from payment) as amount_recieved ')->first();
+        $reporting_this_month = DB::table('consignment_client')->selectRaw('(Select SUM(sub_total)) as total_revenue, (Select Count(*) from consignment_client) as total_bookings, (SELECT count(*) from (SELECT customer_id FROM `consignment_client` group by customer_id) as res_set) as active_custs, (Select SUM(amount) from payment) as amount_recieved ')->first();
         //echo "<pre>"; print_r($consignments_by_destinations); die;
         return view('dashboard.admin_dashboard', [ 'totalDays' => $totalDays, 'check_rights' => $this->check_employee_rights, 'notifications_counts' => $this->notif_counts, 'notif_data' => $this->notif_data, 'all_notif' => $this->all_notification, 'data' => $reporting_this_month, 'life_time_data' => $life_time_data, 'life_time_rev' => $life_time_rev, 'consignments_by_days' => $consignments_by_days, 'consignments_by_destinations' => $consignments_by_destinations]);
     }
@@ -337,7 +337,9 @@ class HomeController extends ParentController
     
             $consignments_by_destinations = DB::table('consignment_client')->selectRaw('consignment_dest_city, Count(*) as quantity, (Select Count(*) from consignment_client where Month(booking_date) = "'.date('m').'") as total_counts')->whereRaw('Month(booking_date) = '.date('m'))->groupBy('consignment_dest_city')->orderby(DB::raw('Count(*)'), 'desc')->get();
            
-            $reporting_this_month = DB::table('consignment_client')->selectRaw('SUM(sub_total) as total_revenue, Count(*) as total_bookings, (Select Count(*) from clients where is_active = 1 AND Month(created_at = "'.date('m').'")) as active_custs, (Select SUM(amount) from payment where Month(created_at = "'.date('m').'")) as amount_recieved ')->whereRaw('Month(booking_date) = '.date('m'))->first();
+
+            $reporting_this_month = DB::table('consignment_client')->selectRaw('SUM(sub_total) as total_revenue, Count(*) as total_bookings, (SELECT count(*) from (SELECT customer_id FROM `consignment_client` where MONTH(booking_date) = '.date('m').' group by customer_id) as res_set) as active_custs, (Select SUM(amount) from payment where Month(created_at = "'.date('m').'")) as amount_recieved ')->whereRaw('Month(booking_date) = '.date('m'))->first();
+
 
             echo json_encode(array('life_time_data' => $life_time_data, 'totalDays' => $totalDays, 'life_time_rev' => $life_time_rev, 'consignments_by_days' => $consignments_by_days, 'data' => $reporting_this_month, 'consignments_by_destinations' => $consignments_by_destinations));
         }else if($request->time_period == '2'){
@@ -354,7 +356,7 @@ class HomeController extends ParentController
     
             $consignments_by_destinations = DB::table('consignment_client')->selectRaw('consignment_dest_city, Count(*) as quantity, (Select Count(*) from consignment_client) as total_counts')->whereRaw('Month(booking_date) = '.$month_test)->groupBy('consignment_dest_city')->orderby(DB::raw('Count(*)'), 'desc')->get();
            
-            $reporting_this_month = DB::table('consignment_client')->selectRaw('SUM(sub_total) as total_revenue, Count(*) as total_bookings, (Select Count(*) from clients where is_active = 1 AND Month(created_at = "'.$month_test.'")) as active_custs, (Select SUM(amount) from payment where Month(created_at = "'.$month_test.'")) as amount_recieved ')->whereRaw('Month(booking_date) = '.$month_test)->first();
+            $reporting_this_month = DB::table('consignment_client')->selectRaw('SUM(sub_total) as total_revenue, Count(*) as total_bookings, (SELECT count(*) from (SELECT customer_id FROM `consignment_client` where MONTH(booking_date) = '.$month_test.' group by customer_id) as res_set) as active_custs, (Select SUM(amount) from payment where Month(created_at = "'.$month_test.'")) as amount_recieved ')->whereRaw('Month(booking_date) = '.$month_test)->first();
 
             echo json_encode(array('life_time_data' => $life_time_data, 'totalDays' => $totalDays, 'life_time_rev' => $life_time_rev, 'consignments_by_days' => $consignments_by_days, 'data' => $reporting_this_month));
         }else{
@@ -370,7 +372,7 @@ class HomeController extends ParentController
     
             $consignments_by_destinations = DB::table('consignment_client')->selectRaw('consignment_dest_city, Count(*) as quantity, (Select Count(*) from consignment_client) as total_counts')->groupBy('consignment_dest_city')->orderby(DB::raw('Count(*)'), 'desc')->get();
            
-            $reporting_this_month = DB::table('consignment_client')->selectRaw('(Select SUM(sub_total)) as total_revenue, (Select Count(*) from consignment_client) as total_bookings, (Select Count(*) from clients where is_active = 1) as active_custs, (Select SUM(amount) from payment) as amount_recieved ')->first();
+            $reporting_this_month = DB::table('consignment_client')->selectRaw('(Select SUM(sub_total)) as total_revenue, (Select Count(*) from consignment_client) as total_bookings, (SELECT count(*) from (SELECT customer_id FROM `consignment_client` group by customer_id) as res_set) as active_custs, (Select SUM(amount) from payment) as amount_recieved ')->first();
 
             echo json_encode(array('life_time_data' => $life_time_data, 'totalDays' => $totalDays, 'life_time_rev' => $life_time_rev, 'consignments_by_days' => $consignments_by_days, 'data' => $reporting_this_month, 'consignments_by_destinations' => $consignments_by_destinations));
         }

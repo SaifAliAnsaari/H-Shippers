@@ -78,7 +78,7 @@ $(document).ready(function() {
 
                 if(response.consignments_by_days != null){
                     response.consignments_by_days.forEach(element => {
-                        $('.day_wise_report_dashboard').append('<tr><td> '+ element['day'] +' </td><td> '+ addCommas(Math.round(element['quantity'])) +' </td><td> '+ addCommas(Math.round(element['weight'])) +' KG(s) </td><td> Rs.'+ addCommas(Math.round(element['rate'])) +' </td></tr>');
+                        $('.day_wise_report_dashboard table tbody').append('<tr><td> '+ element['day'] +' </td><td> '+ addCommas(Math.round(element['quantity'])) +' </td><td> '+ addCommas(Math.round(element['weight'])) +' KG(s) </td><td> Rs.'+ addCommas(Math.round(element['rate'])) +' </td></tr>');
                     });
                 }
                 
