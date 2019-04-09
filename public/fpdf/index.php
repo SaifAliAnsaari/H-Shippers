@@ -82,7 +82,7 @@ $pdf->Cell(0,0,'Time Period',0,0);
 $pdf->SetXY(160, 69);
 $pdf->SetFont('Arial','',12);
 setlocale(LC_CTYPE, 'en_US');
-$pdf->Cell(0,0,iconv('UTF-8', 'ASCII//TRANSLIT', date('y/m/d', strtotime($_GET['date']))." - ".date('y/m/d')),0,0);
+$pdf->Cell(0,0,iconv('UTF-8', 'ASCII//TRANSLIT', date('y/m/d', strtotime($_GET['date']))." - ".date('y/m/01')),0,0);
 // /* Ending Invoice Section */
 
 // /* Starting Invoice Table Section */
