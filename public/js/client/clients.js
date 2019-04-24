@@ -167,6 +167,7 @@ $(document).ready(function () {
     $(document).on('click', '.openDataSidebarForAddingClient', function () {
         //Form ki id wapis kr de hai
         $('#updateClientForm').prop('id', 'saveClientForm');
+        $('#dataSidebarLoader').hide();
 
         if (lastOp == "update") {
             $('input[name="username"]').val("");

@@ -30,13 +30,13 @@
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label class="control-label mb-10">City Name*</label>
-                                                                <input type="text" name="city_name" class="form-control required" placeholder="" required>
+                                                                <input type="text" name="city_name" class="form-control required" placeholder="" required style="font-size: 13px; width:100%">
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label class="control-label mb-10">Province*</label>
-                                                                <input type="text" name="province" class="form-control required" placeholder="" required>
+                                                                <input type="text" name="province" class="form-control required" placeholder="" required style="font-size: 13px; width:100%">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -48,7 +48,7 @@
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label class="control-label mb-10">City Short Code*</label>
-                                                                <input type="text" name="city_short_code" class="form-control required" placeholder="" required>
+                                                                <input type="text" name="city_short_code" class="form-control required" placeholder="" required style="font-size: 13px; width:100%">
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6">

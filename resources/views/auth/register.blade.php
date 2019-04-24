@@ -24,13 +24,13 @@
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label class="control-label mb-10">Full Name*</label>
-                                                        <input type="text" name="name" class="form-control required" placeholder="">
+                                                        <input style="font-size: 13px; width:100%" type="text" name="name" class="form-control required" placeholder="">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label class="control-label mb-10">Mobile Phone#</label>
-                                                        <input type="text" name="phone" class="form-control" placeholder="">
+                                                        <input style="font-size: 13px; width:100%" type="text" name="phone" class="form-control" placeholder="">
                                                     </div>
                                                 </div>
                                             </div>
@@ -38,13 +38,13 @@
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label class="control-label mb-10">Home Phone#</label>
-                                                        <input type="text" name="home_phone" class="form-control" placeholder="">
+                                                        <input style="font-size: 13px; width:100%" type="text" name="home_phone" class="form-control" placeholder="">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label class="control-label mb-10">ICE Phone#</label>
-                                                        <input type="text" name="ice_num" class="form-control" placeholder="">
+                                                        <input style="font-size: 13px; width:100%" type="text" name="ice_num" class="form-control" placeholder="">
                                                     </div>
                                                 </div>
                                             </div>
@@ -52,13 +52,13 @@
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label class="control-label mb-10">Email ID*</label>
-                                                        <input type="text" name="email" id="email_address" class="form-control required" placeholder="">
+                                                        <input style="font-size: 13px; width:100%" type="text" name="email" id="email_address" class="form-control required" placeholder="">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label class="control-label mb-10">CNIC No</label>
-                                                        <input type="text" name="cnic" class="form-control" placeholder="">
+                                                        <input style="font-size: 13px; width:100%" type="text" name="cnic" class="form-control" placeholder="">
                                                     </div>
                                                 </div>
                                             </div>
@@ -66,13 +66,13 @@
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label class="control-label mb-10">City*</label>
-                                                        <input type="text" name="city" class="form-control required" placeholder="">
+                                                        <input style="font-size: 13px; width:100%" type="text" name="city" class="form-control required" placeholder="">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label class="control-label mb-10">Salary</label>
-                                                        <input type="text" name="salary" class="form-control" placeholder="">
+                                                        <input style="font-size: 13px; width:100%" type="text" name="salary" class="form-control" placeholder="">
                                                     </div>
                                                 </div>
                                             </div>
@@ -80,13 +80,13 @@
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label class="control-label mb-10">Address</label>
-                                                        <input type="text" name="address" class="form-control" placeholder="">
+                                                        <input style="font-size: 13px; width:100%" type="text" name="address" class="form-control" placeholder="">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label class="control-label mb-10">Base Station</label>
-                                                        <input type="text" name="base_station" class="form-control" placeholder="">
+                                                        <input style="font-size: 13px; width:100%" type="text" name="base_station" class="form-control" placeholder="">
                                                     </div>
                                                 </div>
                                             </div>
@@ -97,11 +97,11 @@
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label class="control-label mb-10">Username*</label>
-                                                        <input type="text" name="username" class="form-control required" placeholder="">
+                                                        <input style="font-size: 13px; width:100%" type="text" name="username" class="form-control required" placeholder="">
                                                     </div>
                                                     <div class="form-group">
                                                         <label class="control-label mb-10">Password*</label>
-                                                        <input type="password" name="password" class="form-control required" placeholder="">
+                                                        <input style="font-size: 13px; width:100%" type="password" name="password" class="form-control required" placeholder="">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">

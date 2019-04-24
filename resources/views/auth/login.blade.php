@@ -4,7 +4,8 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    {{-- <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"> --}}
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
     <meta name="description" content="">
     <meta name="author" content="">
     <title>Hashmi Shippers</title>
@@ -40,7 +41,7 @@
                                             @csrf
                                             <div class="form-group">
                                                 <div class="user"> <span class="fa fa-user-alt"></span>
-                                                    <input id="username" type="username" class="form-control{{ $errors->has('username') ? ' is-invalid' : '' }}"
+                                                    <input style="font-size: 13px; width:100%;" id="username" type="username" class="form-control{{ $errors->has('username') ? ' is-invalid' : '' }}"
                                                         name="username" value="{{ old('username') }}" placeholder="Username"
                                                         required autofocus>
                                                     @if ($errors->has('username'))
@@ -53,7 +54,7 @@
                                             <div class="form-group">
                                                 <div class="clearfix"></div>
                                                 <div class="pass"> <span class="fa fa-unlock"></span>
-                                                    <input id="password" type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}"
+                                                    <input style="font-size: 13px; width:100%" id="password" type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}"
                                                         name="password" placeholder="password" required>
 
                                                     @if ($errors->has('password'))

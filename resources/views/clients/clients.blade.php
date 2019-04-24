@@ -30,11 +30,11 @@
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label class="control-label mb-10">Username*</label>
-                                                        <input type="text" name="username" class="form-control required" placeholder="" required>
+                                                        <input style="font-size: 13px; width:100% !important" type="text" name="username" class="form-control required" placeholder="" required>
                                                     </div>
                                                     <div class="form-group">
                                                         <label class="control-label mb-10">Password*</label>
-                                                        <input type="password" name="password" class="form-control required" placeholder="" required>
+                                                        <input style="font-size: 13px; width:100%" type="password" name="password" class="form-control required" placeholder="" required>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
@@ -52,31 +52,31 @@
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label class="control-label mb-10">Company Name*</label>
-                                                        <input type="text" name="company_name" class="form-control required" required>
+                                                        <input style="font-size: 13px; width:100%" type="text" name="company_name" class="form-control required" required>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label class="control-label mb-10">POC Name</label>
-                                                        <input type="text" name="poc" class="form-control" placeholder="">
+                                                        <input style="font-size: 13px; width:100%" type="text" name="poc" class="form-control" placeholder="">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label class="control-label mb-10">POC Contact#</label>
-                                                        <input type="number" name="phone_number" class="form-control" placeholder="">
+                                                        <input style="font-size: 13px; width:100%" type="number" name="phone_number" class="form-control" placeholder="">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label class="control-label mb-10">Office#</label>
-                                                        <input type="number" name="office_number" class="form-control" placeholder="">
+                                                        <input style="font-size: 13px; width:100%" type="number" name="office_number" class="form-control" placeholder="">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label class="control-label mb-10">Website</label>
-                                                        <input type="text" name="website" class="form-control" placeholder="">
+                                                        <input style="font-size: 13px; width:100%" type="text" name="website" class="form-control" placeholder="">
                                                     </div>
                                                 </div>
                                                 {{-- <div class="col-md-6">
@@ -88,19 +88,19 @@
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label class="control-label mb-10">Address</label>
-                                                        <input type="text" name="address" class="form-control" placeholder="">
+                                                        <input style="font-size: 13px; width:100%" type="text" name="address" class="form-control" placeholder="">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label class="control-label mb-10">NTN</label>
-                                                        <input type="text" name="ntn" class="form-control" placeholder="">
+                                                        <input style="font-size: 13px; width:100%" type="text" name="ntn" class="form-control" placeholder="">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label class="control-label mb-10">STRN</label>
-                                                        <input type="text" name="strn" class="form-control" placeholder="">
+                                                        <input style="font-size: 13px; width:100%" type="text" name="strn" class="form-control" placeholder="">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">

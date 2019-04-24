@@ -5,8 +5,9 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     {{-- <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"> --}}
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
     <meta name="description" content="">
-    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    {{-- <meta name="viewport" content="width=device-width,initial-scale=1"/> --}}
     <meta name="csrf_token" content="{{ csrf_token() }}" />
     <meta name="author" content="">
 
@@ -86,11 +87,11 @@
     @elseif($controller == "CustomerTypes")
         <script src="/js/custom/customer-types.js?v=2.3.0" ></script>
     @elseif($controller == "RegisterController")
-        <script src="/js/custom/employee.js?v=2.3.0" ></script>
+        <script src="/js/custom/employee.js?v=2.3.1" ></script>
     @elseif($controller == "Clients")
-        <script src="/js/client/clients.js?v=2.3.5" ></script>
+        <script src="/js/client/clients.js?v=2.3.6" ></script>
     @elseif($controller == "OrganizationManagement")
-        <script src="/js/manage_organization/manage_organization.js?v=2.3.1" ></script>
+        <script src="/js/manage_organization/manage_organization.js?v=2.3.2" ></script>
     @elseif($controller == "ManageBilling")
         <script src="/js/manage_billing/manage_billing.js?v=2.3.0" ></script>
     @elseif($controller == "ClientsForBilling")

@@ -13,6 +13,8 @@ $(document).ready(function () {
     var lastOp = "add";
     $(document).on('click', '.openDataSidebarForAddingCompany', function () {
         //alert('here');
+        $('#dataSidebarLoader').hide();
+        $('#updatePickUp').hide();
         if (lastOp == "update") {
 
             if (action == "company_profile") {
