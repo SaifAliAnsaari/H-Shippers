@@ -13,17 +13,35 @@
                 </div>
             </li>
         @if(Auth::user())
-           
+        <?php 
+         if(!empty($check_rights)){
+            $test_array = array();
+            $counter = 0;
+            foreach($check_rights as $rights){
+                $test_array[$counter] = $rights->access;
+                $counter++;
+            } ?>
             <li class="nav-item TM_icon dropdown no-arrow">
                 <a class="nav-link dropdown-toggle" href="#" id="Qlinks" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="{{ URL::to('/images/q-link-icon.svg') }}" alt=""/></a>
-                <div class="dropdown-menu dropdown-menu-right Qlinks" aria-labelledby="Qlinks">
+                <div class="dropdown-menu dropdown-menu-right Qlinks" aria-labelledby="Qlinks" style="height:auto; padding-bottom:10px;">
                 <h4 class="notiF-title">Quick Actions</h4>
-                <a href="#"><img src="{{ URL::to('/images/graph.svg') }}" alt=""> Add New CVR</a>
-                <a href="#"><img src="{{ URL::to('/images/add-report.svg') }}" alt=""> CVR List</a>
-                <a href="#"><img src="{{ URL::to('/images/employee-list.svg') }}" alt=""> Employee List</a>
-                <a href="#"><img src="{{ URL::to('/images/customer-list.svg') }}" alt=""> Customer List</a>
+                @if(in_array("/consignment_booking", $test_array))
+                    <a href="/consignment_booking"><img src="{{ URL::to('/images/graph.svg') }}" alt=""> Add New Consignment</a>
+                @endif
+                @if(in_array("/pending_consignments", $test_array))
+                    <a href="/pending_consignments"><img src="{{ URL::to('/images/add-report.svg') }}" alt=""> Booked Consignments</a>
+                @endif
+                @if(in_array("/invoices_generate", $test_array))
+                    <a href="/invoices_generate"><img src="{{ URL::to('/images/employee-list.svg') }}" alt=""> Generate Invoice</a>
+                @endif
+                @if(in_array("/paid_invoices", $test_array))
+                    <a href="/paid_invoices"><img src="{{ URL::to('/images/customer-list.svg') }}" alt=""> Paid Invoices</a>
+                @endif
                 </div>
             </li>
+            <?php
+            }
+            ?>
             {{-- <li class="nav-item TM_icon">
                 <a class="nav-link" href="#"><img src="/images/settings-icon.svg" alt="" /></a>
             </li> --}}

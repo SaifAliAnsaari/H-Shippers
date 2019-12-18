@@ -42,7 +42,6 @@ class HomeController extends ParentController
             if($this->redirectUrl){return redirect($this->redirectUrl);}
             parent::get_notif_data();
 
-            // $current_month = date('m');
             // echo $current_month; die;
             return view('home', ['check_rights' => $this->check_employee_rights, 'notifications_counts' => $this->notif_counts, 'notif_data' => $this->notif_data, 'all_notif' => $this->all_notification]);
         }else{

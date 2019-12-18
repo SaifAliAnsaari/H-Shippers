@@ -1,12 +1,13 @@
+var clients_array = [];
 $(document).ready(function () {
 
     // $(document).on('click', '#date_calender', function(){
     //     $('#datepicker').click();
     // });
 
-    // $('#datepicker').datepicker({
-    //     format: 'yyyy-mm-dd'
-    // });
+    $('.datepicker').datepicker({
+        format: 'yyyy-mm-dd'
+    });
 
     var consignment_delete_Ref;
     var consignment_delete_id;
@@ -26,7 +27,10 @@ $(document).ready(function () {
         //$('.select_status').val($('#hidden_cn_status').val()).trigger('change');
     } else if (action == 'shipment_tracking') {
 
+    } else if(action == 'consignment_booking'){
+        fetchClients();
     }
+    
 
     var supplementary_services_admin = [];
     var supplementary_services_client = [];
@@ -60,9 +64,10 @@ $(document).ready(function () {
 
 
     $(document).on('change', '#consignment_type', function () {
-        // debugger;
+         //debugger;
+         var thisRef = $(this);
         if (action == 'update_consignment_cc') {
-            if ($('#consignment_type').val() == "Non Fragile") {
+            if (thisRef.val() == "Non Fragile") {
                 $('#fragile_cost_hidden').val('0');
             } else {
                 $.ajax({
@@ -88,7 +93,7 @@ $(document).ready(function () {
                 });
             }
         } else {
-            if ($('#consignment_type').val() == "Non Fragile") {
+            if (thisRef.val() == "Non Fragile") {
                 $('#fragile_cost_hidden').val('0');
             } else {
                 $('#loader').show();
@@ -97,7 +102,8 @@ $(document).ready(function () {
                     type: 'GET',
                     url: '/get_price_if_consignmentTypeFragile',
                     data: {
-                        _token: '{!! csrf_token() !!}'
+                        _token: '{!! csrf_token() !!}',
+                        id: (action == 'consignment_booking' ? $('#select_customer').val() : '')
                     },
                     success: function (response) {
                         if (JSON.parse(response)) {
@@ -255,8 +261,9 @@ $(document).ready(function () {
                     $('.supplementary_services_client').prop("checked", false);
                     $('#saveConsignmentFormClient').find("select").val("0").trigger('change');
                     $('#remarks_client').val('');
-                    window.location.replace("/invoice/"+JSON.parse(response));
-                    //window.open("/invoice/" + cnno, '_blank');
+                    //window.location.replace("/invoice/"+JSON.parse(response));
+                    window.open("/invoice/" + JSON.parse(response), '_blank');
+                    location.reload();
                 }
             },
             error: function (err) {
@@ -293,16 +300,6 @@ $(document).ready(function () {
 
 
     $(document).on('click', '.save_consignment_admin', function () {
-
-        // if($('#cnic').val() == "" || $('#shipper_name').val() == "" || $('#select_city_shipper').val() == 0 || $('#shipper_area').val() == "" || $('#shipper_cell_num').val() == "" || $('#shipper_land_line').val() == "" || $('#shipper_email').val() == "" || $('#shipper_address').val() == "" || $('#consignee_name').val() == "" || $('#consignee_ref_num').val() == "" || $('#consignee_cell_num').val() == "" || $('#consignee_email').val() == "" || $('#consignee_address').val() == "" || $('#consignment_regin_city').val() == "" || $('#service_type').val() == 0 || $('#consignment_pieces').val() == "" || $('#consignment_weight').val() == "" || $('#consignment_description').val() == "" || $('#consignment_price').val() == "" || $('#consignment_dest_city').val() == 0 || $('#consignment_dest_city').val() == null || $('#consignment_remarks').val() == "" || !$("input[name=inlineRadioOptions]").is(":checked")){
-        //     $('#notifDiv').fadeIn();
-        //     $('#notifDiv').css('background', 'red');
-        //     $('#notifDiv').text('Please fill all required fields(*).');
-        //     setTimeout(() => {
-        //         $('#notifDiv').fadeOut();
-        //     }, 3000);
-        //     return;
-        // }
         var verif = [];
         $('.required').css('border', '');
         $('.required').parent().css('border', '');
@@ -336,14 +333,26 @@ $(document).ready(function () {
             return;
         }
 
-        if (!$("input[name=inlineRadioOptions]").is(":checked")) {
+        if (!$("input[name=Fragile_Criteria]").is(":checked")) {
             $('#notifDiv').fadeIn();
             $('#notifDiv').css('background', 'red');
-            $('#notifDiv').text('Please Check Consignment Type.');
+            $('#notifDiv').text('Please Select Fragile type.');
             setTimeout(() => {
                 $('#notifDiv').fadeOut();
             }, 3000);
             return;
+        }
+
+        if ($("input[name='Fragile_Criteria']:checked").val() != "none") {
+            if ($('#product_price').val() == "") {
+                $('#notifDiv').fadeIn();
+                $('#notifDiv').css('background', 'red');
+                $('#notifDiv').text('Please Enter Product Price.');
+                setTimeout(() => {
+                    $('#notifDiv').fadeOut();
+                }, 3000);
+                return;
+            }
         }
 
 
@@ -356,36 +365,25 @@ $(document).ready(function () {
             data: $('#saveConsignmentForm').serialize(),
             cache: false,
             success: function (response) {
-                if (JSON.parse(response) == "success") {
-                    $('.save_consignment_admin').removeAttr('disabled');
-                    $('.save_consignment_admin').text('Save');
-                    $('#notifDiv').fadeIn();
-                    $('#notifDiv').css('background', 'green');
-                    $('#notifDiv').text('Consignment have been added successfully');
-                    setTimeout(() => {
-                        $('#notifDiv').fadeOut();
-                    }, 3000);
-                    $('#saveConsignmentForm').find('input').val('');
-                    $('#saveConsignmentForm').find('select').val('0').trigger('change');
-                    $('#saveConsignmentForm').find('textarea').val('');
-                    $('#Domestic').prop("checked", false);
-                    $('#International').prop("checked", false);
-                    $('.supplementary_services_admin').prop("checked", false);
-                } else {
-                    $('.save_consignment_admin').removeAttr('disabled');
-                    $('.save_consignment_admin').text('Save');
+                $('.save_consignment_admin').removeAttr('disabled');
+                $('.save_consignment_admin').text('Save');
+                if (JSON.parse(response) == "failed") {
                     $('#notifDiv').fadeIn();
                     $('#notifDiv').css('background', 'red');
                     $('#notifDiv').text('Failed to add consignment at the moment');
                     setTimeout(() => {
                         $('#notifDiv').fadeOut();
                     }, 3000);
-                    $('#saveConsignmentForm').find('input').val('');
-                    $('#saveConsignmentForm').find('select').val('0').trigger('change');
-                    $('#saveConsignmentForm').find('textarea').val('');
-                    $('#Domestic').prop("checked", false);
-                    $('#International').prop("checked", false);
-                    $('.supplementary_services_admin').prop("checked", false);
+                } else {
+                    $('#notifDiv').fadeIn();
+                    $('#notifDiv').css('background', 'green');
+                    $('#notifDiv').text('Consignment have been added successfully');
+                    setTimeout(() => {
+                        $('#notifDiv').fadeOut();
+                    }, 3000);
+                    //window.location.replace("/invoice/"+JSON.parse(response));
+                    window.open("/invoice/" + JSON.parse(response), '_blank');
+                    location.reload();
                 }
             },
             error: function (err) {
@@ -1082,7 +1080,6 @@ $(document).ready(function () {
 
 
 
-    
 
 });
 
@@ -1132,6 +1129,44 @@ function fetchccData() {
     setTimeout(function () {
         $('#hidden_btn_client').click();
     }, 100);
+}
+
+function fetchClients(){
+    $.ajax({
+        type: 'GET',
+        url: '/GetClientsListForConsignment',
+        success: function (response) {
+            //console.log(response);
+            clients_array = JSON.parse(response);
+            $('.body').empty();
+            $('.body').append('<table class="table table-hover dt-responsive nowrap" id="clientsListTable" style="width:100%;"><thead><tr><th>ID</th><th>Company Name</th><th>POC Name</th><th>Username</th><th>Phone#</th><th>Customer Type</th><th>Action</th></tr></thead><tbody></tbody></table>');
+            $('#clientsListTable tbody').empty();
+            var response = JSON.parse(response);
+            response.forEach(element => {
+                $('#clientsListTable tbody').append('<tr><td>' + element['id'] + '</td><td>' + element['company_name'] + '</td><td>' + element['poc_name'] + '</td><td>' + element['username'] + '</td><td>' + element['phone'] + '</td><td>' + element['customer_type'] + '</td><td><a href="consignment_booking/'+element['id']+'" class="btn btn-default btn-line">Create Consignment</a></td></tr>');
+            });
+            $('#tblLoader').hide();
+            $('.body').fadeIn();
+            $('#clientsListTable').DataTable();
+
+            var segments = location.href.split('/');
+            var id = segments[4];
+            var customer_data = clients_array.filter(x => x.id == id);
+
+            $('#shipper_name').val(customer_data[0]['company_name']);
+            $('#select_city_shipper').val(customer_data[0]['pick_up_city']);
+            // $('#shipper_area').val(customer_data[0]['company_name']);
+            $('#shipper_cell_num').val(customer_data[0]['phone']);
+            $('#shipper_land_line').val(customer_data[0]['office_num']);
+            // $('#shipper_email').val(customer_data[0]['company_name']);
+            $('#shipper_address').val(customer_data[0]['address']);
+            $('#select_customer').val(id);
+
+            $('.form-control').focus();
+
+
+        }
+    });
 }
 
 

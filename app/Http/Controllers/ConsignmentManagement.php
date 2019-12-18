@@ -34,46 +34,479 @@ class ConsignmentManagement extends ParentController
      //Admin
     public function consignment_booking(){
         parent::get_notif_data();
-         parent::VerifyRights(); if($this->redirectUrl){return redirect($this->redirectUrl);}
-         $get_city_from_pickup = DB::table('pickup_delivery')->get();
-         $cnno = "313".$this->generateRandomNumber();
-         $city_name = DB::table('pickup_delivery')->select('city_name', 'province')->orderBy('city_name','province')->get();
-        return view('consignment_booking.consignment_booking', ['check_rights' => $this->check_employee_rights, 'pickup_city' => $get_city_from_pickup, 'notifications_counts' => $this->notif_counts, 'notif_data' => $this->notif_data, 'all_notif' => $this->all_notification, 'cnno' => $cnno, 'city' => $city_name]);
+        parent::VerifyRights(); if($this->redirectUrl){return redirect($this->redirectUrl);}
+
+        return view('consignment_booking.client_for_admin_consignment', ['check_rights' => $this->check_employee_rights, 'notifications_counts' => $this->notif_counts, 'notif_data' => $this->notif_data, 'all_notif' => $this->all_notification]);
+    }
+
+    public function book_admin_consignment(){
+        parent::get_notif_data();
+        parent::VerifyRights(); if($this->redirectUrl){return redirect($this->redirectUrl);}
+        $get_city_from_pickup = DB::table('pickup_delivery')->get();
+       // $cnno = "313".$this->generateRandomNumber();
+        $city_name = DB::table('pickup_delivery')->select('city_name', 'province')->orderBy('city_name','province')->get();
+       $last_consignment = DB::table('consignment_client')->orderBy('id', 'Desc')->first();
+       $newConsignmentId = $last_consignment ? $last_consignment->id+1 : 1;
+       $cnno = '3131'.sprintf("%05s", $newConsignmentId);
+       $clients = DB::table('clients')->whereRaw('is_active = 1 AND billing_added = 1')->get();
+
+       return view('consignment_booking.consignment_booking', ['check_rights' => $this->check_employee_rights, 'pickup_city' => $get_city_from_pickup, 'notifications_counts' => $this->notif_counts, 'notif_data' => $this->notif_data, 'all_notif' => $this->all_notification, 'cnno' => $cnno, 'city' => $city_name, 'clients' => $clients]);
     }
 
     public function SaveConsignmentAdmin(Request $request){
-        $insert = DB::table('consignment_admin')->insert([
-            'booking_date' => $request->booking_date,
-            'cnic' => $request->cnic,
-            'shipper_name' => $request->shipper_name,
-            'shipper_city' => $request->select_city_shipper,
-            'shipper_area' => $request->shipper_area,
-            'shipper_cell' => $request->shipper_cell_num,
-            'shipper_land_line' => $request->shipper_land_line,
-            'shipper_email' => $request->shipper_email,
-            'shipper_address' => $request->shipper_address,
+
+        $service_type = $request->service_type;
+        $chargesCriteria = "";
+        $service_criteria = "";
+        //$test = Cookie::get('client_session');
+        $client_city = $request->select_city_shipper;
+
+        if($request->Fragile_Criteria == "For Fragile"){
+            $insurance = DB::table('billing')->select('insurance_for_fragile')->whereRaw('customer_id = '.$request->select_customer)->first();
+        }else if($request->Fragile_Criteria == "For Non Fragile"){
+            $insurance = DB::table('billing')->select('insurance_for_non_fragile')->whereRaw('customer_id = '.$request->select_customer)->first();
+        }else if($request->Fragile_Criteria == "For Electronics"){
+            $insurance = DB::table('billing')->select('insurance_for_electronics')->whereRaw('customer_id = '.$request->select_customer)->first();
+        }
+
+       
+
+        //yani service type (Second Day) aur (Over Land) nae hai
+        if($request->service_type != 3 || $request->service_type != 4){
+            if(strtolower($client_city) == strtolower($request->consignment_dest_city)){
+                //within city
+                $service_criteria = "within city";
+            }else{
+                $clientProvince = DB::table('pickup_delivery')->select('province')->whereRaw('city_name = "'.$request->select_city_shipper.'"')->first();
+                $destinationProvince = DB::table('pickup_delivery')->select('province')->where('city_name', $request->consignment_dest_city)->first();
+
+                // echo json_encode(['client'=> $clientProvince, 'dest' => $destinationProvince]);
+                // die;
+                if(strtolower($clientProvince->province) == strtolower($destinationProvince->province)){
+                    //within province
+                    $service_criteria = "within province";
+                }else{
+                    //province to province
+                    $service_criteria = "province to province";
+                }
+            }
+        }else{
+            $clientProvince = DB::table('pickup_delivery')->select('province')->whereRaw("city_name = $client_city")->first();
+            $destinationProvince = DB::table('pickup_delivery')->select('province')->where('city_name', $request->consignment_dest_city)->first();
+
+            if(strtolower($clientProvince->province) == strtolower($destinationProvince->province)){
+                //within province
+                $service_criteria = "within province";
+            }else{
+                //province to province
+                $service_criteria = "province to province";
+            }
+        }
+
+
+        $price = 0;
+        $totalPrice = 0;
+        if($request->service_type == 1){
+
+            if($request->consignment_weight <= 0.25){
+                if($service_criteria == "within city"){
+                    $price = DB::table('biling_criteria')->select('upto_025')->whereRaw('biling_id = (Select id from billing where customer_id = '.$request->select_customer.') AND type = "within city" AND criteria = 0')->first();
+                    $totalPrice = $price->upto_025;
+                   
+                    if($request->fragile_cost_hidden !== ""){
+                        $totalPrice = $totalPrice + $request->fragile_cost_hidden;
+                    }
+                }else if($service_criteria == "within province"){
+                    $price = DB::table('biling_criteria')->select('upto_025')->whereRaw('biling_id = (Select id from billing where customer_id = '.$request->select_customer.') AND type = "within province" AND criteria = 0')->first();
+                    $totalPrice = $price->upto_025;
+                    
+                    if($request->fragile_cost_hidden !== ""){
+                        $totalPrice = $totalPrice + $request->fragile_cost_hidden;
+                    }
+                }else if($service_criteria == "province to province"){
+                    $price = DB::table('biling_criteria')->select('upto_025')->whereRaw('biling_id = (Select id from billing where customer_id = '.$request->select_customer.') AND type = "province to province" AND criteria = 0')->first();
+                    $totalPrice = $price->upto_025;
+                    
+                    if($request->fragile_cost_hidden !== ""){
+                        $totalPrice = $totalPrice + $request->fragile_cost_hidden;
+                    }
+                }  
+            }else if($request->consignment_weight > 0.25 && $request->consignment_weight <= 0.50){
+                if($service_criteria == "within city"){
+                    $price = DB::table('biling_criteria')->select('upto_05')->whereRaw('biling_id = (Select id from billing where customer_id = '.$request->select_customer.') AND type = "within city" AND criteria = 0')->first();
+                    $totalPrice = $price->upto_05;
+                    
+                    if($request->fragile_cost_hidden !== ""){
+                        $totalPrice = $totalPrice + $request->fragile_cost_hidden;
+                    }
+                }else if($service_criteria == "within province"){
+                    $price = DB::table('biling_criteria')->select('upto_05')->whereRaw('biling_id = (Select id from billing where customer_id = '.$request->select_customer.') AND type = "within province" AND criteria = 0')->first();
+                    $totalPrice = $price->upto_05;
+                   
+                    if($request->fragile_cost_hidden !== ""){
+                        $totalPrice = $totalPrice + $request->fragile_cost_hidden;
+                    }
+                }else if($service_criteria == "province to province"){
+                    $price = DB::table('biling_criteria')->select('upto_05')->whereRaw('biling_id = (Select id from billing where customer_id = '.$request->select_customer.') AND type = "province to province" AND criteria = 0')->first();
+                    $totalPrice = $price->upto_05;
+                   
+                    if($request->fragile_cost_hidden !== ""){
+                        $totalPrice = $totalPrice + $request->fragile_cost_hidden;
+                    }
+                }
+            }else if($request->consignment_weight > 0.50 && $request->consignment_weight <= 1){
+                if($service_criteria == "within city"){
+                    $price = DB::table('biling_criteria')->select('zero_five_1KG')->whereRaw('biling_id = (Select id from billing where customer_id = '.$request->select_customer.') AND type = "within city" AND criteria = 0')->first();
+                    $totalPrice = $price->zero_five_1KG;
+                   
+                    if($request->fragile_cost_hidden !== ""){
+                        $totalPrice = $totalPrice + $request->fragile_cost_hidden;
+                    }
+                }else if($service_criteria == "within province"){
+                    $price = DB::table('biling_criteria')->select('zero_five_1KG')->whereRaw('biling_id = (Select id from billing where customer_id = '.$request->select_customer.') AND type = "within province" AND criteria = 0')->first();
+                    $totalPrice = $price->zero_five_1KG;
+                   
+                    if($request->fragile_cost_hidden !== ""){
+                        $totalPrice = $totalPrice + $request->fragile_cost_hidden;
+                    }
+                }else if($service_criteria == "province to province"){
+                    $price = DB::table('biling_criteria')->select('zero_five_1KG')->whereRaw('biling_id = (Select id from billing where customer_id = '.$request->select_customer.') AND type = "province to province" AND criteria = 0')->first();
+                    $totalPrice = $price->zero_five_1KG;
+                   
+                    if($request->fragile_cost_hidden !== ""){
+                        $totalPrice = $totalPrice + $request->fragile_cost_hidden;
+                    }
+                }
+                
+            }else if($request->consignment_weight > 1){
+                if($service_criteria == "within city"){
+                    $eachAdditionalPrice = DB::table('biling_criteria')->select('additionals_05')->whereRaw('biling_id = (Select id from billing where customer_id = '.$request->select_customer.') AND type = "within city" AND criteria = 0')->first();
+                    $chunks = ceil(($request->consignment_weight-1) / 0.5);
+                    $price = $chunks * $eachAdditionalPrice->additionals_05;
+                    $maxKgPrice = DB::table('biling_criteria')->select('zero_five_1KG')->whereRaw('biling_id = (Select id from billing where customer_id = '.$request->select_customer.') AND type = "within city" AND criteria = 0')->first();
+                    $totalPrice = $maxKgPrice->zero_five_1KG + $price;
+                   
+                    if($request->fragile_cost_hidden !== ""){
+                        $totalPrice = $totalPrice + $request->fragile_cost_hidden;
+                    }
+                }else if($service_criteria == "within province"){
+                    $eachAdditionalPrice = DB::table('biling_criteria')->select('additionals_05')->whereRaw('biling_id = (Select id from billing where customer_id = '.$request->select_customer.') AND type = "within province" AND criteria = 0')->first();
+                    $chunks = ceil(($request->consignment_weight-1) / 0.5);
+                    $price = $chunks * $eachAdditionalPrice->additionals_05;
+                    $maxKgPrice = DB::table('biling_criteria')->select('zero_five_1KG')->whereRaw('biling_id = (Select id from billing where customer_id = '.$request->select_customer.') AND type = "within province" AND criteria = 0')->first();
+                    $totalPrice = $maxKgPrice->zero_five_1KG + $price;
+                   
+                    if($request->fragile_cost_hidden !== ""){
+                        $totalPrice = $totalPrice + $request->fragile_cost_hidden;
+                    }
+                }else if($service_criteria == "province to province"){
+                   // $test = Cookie::get('client_session');
+                    $eachAdditionalPrice = DB::table('biling_criteria')->select('additionals_05')->whereRaw('biling_id = (Select id from billing where customer_id = '.$request->select_customer.') AND type = "province to province" AND criteria = 0')->first();
+                    $chunks = ceil(($request->consignment_weight-1) / 0.5);
+                    $price = $chunks * $eachAdditionalPrice->additionals_05;
+                    $abc = "" ;
+                    $maxKgPrice = DB::table('biling_criteria')->select('zero_five_1KG')->whereRaw('biling_id = (Select id from billing where customer_id = '.$request->select_customer.') AND type = "province to province" AND criteria = 0')->first();
+                    $totalPrice = $maxKgPrice->zero_five_1KG + $price;
+                    if($request->fragile_cost_hidden !== ""){
+                        $totalPrice = $totalPrice + $request->fragile_cost_hidden;
+                    }
+                   
+                }
+                
+                
+            }
+
+        }else if($request->service_type == 2){
+            if($request->consignment_weight <= 0.25){
+                if($service_criteria == "within city"){
+                    $price = DB::table('biling_criteria')->select('upto_025')->whereRaw('biling_id = (Select id from billing where customer_id = '.$request->select_customer.') AND type = "within city" AND criteria = 1')->first();
+                    $totalPrice = $price->upto_025;
+                   
+                    if($request->fragile_cost_hidden !== ""){
+                        $totalPrice = $totalPrice + $request->fragile_cost_hidden;
+                    }
+                }else if($service_criteria == "within province"){
+                    $price = DB::table('biling_criteria')->select('upto_025')->whereRaw('biling_id = (Select id from billing where customer_id = '.$request->select_customer.') AND type = "within province" AND criteria = 1')->first();
+                    $totalPrice = $price->upto_025;
+                    
+                    if($request->fragile_cost_hidden !== ""){
+                        $totalPrice = $totalPrice + $request->fragile_cost_hidden;
+                    }
+                }else if($service_criteria == "province to province"){
+                    $price = DB::table('biling_criteria')->select('upto_025')->whereRaw('biling_id = (Select id from billing where customer_id = '.$request->select_customer.') AND type = "province to province" AND criteria = 1')->first();
+                    $totalPrice = $price->upto_025;
+                   
+                    if($request->fragile_cost_hidden !== ""){
+                        $totalPrice = $totalPrice + $request->fragile_cost_hidden;
+                    }
+                }
+            }else if($request->consignment_weight > 0.25 && $request->consignment_weight <= 0.50){
+                if($service_criteria == "within city"){
+                    $price = DB::table('biling_criteria')->select('upto_05')->whereRaw('biling_id = (Select id from billing where customer_id = '.$request->select_customer.') AND type = "within city" AND criteria = 1')->first();
+                    $totalPrice = $price->upto_05;
+                   
+                    if($request->fragile_cost_hidden !== ""){
+                        $totalPrice = $totalPrice + $request->fragile_cost_hidden;
+                    }
+                }else if($service_criteria == "within province"){
+                    $price = DB::table('biling_criteria')->select('upto_05')->whereRaw('biling_id = (Select id from billing where customer_id = '.$request->select_customer.') AND type = "within province" AND criteria = 1')->first();
+                    $totalPrice = $price->upto_05;
+                   
+                    if($request->fragile_cost_hidden !== ""){
+                        $totalPrice = $totalPrice + $request->fragile_cost_hidden;
+                    }
+                }else if($service_criteria == "province to province"){
+                    $price = DB::table('biling_criteria')->select('upto_05')->whereRaw('biling_id = (Select id from billing where customer_id = '.$request->select_customer.') AND type = "province to province" AND criteria = 1')->first();
+                    $totalPrice = $price->upto_05;
+                   
+                    if($request->fragile_cost_hidden !== ""){
+                        $totalPrice = $totalPrice + $request->fragile_cost_hidden;
+                    }
+                }
+            }else if($request->consignment_weight > 0.50 && $request->consignment_weight <= 1){
+                if($service_criteria == "within city"){
+                    $price = DB::table('biling_criteria')->select('zero_five_1KG')->whereRaw('biling_id = (Select id from billing where customer_id = '.$request->select_customer.') AND type = "within city" AND criteria = 1')->first();
+                    $totalPrice = $price->zero_five_1KG;
+                   
+                    if($request->fragile_cost_hidden !== ""){
+                        $totalPrice = $totalPrice + $request->fragile_cost_hidden;
+                    }
+                }else if($service_criteria == "within province"){
+                    $price = DB::table('biling_criteria')->select('zero_five_1KG')->whereRaw('biling_id = (Select id from billing where customer_id = '.$request->select_customer.') AND type = "within province" AND criteria = 1')->first();
+                    $totalPrice = $price->zero_five_1KG;
+                    $totalPrice = $price->zero_five_1KG;
+                   
+                    if($request->fragile_cost_hidden !== ""){
+                        $totalPrice = $totalPrice + $request->fragile_cost_hidden;
+                    }
+                }else if($service_criteria == "province to province"){
+                    $price = DB::table('biling_criteria')->select('zero_five_1KG')->whereRaw('biling_id = (Select id from billing where customer_id = '.$request->select_customer.') AND type = "province to province" AND criteria = 1')->first();
+                    $totalPrice = $price->zero_five_1KG;
+                   
+                    if($request->fragile_cost_hidden !== ""){
+                        $totalPrice = $totalPrice + $request->fragile_cost_hidden;
+                    }
+                }
+                
+            }else if($request->consignment_weight > 1){
+                if($service_criteria == "within city"){
+                    $eachAdditionalPrice = DB::table('biling_criteria')->select('additionals_05')->whereRaw('biling_id = (Select id from billing where customer_id = '.$request->select_customer.') AND type = "within city" AND criteria = 1')->first();
+                    $chunks = ceil(($request->consignment_weight-1) / 0.5);
+                    $price = $chunks * $eachAdditionalPrice->additionals_05;
+                    $maxKgPrice = DB::table('biling_criteria')->select('zero_five_1KG')->whereRaw('biling_id = (Select id from billing where customer_id = '.$request->select_customer.') AND type = "within city" AND criteria = 1')->first();
+                    $totalPrice = $maxKgPrice->zero_five_1KG + $price;
+                   
+                    if($request->fragile_cost_hidden !== ""){
+                        $totalPrice = $totalPrice + $request->fragile_cost_hidden;
+                    }
+                }else if($service_criteria == "within province"){
+                    $eachAdditionalPrice = DB::table('biling_criteria')->select('additionals_05')->whereRaw('biling_id = (Select id from billing where customer_id = '.$request->select_customer.') AND type = "within province" AND criteria = 1')->first();
+                    $chunks = ceil(($request->consignment_weight-1) / 0.5);
+                    $price = $chunks * $eachAdditionalPrice->additionals_05;
+                    $maxKgPrice = DB::table('biling_criteria')->select('zero_five_1KG')->whereRaw('biling_id = (Select id from billing where customer_id = '.$request->select_customer.') AND type = "within province" AND criteria = 1')->first();
+                    $totalPrice = $maxKgPrice->zero_five_1KG + $price;
+                   
+                    if($request->fragile_cost_hidden !== ""){
+                        $totalPrice = $totalPrice + $request->fragile_cost_hidden;
+                    }
+                }else if($service_criteria == "province to province"){
+                    $eachAdditionalPrice = DB::table('biling_criteria')->select('additionals_05')->whereRaw('biling_id = (Select id from billing where customer_id = '.$request->select_customer.') AND type = "province to province" AND criteria = 1')->first();
+                    $chunks = ceil(($request->consignment_weight-1) / 0.5);
+                    $price = $chunks * $eachAdditionalPrice->additionals_05;
+                    $maxKgPrice = DB::table('biling_criteria')->select('zero_five_1KG')->whereRaw('biling_id = (Select id from billing where customer_id = '.$request->select_customer.') AND type = "province to province" AND criteria = 1')->first();
+                    $totalPrice = $maxKgPrice->zero_five_1KG + $price;
+                    
+                    if($request->fragile_cost_hidden !== ""){
+                        $totalPrice = $totalPrice + $request->fragile_cost_hidden;
+                    }
+                }
+                
+                
+            }
+        }else if($request->service_type == 3){
+            if($request->consignment_weight <= 3){
+                if($service_criteria == "within province"){
+                    $price = DB::table('biling_criteria')->select('upto_3KG')->whereRaw('biling_id = (Select id from billing where customer_id = '.$request->select_customer.') AND type = "within province" AND criteria = 2')->first();
+                    $totalPrice = $price->upto_3KG;
+                   
+                    if($request->fragile_cost_hidden !== ""){
+                        $totalPrice = $totalPrice + $request->fragile_cost_hidden;
+                    }
+                }else if($service_criteria == "province to province"){
+                    $price = DB::table('biling_criteria')->select('upto_3KG')->whereRaw('biling_id = (Select id from billing where customer_id = '.$request->select_customer.') AND type = "province to province" AND criteria = 2')->first();
+                    $totalPrice = $price->upto_3KG;
+                   
+                    if($request->fragile_cost_hidden !== ""){
+                        $totalPrice = $totalPrice + $request->fragile_cost_hidden;
+                    }
+                }
+            }else if($request->consignment_weight > 3){
+                if($service_criteria == "within province"){
+                    $eachAdditionalPrice = DB::table('biling_criteria')->select('additional_1KG')->whereRaw('biling_id = (Select id from billing where customer_id = '.$request->select_customer.') AND type = "within province" AND criteria = 2')->first();
+                    $chunks = ceil(($request->consignment_weight-3) / 1);
+                    $price = $chunks * $eachAdditionalPrice->additional_1KG;
+                    $maxKgPrice = DB::table('biling_criteria')->select('upto_3KG')->whereRaw('biling_id = (Select id from billing where customer_id = '.$request->select_customer.') AND type = "within province" AND criteria = 2')->first();
+                    $totalPrice = $maxKgPrice->upto_3KG + $price;
+                   
+                    if($request->fragile_cost_hidden !== ""){
+                        $totalPrice = $totalPrice + $request->fragile_cost_hidden;
+                    }
+                }else if($service_criteria == "province to province"){
+                    $eachAdditionalPrice = DB::table('biling_criteria')->select('additional_1KG')->whereRaw('biling_id = (Select id from billing where customer_id = '.$request->select_customer.') AND type = "province to province" AND criteria = 2')->first();
+                    $chunks = ceil(($request->consignment_weight-3) / 1);
+                    $price = $chunks * $eachAdditionalPrice->additional_1KG;
+                    $maxKgPrice = DB::table('biling_criteria')->select('upto_3KG')->whereRaw('biling_id = (Select id from billing where customer_id = '.$request->select_customer.') AND type = "province to province" AND criteria = 2')->first();
+                    $totalPrice = $maxKgPrice->upto_3KG + $price;
+                   
+                    if($request->fragile_cost_hidden !== ""){
+                        $totalPrice = $totalPrice + $request->fragile_cost_hidden;
+                    }
+                }
+            }
+        }else{
+            if($request->consignment_weight <= 10){
+                if($service_criteria == "within province"){
+                    $price = DB::table('biling_criteria')->select('upto_10KG')->whereRaw('biling_id = (Select id from billing where customer_id = '.$request->select_customer.') AND type = "within province" AND criteria = 3')->first();
+                    $totalPrice = $price->upto_10KG;
+                   
+                    if($request->fragile_cost_hidden !== ""){
+                        $totalPrice = $totalPrice + $request->fragile_cost_hidden;
+                    }
+                }else if($service_criteria == "province to province"){
+                    $price = DB::table('biling_criteria')->select('upto_10KG')->whereRaw('biling_id = (Select id from billing where customer_id = '.$request->select_customer.') AND type = "province to province" AND criteria = 3')->first();
+                    $totalPrice = $price->upto_10KG;
+                   
+                    if($request->fragile_cost_hidden !== ""){
+                        $totalPrice = $totalPrice + $request->fragile_cost_hidden;
+                    }
+                }
+            }else if($request->consignment_weight > 10){
+                if($service_criteria == "within province"){
+                    $eachAdditionalPrice = DB::table('biling_criteria')->select('additional_1KG')->whereRaw('biling_id = (Select id from billing where customer_id = '.$request->select_customer.') AND type = "within province" AND criteria = 3')->first();
+                    $chunks = ceil(($request->consignment_weight-10) / 1);
+                    $price = $chunks * $eachAdditionalPrice->additional_1KG;
+                    $maxKgPrice = DB::table('biling_criteria')->select('upto_3KG')->whereRaw('biling_id = (Select id from billing where customer_id = '.$request->select_customer.') AND type = "within province" AND criteria = 3')->first();
+                    $totalPrice = $maxKgPrice->upto_3KG + $price;
+                   
+                    if($request->fragile_cost_hidden !== ""){
+                        $totalPrice = $totalPrice + $request->fragile_cost_hidden;
+                    }
+                }else if($service_criteria == "province to province"){
+                    $eachAdditionalPrice = DB::table('biling_criteria')->select('additionals_05')->whereRaw('biling_id = (Select id from billing where customer_id = '.$request->select_customer.') AND type = "province to province" AND criteria = 3')->first();
+                    $chunks = ceil(($request->consignment_weight-10) / 0.5);
+                    $price = $chunks * $eachAdditionalPrice->additionals_05;
+                    $maxKgPrice = DB::table('biling_criteria')->select('upto_3KG')->whereRaw('biling_id = (Select id from billing where customer_id = '.$request->select_customer.') AND type = "province to province" AND criteria = 3')->first();
+                    $totalPrice = $maxKgPrice->upto_3KG + $price;
+                   
+                    if($request->fragile_cost_hidden !== ""){
+                        $totalPrice = $totalPrice + $request->fragile_cost_hidden;
+                    }
+                }
+            }
+        }
+
+        if($request->product_price != ""){
+            if($request->Fragile_Criteria == "For Fragile"){
+                $totalPrice =$totalPrice + (($insurance->insurance_for_fragile / 100) * $request->product_price);
+            }else if($request->Fragile_Criteria == "For Non Fragile"){
+                $totalPrice =$totalPrice + (($insurance->insurance_for_non_fragile / 100) * $request->product_price);
+            }else if($request->Fragile_Criteria == "For Electronics"){
+                $totalPrice = $totalPrice + (($insurance->insurance_for_electronics / 100) * $request->product_price);
+            }
+        }
+       
+
+        if($request->hidden_supplementary_services != ""){
+            $suplementary_services =  explode(',', $request->hidden_supplementary_services);
+            foreach ($suplementary_services as $services) {
+                if($services == "Holiday"){
+                    $supplementary_values = DB::table('billing')->select('holiday')->whereRaw('customer_id = '.$request->select_customer.'')->first();
+                    $totalPrice += $supplementary_values->holiday;
+                }else if($services == "Special Handling"){
+                    $supplementary_values = DB::table('billing')->select('special_handling')->whereRaw('customer_id = '.$request->select_customer.'')->first();
+                    $totalPrice += $supplementary_values->special_handling;
+                }else if($services == "Time Specified"){
+                    $supplementary_values = DB::table('billing')->select('time_specified')->whereRaw('customer_id = '.$request->select_customer.'')->first();
+                    $totalPrice += $supplementary_values->time_specified;
+                }else{
+                    $supplementary_values = DB::table('billing')->select('passport')->whereRaw('customer_id = '.$request->select_customer.'')->first();
+                    $totalPrice += $supplementary_values->passport;
+                }
+                
+            }
+
+        }
+
+        $gst_fuel = DB::table('billing')->select('tax', 'fuel_charges')->whereRaw('customer_id = '.$request->select_customer.'')->first();
+        $sub_total = $totalPrice;
+
+        if($gst_fuel->tax != "" || $gst_fuel->fuel_charges != ""){
+            $totalPrice = $totalPrice + (($gst_fuel->tax / 100) * $sub_total);
+
+            $price_for_fuel = ($gst_fuel->fuel_charges / 100) * $sub_total;
+            $price_for_tax = ($gst_fuel->tax / 100) * ($sub_total + $price_for_fuel);
+
+            $totalPrice = $totalPrice + (($gst_fuel->fuel_charges / 100) * $totalPrice);
+
+            
+        }
+        
+        $last_consignment = DB::table('consignment_client')->orderBy('id', 'Desc')->first();
+        
+        $newConsignmentId = $last_consignment ? $last_consignment->id+1 : 1;
+       
+        $cnno = '3131'.sprintf("%05s", $newConsignmentId);
+
+        $insert = DB::table('consignment_client')->insertGetId(
+            ['booking_date' => $request->booking_date, 
+            'cnic' => $cnno,
+            'customer_id' => $request->select_customer,
+            'origin_city' => $request->select_city_shipper, 
             'consignee_name' => $request->consignee_name,
-            'consignee_ref_num' => $request->consignee_ref_num,
+            'consignee_ref' => $request->consignee_ref_num,
             'consignee_cell' => $request->consignee_cell_num,
             'consignee_email' => $request->consignee_email,
             'consignee_address' => $request->consignee_address,
-            'consignment_city' => $request->consignment_regin_city,
+            'consignment_type' => $request->consignment_type,
+            'fragile_cost' => $request->fragile_cost_hidden,
             'consignment_service_type' => $request->service_type,
             'consignment_pieces' => $request->consignment_pieces,
             'consignment_weight' => $request->consignment_weight,
             'consignment_description' => $request->consignment_description,
-            'consignment_price' => $request->consignment_price,
-            'consignment_destination' => $request->inlineRadioOptions,
+            'fragile_criteria' => $request->Fragile_Criteria,
+            //'add_insurance' => $request->inlineRadioOptions,
+            'product_price' => $request->product_price,
             'consignment_dest_city' => $request->consignment_dest_city,
-            'consignment_remarks' => $request->description,
+            'remarks' => $request->description,
             'supplementary_services' => $request->hidden_supplementary_services,
+            'sub_total' => ROUND($sub_total, 2),
+            'fuel_charge' => ROUND($price_for_fuel, 2),
+            'gst_charge' => ROUND($price_for_tax, 2),
+            'total_price' => ROUND($totalPrice, 2),
             'created_at' => date('Y-m-d H:i:s')
         ]);
+
+       
+
+       
         if($insert){
-            echo json_encode('success');
+            //echo json_encode(round($totalPrice));
+            $insert_notification = DB::table('notifications_list')->insert([
+                'code' => 101,
+                'message' => 'New consignment added',
+                'consignment_id' => $insert,
+                'created_at' => date('Y-m-d H:i:s')
+            ]);
+
+            if($insert_notification){
+                echo json_encode($cnno);
+            }else{
+                echo json_encode('failed');
+            }
         }else{
             echo json_encode('failed');
         }
+
     }
 
 
@@ -84,23 +517,25 @@ class ConsignmentManagement extends ParentController
         if(!$check_session){
             return redirect('/cout');
         }else{
-            //echo $this->generateRandomNumber(); die;
-            $cnno = "313".$this->generateRandomNumber();
+            //$cnno = "313".$this->generateRandomNumber();
             $test = Cookie::get('client_session');
             $client_id = DB::table('clients')->select('id')->whereRaw('client_login_session = "'.Cookie::get('client_session').'"')->first();
             $check = DB::table('billing')->select('id')->whereRaw('customer_id = (Select id from clients where client_login_session = "'.Cookie::get('client_session').'")')->first();
             $get_city_from_pickup = DB::table('pickup_delivery')->get();
             $city_name = DB::table('pickup_delivery')->select('city_name', 'province')->orderBy('city_name','province')->get();
-            $check_cnno = DB::table('consignment_client')->selectRaw('id, (Select id from consignment_admin where cnic = "'.$cnno.'")')->where('cnic', $cnno)->first();
-            if($check_cnno){
-                return redirect('/consignment_booking_client');
-            }else{
+            $last_consignment = DB::table('consignment_client')->orderBy('id', 'Desc')->first();
+            $newConsignmentId = $last_consignment ? $last_consignment->id+1 : 1;
+            $cnno = '3131'.sprintf("%05s", $newConsignmentId);
+            //$check_cnno = DB::table('consignment_client')->selectRaw('id, (Select id from consignment_admin where cnic = "'.$cnno.'")')->where('cnic', $cnno)->first();
+            // if($check_cnno){
+            //     return redirect('/consignment_booking_client');
+            // }else{
                 if($check){
                     return view('consignment_booking.consignment_booking_client', ['client_id' => $client_id->id, 'check_rights' => $this->check_employee_rights, 'pickup_city' => $get_city_from_pickup, 'name' => $check_session, 'cnno' => $cnno, 'notifications_counts' => $this->notif_counts_client, 'notif_data' => $this->notif_data_client, 'all_notif' => $this->clients_all_notifications, 'city' => $city_name]);
                 }else{
                     return redirect('/');
                 }
-            }
+           // }
             
         }  
     }
@@ -514,11 +949,16 @@ class ConsignmentManagement extends ParentController
         }
         // echo json_encode(round($totalPrice));
         
+        $last_consignment = DB::table('consignment_client')->orderBy('id', 'Desc')->first();
+       
+        $newConsignmentId = $last_consignment ? $last_consignment->id+1 : 1;
+        $cnno = '3131'.sprintf("%05s", $newConsignmentId);
 
         // die;
         $save_consignment_client = DB::table('consignment_client')->insertGetId(
             ['booking_date' => $request->datepicker, 
-            'cnic' => $request->cnic_client, 
+           // 'cnic' => $request->cnic_client, 
+            'cnic' => $cnno,
             'customer_id' => $request->customer_id_client,
             'origin_city' => $request->region_client, 
             'consignee_name' => $request->consignee_name_client,
@@ -543,44 +983,69 @@ class ConsignmentManagement extends ParentController
             'gst_charge' => ROUND($price_for_tax, 2),
             'total_price' => ROUND($totalPrice, 2),
             'created_at' => date('Y-m-d H:i:s')
+        ]);
+        if($save_consignment_client){
+            //echo json_encode(round($totalPrice));
+            $insert_notification = DB::table('notifications_list')->insert([
+                'code' => 101,
+                'message' => 'New consignment added',
+                'consignment_id' => $save_consignment_client,
+                'created_at' => date('Y-m-d H:i:s')
             ]);
-            if($save_consignment_client){
-                //echo json_encode(round($totalPrice));
-                $insert_notification = DB::table('notifications_list')->insert([
-                    'code' => 101,
-                    'message' => 'New consignment added',
-                    'consignment_id' => $save_consignment_client,
-                    'created_at' => date('Y-m-d H:i:s')
-                ]);
-                
-                // $get_email_addresses = DB::table('users')->select('email')->whereRaw('id IN (Select emp_id from subscribed_notifications WHERE email = 1 AND notification_code_id = 101)')->get();
-               
-                // if(!$get_email_addresses->isEmpty()){
-                //     foreach($get_email_addresses as $email){
-                //         $name = 'Krunal';
-                //          Mail::to($email->email)->send(new SendMailable($name));
-                //     }
-                // }
+            
+            // $get_email_addresses = DB::table('users')->select('email')->whereRaw('id IN (Select emp_id from subscribed_notifications WHERE email = 1 AND notification_code_id = 101)')->get();
+            
+            // if(!$get_email_addresses->isEmpty()){
+            //     foreach($get_email_addresses as $email){
+            //         $name = 'Krunal';
+            //          Mail::to($email->email)->send(new SendMailable($name));
+            //     }
+            // }
 
-                if($insert_notification){
-                    echo json_encode($request->cnic_client);
+            if($insert_notification){
+                echo json_encode($request->cnic_client);
 
-                    ///echo json_encode(array('total_price'=> ROUND($totalPrice, 2), 'sub_price' => ROUND($sub_total, 2), 'fuel_price' => Round($price_for_fuel,2), 'tax_price' => ROUND($price_for_tax, 2)));
-                    //return redirect('/invoice/"'.$request->cnic_client.'"');
-                }else{
-                    echo json_encode('failed');
-                }
+                ///echo json_encode(array('total_price'=> ROUND($totalPrice, 2), 'sub_price' => ROUND($sub_total, 2), 'fuel_price' => Round($price_for_fuel,2), 'tax_price' => ROUND($price_for_tax, 2)));
+                //return redirect('/invoice/"'.$request->cnic_client.'"');
             }else{
                 echo json_encode('failed');
             }
+        }else{
+            echo json_encode('failed');
+        }
     }
 
     public function invoice($id){
-        $check_session = DB::table('clients')->select('id', 'username', 'company_pic')->where('client_login_session', Cookie::get('client_session'))->first();
-        if(!$check_session){
-            return redirect('/cout');
+        //echo Cookie::get('client_session'); die;
+        $test = '';
+        if(!Cookie::get('client_session')){
+            $consignment = DB::table('consignment_client as cc')->selectRaw('id, origin_city, booking_date, cnic, consignee_ref, consignee_cell, consignee_address, consignee_name, remarks, customer_id, consignment_description, consignment_weight, fragile_cost, consignment_dest_city, consignment_service_type, consignment_pieces, supplementary_services, TIME(created_at) as time, (Select company_name from clients where id = cc.customer_id) as shipper_name, (Select address from clients where id = cc.customer_id) as shipper_address')->where('cnic', $id)->first();
+            if($consignment){
+               if($consignment->supplementary_services == null || $consignment->supplementary_services == ''){
+                    $supplementary_charges = 0;
+               }else{
+                    $suplementary_services = explode(',', $consignment->supplementary_services);
+                    $supplementary_charges = 0;
+                    $billing = DB::table('billing')->where('customer_id', $consignment->customer_id)->first();
+                    foreach($suplementary_services as $services){
+                        if($services == 'Special Handling'){
+                            $supplementary_charges += $billing->special_handling;
+                        }else if($services == 'Holiday'){
+                            $supplementary_charges += $billing->holiday;
+                        }else if($services == 'Time Specified'){
+                            $supplementary_charges += $billing->time_specified;
+                        }else{
+                            $supplementary_charges += $billing->passport;
+                        }
+                    }
+               }
+                return view('invoices.invoice', ['data' => $consignment, 'check_rights' => $this->check_employee_rights, 'notifications_counts' => $this->notif_counts, 'notif_data' => $this->notif_data, 'all_notif' => $this->all_notification, 'supplementary_charges' => $supplementary_charges]);
+            }else{
+                return redirect('/consignment_booking_client');
+            }
         }else{
             parent::get_client_nofif_data();
+            $check_session = DB::table('clients')->select('id', 'username', 'company_pic')->where('client_login_session', Cookie::get('client_session'))->first();
 
             $client_consignment = DB::table('consignment_client as cc')->selectRaw('id, origin_city, booking_date, cnic, consignee_ref, consignee_cell, consignee_address, consignee_name, remarks, customer_id, consignment_description, consignment_weight, fragile_cost, consignment_dest_city, consignment_service_type, consignment_pieces, supplementary_services, TIME(created_at) as time, (Select company_name from clients where id = cc.customer_id) as shipper_name, (Select address from clients where id = cc.customer_id) as shipper_address')->where('cnic', $id)->first();
             if($client_consignment){
@@ -1263,7 +1728,7 @@ class ConsignmentManagement extends ParentController
                 return redirect('/cout');
             }else{
                 parent::get_client_nofif_data();
-                $cnno_data = DB::table('consignment_client as cc')->selectRaw('id, cnic, consignee_name, booking_date, status, customer_id, consignment_dest_city, (Select company_name from clients where id = cc.customer_id) as company_name, (Select username from clients where id = cc.customer_id) as username, (Select city from clients where id = cc.customer_id) as city, (Select status from status_log where cnno = "'.$id.'" ORDER BY id DESC LIMIT 1) as current_status, (Select Date(created_at) from status_log where cnno = "'.$id.'" ORDER BY id DESC LIMIT 1) as status_date')->where('cnic', $id)->first();
+                $cnno_data = DB::table('consignment_client as cc')->selectRaw('id, cnic, consignee_name, booking_date, status, customer_id, consignment_dest_city, (Select company_name from clients where id = cc.customer_id) as company_name, (Select username from clients where id = cc.customer_id) as username, origin_city as city, (Select status from status_log where cnno = "'.$id.'" ORDER BY id DESC LIMIT 1) as current_status, (Select Date(created_at) from status_log where cnno = "'.$id.'" ORDER BY id DESC LIMIT 1) as status_date')->where('cnic', $id)->first();
         
             // echo "<pre>"; print_r($cnno_data); die;
                 
@@ -1284,7 +1749,7 @@ class ConsignmentManagement extends ParentController
             if($this->redirectUrl){
                 return redirect($this->redirectUrl);
             }
-            $cnno_data = DB::table('consignment_client as cc')->selectRaw('id, cnic, consignee_name, booking_date, status, customer_id, consignment_dest_city, (Select company_name from clients where id = cc.customer_id) as company_name, (Select username from clients where id = cc.customer_id) as username, (Select city from clients where id = cc.customer_id) as city, (Select status from status_log where cnno = "'.$id.'" ORDER BY id DESC LIMIT 1) as current_status, (Select Date(created_at) from status_log where cnno = "'.$id.'" ORDER BY id DESC LIMIT 1) as status_date')->where('cnic', $id)->first();
+            $cnno_data = DB::table('consignment_client as cc')->selectRaw('id, cnic, consignee_name, booking_date, status, customer_id, consignment_dest_city, (Select company_name from clients where id = cc.customer_id) as company_name, (Select username from clients where id = cc.customer_id) as username, origin_city as city, (Select status from status_log where cnno = "'.$id.'" ORDER BY id DESC LIMIT 1) as current_status, (Select Date(created_at) from status_log where cnno = "'.$id.'" ORDER BY id DESC LIMIT 1) as status_date')->where('cnic', $id)->first();
     
            // echo "<pre>"; print_r($cnno_data); die;
             
@@ -1321,6 +1786,7 @@ class ConsignmentManagement extends ParentController
             
         }else{
             $core_data = DB::table('consignment_client as cc')->selectRaw('id, cnic, consignee_name, booking_date, status, customer_id, consignment_dest_city, (Select company_name from clients where id = cc.customer_id) as company_name, (Select username from clients where id = cc.customer_id) as username, (Select city from clients where id = cc.customer_id) as city, (Select status from status_log where cnno = "'.$request->id.'" ORDER BY id DESC LIMIT 1) as current_status, (Select Date(created_at) from status_log where cnno = "'.$request->id.'" ORDER BY id DESC LIMIT 1) as status_date')->where('cnic', $request->id)->first();
+           
         
             $statuses = DB::table('status_log as sl')->selectRaw('DATE(created_at) as date, status, remarks, created_by, (Select name from users where id = sl.created_by) as created_by')->where('cnno', $request->id)->get();
             
@@ -1553,6 +2019,10 @@ class ConsignmentManagement extends ParentController
     //Get Client Consignment Data
     public function GetCCData(Request $request){
         echo json_encode(DB::table('consignment_client')->where('cnic', $request->id)->first());
+    }
+
+    public function GetClientsListForConsignment(){
+        echo json_encode(DB::table('clients')->whereRaw('is_active = 1 AND billing_added = 1')->get());
     }
 
     function generateRandomNumber($length = 8) {

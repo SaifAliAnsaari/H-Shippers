@@ -7,7 +7,7 @@
 
         <div class="card cp-stats yb_border">
             <div class="cp-stats-icon"><img src="images/_p-consignment.svg" alt=""></div>
-            <h3 class="cp-stats-value">{{ array_sum(array_column($top_data, "total_consignments")) }} </h3>
+            <h3 class="cp-stats-value">{{ number_format(array_sum(array_column($top_data, "total_consignments"))) }} </h3>
             <h5 class="text-muted">Total Booked Consignment</h5>
         </div>
 
@@ -36,7 +36,7 @@
 
         <div class="card cp-stats bb_border">
             <div class="cp-stats-icon"><img src="images/_am-consignment.svg" alt=""></div>
-            <h3 class="cp-stats-value">{{ array_sum(array_column($top_data, "total_amount")) }}</h3>
+            <h3 class="cp-stats-value">{{ number_format(array_sum(array_column($top_data, "total_amount"))) }}</h3>
             <h5 class="text-muted">Total Amount</h5>
         </div>
 
@@ -75,7 +75,7 @@
                                 <td>{{ $item->name }}</td>
                                 <td>{{ $item->invoice_num }}</td>
                                 <td>{{ $item->consignments }}</td>
-                                <td>{{ $item->invoice_total_price }}</td>
+                                <td>{{ number_format($item->invoice_total_price) }}</td>
                                 <td>{{ $item->amount_received }} </td>
                                 <td> {{ number_format($item->invoice_total_price - $item->amount_received) }} </td>
                                 <td>

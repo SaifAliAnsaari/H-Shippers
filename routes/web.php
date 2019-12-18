@@ -24,6 +24,8 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/GetCustomersList', 'Customer@CustomersList');
 Route::get('/GetClientsList', 'Clients@ClientsList');
 
+Route::get('/GetClientsListForConsignment', 'ConsignmentManagement@GetClientsListForConsignment');
+
 Route::get('/EmployeesList', 'Auth\RegisterController@EmployeesList');
 Route::post('/UploadUserImage', 'Auth\RegisterController@UploadUserImage');
 Route::get('/Employee/{id}', 'Employee@GetEmployeeInfo');
@@ -46,6 +48,7 @@ Route::get('/pick_up_and_delivery', 'OrganizationManagement@manage_pickUp_delive
 Route::get('/billing/{id}', 'ManageBilling@billing');
 Route::get('/select_customer', 'ClientsForBilling@select_customer');
 Route::get('/consignment_booking', 'ConsignmentManagement@consignment_booking');
+Route::get('/consignment_booking/{id}', 'ConsignmentManagement@book_admin_consignment');
 Route::get('/consignment_booking_client', 'ConsignmentManagement@consignment_booking_client');
 Route::get('/consignment_booked', 'ConsignmentManagement@consignment_booked');
 Route::get('/pending_consignments', 'ConsignmentManagement@pending_consignments');

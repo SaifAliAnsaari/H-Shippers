@@ -36,7 +36,7 @@
 
         <div class="card cp-stats bb_border">
             <div class="cp-stats-icon"><img src="images/_am-consignment.svg" alt=""></div>
-            <h3 class="cp-stats-value">{{ CEIL(array_sum(array_column($data, "total_price"))) }}</h3>
+            <h3 class="cp-stats-value">{{ number_format(CEIL(array_sum(array_column($data, "total_price")))) }}</h3>
             <h5 class="text-muted">Total Amount</h5>
         </div>
 
@@ -68,7 +68,7 @@
                             <td>{{ $item["month_name"] }}</td>
                             <td>{{ $item["customer_name"] }}</td>
                             <td>{{ $item["total_consignments"] }}</td>
-                            <td>{{ CEIL($item["total_price"]) }}</td>
+                            <td>{{ number_format(CEIL($item["total_price"])) }}</td>
                             <td>
                                 <input type="text" id="invStat" value=" {{ json_encode( ['customer_id' => $item['customer_id'], 'month' => $item['month'] ] ) }} " hidden>
                             <a href="/invoices_generate_detail/{{ $item['customer_id'] }}/{{ $item['month'] }}" class="btn btn-default">View Detail</a>
