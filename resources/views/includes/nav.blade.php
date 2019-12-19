@@ -26,16 +26,19 @@
                 <div class="dropdown-menu dropdown-menu-right Qlinks" aria-labelledby="Qlinks" style="height:auto; padding-bottom:10px;">
                 <h4 class="notiF-title">Quick Actions</h4>
                 @if(in_array("/consignment_booking", $test_array))
-                    <a href="/consignment_booking"><img src="{{ URL::to('/images/graph.svg') }}" alt=""> Add New Consignment</a>
+                    <a href="/consignment_booking"><img src="{{ URL::to('/images/add-new-consignment.svg') }}" alt=""> Add New Consignment</a>
                 @endif
                 @if(in_array("/pending_consignments", $test_array))
-                    <a href="/pending_consignments"><img src="{{ URL::to('/images/add-report.svg') }}" alt=""> Booked Consignments</a>
+                    <a href="/pending_consignments"><img src="{{ URL::to('/images/book-consignment.svg') }}" alt=""> Booked Consignments</a>
                 @endif
                 @if(in_array("/invoices_generate", $test_array))
-                    <a href="/invoices_generate"><img src="{{ URL::to('/images/employee-list.svg') }}" alt=""> Generate Invoice</a>
+                    <a href="/invoices_generate"><img src="{{ URL::to('/images/invoices-g.svg') }}" alt=""> Generate Invoice</a>
                 @endif
                 @if(in_array("/paid_invoices", $test_array))
-                    <a href="/paid_invoices"><img src="{{ URL::to('/images/customer-list.svg') }}" alt=""> Paid Invoices</a>
+                    <a href="/paid_invoices"><img src="{{ URL::to('/images/paid-inv.svg') }}" alt=""> Paid Invoices</a>
+                @endif
+                @if(in_array("/register", $test_array))
+                    <a href="/register"><img src="{{ URL::to('/images/add-employee.svg') }}" alt=""> Add Employee</a>
                 @endif
                 </div>
             </li>

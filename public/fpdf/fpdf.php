@@ -288,11 +288,15 @@ function Close()
 	$this->_enddoc();
 }
 
-function AddPage($orientation='', $size='', $rotation=0)
+public $summary;
+
+function AddPage($orientation='', $size='', $rotation=0, $summary=false)
 {
 	// Start a new page
 	if($this->state==3)
 		$this->Error('The document is closed');
+
+	$this->summary = $summary;
 	$family = $this->FontFamily;
 	$style = $this->FontStyle.($this->underline ? 'U' : '');
 	$fontsize = $this->FontSizePt;
@@ -331,7 +335,7 @@ function AddPage($orientation='', $size='', $rotation=0)
 	$this->ColorFlag = $cf;
 	// Page header
 	$this->InHeader = true;
-	$this->Header();
+	$this->Header($summary);
 	$this->InHeader = false;
 	// Restore line width
 	if($this->LineWidth!=$lw)
@@ -357,7 +361,7 @@ function AddPage($orientation='', $size='', $rotation=0)
 	$this->ColorFlag = $cf;
 }
 
-function Header()
+function Header($summary=false)
 {
 	// To be implemented in your own inherited class
 }
@@ -1532,7 +1536,7 @@ protected function _putpage($n)
 	$this->_put('endobj');
 	// Page content
 	if(!empty($this->AliasNbPages))
-		$this->pages[$n] = str_replace($this->AliasNbPages,$this->page,$this->pages[$n]);
+		$this->pages[$n] = str_replace($this->AliasNbPages,($this->summary ? $this->page-1 : $this->page),$this->pages[$n]);
 	$this->_putstreamobject($this->pages[$n]);
 }
 

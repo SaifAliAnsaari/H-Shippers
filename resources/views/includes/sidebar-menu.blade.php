@@ -28,7 +28,7 @@
     <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navi-17" role="button" data-toggle="dropdown" aria-haspopup="true"
             aria-expanded="false">
-            <img src="/images/icon-categorie.svg" alt="" />
+            <img src="/images/notifications.svg" alt="" />
             <span>Notification Center</span>
         </a>
         <div class="dropdown-menu" aria-labelledby="navi-l7">
@@ -38,7 +38,7 @@
     <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navi-17" role="button" data-toggle="dropdown" aria-haspopup="true"
             aria-expanded="false">
-            <img src="/images/icon-categorie.svg" alt="" />
+            <img src="/images/invoice.svg" alt="" />
             <span>Download Invoice</span>
         </a>
         <div class="dropdown-menu" aria-labelledby="navi-l7">
@@ -152,7 +152,7 @@
     <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navi-17" role="button" data-toggle="dropdown" aria-haspopup="true"
             aria-expanded="false">
-            <img src="/images/icon-categorie.svg" alt="" />
+            <img src="/images/credit-card.svg " alt="" />
             <span>Billing Accounts</span>
         </a>
         <div class="dropdown-menu" aria-labelledby="navi-l7">
@@ -167,7 +167,7 @@
     <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navi-17" role="button" data-toggle="dropdown" aria-haspopup="true"
             aria-expanded="false">
-            <img src="/images/icon-categorie.svg" alt="" />
+            <img src="/images/notifications.svg" alt="" />
             <span>Notification Center</span>
         </a>
         <div class="dropdown-menu" aria-labelledby="navi-l7">
@@ -179,7 +179,7 @@
     <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navi-17" role="button" data-toggle="dropdown" aria-haspopup="true"
             aria-expanded="false">
-            <img src="/images/icon-categorie.svg" alt="" />
+            <img src="/images/invoice.svg" alt="" />
             <span>Invoices And Payment</span>
         </a>
         <div class="dropdown-menu" aria-labelledby="navi-l7">

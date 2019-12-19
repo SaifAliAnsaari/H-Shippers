@@ -88,19 +88,19 @@
         <div class="col-md-4 _amState">
             <p>Total Outstanding Payment</p>
             <h3> <small class="fa fa-circle align-middle text-warning"></small>
-                <span class="outstanding_dashboard">Rs.{{number_format($life_time_rev->life_time_revenus) }}</span> </h3>
+                <span class="outstanding_dashboard"> Rs.{{number_format($life_time_rev->life_time_revenus) }}</span> </h3>
         </div>
 
         <div class="col-md-4 _amState BLight _borL B_border">
             <p>Amount Received </p>
             <h3><small class="fa fa-circle align-middle text-success"></small>
-                <span class="amount_rec_dashboard">Rs.{{ number_format(Round($data->amount_recieved, 2)) }}</span></h3>
+                <span class="amount_rec_dashboard"> Rs.{{ number_format(Round($data->amount_recieved, 2)) }}</span></h3>
         </div>
 
         <div class="col-md-4 _amState _borL">
             <p>Remaining Amount</p>
             <h3><small class="fa fa-circle align-middle text-danger"></small>
-                <span class="remaining_amount_dashboard">Rs.{{ number_format(Round($life_time_rev->life_time_revenus -  $data->amount_recieved, 2)) }}</span></h3>
+                <span class="remaining_amount_dashboard"> Rs.{{ number_format(Round($life_time_rev->life_time_revenus -  $data->amount_recieved, 2)) }}</span></h3>
         </div>
 
     </div>

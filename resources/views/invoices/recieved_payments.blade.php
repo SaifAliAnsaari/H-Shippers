@@ -67,24 +67,24 @@
                     <tbody>
 
                         @foreach($data as $outerItem)
-                        @foreach($outerItem["consignments"] as $item)
-                        @if($item->invoice_num)
-                            @if(number_format($item->total-$item->amount_received) > 0)
-                            <tr>
-                                <td>{{ $outerItem["month_name"] }}</td>
-                                <td>{{ $item->name }}</td>
-                                <td>{{ $item->invoice_num }}</td>
-                                <td>{{ $item->consignments }}</td>
-                                <td>{{ number_format($item->invoice_total_price) }}</td>
-                                <td>{{ $item->amount_received }} </td>
-                                <td> {{ number_format($item->invoice_total_price - $item->amount_received) }} </td>
-                                <td>
-                                    <a href='/client_invoice/{{$item->customer_id}}/{{$outerItem["month"]}}' class="btn btn-default">Add Payment</a>
-                                </td>
-                            </tr>
-                            @endif
-                            @endif
-                        @endforeach
+                            @foreach($outerItem["consignments"] as $item)
+                                @if($item->invoice_num)
+                                    @if(number_format($item->total-$item->amount_received) > 0)
+                                    <tr>
+                                        <td>{{ $outerItem["month_name"] }}</td>
+                                        <td>{{ $item->name }}</td>
+                                        <td>{{ $item->invoice_num }}</td>
+                                        <td>{{ $item->consignments }}</td>
+                                        <td>{{ number_format($item->invoice_total_price) }}</td>
+                                        <td>{{ $item->amount_received }} </td>
+                                        <td> {{ number_format($item->invoice_total_price - $item->amount_received) }} </td>
+                                        <td>
+                                            <a href='/client_invoice/{{$item->customer_id}}/{{$outerItem["month"]}}' class="btn btn-default">Add Payment</a>
+                                        </td>
+                                    </tr>
+                                    @endif
+                                @endif
+                            @endforeach
                         @endforeach
 
                     </tbody>

@@ -178,7 +178,7 @@
     <div class="col-md-12">
         <div class="card">
             <div class="header">
-                <a id="productlist01" href="#" class="btn add_button openDataSidebarForAddingEmployee"><i class="fa fa-plus"></i> <span>New Employee</span></a>
+                <a id="productlist01" href="#" class="btn add_button openDataSidebarForAddingEmployee"><i class="fa fa-plus"></i> <span> New Employee</span></a>
                 <h2>Employee <span> List</span></h2>
             </div>
             <div style="min-height: 400px" id="tblLoader">

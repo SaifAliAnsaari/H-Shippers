@@ -43,7 +43,8 @@ class Clients extends ParentController
 
     //get clients
     public function ClientsList(){
-        echo json_encode( DB::table('clients')->get());
+        $last_month = date('m');
+        echo json_encode( DB::table('clients as cust')->selectRaw("id, username, company_name, poc_name, phone, customer_type, is_active, (Select id from invoices_generated where client_id = cust.id AND Month(created_at) = $last_month order by id desc limit 1 ) as invoice_generated")->get());
     }
 
     //add client

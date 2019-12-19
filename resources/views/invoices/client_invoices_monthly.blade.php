@@ -36,7 +36,7 @@
 
         <div class="card cp-stats bb_border">
             <div class="cp-stats-icon"><img src="images/_am-consignment.svg" alt=""></div>
-            <h3 class="cp-stats-value">{{ array_sum(array_column($top_data, "total_amount")) }}</h3>
+            <h3 class="cp-stats-value">{{ number_format(array_sum(array_column($top_data, "total_amount"))) }}</h3>
             <h5 class="text-muted">Total Amount</h5>
         </div>
 
