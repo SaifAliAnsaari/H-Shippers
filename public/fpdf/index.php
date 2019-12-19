@@ -41,10 +41,12 @@ unset($stmt);
 class PDF extends FPDF
 {
     public $data;
+    public $month;
 
-    function __construct($data){
+    function __construct($data, $month){
         parent::__construct();
         $this->data = $data;
+        $this->month = $month;
     }
 
     function header($summary=false){
@@ -86,7 +88,7 @@ class PDF extends FPDF
         $this->SetXY(160, 51);
         $this->SetFont('Arial','',12);
         setlocale(LC_CTYPE, 'en_US');
-        $this->Cell(0,0,iconv('UTF-8', 'ASCII//TRANSLIT', date('y/m/d', strtotime($this->data['report']['date'] ? $this->data['report']['date'] : ''))." - ".date('y/m/01')),0,0);
+        $this->Cell(0,0,iconv('UTF-8', 'ASCII//TRANSLIT', date('1/'.$this->month.'/Y')." - ".date('t/'.$this->month.'/Y')),0,0);
 
         if($summary){
             $this->SetXY(125,58);
@@ -115,6 +117,7 @@ class PDF extends FPDF
             $this->SetY(65);
             $this->setFillColor(53,72,122); 
             $this->SetTextColor(255,255,255); 
+            $this->SetDrawColor(255,255,255); 
             $this->SetFont('Arial','B',8);
             $this->Cell(10,7,'SN',1,0,'C',1);
             $this->Cell(15,7,'Origin',1,0,'C',1);
@@ -172,7 +175,7 @@ class PDF extends FPDF
 
 }
 
-$pdf = new PDF($data);
+$pdf = new PDF($data, $month);
 $pdf->AddPage("P", "A4");
 $pdf->AliasNbPages();
 
@@ -290,9 +293,10 @@ $pdf->SetY(65);
 $yPos = $pdf->GetY();
 $sn = 1;
 $pdf->setFillColor(255,255,255); 
-$pdf->SetTextColor(0,0,0);
+$pdf->SetTextColor(53,72,122);
 $pdf->SetY($yPos+7);
 $pdf->SetFont('Arial','',8);
+$pdf->SetDrawColor(53,72,122);
 foreach($data['content'] as $content){
     if($yPos >= 235){
         $pdf->AddPage("P", "A4", 0, true);

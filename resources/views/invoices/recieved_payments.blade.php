@@ -80,6 +80,8 @@
                                         <td> {{ number_format($item->invoice_total_price - $item->amount_received) }} </td>
                                         <td>
                                             <a href='/client_invoice/{{$item->customer_id}}/{{$outerItem["month"]}}' class="btn btn-default">Add Payment</a>
+                                            <a target="_blank" href="/fpdf/index.php?month={{$outerItem['month']}}&client={{$item->customer_id}}&hit_from=admin" class="btn btn-default">View Invoice</a>
+
                                         </td>
                                     </tr>
                                     @endif
