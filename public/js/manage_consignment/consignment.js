@@ -744,6 +744,7 @@ $(document).ready(function () {
     });
 
     $(document).on('click', '.save_status_modal', function () {
+        var thisRef = $(this);
         var status_code = $('#select_status_modal').val();
         var remarks = $('#remarks_modal').val();
         var cnno = glob_cn_if_for_status;
@@ -760,6 +761,8 @@ $(document).ready(function () {
 
         glob_update_btn_ref.text('Processing...');
         glob_update_btn_ref.attr('disabled', 'disabled');
+        thisRef.text('Please Wait...');
+        thisRef.attr('disabled', 'disabled');
 
         $.ajax({
             type: 'GET',
@@ -773,6 +776,10 @@ $(document).ready(function () {
             success: function (response) {
                 glob_update_btn_ref.text('Update Status');
                 glob_update_btn_ref.removeAttr('disabled');
+
+                thisRef.text('Save');
+                thisRef.removeAttr('disabled');
+
                 $('.close_status_modal').click();
 
                 if (JSON.parse(response) == 'failed') {
