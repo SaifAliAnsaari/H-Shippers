@@ -71,8 +71,8 @@
                             <td>{{ number_format(CEIL($item["total_price"])) }}</td>
                             <td>
                                 <input type="text" id="invStat" value=" {{ json_encode( ['customer_id' => $item['customer_id'], 'month' => $item['month'] ] ) }} " hidden>
-                            <a href="/invoices_generate_detail/{{ $item['customer_id'] }}/{{ $item['month'] }}" class="btn btn-default">View Detail</a>
-                                <a style="cursor: pointer; color: white !important" class="btn btn-default generateInvBtn">Generate Invoice</a>
+                                <a href="/invoices_generate_detail/{{ $item['customer_id'] }}/{{ $item['month'] }}" class="btn btn-default">View Detail</a>
+                                <a target="_blank" href="/fpdf/index.php?month={{$item['month']}}&client={{$item['customer_id']}}&hit_from=admin" style="cursor: pointer; color: white !important" class="btn btn-default generateInvBtn">Generate Invoice</a>
                             </td>
                         </tr>
                         @endif

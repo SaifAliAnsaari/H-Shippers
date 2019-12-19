@@ -103,7 +103,7 @@
         <div class="dropdown-menu" aria-labelledby="navi-l1">
             @if(Auth::check())
             @if(in_array("/consignment_booking", $test_array))
-            <a class="dropdown-item" href="/consignment_booking">Consignment & Booking</a>
+            <a class="dropdown-item" href="/consignment_booking">Create New Consignment</a>
             @endif
             @endif
             @if(in_array("/consignment_booking_client", $test_array))
@@ -113,7 +113,7 @@
             <a class="dropdown-item" href="/pending_consignments">Booked Consignments</a>
             @endif
             @if(in_array("/confirmed_consignments", $test_array))
-            <a class="dropdown-item" href="/confirmed_consignments">Confirmed Consignments</a>
+            <a class="dropdown-item" href="/confirmed_consignments">Received Consignments</a>
             @endif
             @if(in_array("/consignment_statuses", $test_array))
             <a class="dropdown-item" href="/consignment_statuses">Consignment Statuses</a>
@@ -187,13 +187,13 @@
                 <a class="dropdown-item" href="/current_month_consignments">Current month</a>
             @endif
             @if(in_array("/invoices_generate", $test_array))
-            <a class="dropdown-item" href="/invoices_generate">Invoices Generate</a>
+            <a class="dropdown-item" href="/invoices_generate">Generate Invoice</a>
             @endif
             {{-- @if(in_array("/invoices_generate_detail", $test_array))
             <a class="dropdown-item" href="/invoices_generate_detail">Invoices Generate Detail</a>
             @endif --}}
             @if(in_array("/received_payments", $test_array))
-            <a class="dropdown-item" href="/received_payments">Recieved Payments</a>
+            <a class="dropdown-item" href="/received_payments"> Outstanding Invoices</a>
             @endif
             @if(in_array("/paid_invoices", $test_array))
             <a class="dropdown-item" href="/paid_invoices">Paid Invoices</a>

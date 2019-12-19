@@ -475,6 +475,7 @@ class ConsignmentManagement extends ParentController
             'consignment_description' => $request->consignment_description,
             'fragile_criteria' => $request->Fragile_Criteria,
             //'add_insurance' => $request->inlineRadioOptions,
+            'status' => 1,
             'product_price' => $request->product_price,
             'consignment_dest_city' => $request->consignment_dest_city,
             'remarks' => $request->description,

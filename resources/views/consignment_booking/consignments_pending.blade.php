@@ -151,7 +151,7 @@
                                     <td>
                                         <button class="btn btn-default edit_consignment" name="{{ $consignmnet['opp'] }}" id="{{ $consignmnet['cnno'] }}" title="Edit"><i class="fa fa-pencil-alt"></i></button>
                                         <a href='invoice/{{$consignmnet['cnno']}}' target="_blank" class="btn btn-default" id="{{ $consignmnet['consignment_id'] }}" title="Invoice"><i class="fa fa-list"></i></a>
-                                        <button class="btn btn-default process_hard_btn" data-toggle="modal" data-target="#processModal" name="{{ $consignmnet['opp'] }}" id="{{ $consignmnet['consignment_id'] }}">Process</button>
+                                        <button class="btn btn-default process_hard_btn" data-toggle="modal" data-target="#processModal" name="{{ $consignmnet['opp'] }}" id="{{ $consignmnet['consignment_id'] }}">Received</button>
                                         <button class="btn btn-default red-bg delete_pend_consignment" name="{{ $consignmnet['opp'] }}" id="{{ $consignmnet['consignment_id'] }}" title="Delete">Delete</button>
                                     </td>
                                 </tr>
