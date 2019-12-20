@@ -184,25 +184,29 @@ $pdf->SetY(85);
 $pdf->setFillColor(53,72,122); 
 $pdf->SetTextColor(255,255,255); 
 $pdf->SetFont('Arial','B',9);
+$pdf->SetDrawColor(255,255,255);
+$pdf->SetX(9.7);
 $pdf->Cell(12,10,' SN ',1,0,'L',1);
 $pdf->Cell(60,10,' SERVICE ',1,0,'L',1);
 $pdf->Cell(35,10,' QUANTITY ',1,0,'L',1);
 $pdf->Cell(35,10,' WEIGHT ',1,0,'L',1);
-$pdf->Cell(48,10,' TOTAL ',1,0,'L',1);
+$pdf->Cell(48.5,10,' TOTAL ',1,0,'L',1);
 $totalFcharges = 0;
 $yPos = 95;
 $grandTotalPrice = 0;
 $sNo = 1;
+
+$pdf->SetDrawColor(53,72,122);
 if($data['report']['counts_over_night']){
     $pdf->SetY($yPos);
-    $pdf->setFillColor(255,255,255); 
-    $pdf->SetTextColor(0,0,0); 
+    $pdf->setFillColor(255,255,255);
+    $pdf->SetTextColor(53,72,122);
     $pdf->SetFont('Arial','',9);
-    $pdf->Cell(12,10,$sNo++,1,0,'L',1);
+    $pdf->Cell(11.7,10,$sNo++,1,0,'L',1);
     $pdf->Cell(60,10,'Over Night Delivery ',1,0,'L',1);
     $pdf->Cell(35,10,($data['report']['counts_over_night']),1,0,'L',1);
     $pdf->Cell(35,10,($data['report']['weight_over_night'] != "" ? number_format($data['report']['weight_over_night']) : "0"),1,0,'L',1);
-    $pdf->Cell(48,10,'Rs.'.number_format($data['report']['sub_price_over_nigth']),1,1,'L',1);
+    $pdf->Cell(48.3,10,'Rs.'.number_format($data['report']['sub_price_over_nigth']),1,1,'L',1);
     $yPos += 10;
     $grandTotalPrice += $data['report']['price_over_night'];
 }
@@ -210,13 +214,13 @@ if($data['report']['counts_over_night']){
 if($data['report']['counts_same_day']){
     $pdf->SetY($yPos);
     $pdf->setFillColor(255,255,255); 
-    $pdf->SetTextColor(0,0,0); 
+    $pdf->SetTextColor(53,72,122);
     $pdf->SetFont('Arial','',9);
-    $pdf->Cell(12,10,$sNo++,1,0,'L',1);
+    $pdf->Cell(11.7,10,$sNo++,1,0,'L',1);
     $pdf->Cell(60,10,'Same Day Delivery ',1,0,'L',1);
     $pdf->Cell(35,10,($data['report']['counts_same_day'] ? number_format($data['report']['counts_same_day']) : 0),1,0,'L',1);
     $pdf->Cell(35,10,($data['report']['weight_same_day'] != '' ? number_format($data['report']['weight_same_day']) : "0"),1,0,'L',1);
-    $pdf->Cell(48,10,'Rs.'.number_format($data['report']['sub_price_same_day']),1,1,'L',1);
+    $pdf->Cell(48.3,10,'Rs.'.number_format($data['report']['sub_price_same_day']),1,1,'L',1);
     $yPos += 10;
     $grandTotalPrice += $data['report']['price_same_day'];
 }
@@ -224,13 +228,13 @@ if($data['report']['counts_same_day']){
 if($data['report']['counts_second_day']){
     $pdf->SetY($yPos);
     $pdf->setFillColor(255,255,255); 
-    $pdf->SetTextColor(0,0,0); 
+    $pdf->SetTextColor(53,72,122); 
     $pdf->SetFont('Arial','',9);
-    $pdf->Cell(12,10,$sNo++,1,0,'L',1);
+    $pdf->Cell(11.7,10,$sNo++,1,0,'L',1);
     $pdf->Cell(60,10,'Second Day Delivery ',1,0,'L',1);
     $pdf->Cell(35,10,($data['report']['counts_second_day']),1,0,'L',1);
     $pdf->Cell(35,10,($data['report']['weight_second_day'] != "" ? number_format($data['report']['weight_second_day']) : "0"),1,0,'L',1);
-    $pdf->Cell(48,10,'Rs.'.number_format($data['report']['sub_price_second_day']),1,1,'L',1);
+    $pdf->Cell(48.3,10,'Rs.'.number_format($data['report']['sub_price_second_day']),1,1,'L',1);
     $yPos += 10;
     $grandTotalPrice += $data['report']['price_second_day'];
 }
@@ -238,46 +242,47 @@ if($data['report']['counts_second_day']){
 if($data['report']['counts_over_land']){
     $pdf->SetY($yPos);
     $pdf->setFillColor(255,255,255); 
-    $pdf->SetTextColor(0,0,0); 
+    $pdf->SetTextColor(53,72,122);
     $pdf->SetFont('Arial','',9);
-    $pdf->Cell(12,10,$sNo++,1,0,'L',1);
+    $pdf->Cell(11.7,10,$sNo++,1,0,'L',1);
     $pdf->Cell(60,10,'Over Land Delivery ',1,0,'L',1);
     $pdf->Cell(35,10,($data['report']['counts_over_land']),1,0,'L',1);
     $pdf->Cell(35,10,($data['report']['weight_over_land'] != "" ? number_format($data['report']['weight_over_land']) : "0"),1,0,'L',1);
-    $pdf->Cell(48,10,'Rs.'.number_format($data['report']['sub_price_over_land']),1,1,'L',1);
+    $pdf->Cell(48.3,10,'Rs.'.number_format($data['report']['sub_price_over_land']),1,1,'L',1);
     $yPos += 10;
     $grandTotalPrice += $data['report']['price_over_land'];
 }
 
 $pdf->SetY($yPos);
 $pdf->setFillColor(255,255,255); 
-$pdf->SetTextColor(0,0,0); 
+$pdf->SetTextColor(53,72,122); 
 $pdf->SetFont('Arial','',9);
 $pdf->Cell(12,10,'',0,0,'L',1);
-$pdf->Cell(60,10,'',0,0,'L',1);
+$pdf->Cell(59.7,10,'',0,0,'L',1);
 $pdf->Cell(70,10,' Fuel Charges ',1,0,'L',1);
-$pdf->Cell(48,10,'Rs.'.number_format((float)$data['report']['fuel_charges']),1,1,'L',1);
+$pdf->Cell(48.3,10,'Rs.'.number_format((float)$data['report']['fuel_charges']),1,1,'L',1);
 $yPos += 10;
 
 $pdf->SetY($yPos);
 $pdf->setFillColor(255,255,255); 
-$pdf->SetTextColor(0,0,0); 
+$pdf->SetTextColor(53,72,122); 
 $pdf->SetFont('Arial','',9);
 $pdf->Cell(12,10,'',0,0,'L',1);
-$pdf->Cell(60,10,'',0,0,'L',1);
+$pdf->Cell(59.7,10,'',0,0,'L',1);
 $pdf->Cell(70,10,' GST ('.($data['report']['gst']).'%) ',1,0,'L',1);
-$pdf->Cell(48,10,'Rs.'.number_format($data['report']['total_tax']),1,1,'L',1);
+$pdf->Cell(48.3,10,'Rs.'.number_format($data['report']['total_tax']),1,1,'L',1);
 $yPos += 10;
 
+$pdf->SetDrawColor(255,255,255);
 $pdf->SetY($yPos);
 $pdf->SetFont('Arial','',9);
 $pdf->Cell(12,10,'',0,0,'L',1);
-$pdf->Cell(60,10,'',0,0,'L',1);
+$pdf->Cell(59.4,10,'',0,0,'L',1);
 $pdf->SetFont('Arial','B',9);
 $pdf->setFillColor(53,72,122); 
 $pdf->SetTextColor(255,255,255);
-$pdf->Cell(70,10,' GRAND TOTAL ',1,0,'L',1);
-$pdf->Cell(48,10,'Rs.'.number_format($grandTotalPrice),1,1,'L',1);
+$pdf->Cell(70.3,10,' GRAND TOTAL ',1,0,'L',1);
+$pdf->Cell(48.6,10,'Rs.'.number_format($grandTotalPrice),1,1,'L',1);
 $yPos += 10;
 
 /* Ending Total Section */
